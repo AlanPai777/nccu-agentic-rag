@@ -18,6 +18,7 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import re
 
 from dotenv import load_dotenv
 from fastapi import FastAPI
@@ -63,6 +64,8 @@ _STREAM_DONE = object()  # sentinel distinct from a legitimate None chunk
 
 # node_name -> static status phrase, for nodes with no natural-language
 # output of their own to reuse (see _status_text below for the nodes that do).
+# Also the fallback for agent_node/tools/resource_node/contact_node below when
+# the richer per-call text they now try first isn't available for that call.
 _STATIC_STATUS = {
     "plan_node": "正在判斷問題類型…",
     "agent_node": "正在決定下一步…",
@@ -72,6 +75,27 @@ _STATIC_STATUS = {
     "multi_sub_query_node": "正在拆解問題…",
 }
 
+# TOOLS' registered names (rag/agentic/tools/__init__.py) -> a readable phrase,
+# for the "tools" node's ToolMessage.name (set by langgraph's prebuilt ToolNode).
+_TOOL_STATUS = {
+    "search_texts": "正在搜尋頁面全文索引…",
+    "grep_texts_tool": "正在用關鍵字比對頁面…",
+    "get_page_tool": "正在讀取頁面全文…",
+    "extract_links_tool": "正在展開頁面內的相關連結…",
+    "get_form_tool": "正在讀取表單…",
+}
+
+# Reuses the exact marker format rag/agentic/tools/page.py's get_page_tool
+# already stamps onto its own return value when it detects a form/office
+# reference (rag/agentic/logic/{form_extraction,office_detection}.py) --
+# read-only here, purely for display; doesn't change what the agent does
+# with that text.
+_FORM_MARKER_RE = re.compile(r"\[偵測到表單編號: ([^\]]+)\]")
+_OFFICE_MARKER_RE = re.compile(r"\[偵測到辦公室: ([^\]]+)\]")
+# contact_node (rag/agentic/nodes/contact.py) builds its own header prose
+# instead of the marker above, so it needs its own extraction pattern.
+_CONTACT_OFFICES_RE = re.compile(r"個辦公室（([^）]+)）")
+
 
 def _status_text(node_name: str, delta: dict) -> str | None:
     """One node update -> one human-readable status line.
@@ -80,7 +104,10 @@ def _status_text(node_name: str, delta: dict) -> str | None:
     static label (phase_g_brainstorming.txt's "one LLM output, two
     consumers" idea) -- rewrite_node's `rewritten` and domain_router_node/
     self_eval_node's injected messages are natural-language LLM output
-    already, no separate summarizer call needed.
+    already, no separate summarizer call needed. agent_node/tools/
+    resource_node/contact_node below extend the same idea to data that was
+    already being returned in `delta` but simply never read for status
+    purposes -- none of this changes what any node returns to the graph.
     """
     if node_name == "rewrite_node" and delta.get("rewritten"):
         return f"正在搜尋：{delta['rewritten']}"
@@ -97,6 +124,49 @@ def _status_text(node_name: str, delta: dict) -> str | None:
         msgs = delta.get("messages") or []
         text = str(msgs[-1].content) if msgs else delta["self_eval_note"]
         return text.split("\n")[0]
+    if node_name == "agent_node":
+        # agent_node's docstring notes resp.content is generated as a side
+        # effect of the bind_tools() call and then discarded -- it's already
+        # in `delta["messages"]`, just never read until now. Empty when the
+        # model replied with tool_calls only and no text (falls through to
+        # the static label below in that case).
+        msgs = delta.get("messages") or []
+        if msgs:
+            text = str(getattr(msgs[-1], "content", "") or "").strip()
+            if text:
+                return text.split("\n")[0]
+    if node_name == "tools":
+        msgs = delta.get("messages") or []
+        names = [getattr(m, "name", None) for m in msgs if getattr(m, "name", None)]
+        if names:
+            base = "、".join(_TOOL_STATUS.get(n, n) for n in dict.fromkeys(names))
+            hits = []
+            for m in msgs:
+                content = str(getattr(m, "content", "") or "")
+                form_hit = _FORM_MARKER_RE.search(content)
+                office_hit = _OFFICE_MARKER_RE.search(content)
+                if form_hit:
+                    hits.append(f"表單:{form_hit.group(1)}")
+                if office_hit:
+                    hits.append(f"辦公室:{office_hit.group(1)}")
+            return base + (f"(偵測到{'、'.join(hits)})" if hits else "")
+    if node_name == "resource_node":
+        # The combined text resource_node returns doesn't itself name which
+        # form_id(s) it fetched (that's a local variable, never part of the
+        # returned message) -- only the office marker survives into `delta`
+        # when station_roles matched. Falls back to the static label when
+        # it didn't, same as before this change.
+        msgs = delta.get("messages") or []
+        if msgs:
+            hit = _OFFICE_MARKER_RE.search(str(getattr(msgs[-1], "content", "") or ""))
+            if hit:
+                return f"正在讀取表單全文,偵測到辦公室:{hit.group(1)}"
+    if node_name == "contact_node":
+        msgs = delta.get("messages") or []
+        if msgs:
+            hit = _CONTACT_OFFICES_RE.search(str(getattr(msgs[-1], "content", "") or ""))
+            if hit:
+                return f"正在查詢辦公室聯絡資訊：{hit.group(1)}"
     return _STATIC_STATUS.get(node_name)
 
 
