@@ -125,8 +125,18 @@ section is the distilled current-state summary.
   dedicated summarizer call. `self_eval_node`'s retry signal
   (`{"type":"reset"}`, telling the frontend to file a rejected draft into
   its thinking-log instead of concatenating it with the replacement answer)
-  keys off `self_eval_note` being set, not `messages`'s presence — one of
-  self_eval's three failure branches (情況B) never populates `messages`.
+  keys off `self_eval_note` being set — one of self_eval's three failure
+  branches (情況B) never populates `messages`, so that field is the signal
+  common to all three — **and** (2026-09-03 fix) `server.py`'s own tracked
+  `state["turn"]` still being below `self_eval_node`'s `_SELF_EVAL_MAX_TURN`
+  ceiling. That second condition matters: on the ceiling turn,
+  `self_eval_node` can still reject (`self_eval_note` truthy), but
+  `_after_self_eval` routes to `"end"` instead of back for another
+  synthesis pass, so no replacement answer is ever coming. Without this
+  guard, that terminal rejection fired `reset` anyway, wiping the
+  already-streamed (often correct) final answer and leaving the frontend
+  blank with "已停止生成" even though the backend had produced a good
+  answer — full investigation trail in `debug.md` (repo root, untracked).
 
 ## Key modules
 
@@ -142,7 +152,7 @@ section is the distilled current-state summary.
 | `rag/agent_tools.py` | Retrieval primitives reading from `output/<subdomain>/extracted_*.jsonl` |
 | `rag/llm_client.py` | Ollama cloud / OpenRouter client |
 | `rag/eval.py` | 13-criteria / 26-point scoring used in regression testing |
-| `rag/skills/office_lookup_skill.py` | Office-contact lookup against `output/office_contacts_index.jsonl` |
+| `rag/skills/office_lookup_skill.py` | Office-contact lookup against `output/office_contacts_index.jsonl`; regex-parses labeled/tabular page layouts first, falls back to an LLM extraction pass (`_llm_extract_contacts()`) over the whole page when the regex layer can't find an explicit name label (2026-09-03 fix — see `debug.md`) |
 | `rag/classic_rag.py` | Separate, stable classic (embedding-based) RAG system — not part of this pipeline, see README |
 
 ## Project structure
