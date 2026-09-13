@@ -30,6 +30,16 @@ from rag.domain_router import _keyword_table
 # an office-detection result.
 _OFFICE_MARKER_RE = re.compile(r"\[偵測到辦公室: ([^\]]+)\]")
 
+# The judge prompt shows the catalog as "名稱（subdomain）" so the LLM can
+# tell same-named offices in different subdomains apart, but that means it
+# sometimes echoes the whole "名稱（subdomain）" line back instead of just
+# the bare name (confirmed via raw-output inspection: LLM correctly judged
+# "請問政治大學校長是誰?" -> "校長室（www）", but the exact-match filter
+# below only knows the bare name "校長室", silently dropping an otherwise-
+# correct answer). Strip a trailing parenthetical before the exact-match
+# check so this formatting drift doesn't discard correct LLM judgments.
+_TRAILING_PAREN_RE = re.compile(r"[（(][^（）()]*[）)]\s*$")
+
 _OFFICE_JUDGE_PROMPT = """以下文字裡可能提到了一些政大的辦公室/單位，但提到的名稱常常是簡稱或口語說法，不一定是正式全名（例如文字裡寫「住宿組」，正式全名可能是「住宿輔導組」；文字裡寫「圖書館」，正式全名可能是「圖書館(各組聯絡資訊)」）。
 
 文字內容：
@@ -75,7 +85,7 @@ def _detect_offices(text: str) -> list[str]:
     catalog_str = "\n".join(f"- {name}（{sub}）" for name, sub in catalog)
     prompt = _OFFICE_JUDGE_PROMPT.format(text=text, catalog=catalog_str)
     raw = simple_chat(messages=[{"role": "user", "content": prompt}], max_tokens=300).strip()
-    candidates = [n.strip() for n in re.split(r"[,，]", raw)]
+    candidates = [_TRAILING_PAREN_RE.sub("", n.strip()).strip() for n in re.split(r"[,，]", raw)]
     llm_hits = [n for n in candidates if n in valid_names]
 
     return list(dict.fromkeys(layer1_hits + llm_hits))
