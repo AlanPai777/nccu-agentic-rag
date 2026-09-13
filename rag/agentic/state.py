@@ -57,3 +57,17 @@ class AgentState(TypedDict):
                                                      # ChatOllama.bind_tools() expect
     answer:         str | None  # final answer, written by synthesis_node
     self_eval_note: str | None  # Part 6.2's Stage 1/2 self_eval output
+    compacted_boundary: int     # server.py-only (multi-turn compaction, outside
+                                 # agentic_main.py's original 9-field scope): index into
+                                 # `messages` where the in-progress turn's own live scratch
+                                 # begins -- everything before it is already-compacted
+                                 # prior-turn [question, answer] history that
+                                 # compact_previous_turn() (rag/agentic/compaction.py) must
+                                 # never touch again. Deliberately absent from
+                                 # agentic_rag.py's initial_state() so each new turn's state
+                                 # update leaves whatever compact_previous_turn() last wrote
+                                 # here untouched (LangGraph only overwrites keys present in
+                                 # an update payload) -- only compact_previous_turn() itself
+                                 # ever sets it. Assumes nothing else in the graph ever calls
+                                 # RemoveMessage on `messages` -- if that ever changes, this
+                                 # index needs to move with it.

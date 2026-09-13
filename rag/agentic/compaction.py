@@ -35,7 +35,16 @@ def compact_previous_turn(graph, config: dict) -> None:
     previous turn that never produced an answer (e.g. it errored before
     reaching synthesis_node) -- compacting to a [query, None] pair would
     just replace real scratch with a useless placeholder.
-    """
+
+    Only removes THIS turn's own scratch (messages from state["compacted_boundary"]
+    onward) and appends its [question, answer] pair after whatever prior turns'
+    compacted pairs already sit before that boundary -- earlier turns' history is
+    never touched. Before this boundary tracking existed, every call replaced ALL
+    of `messages` with a single fresh [query, answer] pair built from state["query"]/
+    state["answer"] (single-value fields, overwritten every turn) -- which silently
+    discarded every earlier turn's already-compacted pair each time a new turn
+    finished, so only the most recently finished turn ever survived (confirmed live:
+    a 3rd turn's messages contained no trace of turn 1's content)."""
     snapshot = graph.get_state(config)
     values = snapshot.values or {}
     prev_messages = values.get("messages") or []
@@ -44,6 +53,12 @@ def compact_previous_turn(graph, config: dict) -> None:
     if not prev_messages or not prev_query or not prev_answer:
         return
 
-    removals = [RemoveMessage(id=m.id) for m in prev_messages if getattr(m, "id", None)]
+    boundary = values.get("compacted_boundary", 0)
+    this_turn_scratch = prev_messages[boundary:]
+
+    removals = [RemoveMessage(id=m.id) for m in this_turn_scratch if getattr(m, "id", None)]
     compacted = [HumanMessage(content=prev_query), AIMessage(content=prev_answer)]
-    graph.update_state(config, {"messages": removals + compacted})
+    graph.update_state(config, {
+        "messages": removals + compacted,
+        "compacted_boundary": boundary + len(compacted),
+    })
