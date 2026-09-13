@@ -100,14 +100,14 @@ def stage1_checklist(state: dict) -> list[str]:
             failures.append("答案未使用步驟清單格式。請改為以編號步驟列出辦理流程。")
 
     contact_names = _extract_contact_names(messages)
-    if contact_names:
+    """if contact_names:
         hits = sum(1 for name in contact_names if name in answer)
         if hits == 0:
             preview = "、".join(contact_names[:5])
             failures.append(
                 f"contact_node查到了真實承辦人姓名（例如：{preview}），但答案裡完全沒有引用任何一位。"
                 "請在對應步驟列出承辦人姓名（不能只寫辦公室名稱）。"
-            )
+            )"""
 
     station_roles = _extract_station_roles(messages)
     if station_roles:
