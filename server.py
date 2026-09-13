@@ -26,6 +26,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from langchain_core.messages import AIMessageChunk
 from langgraph.checkpoint.memory import InMemorySaver
+from langfuse import observe
 
 from agentic_rag import build_graph, initial_state
 from rag.agentic.compaction import compact_previous_turn
@@ -41,7 +42,7 @@ app = FastAPI()
 # doesn't need it (that one stays same-origin behind an nginx /api proxy).
 _frontend_origins = [
     o.strip()
-    for o in os.environ.get("ASSISTANT_FRONTEND_ORIGIN", "http://localhost:3000").split(",")
+    for o in os.environ.get("ASSISTANT_FRONTEND_ORIGIN", "http://localhost:3001").split(",")
     if o.strip()
 ]
 app.add_middleware(
@@ -200,6 +201,7 @@ def _thread_config(session_id: str | None) -> dict:
     return {"configurable": {"thread_id": session_id or f"ephemeral-{os.urandom(8).hex()}"}}
 
 
+@observe(name="server.pump")
 async def _pump(
     question: str, subdomain_hint: str | None, session_id: str | None, config: dict, queue: asyncio.Queue
 ) -> None:
@@ -209,6 +211,8 @@ async def _pump(
     (_generate) is the one place that knows how to format them for the
     frontend's `error` field, matching CourseLangChain/app.py's split.
     """
+    from langfuse import get_client
+    get_client().update_current_span(metadata={"session_id": session_id, "subdomain_hint": subdomain_hint})
     current_turn = 0  # tracks state["turn"] as rewrite_node advances it, so
     # _is_retry_signal can mirror _after_self_eval's own ceiling check below
     try:

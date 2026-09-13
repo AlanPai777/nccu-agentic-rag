@@ -22,6 +22,7 @@ from __future__ import annotations
 from langgraph.graph import StateGraph, START, END
 from langgraph.prebuilt import ToolNode
 from langchain_core.messages import HumanMessage
+from langfuse import observe
 
 from rag.router import _keyword_route, QueryType
 from rag.agentic.state import AgentState
@@ -73,6 +74,7 @@ def _build_loop_graph():
     return _loop_graph_cache
 
 
+@observe(name="multi_sub_query_node")
 def multi_sub_query_node(state: AgentState) -> dict:
     """v1 sequential: runs each detected sub-query through its own fully
     independent invocation of _build_loop_graph(), one after another.

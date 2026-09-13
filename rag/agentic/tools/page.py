@@ -11,6 +11,7 @@ from typing import Annotated
 
 from langchain_core.tools import tool
 from langgraph.prebuilt import InjectedState
+from langfuse import observe
 
 from rag.agent_tools import (
     get_page as _get_page_raw,
@@ -21,6 +22,7 @@ from rag.agentic.logic.office_detection import _detect_offices
 
 
 @tool
+@observe(as_type="tool", name="get_page_tool")
 def get_page_tool(url: str, state: Annotated[dict, InjectedState]) -> str:
     """取得已知URL的完整頁面內容。只在已有明確URL時呼叫。"""
     p = _get_page_raw(url, subdomain=state.get("subdomain_hint"))
@@ -46,6 +48,7 @@ def get_page_tool(url: str, state: Annotated[dict, InjectedState]) -> str:
 
 
 @tool
+@observe(as_type="tool", name="extract_links_tool")
 def extract_links_tool(url: str, state: Annotated[dict, InjectedState]) -> str:
     """取得頁面正文明確提到的其他連結。當目前頁面內容不足以回答問題、但內文提到其他相關文件或頁面時使用。"""
     links = _extract_links_raw(url, subdomain=state.get("subdomain_hint"))

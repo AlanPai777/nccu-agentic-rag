@@ -24,6 +24,7 @@ import sys
 
 from langgraph.graph import StateGraph, START, END
 from langgraph.prebuilt import ToolNode
+from langfuse import observe, get_client
 
 from rag.llm_client import get_active_model, PROVIDER
 from rag.eval import print_score_report
@@ -82,6 +83,7 @@ def initial_state(query: str, subdomain_hint: str | None = None) -> AgentState:
     }
 
 
+@observe(name="agentic_rag.run")
 def run(query: str, subdomain_hint: str | None = None, stream: bool = False) -> dict:
     graph = build_graph()
     initial = initial_state(query, subdomain_hint)
@@ -125,3 +127,8 @@ if __name__ == "__main__":
 
     if not args.no_eval:
         print_score_report(answer)
+
+    # Langfuse batches/sends traces on a background thread -- a short-lived
+    # CLI process can exit before that flush happens, silently dropping the
+    # trace. No-ops if LangFuse isn't configured (LANGFUSE_PUBLIC_KEY unset).
+    get_client().flush()

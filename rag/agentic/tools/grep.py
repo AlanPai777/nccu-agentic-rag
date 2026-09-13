@@ -12,6 +12,7 @@ from typing import Annotated
 from langchain_core.messages import AIMessage
 from langchain_core.tools import tool
 from langgraph.prebuilt import InjectedState
+from langfuse import observe
 
 from rag.agent_tools import grep_texts as _grep_texts_raw
 
@@ -32,6 +33,7 @@ def _fetched_urls(messages: list) -> set[str]:
 
 
 @tool
+@observe(as_type="tool", name="grep_texts_tool")
 def grep_texts_tool(pattern: str, state: Annotated[dict, InjectedState], subdomain: str = "") -> str:
     """純字面比對搜尋，沒有相關性排序，自己指定關鍵字。當search_texts找不到好結果、或你想用一個更精確/不同角度的詞直接試時使用。預設只搜這題的subdomain範圍（找不到會自動退回全域搜尋）；若你判斷答案在別的subdomain，可自己指定subdomain參數覆蓋。已經get_page過的頁面不會重複出現在候選裡。"""
     scope = subdomain or state.get("subdomain_hint")

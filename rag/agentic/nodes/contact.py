@@ -9,11 +9,13 @@ Ported directly from rag/agentic_main.py.
 from __future__ import annotations
 
 from langchain_core.messages import HumanMessage
+from langfuse import observe
 
 from rag.agentic.state import AgentState
 from rag.agentic.logic.office_detection import _detect_offices
 
 
+@observe(name="contact_node")
 def contact_node(state: AgentState) -> dict:
     """Deterministically routed here by _after_tools, _after_resource, or
     _after_plan -- all three are objective gates: a marker on a

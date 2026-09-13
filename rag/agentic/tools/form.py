@@ -7,11 +7,13 @@ Ported directly from rag/agentic_main.py.
 from __future__ import annotations
 
 from langchain_core.tools import tool
+from langfuse import observe
 
 from rag.agent_tools import get_form as _get_form_raw
 
 
 @tool
+@observe(as_type="tool", name="get_form_tool")
 def get_form_tool(form_id: str) -> str:
     """取得已知表單編號的完整內容。當頁面提到表單編號、但你不確定頁面本身的敘述是否已涵蓋完整細節時使用——表單常包含頁面沒寫清楚的細節。"""
     f = _get_form_raw(form_id)

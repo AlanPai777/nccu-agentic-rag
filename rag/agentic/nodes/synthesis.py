@@ -14,6 +14,7 @@ always discarded, never used as an answer.
 from __future__ import annotations
 
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
+from langfuse import observe, get_client
 
 from rag.agentic.nodes.loop import _llm
 from rag.agentic.state import AgentState
@@ -58,6 +59,26 @@ def _render_full_messages(messages: list) -> str:
     return "\n\n---\n\n".join(parts) if parts else "（尚無內容）"
 
 
+@observe(as_type="generation", name="synthesis_node.llm_call")
+def _invoke_synthesis_llm(prompt: str):
+    # Same object identity/streaming path as before this wrapper was added
+    # (server.py's langgraph_node=="synthesis_node" filter keys off which
+    # graph node is executing, not which plain Python function issues the
+    # .invoke() call, so wrapping it here doesn't change SSE behavior).
+    resp = _llm.bind(options={"num_predict": 8192}).invoke([HumanMessage(content=prompt)])
+    usage = resp.usage_metadata or {}
+    get_client().update_current_generation(
+        model=resp.response_metadata.get("model_name"),
+        usage_details={
+            "prompt_tokens": usage.get("input_tokens", 0),
+            "completion_tokens": usage.get("output_tokens", 0),
+            "total_tokens": usage.get("total_tokens", 0),
+        },
+    )
+    return resp
+
+
+@observe(name="synthesis_node")
 def synthesis_node(state: AgentState) -> dict:
     """Makes ONE call with a synthesis-specific prompt over the full
     message history (_render_full_messages(), not rewrite_node's compact
@@ -74,7 +95,7 @@ def synthesis_node(state: AgentState) -> dict:
     # num_predict, same rationale as llm_client.py's own comment: synthesis
     # answers run long (1000-2000+ tokens), and the Ollama cloud API needs a
     # positive num_predict, not -1/unlimited.
-    answer = _llm.bind(options={"num_predict": 8192}).invoke([HumanMessage(content=prompt)]).content
+    answer = _invoke_synthesis_llm(prompt).content
     # Also append to messages (not just state["answer"]) so the conclusion
     # survives into the next turn via the add_messages reducer -- state["answer"]
     # itself gets reset to None by every new turn's initial_state() and no node

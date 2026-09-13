@@ -9,6 +9,7 @@ rag/agentic_main.py.
 from __future__ import annotations
 
 from langchain_core.messages import HumanMessage
+from langfuse import observe
 
 from rag.agent_tools import extract_form_ids
 from rag.agentic.state import AgentState
@@ -19,6 +20,7 @@ from rag.agentic.logic.form_extraction import (
 from rag.agentic.logic.office_detection import _detect_offices, _OFFICE_MARKER_RE
 
 
+@observe(name="resource_node")
 def resource_node(state: AgentState) -> dict:
     """Deterministically routed here by either _after_tools (marker found
     on a ToolMessage) or _after_plan (plan_node classified the query

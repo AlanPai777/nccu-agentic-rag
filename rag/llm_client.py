@@ -13,6 +13,7 @@ import os
 import uuid
 
 from dotenv import load_dotenv
+from langfuse import observe, get_client
 
 load_dotenv()
 
@@ -40,6 +41,7 @@ def get_active_model() -> str:
 
 # ── Unified interface ─────────────────────────────────────────────────────────
 
+@observe(as_type="generation", name="llm_client.chat_with_tools")
 def chat_with_tools(
     messages: list[dict],
     tools: list[dict],
@@ -138,6 +140,18 @@ def _ollama_chat(
     msg = response.message
     content = msg.content or None
 
+    # prompt_tokens/completion_tokens/total_tokens matches Langfuse's
+    # OpenAiCompletionUsageSchema key names -- the shape its own cost-calc
+    # logic recognizes, not an arbitrary choice.
+    get_client().update_current_generation(
+        model=OLLAMA_MODEL,
+        usage_details={
+            "prompt_tokens": response.prompt_eval_count or 0,
+            "completion_tokens": response.eval_count or 0,
+            "total_tokens": (response.prompt_eval_count or 0) + (response.eval_count or 0),
+        },
+    )
+
     if not msg.tool_calls:
         return content, None
 
@@ -181,6 +195,16 @@ def _openrouter_chat(
     response = client.chat.completions.create(**kwargs)
     msg = response.choices[0].message
     content = msg.content or None
+
+    if response.usage:
+        get_client().update_current_generation(
+            model=OPENROUTER_MODEL,
+            usage_details={
+                "prompt_tokens": response.usage.prompt_tokens,
+                "completion_tokens": response.usage.completion_tokens,
+                "total_tokens": response.usage.total_tokens,
+            },
+        )
 
     if not msg.tool_calls:
         return content, None

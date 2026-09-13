@@ -24,6 +24,8 @@ from __future__ import annotations
 
 import re
 
+from langfuse import observe
+
 from rag.router import route as _classify_query, _keyword_route
 from rag.agentic.state import AgentState
 
@@ -32,6 +34,7 @@ from rag.agentic.state import AgentState
 _CLAUSE_SPLIT_RE = re.compile(r'[，。,.]')
 
 
+@observe(name="plan_node")
 def plan_node(state: AgentState) -> dict:
     """Classification layer reusing rag/router.py's existing 2-layer
     keyword->LLM classifier -- not a new classifier, the exact one already

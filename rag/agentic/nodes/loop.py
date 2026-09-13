@@ -25,6 +25,7 @@ load_dotenv()
 
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage, ToolMessage
 from langchain_ollama import ChatOllama
+from langfuse import observe, get_client
 
 from rag.domain_router import _layer1_match, layer2_candidates, is_ambiguous
 from rag.agentic.state import AgentState
@@ -78,6 +79,7 @@ _AGENT_SYSTEM = """你是政大學務問答系統的搜尋agent，任務是找�
 錯誤做法：持續換不同關鍵字搜尋超過2-3次仍找不到，也不判斷「夠了」——這是在浪費輪次，一般規則沒有明確排除某身分時，適用一般規則是合理的假設，比無限期搜尋更有用。"""
 
 
+@observe(name="rewrite_node")
 def rewrite_node(state: AgentState) -> dict:
     turn = state.get("turn", 0) + 1
     messages = state.get("messages", [])
@@ -88,6 +90,7 @@ def rewrite_node(state: AgentState) -> dict:
     return {"turn": turn, "rewritten": rewritten, "messages": [HumanMessage(content=prompt)]}
 
 
+@observe(name="domain_router_node")
 def domain_router_node(state: AgentState) -> dict:
     """Runs once, right after turn 1's rewrite_node (consumes its cleaned
     `rewritten` output, not the raw query). No-ops whenever subdomain_hint
@@ -128,6 +131,22 @@ def domain_router_node(state: AgentState) -> dict:
     return {"subdomain_hint": candidates[0][0], "messages": [HumanMessage(content="\n".join(lines))]}
 
 
+@observe(as_type="generation", name="agent_node.llm_call")
+def _invoke_agent_llm(messages: list):
+    resp = _llm_with_tools.invoke(messages)
+    usage = resp.usage_metadata or {}
+    get_client().update_current_generation(
+        model=resp.response_metadata.get("model_name") or OLLAMA_MODEL,
+        usage_details={
+            "prompt_tokens": usage.get("input_tokens", 0),
+            "completion_tokens": usage.get("output_tokens", 0),
+            "total_tokens": usage.get("total_tokens", 0),
+        },
+    )
+    return resp
+
+
+@observe(name="agent_node")
 def agent_node(state: AgentState) -> dict:
     """Tool-selection only -- does NOT also generate the final answer.
     When _after_agent sees no tool_calls, it routes to synthesis_node
@@ -137,7 +156,7 @@ def agent_node(state: AgentState) -> dict:
     messages = state["messages"]
     if not any(isinstance(m, SystemMessage) for m in messages):
         messages = [SystemMessage(content=_AGENT_SYSTEM)] + messages
-    resp = _llm_with_tools.invoke(messages)
+    resp = _invoke_agent_llm(messages)
     return {"messages": [resp]}
 
 

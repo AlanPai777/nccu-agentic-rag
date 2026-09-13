@@ -10,6 +10,7 @@ from typing import Annotated
 
 from langchain_core.tools import tool
 from langgraph.prebuilt import InjectedState
+from langfuse import observe
 
 from rag.keyword_store import KeywordStore
 from rag.agentic.logic.rewrite import _judge_candidates
@@ -18,6 +19,7 @@ FTS_DB = "rag/fts_proto3.db"
 
 
 @tool
+@observe(as_type="tool", name="search_texts")
 def search_texts(state: Annotated[dict, InjectedState]) -> str:
     """語意搜尋——用這一輪系統已經幫你重寫好的搜尋詞，內部會查FTS5全文索引並判斷候選是否相關。不需要自己給關鍵字，優先使用這個工具。"""
     rewritten = state["rewritten"]

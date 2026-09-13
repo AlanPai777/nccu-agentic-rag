@@ -32,6 +32,7 @@ from __future__ import annotations
 import json
 
 from langchain_core.messages import HumanMessage
+from langfuse import observe
 
 from rag.llm_client import simple_chat
 from rag.agentic.state import AgentState
@@ -66,6 +67,7 @@ Plan_node當初的分類：{query_type}
 {{"verdict": "通過" 或 "情況A" 或 "情況B", "reminder": "情況A時的具體提醒文字，其他情況留空字串"}}"""
 
 
+@observe(name="self_eval_node")
 def self_eval_node(state: AgentState) -> dict:
     """Stage 1 first (free, deterministic) -- on failure, return its
     concrete hint directly and skip Stage 2 (the LLM call) entirely.
