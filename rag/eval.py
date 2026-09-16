@@ -186,6 +186,152 @@ EVAL_CRITERIA_RESUMPTION = [
 ]
 
 
+# ── 選課學分上限 Q&A evaluation ──────────────────────────────────────────────
+# Added 2026-09-13. Gold standard 來源：Phase F Step 1 baseline
+# (docs/phase_f_step1_eval_baseline.md Q5，2026-08-25 人工查證版本，proto3_langgraph
+# 上實測「完美」)。依政大學則第十五條：學士班第一至三學年每學期不得少於12學分、
+# 不得多於25學分；第四學年不得少於10學分、不得多於25學分；經系主任核可可超修/
+# 減修，至多以6學分為限；碩、博士班由各系（所）自定，無統一規定。
+# 5 criteria × 2 points = 10 max.
+EVAL_CRITERIA_COURSE_LIMIT = [
+    {
+        "name":        "undergrad_upper_bound",
+        "description": "學士班上限 25 學分（第一至四學年皆適用）",
+        "keywords":    ["25學分", "25 學分"],
+        "min_hits":    1,
+    },
+    {
+        "name":        "undergrad_lower_bound",
+        "description": "學士班下限：第一至三學年 12 學分、第四學年 10 學分",
+        "keywords":    ["12學分", "12 學分", "10學分", "10 學分"],
+        "min_hits":    2,
+    },
+    {
+        "name":        "overload_limit",
+        "description": "經系主任核可超修/減修，至多以 6 學分為限",
+        "keywords":    ["6學分", "6 學分", "超修", "系主任"],
+        "min_hits":    2,
+    },
+    {
+        "name":        "grad_no_uniform_rule",
+        "description": "碩、博士班修課學分由各系（所）自定，無統一規定",
+        "keywords":    ["碩士班", "博士班", "系所自定", "系（所）自定", "無統一規定"],
+        "min_hits":    2,
+    },
+    {
+        "name":        "no_hallucination",
+        "description": "無幻覺（人工確認，自動給滿分）",
+        "keywords":    [],
+        "min_hits":    0,
+    },
+]
+
+
+# ── 休學申請表下載連結 Q&A evaluation（RESOURCE）─────────────────────────────
+# Added 2026-09-13. Gold standard 來源：Phase F Step 1 baseline
+# (docs/phase_f_step1_eval_baseline.md Q4，2026-08-25 人工查證版本，proto3_langgraph
+# 上實測「失敗」——router 當時沒有 RESOURCE 分類，誤判成 PROCEDURE，通篇沒有下載
+# 連結。agentic_rag.py 的 resource_node 已於 Migration Step 10 regression 驗證修復，
+# 見 CLAUDE.md「休學申請表在哪裡下載」一列）。
+# 3 criteria × 2 points = 6 max.
+EVAL_CRITERIA_LEAVE_FORM_DOWNLOAD = [
+    {
+        "name":        "form_id_correct",
+        "description": "正確表單編號 QP-T01-03-02",
+        "keywords":    ["QP-T01-03-02"],
+        "min_hits":    1,
+    },
+    {
+        "name":        "download_link_present",
+        "description": "附上 moltke 下載連結，不是只提表單名稱",
+        "keywords":    ["moltke.nccu.edu.tw"],
+        "min_hits":    1,
+    },
+    {
+        "name":        "no_hallucination",
+        "description": "無幻覺，且不是整套辦理流程說明——RESOURCE 類問題要直接給連結（人工確認，自動給滿分）",
+        "keywords":    [],
+        "min_hits":    0,
+    },
+]
+
+
+# ── 出納組電話 Q&A evaluation（CONTACT）─────────────────────────────────────
+# Added 2026-09-13. Gold standard 來源：Phase F Step 1 baseline
+# (docs/phase_f_step1_eval_baseline.md Q3，2026-08-25 人工查證版本，proto3_langgraph
+# 上實測「正確」)。出納組沒有單一代表號，官方公布的合法分機範圍是
+# 62119-62123、62125-62127、62172、62173（來源：cscr subdomain 繳費須知頁）；
+# 62120（劉桂芬組長）是官網 footer 實際使用的代表號，62123（余淑娟）是範圍內另一
+# 個合法分機。
+#
+# 刻意不把承辦人姓名列為必要 keyword——這份 baseline 文件自己記錄過教訓：教務長
+# 「林啓屏→劉吉軒」人事異動時，若 criteria 認姓名而非角色詞/分機，答案會隨人事
+# 變動而失真，且需要每次異動手動維護。分機範圍相對姓名更穩定，作為主要判準。
+# 2 criteria × 2 points = 4 max.
+EVAL_CRITERIA_CASHIER_CONTACT = [
+    {
+        "name":        "extension_in_range",
+        "description": "分機屬於官方合法範圍（62119-62123、62125-62127、62172、62173 之一）",
+        "keywords":    ["62119", "62120", "62121", "62122", "62123",
+                         "62125", "62126", "62127", "62172", "62173"],
+        "min_hits":    1,
+    },
+    {
+        "name":        "office_name_present",
+        "description": "答案明確提及「出納組」",
+        "keywords":    ["出納組"],
+        "min_hits":    1,
+    },
+]
+
+
+# ── 複合查詢：休學 + 圖書館電話 Q&A evaluation ───────────────────────────────
+# Added 2026-09-13. Gold standard 來源：Phase F Step 1 baseline
+# (docs/phase_f_step1_eval_baseline.md Q6，2026-08-25 人工查證版本，proto3_langgraph
+# 上實測 14/26——休學那半被複合查詢稀釋，7 站蓋章鏈只剩 3 站，form_links/
+# conditional_stops/pickup_method/supplementary_forms 全部歸零。agentic_rag.py 改用
+# multi_sub_query_node 拆成獨立子查詢後，Migration Step 10 regression 驗證兩邊皆正確
+# 且互不污染，見 CLAUDE.md「如何辦理休學，圖書館的電話是多少」一列)。
+#
+# 只適用於這一組固定的複合查詢配對，不是通用複合查詢評分機制——直接沿用完整的
+# EVAL_CRITERIA（休學半邊）+ 圖書館電話 2 項，兩邊都拿到滿分才代表複合查詢真正
+# 沒有互相稀釋。
+# 13 (休學) + 2 (圖書館) = 15 criteria × 2 = 30 max.
+EVAL_CRITERIA_COMPOUND_LEAVE_LIBRARY = EVAL_CRITERIA + [
+    {
+        "name":        "library_main_line",
+        "description": "圖書館總機（(02)2939-3091）或總圖分機 63222",
+        "keywords":    ["2939-3091", "29393091", "63222"],
+        "min_hits":    1,
+    },
+    {
+        "name":        "library_branch_extensions",
+        "description": "至少一個分館分機（50107/84006/67152 等）",
+        "keywords":    ["50107", "84006", "67152"],
+        "min_hits":    1,
+    },
+]
+
+
+# ── 查詢字串 → criteria 對照表 ───────────────────────────────────────────────
+# 刻意用「一模一樣的查詢字串」對應，不是用 plan_node 的 query_type 分類結果
+# 對應——這些 criteria 本來就是針對特定一題手動查證出來的 gold standard，不是
+# 針對「這一類」問題的通用評分表。若改用 query_type 挑選，plan_node 分類錯的
+# 時候評分也會跟著用錯 criteria，會把「這題答案對不對」跟「plan_node 分類準
+# 不準」這兩件本該獨立判斷的事混在一起，汙染評分結果本身的可信度。
+# CLI（agentic_rag.py）拿使用者輸入的原始查詢字串精確比對這份表；沒有命中的
+# 查詢一律 fall back 回預設的 EVAL_CRITERIA（休學），維持既有行為不變。
+QUERY_CRITERIA_MAP: dict[str, list[dict]] = {
+    "如何辦理休學":                    EVAL_CRITERIA,
+    "如何辦理復學":                    EVAL_CRITERIA_RESUMPTION,
+    "選課上限幾學分":                  EVAL_CRITERIA_COURSE_LIMIT,
+    "休學申請表在哪裡下載":            EVAL_CRITERIA_LEAVE_FORM_DOWNLOAD,
+    "出納組電話幾號":                  EVAL_CRITERIA_CASHIER_CONTACT,
+    "出納組的電話是幾號":              EVAL_CRITERIA_CASHIER_CONTACT,  # baseline 文件原始措辭，別名
+    "如何辦理休學，圖書館的電話是多少": EVAL_CRITERIA_COMPOUND_LEAVE_LIBRARY,
+}
+
+
 def score_answer(answer: str, criteria: list[dict] = EVAL_CRITERIA) -> dict:
     scores = {}
     total  = 0

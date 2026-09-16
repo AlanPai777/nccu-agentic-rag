@@ -27,7 +27,7 @@ from langgraph.prebuilt import ToolNode
 from langfuse import observe, get_client
 
 from rag.llm_client import get_active_model, PROVIDER
-from rag.eval import print_score_report
+from rag.eval import print_score_report, QUERY_CRITERIA_MAP, EVAL_CRITERIA
 
 from rag.agentic.state import AgentState
 from rag.agentic.nodes.plan import plan_node, _after_plan
@@ -126,7 +126,13 @@ if __name__ == "__main__":
     print(answer)
 
     if not args.no_eval:
-        print_score_report(answer)
+        # 用使用者輸入的原始查詢字串精確比對 QUERY_CRITERIA_MAP,不是用
+        # plan_node 的 query_type 分類結果——plan_node 目前分類不穩定
+        # （見這次對話對「校長是誰」的分析），拿它來挑 eval criteria 會讓
+        # 分類錯誤連帶污染評分結果本身。沒有精確命中就 fall back 回預設的
+        # EVAL_CRITERIA（休學），跟改動前的行為一致。
+        criteria = QUERY_CRITERIA_MAP.get(args.query, EVAL_CRITERIA)
+        print_score_report(answer, criteria)
 
     # Langfuse batches/sends traces on a background thread -- a short-lived
     # CLI process can exit before that flush happens, silently dropping the
