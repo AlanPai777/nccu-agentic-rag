@@ -9,10 +9,32 @@ unchanged.
 from __future__ import annotations
 
 import json
+import re
 
 from langchain_core.messages import AIMessage, ToolMessage
 
 from rag.llm_client import simple_chat
+
+# A markdown link's anchor text describes the page it POINTS TO, not
+# necessarily the current page's own content (e.g. a "另見XX專區" cross-
+# reference at the top of a page). Left in place, it reads as ordinary
+# prose to both a keyword check and an LLM judge, so a candidate whose own
+# body is about a completely different, unrelated topic can still look
+# like a match purely because one of its cross-reference links happens to
+# share vocabulary with the query. Stripping the whole `[label](url)` span
+# (not just the URL -- rag/chunker.py's own text_clean generation keeps
+# the label, which is right for embedding/generation, but wrong for a
+# relevance judgment that needs to know what THIS page's own text says)
+# before judging removes that false-positive signal at the data layer,
+# without needing the judge to be taught this as a special rule -- it
+# generalizes to any future candidate with the same shape of noise, not
+# just one specific query.
+_MD_LINK_RE = re.compile(r"\[[^\]]*\]\([^)]*\)")
+
+
+def _strip_md_links(text: str) -> str:
+    return _MD_LINK_RE.sub("", text)
+
 
 _REWRITE_PROMPT = """你是一個搜尋詞改寫助手，任務是把使用者的問題改寫成最適合查詢政大官網全文索引的搜尋詞。
 
@@ -64,7 +86,7 @@ def _rewrite_query(text: str) -> str:
 
 def _judge_candidates(query: str, candidates: list[dict]) -> dict:
     candidates_str = "\n".join(
-        f"{i+1}. [{c['subdomain']}] {c['title']} (score={c['bm25_score']})\n   {c['text_clean'][:200]}"
+        f"{i+1}. [{c['subdomain']}] {c['title']} (score={c['bm25_score']})\n   {_strip_md_links(c['text_clean'])[:200]}"
         for i, c in enumerate(candidates)
     )
     prompt = _JUDGE_PROMPT.format(query=query, candidates=candidates_str)
