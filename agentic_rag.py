@@ -39,6 +39,7 @@ from rag.agentic.nodes.compound import multi_sub_query_node
 from rag.agentic.nodes.self_eval import self_eval_node, _after_self_eval
 from rag.agentic.logic.rewrite import _render_messages
 from rag.agentic.tools import TOOLS
+from rag.live.clock import today_taipei
 
 
 def build_graph(checkpointer=None):
@@ -80,6 +81,7 @@ def initial_state(query: str, subdomain_hint: str | None = None) -> AgentState:
     return {
         "query": query, "subdomain_hint": subdomain_hint, "query_type": None, "turn": 0, "rewritten": "",
         "stuck_turns": 0, "messages": [], "answer": None, "self_eval_note": None,
+        "today": today_taipei(),
     }
 
 

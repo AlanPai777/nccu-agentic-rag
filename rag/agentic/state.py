@@ -57,6 +57,10 @@ class AgentState(TypedDict):
                                                      # ChatOllama.bind_tools() expect
     answer:         str | None  # final answer, written by synthesis_node
     self_eval_note: str | None  # Part 6.2's Stage 1/2 self_eval output
+    today:          str         # Phase J (docs/phase_j_live_fetch_plan.md §5.12): YYYY-MM-DD in
+                                 # Asia/Taipei, refilled every turn by initial_state() via
+                                 # rag/live/clock.py -- the reference date "今天"/"10/14"/"本週"
+                                 # resolve against. No node reads it yet (P0 adds the field only).
     compacted_boundary: int     # server.py-only (multi-turn compaction, outside
                                  # agentic_main.py's original 9-field scope): index into
                                  # `messages` where the in-progress turn's own live scratch

@@ -36,3 +36,8 @@ CLAUDE.md
 # Environment
 .env
 .env.local
+
+# Phase J live-fetch (docs/phase_j_live_fetch_plan.md)
+rag/live/_cache/
+rag/live/_logs/
+experiments/live_spikes/_out/
