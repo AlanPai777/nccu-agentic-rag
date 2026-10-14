@@ -49,6 +49,7 @@ def apply_page(url: str, snapshot_page: dict) -> dict:
     if not is_allowed(target):
         return snapshot_page
     live = get_fetcher().fetch(target, kind="page")
+    log.info("live fetch %s -> %s in %.2fs (attempts=%d, cache=%s)", target, "ok" if live.ok else live.error, live.elapsed, live.attempts, live.from_cache)
     res = R.resolve(snapshot_page.get("text") if snap_found else None, live)
 
     if not snap_found and res.state == R.SNAPSHOT_FALLBACK:
