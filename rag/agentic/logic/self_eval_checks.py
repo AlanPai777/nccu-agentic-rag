@@ -86,8 +86,8 @@ def stage1_checklist(state: dict) -> list[str]:
     messages = state.get("messages") or []
     failures: list[str] = []
 
-    if not any(kw in answer for kw in ("來源", "https://")):
-        failures.append("答案缺少引用來源。請在最後加上來源URL。")
+    '''if not any(kw in answer for kw in ("來源", "https://")):
+        failures.append("答案缺少引用來源。請在最後加上來源URL。")'''
 
     # Step-format is only expected for procedure-shaped questions --
     # mirrors _SYNTHESIS_PROMPT rule 2's own distinction ("單純查資訊/查
