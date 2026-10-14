@@ -27,7 +27,7 @@ from rag.live.cache import LiveCache  # noqa: E402
 from rag.live.compare import compare, normalize  # noqa: E402
 from rag.live.fetcher import Fetcher  # noqa: E402
 from rag.live.ratelimit import RateLimiter  # noqa: E402
-from rag.live.resolve import LIVE_CHANGED, LIVE_ONLY, LIVE_SAME, SNAPSHOT_FALLBACK, resolve  # noqa: E402
+from rag.live.resolve import LIVE_CHANGED, LIVE_INCOMPLETE, LIVE_ONLY, LIVE_SAME, SNAPSHOT_FALLBACK, resolve  # noqa: E402
 
 FIX = ROOT / "experiments" / "live_fixtures" / "chain_xiuxue_2026-10-14"
 HTML = b"<html><body><div class='item-page'><p>hello nccu</p></div></body></html>"
@@ -84,6 +84,9 @@ class TestNormalizeCompare(unittest.TestCase):
 
     def test_whitespace_only_is_same(self):
         self.assertTrue(compare("a  b\r\n\r\nc", "a b\nc").same)
+
+    def test_static_vs_rendered_artifacts(self):
+        self.assertTrue(compare("x\n您的瀏覽器不支援JavaScript功能，若網頁功能無法正常使用時，請開啟瀏覽器JavaScript狀態", "x\n瀏覽數:").same)
 
     def test_does_not_over_normalize(self):
         # digits in prose are not counters
@@ -297,6 +300,11 @@ class TestResolve(unittest.TestCase):
     def test_failure_falls_back_to_snapshot(self):
         r = resolve("snap", self._live("", ok=False))
         self.assertEqual((r.state, r.text), (SNAPSHOT_FALLBACK, "snap"))
+
+    def test_unrendered_js_page_keeps_snapshot(self):
+        snap = "\n".join(f"成員{i} 分機 6{i:04d}" for i in range(40))
+        r = resolve(snap, self._live("國際合作事務處\n成員 1"))
+        self.assertEqual((r.state, r.text), (LIVE_INCOMPLETE, snap))
 
     def test_no_snapshot(self):
         self.assertEqual(resolve(None, self._live("x")).state, LIVE_ONLY)

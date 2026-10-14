@@ -16,7 +16,10 @@ from rag.agent_tools import extract_form_ids
 
 # Page-view counters. Whole-line counters are dropped; inline "label: number" pairs are cut out.
 VOLATILE_PATTERNS = [
-    re.compile(r"^\W*(?:點擊數|瀏覽數|瀏覽次數|瀏覽人次|點閱數|點閱次數|人氣)\s*[:：]?\s*[\d,]+\W*$"),
+    # number optional: a JS-filled counter is an empty "瀏覽數:" in static HTML (P1, www.lib)
+    re.compile(r"^\W*(?:點擊數|瀏覽數|瀏覽次數|瀏覽人次|點閱數|點閱次數|人氣)\s*[:：]?\s*[\d,]*\W*$"),
+    # <noscript> text appears in static HTML only, never in the rendered snapshot (P1, www.lib)
+    re.compile(r"^您的瀏覽器不支援\s*JavaScript"),
 ]
 VOLATILE_INLINE = re.compile(r"(?:點擊數|瀏覽數|瀏覽次數|瀏覽人次|參觀人次|訪客人次|點閱數|點閱次數)\s*[:：]\s*[\d,]+(?:\s*[人次])?")
 

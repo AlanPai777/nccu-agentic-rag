@@ -72,6 +72,10 @@ def host_policy(host: str) -> HostPolicy:
     return HOST_POLICY.get(host.lower(), DEFAULT_POLICY)
 
 
+# A live page whose normalized text is shorter than this fraction of the snapshot's is treated as an
+# incomplete static render (JS-built page), not as an edit. Estimate; P1 saw 37 vs 4956 chars (oic).
+INCOMPLETE_RATIO = _env_float("LIVE_INCOMPLETE_RATIO", 0.5)
+
 # --- circuit breaker (§5.4) -----------------------------------------------------------------
 BREAKER_THRESHOLD = _env_int("LIVE_BREAKER_THRESHOLD", 5)
 BREAKER_COOLDOWN = _env_float("LIVE_BREAKER_COOLDOWN", 300.0)
