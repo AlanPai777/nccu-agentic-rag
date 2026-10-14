@@ -19,13 +19,14 @@ from rag.agent_tools import (
     extract_form_ids,
 )
 from rag.agentic.logic.office_detection import _detect_offices
+from rag.live.hook import apply_page
 
 
 @tool
 @observe(as_type="tool", name="get_page_tool")
 def get_page_tool(url: str, state: Annotated[dict, InjectedState]) -> str:
     """取得已知URL的完整頁面內容。只在已有明確URL時呼叫。"""
-    p = _get_page_raw(url, subdomain=state.get("subdomain_hint"))
+    p = apply_page(_get_page_raw(url, subdomain=state.get("subdomain_hint")))
     if "error" in p:
         return f"get_page 失敗: {p['error']}"
     text = p.get("text", "")
