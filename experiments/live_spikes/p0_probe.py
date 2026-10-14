@@ -63,6 +63,9 @@ SAMPLE_WWW = 10      # sitemap URLs requested for www (is the 238/240-are-404 pa
 SAMPLE_OTHER = 5     # ... for any other host that turns out to have a sitemap
 TIMEOUT = 60.0       # per request (plan D8)
 MIN_INTERVAL = 1.0   # seconds between requests to the same host
+# Per-host overrides. osa.nccu.edu.tw's robots.txt asks for Crawl-delay: 10 (P0 finding;
+# plan decision A: honour it).
+HOST_INTERVAL = {"osa.nccu.edu.tw": 10.0}
 MAX_REQUESTS = 90    # hard stop
 SITEMAP_MAX_BYTES = 5_000_000
 OUT_DIR = Path(__file__).parent / "_out"
@@ -165,9 +168,10 @@ class Prober:
             return {"url": url, "method": method, "skipped": "host not in allowlist"}
         if self.count >= MAX_REQUESTS:
             return {"url": url, "method": method, "skipped": "MAX_REQUESTS reached"}
+        interval = HOST_INTERVAL.get(host, MIN_INTERVAL)
         gap = time.monotonic() - self.last_hit.get(host, -1e9)
-        if gap < MIN_INTERVAL:
-            time.sleep(MIN_INTERVAL - gap)
+        if gap < interval:
+            time.sleep(interval - gap)
         self.count += 1
         t0 = time.monotonic()
         rec: dict = {"url": url, "method": method}
