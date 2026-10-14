@@ -41,3 +41,4 @@ CLAUDE.md
 rag/live/_cache/
 rag/live/_logs/
 experiments/live_spikes/_out/
+experiments/live_fixtures/
