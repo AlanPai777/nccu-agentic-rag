@@ -28,6 +28,8 @@ import re
 
 from langchain_core.messages import HumanMessage
 
+from rag.live.ledger import DISCLOSURE_HEADER, needs_disclosure, parse_markers
+
 _CONTACT_NAME_RE = re.compile(r'•\s*([^\s（(]{2,10})[（(]')
 _STATION_ROLE_LINE_RE = re.compile(r'站點\d+：([^（(]+)')
 
@@ -64,6 +66,24 @@ def _extract_station_roles(messages: list) -> list[str]:
                     if role and role not in roles:
                         roles.append(role)
     return roles
+
+
+# Tag inside the reminder text, so a later pass can tell this check already fired once this turn.
+_DISCLOSURE_TAG = "資料狀態揭露"
+
+
+def _check_data_state_disclosure(answer: str, messages: list) -> str | None:
+    """Phase J: if any page was served from the snapshot because live confirmation failed (or was
+    incomplete), the answer must carry the data-status section. synthesis_node appends that section by
+    program, so this is a safety net, not a routine retry trigger -- and it fires AT MOST ONCE per turn
+    (a repeat would send self_eval round the loop forever; the project already had to disable the Stage 1
+    citation check for exactly that, commit c7a911a)."""
+    if not needs_disclosure(parse_markers(messages)) or DISCLOSURE_HEADER in answer:
+        return None
+    if any(isinstance(m, HumanMessage) and _DISCLOSURE_TAG in str(m.content) for m in messages):
+        return None
+    return (f"{_DISCLOSURE_TAG}：部分頁面因現場確認失敗而使用舊快照，但答案沒有揭露資料狀態。"
+            "請在答案中說明哪些資料來自快照、可能已過時。")
 
 
 def stage1_checklist(state: dict) -> list[str]:
@@ -108,6 +128,10 @@ def stage1_checklist(state: dict) -> list[str]:
                 f"contact_node查到了真實承辦人姓名（例如：{preview}），但答案裡完全沒有引用任何一位。"
                 "請在對應步驟列出承辦人姓名（不能只寫辦公室名稱）。"
             )"""
+
+    disclosure = _check_data_state_disclosure(answer, messages)
+    if disclosure:
+        failures.append(disclosure)
 
     station_roles = _extract_station_roles(messages)
     if station_roles:

@@ -316,7 +316,7 @@ class TestHook(unittest.TestCase):
         from rag.live.hook import apply_page
         os.environ.pop("LIVE_FETCH", None)
         p = {"url": "u", "text": "t"}
-        self.assertIs(apply_page(p), p)
+        self.assertIs(apply_page("u", p), p)
 
 
 @unittest.skipUnless(FIX.exists(), "fixtures not present")

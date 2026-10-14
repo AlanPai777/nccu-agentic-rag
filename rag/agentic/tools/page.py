@@ -26,11 +26,13 @@ from rag.live.hook import apply_page
 @observe(as_type="tool", name="get_page_tool")
 def get_page_tool(url: str, state: Annotated[dict, InjectedState]) -> str:
     """取得已知URL的完整頁面內容。只在已有明確URL時呼叫。"""
-    p = apply_page(_get_page_raw(url, subdomain=state.get("subdomain_hint")))
+    p = apply_page(url, _get_page_raw(url, subdomain=state.get("subdomain_hint")))
     if "error" in p:
         return f"get_page 失敗: {p['error']}"
     text = p.get("text", "")
     header = f"get_page 取得 {len(text)} 字，標題: {p.get('title','')}，subdomain: {p.get('subdomain','')}"
+    if p.get("live_marker"):       # LIVE_FETCH=on only; the ledger line sits in the header, never in the page text
+        header += "\n" + p["live_marker"]
     form_ids = sorted(extract_form_ids(text))
     if form_ids:
         header += f"\n[偵測到表單編號: {', '.join(form_ids)}]"

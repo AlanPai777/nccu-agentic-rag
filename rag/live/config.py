@@ -16,6 +16,10 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 # D11: same string the original crawler (NCCU-Crawler) used; Playwright keeps Chromium's default.
 USER_AGENT = "Mozilla/5.0 (compatible; NCCU-Edu-Crawler/1.0; +https://www.nccu.edu.tw) Academic research bot"
 
+# Build date of the git-tracked snapshot corpus (aca pages 2026-08-19; the FTS index 2026-08-26). The jsonl
+# rows carry no per-page fetch time, so this one date is what answers say the fallback data is "as of".
+SNAPSHOT_ASOF = os.environ.get("LIVE_SNAPSHOT_ASOF", "2026-08-19")
+
 ALLOWED_DOMAIN = "nccu.edu.tw"          # exact host or any subdomain; nothing else is ever fetched
 # User decision 2026-10-14: cashier's server omits its intermediate certificate, so httpx cannot
 # verify it. Explicit single-host list; every use is logged and flagged `tls_unverified`.

@@ -725,6 +725,8 @@ MCP 只是工具的打包與傳輸方式，不決定穩定度。分工準則是*
 - 驗收：注入測試（節點層、無 LLM）；休學**一次** `on` 端到端（真實現場）：以既有 criteria 分數（歷次 `off` 約 24～26／26）當參照，**不另外跑一次 `off`**；人工檢查資料狀態段與「現場確認」的內容；若答案內容與快照版不同，人工判斷哪邊才對。
 - 停損：現場失敗率過高 → 檢討重試／斷路參數。
 
+- **P2 進度（2026-10-14）**：程式與離線測試完成（`experiments/live_spikes/test_live_p2.py`，連同 P1 共 64 項全過，無網路、無 LLM）。內容：`rag/live/ledger.py`（標記行 `[live:src status=… checked=… snap=… tls=… url=…]`，只解析 ToolMessage 標頭、頁面文字中的 `[live:src` 被中和，防偽造）；`hook.apply_page(url, page)`（`off` 回傳同一物件，`on` 抓取＋比對＋依狀態選文字）；`get_page_tool` 標頭帶標記（不影響 `[偵測到表單編號]` 路由標記）；`synthesis_node` 在 LLM 答案後由**程式**附上 `【資料狀態】` 段（`off` 時為空字串，答案逐位元相同）；`server.py` 把這段當最後一個 SSE chunk 送出；Stage 1 新增 `_check_data_state_disclosure`——有 `snapshot_fallback`／`live_incomplete` 而答案沒有 `【資料狀態】` 時才失敗，且**每題最多觸發一次**（提醒訊息帶「資料狀態揭露」標籤，再次檢查時看到就不再失敗），Stage 1 失敗時不呼叫 LLM。與計畫的差異：①`_detect_offices` 內容雜湊快取**暫不做**——`live_same` 使用快照文字，文字與 `off` 完全相同，沒有需要快取的重複呼叫；快取還會把一次 LLM 抽樣結果（先前記錄該步驟短輸入失敗率高）固定下來，使 self_eval 重試失去重新取樣的機會。②頁尾明確寫出「表單內容、承辦人與分機尚未現場確認」（`UNCHECKED_KINDS`），避免只涵蓋頁面卻讓使用者以為整條鏈都已確認；P3、P4 落地時各移除一項。待辦：休學 `LIVE_FETCH=on` 端到端**一次**（需使用者核准）。
+
 ### P3　表單現場取得（moltke）＋PDF 暫存
 - 範圍：`forms.py`；`get_form` 掛鉤；停用偵測；沒有編號的文件連結偵測；PDF 暫存與雜湊。
 - 驗收：fixture 測試（viewdetail 頁、小 PDF、停用頁）；注入「表單變兩張」節點層通過；一次端到端。

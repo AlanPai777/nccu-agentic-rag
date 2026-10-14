@@ -31,6 +31,7 @@ from langfuse import observe
 from agentic_rag import build_graph, initial_state
 from rag.agentic.compaction import compact_previous_turn
 from rag.agentic.nodes.self_eval import _SELF_EVAL_MAX_TURN
+from rag.live.ledger import split_footer
 
 load_dotenv()  # rag/agentic/nodes/loop.py already does this on import; kept for direct runs
 
@@ -254,6 +255,12 @@ async def _pump(
                     # them clear-then-explain reads correctly top to bottom.
                     if _is_retry_signal(node_name, delta, current_turn):
                         await queue.put({"type": "reset"})
+                    if node_name == "synthesis_node" and delta.get("answer"):
+                        # The data-status section is appended by program after the LLM finishes, so it never
+                        # went through token streaming; send it as the last chunk of this synthesis pass.
+                        footer = split_footer(delta["answer"])[1]
+                        if footer:
+                            await queue.put({"data": footer})
                     text = _status_text(node_name, delta)
                     if text:
                         await queue.put({"type": "status", "text": text})

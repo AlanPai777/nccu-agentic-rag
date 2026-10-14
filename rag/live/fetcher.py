@@ -39,6 +39,7 @@ class LiveResult:
     detail: str = ""
     raw_hash: str = ""
     elapsed: float = 0.0
+    fetched_at: float = 0.0    # unix time the body was actually received (cache hits keep the original)
     attempts: int = 0
     tls_unverified: bool = False
     from_cache: bool = False
@@ -129,7 +130,7 @@ class Fetcher:
             row = self.cache.get(url)
             if row:
                 return LiveResult(url, True, row.final_url, row.status, row.text, raw_hash=row.raw_hash,
-                                  tls_unverified=row.tls_unverified, from_cache=True)
+                                  fetched_at=row.fetched_at, tls_unverified=row.tls_unverified, from_cache=True)
         host = host_of(url)
         res = LiveResult(url)
         for attempt in range(config.MAX_RETRIES + 1):
@@ -146,7 +147,7 @@ class Fetcher:
             self._sleep(config.BACKOFF_BASE * 2 ** attempt)
         res.elapsed = time.monotonic() - t0
         if res.ok and self.cache:
-            self.cache.put(CacheRow(url, kind, res.final_url, self.cache.now(), res.status, res.raw_hash,
+            self.cache.put(CacheRow(url, kind, res.final_url, res.fetched_at, res.status, res.raw_hash,
                                     _sha(res.text), res.text, None, res.tls_unverified))
         return res
 
@@ -226,6 +227,7 @@ class Fetcher:
             res.error = "empty"
             return res
         res.text, res.ok = text, True
+        res.fetched_at = self.cache.now() if self.cache else time.time()
         return res
 
     @staticmethod

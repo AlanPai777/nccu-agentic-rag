@@ -29,3 +29,9 @@ def today_taipei() -> str:
         datetime.strptime(override, "%Y-%m-%d")
         return override
     return datetime.now(TAIPEI).strftime("%Y-%m-%d")
+
+
+def taipei_minute(ts: float | None = None) -> str:
+    """'YYYY-MM-DDTHH:MM' in Asia/Taipei for a unix timestamp (default: now). Used in source markers."""
+    dt = datetime.fromtimestamp(ts, TAIPEI) if ts is not None else datetime.now(TAIPEI)
+    return dt.strftime("%Y-%m-%dT%H:%M")
