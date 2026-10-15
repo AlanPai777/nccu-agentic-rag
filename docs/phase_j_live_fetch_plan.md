@@ -732,6 +732,8 @@ MCP 只是工具的打包與傳輸方式，不決定穩定度。分工準則是*
 - 驗收：fixture 測試（viewdetail 頁、小 PDF、停用頁）；注入「表單變兩張」節點層通過；一次端到端。
 - 停損：若 moltke 兩步取得不穩，表單維持快照＋標示。
 
+- **P3 進度（2026-10-15）**：程式與離線測試完成（`experiments/live_spikes/test_live_p3.py` 18 項，連同 P1／P2 共 82 項，無網路、無 LLM）。內容：`rag/live/forms.py`（`fetch_form`：5 請求鏈，**每張表單一個獨立 client／cookie jar**；停用偵測；PDF 以 `df?<token>` 取得、驗 `%PDF`、存 `rag/live/_cache/pdf/<hash>.pdf`、用同一支 `extract_pdf`；圖片型 PDF 不 OCR → 失敗退回快照；結果存旁路快取 kind=form）；`Fetcher` 新增 `new_session()`、`client=`、`raw=True`（回傳原始位元組給呼叫端解析）；`hook.apply_form`（同頁面規則：相同用快照、不同用現場、失敗退回快照＋揭露、停用 → 文字清空並標 `discontinued`、快照沒有的新表單 → `live_new`）；`get_form_tool` 標頭帶標記；帳本新增 `kind=form`、`discontinued`，並能從 `resource_node` 組合訊息的 `get_form` 標頭解析標記（偽造的標記無法進入：內文先經 `sanitize`）；`UNCHECKED_KINDS` 移除「表單內容」。fake moltke 伺服器**真的以 cookie 決定回哪張表單**（最後一個 `viewFormDetail.jsp` 網址不帶編號）：三張表單平行抓各自正確；對照組（共用 cookie jar）確實取錯，且把實作改成共用 client 時該測試會失敗（已用變異測試確認）。節點層注入：頁面一次列出「快照已知＋快照沒有」兩張表單，`resource_node` 兩張都現場取得、標記為 `live_same`／`live_new`。moltke 單網域並行調為 2（獨立 cookie jar 之下安全；原為保守的 1）。待辦：休學 `on` 端到端**一次**（約 +15 個 moltke 請求，需核准）；「同編號換新版時 `df?<token>` 是否變動」仍未驗證（需要現場剛好有新版，離線無法測）。
+
 ### P4　人員頁現場渲染（組合 A）
 - 範圍：`contacts.py`；Playwright 一個瀏覽器多 context；職務解析；`dynamic_contacts_for_office` 掛鉤；索引後備。
 - 驗收：休學約 10 個處室**一次**渲染的耗時與完整度（對照索引，差異人工確認）。

@@ -67,7 +67,7 @@ class HostPolicy:
 DEFAULT_POLICY = HostPolicy(min_interval=_env_float("LIVE_HOST_INTERVAL", 1.0), concurrency=2)
 HOST_POLICY: dict[str, HostPolicy] = {
     "osa.nccu.edu.tw": HostPolicy(10.0, 1),      # robots.txt: Crawl-delay 10 (P0 finding, decision A: obey)
-    "moltke.nccu.edu.tw": HostPolicy(0.5, 1),    # one cookie session at a time per jar; original crawler used 0.5
+    "moltke.nccu.edu.tw": HostPolicy(0.5, 2),    # original crawler used 0.5s; each form has its own cookie jar, so 2 in flight is safe
     "cpbae.nccu.edu.tw": HostPolicy(5.0, 1),     # original crawler: 92% 429 (tentative)
 }
 

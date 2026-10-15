@@ -19,7 +19,7 @@ from rag.live.cache import LiveCache
 from rag.live.clock import taipei_minute
 from rag.live.config import live_mode
 from rag.live.fetcher import Fetcher
-from rag.live.ledger import (LIVE_CHANGED, LIVE_INCOMPLETE, LIVE_NEW, LIVE_SAME, SNAPSHOT_FALLBACK, make_marker,
+from rag.live.ledger import (DISCONTINUED, LIVE_CHANGED, LIVE_INCOMPLETE, LIVE_NEW, LIVE_SAME, SNAPSHOT_FALLBACK, make_marker,
                              sanitize)
 from rag.live import resolve as R
 
@@ -65,3 +65,40 @@ def apply_page(url: str, snapshot_page: dict) -> dict:
     if not live.ok:
         log.warning("live fetch failed %s: %s %s", target, live.error, live.detail)
     return page
+
+
+def apply_form(form_id: str, snapshot_form: dict) -> dict:
+    """`snapshot_form` is agent_tools.get_form()'s result (or {"error": ...}). Same decision rule as pages:
+    unchanged -> snapshot text, changed -> live text, live failed -> snapshot + disclosure, withdrawn -> no text."""
+    if live_mode() == "off":
+        return snapshot_form
+    from rag.live.forms import fetch_form, link_url_for
+    snap_found = "error" not in snapshot_form
+    link = link_url_for(form_id)
+    live = fetch_form(form_id, get_fetcher())
+    log.info("live form %s -> %s in %.2fs (%d requests, cache=%s)", form_id, "ok" if live.ok else live.error,
+             live.elapsed, live.requests, live.from_cache)
+    checked = taipei_minute(live.fetched_at or None) if live.ok else taipei_minute()
+
+    def marked(page: dict, state: str) -> dict:
+        page["live_marker"] = make_marker(link, state, checked, config.SNAPSHOT_ASOF, kind="form")
+        page["live_state"] = state
+        return page
+
+    if live.ok and live.discontinued:
+        base = dict(snapshot_form) if snap_found else {"form_id": form_id, "url": link}
+        base.update(text="", form_title=live.title or base.get("form_title", ""), discontinued=True)
+        return marked(base, DISCONTINUED)
+    from rag.live.fetcher import LiveResult
+    res = R.resolve(snapshot_form.get("text") if snap_found else None,
+                    LiveResult(link, ok=live.ok, text=live.text, error=live.error, detail=live.detail))
+    if not snap_found and res.state == R.SNAPSHOT_FALLBACK:
+        return snapshot_form                              # unknown form, unreachable: plain "not found"
+    page = dict(snapshot_form) if snap_found else {"form_id": form_id, "url": link, "form_description": ""}
+    page["text"] = sanitize(res.text)
+    if live.ok and res.state != R.LIVE_INCOMPLETE:
+        page["form_title"] = live.title or page.get("form_title", "")
+        page["form_unit"] = live.unit or page.get("form_unit", "")
+    if res.comparison and not res.comparison.same:
+        log.info("live form diff %s: %s", form_id, res.comparison.summary())
+    return marked(page, _STATE_MAP[res.state])
