@@ -83,12 +83,20 @@ def _parse(raw: str, candidates: list[str]) -> dict[str, tuple[bool, str]] | Non
     return out
 
 
+def _record(query: str, candidates: list[str], r: GateResult) -> GateResult:
+    """One log line per decision (LIVE_LOG=info prints it) so a wrong exclusion can be found afterwards -- the
+    failure class that cost Phase H its refund table. The reasons live only in `r.skipped` otherwise."""
+    log.info("form gate q=%r candidates=%s fetch=%s skipped=%s fell_back=%s", query, candidates, r.fetch_ids,
+             r.skipped, r.fell_back)
+    return r
+
+
 def select_forms(query: str, page_text: str, candidates: list[str], llm=None) -> GateResult:
     """candidates: form ids already detected on the page (deterministically). llm: callable(prompt)->str; defaults
     to the project's simple_chat so the experiment uses the same model path as _judge_forms."""
     candidates = list(dict.fromkeys(candidates))
     if len(candidates) <= 1:
-        return GateResult(candidates)                        # nothing to choose between
+        return _record(query, candidates, GateResult(candidates))   # nothing to choose between
     if llm is None:
         from rag.llm_client import simple_chat
         llm = lambda p: simple_chat(messages=[{"role": "user", "content": p}], max_tokens=600)
@@ -101,17 +109,17 @@ def select_forms(query: str, page_text: str, candidates: list[str], llm=None) ->
         raw = (llm(prompt) or "").strip()
     except Exception as e:                                   # noqa: BLE001 -- any failure means "fetch all"
         log.warning("form gate call failed (%s); fetching all", type(e).__name__)
-        return GateResult(candidates, fell_back=True)
+        return _record(query, candidates, GateResult(candidates, fell_back=True))
     verdict = _parse(raw, candidates)
     if verdict is None:
         log.warning("form gate reply unparseable; fetching all: %r", raw[:120])
-        return GateResult(candidates, fell_back=True, raw=raw)
+        return _record(query, candidates, GateResult(candidates, fell_back=True, raw=raw))
     skipped = {fid: why for fid, (fetch, why) in verdict.items() if fetch is False}
     fetch_ids = [fid for fid in candidates if fid not in skipped]       # omitted ids stay in
     if not fetch_ids:                                        # "none needed" from a gate we can't yet trust: fetch all
         log.warning("form gate excluded every form; fetching all")
-        return GateResult(candidates, fell_back=True, raw=raw)
-    return GateResult(fetch_ids, skipped, raw=raw)
+        return _record(query, candidates, GateResult(candidates, fell_back=True, raw=raw))
+    return _record(query, candidates, GateResult(fetch_ids, skipped, raw=raw))
 
 
 def gate_enabled() -> bool:

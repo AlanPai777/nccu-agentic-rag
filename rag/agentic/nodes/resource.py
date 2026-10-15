@@ -9,7 +9,7 @@ rag/agentic_main.py.
 from __future__ import annotations
 
 from langchain_core.messages import HumanMessage
-from langfuse import observe
+from langfuse import observe, get_client
 
 from rag.agent_tools import extract_form_ids
 from rag.agentic.state import AgentState
@@ -45,7 +45,10 @@ def resource_node(state: AgentState) -> dict:
     if detected_ids:
         relevant_ids = detected_ids
         if gate_enabled():          # P3.5 experiment, off by default: drop forms the page marks for another situation
-            relevant_ids = select_forms(state["query"], context_text, detected_ids).fetch_ids
+            gate = select_forms(state["query"], context_text, detected_ids)
+            relevant_ids = gate.fetch_ids
+            get_client().update_current_span(metadata={"form_gate": {      # visible in LangFuse when configured
+                "candidates": detected_ids, "fetched": gate.fetch_ids, "skipped": gate.skipped, "fell_back": gate.fell_back}})
     else:
         relevant_ids = _judge_forms(state["query"], context_text, state.get("subdomain_hint"))
         if not relevant_ids:

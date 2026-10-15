@@ -99,6 +99,36 @@ class TestSelect(unittest.TestCase):
         self.assertEqual(r.fetch_ids, IDS)
 
 
+class TestDecisionIsRecorded(unittest.TestCase):
+    def test_log_line_has_candidates_fetch_skipped_reason_and_fallback_flag(self):
+        with self.assertLogs("rag.form_gate", level="INFO") as cm:
+            fg.select_forms("如何辦理休學", TOOL_TEXT, IDS,
+                            llm=lambda p: reply(QP_T01_03_02=True, QP_T01_03_04=False, QP_T01_02_05=True))
+        line = cm.output[0]
+        for needle in ("如何辦理休學", "QP-T01-03-04", "skipped={'QP-T01-03-04': 'r'}", "fell_back=False"):
+            self.assertIn(needle, line)
+
+    def test_fallback_is_logged_too(self):
+        with self.assertLogs("rag.form_gate", level="INFO") as cm:
+            fg.select_forms("q", TOOL_TEXT, IDS, llm=lambda p: "無")
+        self.assertTrue(any("fell_back=True" in l for l in cm.output))
+
+    def test_resource_node_puts_the_decision_on_the_trace_span(self):
+        from rag.agentic.nodes import resource
+        tool = mock.Mock()
+        tool.invoke.side_effect = lambda a: f"get_form 取得表單 {a['form_id']}\n\nbody"
+        client = mock.Mock()
+        state = {"query": "如何辦理休學", "subdomain_hint": "aca", "messages": [ToolMessage(content=TOOL_TEXT, tool_call_id="1")]}
+        res = fg.GateResult(["QP-T01-03-02"], {"QP-T01-03-04": "r"})
+        with mock.patch.dict(os.environ, {"FORM_GATE": "on"}), mock.patch.object(resource, "get_form_tool", tool), \
+                mock.patch.object(resource, "_detect_offices", return_value=[]), \
+                mock.patch.object(resource, "select_forms", return_value=res), \
+                mock.patch.object(resource, "get_client", return_value=client):
+            resource.resource_node(state)
+        meta = client.update_current_span.call_args.kwargs["metadata"]["form_gate"]
+        self.assertEqual((meta["fetched"], meta["skipped"], meta["fell_back"]), (["QP-T01-03-02"], {"QP-T01-03-04": "r"}, False))
+
+
 class TestResourceNodeWiring(unittest.TestCase):
     def _run(self, gate_env, gate_result=None):
         from rag.agentic.nodes import resource

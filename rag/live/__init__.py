@@ -14,6 +14,7 @@ _lvl = _os.environ.get("LIVE_LOG", "").strip().upper()
 if _lvl in ("DEBUG", "INFO", "WARNING"):
     _h = _logging.StreamHandler()
     _h.setFormatter(_logging.Formatter("[live] %(message)s"))
-    _log = _logging.getLogger("rag.live")
-    _log.setLevel(getattr(_logging, _lvl))
-    _log.addHandler(_h)
+    for _name in ("rag.live", "rag.form_gate"):
+        _log = _logging.getLogger(_name)
+        _log.setLevel(getattr(_logging, _lvl))
+        _log.addHandler(_h)
