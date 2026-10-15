@@ -18,6 +18,7 @@ from rag.agentic.logic.form_extraction import (
     _judge_forms, _extract_station_roles, _offices_from_role_keywords, _extract_checklist_blocks,
 )
 from rag.agentic.logic.office_detection import _detect_offices, _OFFICE_MARKER_RE
+from rag.agentic.logic.form_gate import gate_enabled, select_forms
 
 
 @observe(name="resource_node")
@@ -43,6 +44,8 @@ def resource_node(state: AgentState) -> dict:
     detected_ids = sorted(extract_form_ids(context_text)) if context_text else []
     if detected_ids:
         relevant_ids = detected_ids
+        if gate_enabled():          # P3.5 experiment, off by default: drop forms the page marks for another situation
+            relevant_ids = select_forms(state["query"], context_text, detected_ids).fetch_ids
     else:
         relevant_ids = _judge_forms(state["query"], context_text, state.get("subdomain_hint"))
         if not relevant_ids:
