@@ -13,12 +13,13 @@ from langfuse import observe, get_client
 
 from rag.agent_tools import extract_form_ids
 from rag.agentic.state import AgentState
+from rag.live.ledger import gate_none_message
 from rag.agentic.tools.form import get_form_tool
 from rag.agentic.logic.form_extraction import (
     _judge_forms, _extract_station_roles, _offices_from_role_keywords, _extract_checklist_blocks,
 )
 from rag.agentic.logic.office_detection import _detect_offices, _OFFICE_MARKER_RE
-from rag.agentic.logic.form_gate import gate_enabled, select_forms
+from rag.agentic.logic.form_gate import clean_page_text, gate_enabled, select_forms
 
 
 @observe(name="resource_node")
@@ -49,6 +50,13 @@ def resource_node(state: AgentState) -> dict:
             relevant_ids = gate.fetch_ids
             get_client().update_current_span(metadata={"form_gate": {      # visible in LangFuse when configured
                 "candidates": detected_ids, "fetched": gate.fetch_ids, "skipped": gate.skipped, "fell_back": gate.fell_back}})
+        if not relevant_ids:
+            # The gate decided this question needs none of the page's forms. Offices are normally discovered from
+            # the fetched forms' text (get_page_tool only scans the page itself when it lists NO form ids), so with
+            # no forms nothing would ever route to contact_node -- scan the page here instead.
+            offices = _detect_offices(clean_page_text(context_text))
+            # always leave a record in messages: the answer's 【資料狀態】 line says no form was fetched, and why
+            return {"messages": [HumanMessage(content=gate_none_message(detected_ids, offices))]}
     else:
         relevant_ids = _judge_forms(state["query"], context_text, state.get("subdomain_hint"))
         if not relevant_ids:

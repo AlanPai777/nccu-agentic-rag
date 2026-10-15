@@ -104,11 +104,14 @@ def needs_disclosure(sources: list[Source]) -> list[Source]:
     return [s for s in sources if s.status in NEEDS_DISCLOSURE]
 
 
-def status_section(sources: list[Source]) -> str:
-    """Empty string when nothing was read in `on` mode (so `off` answers are byte-for-byte unchanged)."""
-    if not sources:
+def status_section(sources: list[Source], gate_none: list[str] | None = None) -> str:
+    """Empty string when nothing was read in `on` mode and the form gate made no "none needed" call (so `off`
+    answers are byte-for-byte unchanged)."""
+    if not sources and not gate_none:
         return ""
     lines = [f"\n\n---\n{DISCLOSURE_HEADER}（由系統依實際抓取結果產生）"]
+    if gate_none:
+        lines.append(f"- 本題未抓取表單：頁面列有 {'、'.join(gate_none)}，表單閘門判斷與本題無關")
     for st in _ORDER:
         group = [s for s in sources if s.status == st]
         if not group:
@@ -126,9 +129,29 @@ def status_section(sources: list[Source]) -> str:
         tail.append(f"快照資料截至 {snap}")
     if tail:
         lines.append("- " + "；".join(tail))
-    if UNCHECKED_KINDS:
+    if sources and UNCHECKED_KINDS:
         lines.append(f"- 以上只涵蓋上列頁面；{'、'.join(UNCHECKED_KINDS)}尚未現場確認，仍為快照資料")
     return "\n".join(lines)
+
+
+_GATE_NONE_PREFIX = "[表單閘門判斷這題不需要抓取表單]"
+_GATE_NONE_RE = re.compile(r"\[gate:none candidates=([^\]]*)\]")
+
+
+def parse_gate_none(messages: list) -> list[str] | None:
+    """Candidate form ids the gate declined to fetch, if resource_node recorded a "none needed" verdict
+    (only trusted inside the HumanMessage that node itself wrote, identified by its fixed prefix)."""
+    for m in messages:
+        if isinstance(m, HumanMessage) and str(m.content).startswith(_GATE_NONE_PREFIX):
+            mk = _GATE_NONE_RE.search(str(m.content))
+            if mk:
+                return [c for c in mk.group(1).split(",") if c]
+    return None
+
+
+def gate_none_message(candidates: list[str], offices: list[str]) -> str:
+    text = f"{_GATE_NONE_PREFIX}\n[gate:none candidates={','.join(candidates)}]"
+    return text + (f"\n\n[偵測到辦公室: {', '.join(offices)}]" if offices else "")
 
 
 def split_footer(answer: str) -> tuple[str, str]:

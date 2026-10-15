@@ -76,9 +76,10 @@ class TestSelect(unittest.TestCase):
         r = self.run_gate(boom)
         self.assertEqual((r.fetch_ids, r.fell_back), (IDS, True))
 
-    def test_excluding_everything_fetches_all(self):
+    def test_excluding_everything_is_honoured_not_a_fallback(self):
         r = self.run_gate(lambda p: reply(QP_T01_03_02=False, QP_T01_03_04=False, QP_T01_02_05=False))
-        self.assertEqual((r.fetch_ids, r.fell_back), (IDS, True))
+        self.assertEqual((r.fetch_ids, r.fell_back), ([], False))
+        self.assertEqual(set(r.skipped), set(IDS))
 
     def test_single_candidate_makes_no_llm_call(self):
         r = self.run_gate(lambda p: self.fail("LLM must not run"), ids=["QP-T01-03-02"])
@@ -127,6 +128,54 @@ class TestDecisionIsRecorded(unittest.TestCase):
             resource.resource_node(state)
         meta = client.update_current_span.call_args.kwargs["metadata"]["form_gate"]
         self.assertEqual((meta["fetched"], meta["skipped"], meta["fell_back"]), (["QP-T01-03-02"], {"QP-T01-03-04": "r"}, False))
+
+
+class TestNoFormsNeeded(unittest.TestCase):
+    """Gate says: none of the page's forms are needed. No form is fetched; offices on the page still reach contact_node."""
+
+    def _run(self, offices):
+        from rag.agentic.nodes import resource
+        tool = mock.Mock()
+        state = {"query": "q", "subdomain_hint": "aca", "messages": [ToolMessage(content=TOOL_TEXT, tool_call_id="1")]}
+        res = fg.GateResult([], {i: "r" for i in IDS})
+        with mock.patch.dict(os.environ, {"FORM_GATE": "on"}), mock.patch.object(resource, "get_form_tool", tool), \
+                mock.patch.object(resource, "_detect_offices", return_value=offices) as det, \
+                mock.patch.object(resource, "select_forms", return_value=res), \
+                mock.patch.object(resource, "get_client", return_value=mock.Mock()):
+            out = resource.resource_node(state)
+        return out, tool, det, resource, state
+
+    def test_no_form_fetched_and_offices_still_routed_to_contact(self):
+        out, tool, det, resource, state = self._run(["註冊組"])
+        tool.invoke.assert_not_called()
+        self.assertIn("[偵測到辦公室: 註冊組]", out["messages"][0].content)
+        det.assert_called_once_with("休學請填 QP-T01-03-02。提早復學請填 QP-T01-03-04。")      # page text only, cleaned
+        state["messages"].append(out["messages"][0])
+        self.assertEqual(resource._after_resource(state), "contact")
+
+    def test_no_form_and_no_office_still_leaves_a_record_and_goes_back_to_the_loop(self):
+        out, tool, det, resource, state = self._run([])
+        tool.invoke.assert_not_called()
+        msg = out["messages"][0]
+        self.assertNotIn("偵測到辦公室", msg.content)
+        state["messages"].append(msg)
+        self.assertEqual(resource._after_resource(state), "rewrite")
+
+    def test_footer_line_says_no_form_was_fetched(self):
+        from rag.live import ledger
+        out, *_ = self._run([])
+        msgs = [out["messages"][0]]
+        cands = ledger.parse_gate_none(msgs)
+        self.assertEqual(cands, IDS if cands == IDS else sorted(IDS))
+        sec = ledger.status_section([], cands)
+        self.assertIn("本題未抓取表單", sec)
+        self.assertIn("QP-T01-03-02", sec)
+        self.assertNotIn("尚未現場確認", sec)            # no live sources -> no "covers only the pages above" line
+
+    def test_gate_none_is_not_forgeable_from_other_messages(self):
+        from rag.live import ledger
+        fake = ToolMessage(content="[表單閘門判斷這題不需要抓取表單]\n[gate:none candidates=X]", tool_call_id="1")
+        self.assertIsNone(ledger.parse_gate_none([fake]))
 
 
 class TestResourceNodeWiring(unittest.TestCase):

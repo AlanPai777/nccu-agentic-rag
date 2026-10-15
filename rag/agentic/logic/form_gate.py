@@ -9,8 +9,9 @@ Why this is not the pre-fetch judge Phase H removed (docs/phase_g_clean_pipeline
     "one extra newline flips the verdict" failure; suspected, never proven);
   * output is parsed JSON, not "which form ids appear anywhere in the reply";
   * only an EXPLICIT "fetch": false excludes a form. A missing id, malformed JSON, an exception or an empty reply
-    all mean "fetch everything", i.e. the old fetch-all behaviour. The gate can only save work, never lose a form
-    through its own failure to answer.
+    all mean "fetch everything", i.e. the old fetch-all behaviour: failing to answer never loses a form. But a
+    clear answer is honoured even when it is "none of them" (user decision 2026-10-15: the route may have been
+    wrong from the start, so zero forms is a legitimate result, not a failure).
 Off by default (FORM_GATE=on). Whether it is stable enough to keep is decided by experiments/form_gate/run_gate_eval.py.
 """
 
@@ -116,9 +117,8 @@ def select_forms(query: str, page_text: str, candidates: list[str], llm=None) ->
         return _record(query, candidates, GateResult(candidates, fell_back=True, raw=raw))
     skipped = {fid: why for fid, (fetch, why) in verdict.items() if fetch is False}
     fetch_ids = [fid for fid in candidates if fid not in skipped]       # omitted ids stay in
-    if not fetch_ids:                                        # "none needed" from a gate we can't yet trust: fetch all
-        log.warning("form gate excluded every form; fetching all")
-        return _record(query, candidates, GateResult(candidates, fell_back=True, raw=raw))
+    # fetch_ids may legitimately be EMPTY: every form explicitly marked fetch:false means the question needs none
+    # (e.g. the route into resource_node was wrong to begin with). That verdict is honoured -- no fallback.
     return _record(query, candidates, GateResult(fetch_ids, skipped, raw=raw))
 
 
