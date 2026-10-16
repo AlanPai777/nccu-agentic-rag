@@ -1069,6 +1069,18 @@ contact_node 偵測到辦公室
   - **`crawl4ai-setup` 不需要跑**（讀 `crawl4ai/install.py`）：它會①刪除並重建 `~/.crawl4ai/cache`；②執行 `playwright install --with-deps --force chromium`（強制重裝瀏覽器，`--with-deps` 會經 apt 裝系統函式庫、通常要 sudo）；③資料遷移。我們已有 Playwright Chromium（`~/.cache/ms-playwright`），所以跳過；若執行時缺瀏覽器再補。安裝後只需跑一次，不是每次。
   - 教訓：共用 venv 裝實驗性套件會動到共用相依；之後 P9 的 `mcp`、`docling`、`markitdown` 等實驗性安裝，先 `pip install --dry-run` 看會動到什麼。
 
+- **P6 實測（2026-10-16，`experiments/live_spikes/p6_crawl4ai.py --run`，一次樣本；結果 `_out/p6_crawl4ai.json`、`_out/p6_samples/`，gitignored）**：
+  - 條件：Crawl4AI 0.9.5 的 Chromium 渲染**全部 12 頁**（人員頁 9＋moltke 表單頁 3，不先用 httpx）；限速由我們的限速器控制起點間隔（osa 10 秒）；User-Agent 用我們的；`check_robots_txt=True`（**使用者 2026-10-16 要求開啟**，我原本誤關：它做 Allow／Disallow、快取 7 天、取不到就放行、**不處理 Crawl-delay**、用自己的 aiohttp 送 `robots.txt`、不經我們的限速器）；`ignore_https_errors=True`（瀏覽器全域設定，不能只對 cashier 開）。不呼叫 LLM（聯絡人解析只用正規式，與 `measure_contacts.py` 同條件）。
+  - **成功率 12/12**（HTTP 200；moltke 為 302 後的結果頁）。**人名與分機召回：9 頁的解析人數與 A 組完全一致**（aca 6／5、osa 20／8／6／30、cashier 11、lib 6、oic 29），且每個解析出的姓名與分機都出現在 Crawl4AI 的 Markdown 裡（全部 9 頁 N/N）。我們的抽取器吃它的**原始 HTML** 得到的文字字數與 A 組逐頁相同（2883／1730／8530／2853／2256／11821／2734／1799／5730）。**格式相容：原始 HTML 可取得（`result.html`），表單編號正規式命中，`goFile(` token 在 HTML 裡都在（4／3／3）。**
+  - **延遲**：12 頁 46.3 秒（其中 osa 4 頁的間隔下限 30 秒；啟動瀏覽器約 2.5 秒）；每頁 3.0～4.9 秒。A 組 9 頁 30.4 秒、其中 8 頁用 httpx（約 1 個請求、不到 1～2 秒）。兩者的下限都是 osa 的 30 秒，所以牆鐘差距只有十幾秒，但 Crawl4AI 每頁都付瀏覽器渲染成本。**記憶體：整個程序樹峰值約 2065 MB**（A 組未用同樣方式量；其 Chromium 只在 oic 時啟動、閒置 10 分鐘才關）。
+  - **Markdown 能不能比較好用**：**對我們的用途不比較好，反而有兩個問題。**①它的 Markdown 是整頁含導覽列、選單、頁尾，字數 9,475～133,892（osa 4 頁 11～13 萬字、aca 6～7 萬字，我們抽取後只有 1,730～11,821 字）；所有連結（aca 約 400、osa 約 500 條）都在裡面。②**moltke 表單頁的 `goFile('token')` 在 Markdown 裡被改成 `viewFormDetail.jsp#`，token 遺失**，而我們靠 token 取得 PDF——所以表單這一步仍必須用原始 HTML。Markdown 的優點：表格轉成 Markdown 表格、連結標題保留、表單基本資訊（承辦單位、修訂日期）可讀。結論：Markdown 可當對照或其他用途，**不是我們抽取器的替代品**；原始 HTML 加我們的抽取器仍是主路徑。
+  - **robots**：其 robots 檢查啟用且沒有任何頁面被擋（12/12 成功）。它多送的 `robots.txt` 請求數沒有量（未驗證）；不處理 Crawl-delay，所以 osa 的間隔仍靠我們的限速器。**我們自己的程式碼目前沒有檢查 Allow／Disallow**（只在設定檔有 osa 的 Crawl-delay）——這是 Crawl4AI 比 A 組多出來的一項能力，也是目前 A 組的缺口，與是否採用 Crawl4AI 無關，可單獨補。
+  - **PDF／圖片（讀套件原始碼，未實測、未送請求）**：函式庫有 `CrawlerRunConfig(pdf=True)`（把「頁面」輸出成 PDF，像列印）與 `screenshot=True`（截圖），這就是「支援圖片／PDF」的意思；另有 `PDFCrawlerStrategy`／`NaivePDFProcessorStrategy` 可讀遠端 PDF 的文字（內建下載上限 100 MiB、2000 頁、5 次轉址）。**沒有測它的中文 PDF 表格效果**；我們現有 pdfplumber 路徑已能用。
+  - **授權與維運**：Apache-2.0；34 個必要依賴；**安裝會升級共用 venv 的 numpy（見上）**；每次執行會印雲端服務橫幅（可用 `CRAWL4AI_NO_CLOUD_NOTICE=1` 關掉）；版本更新快（0.9.4→0.9.5 在計畫寫成後即更新）。
+  - **評分卡（§5.17 準則）**：JS 人員頁成功率——持平（A 也 9/9）；12 頁並行延遲——**未勝出**（每頁都付渲染成本，記憶體約 2 GB；牆鐘只因 osa 下限而接近）；程式碼量與維護——能省的只有 `browser.py` 的池與崩潰重啟（約 300 行），但要多一個快速變動的依賴、動到共用環境；格式相容——**通過**（HTML 完整）。依準則，「勝出」這一條不成立，**不取代 A**。
+  - **未驗證／限制**：單次樣本；沒有量請求數與子資源數；沒有測 `arun_many` 的並行與記憶體自適應分派器（為了維持我們的限速，沒有使用）；沒有測它對 JS 重頁的其他等待選項（`wait_for`）；沒有測中文 PDF；沒有測 Docker 服務（組合 C）；`ignore_https_errors` 全域開啟與 A 組只對 cashier 開不同。
+  - **結論（待使用者決定）**：Crawl4AI 能用、HTML 完整、人員頁召回與 A 組完全一致，但在我們已有 httpx 優先＋按需 Chromium 的架構下沒有勝出（慢、吃記憶體、多一個依賴），Markdown 也無法取代我們的抽取器。建議：**不採用為主路徑；保留已安裝作對照**；另外記下「補上 robots.txt 的 Allow／Disallow 檢查」為 A 組的缺口。
+
 ### P7　`recent_node`
 - 範圍：`timeintent`、`dates`、`registry.json`、`recent.py`、答案形狀；先 2～3 個網域，再擴大；擴大前重新評估 D11（User-Agent／知會計中）。
 - 驗收：fixture 測試（日期解析、列表解析、分頁與置頂）；「10/14 哪些處室有更新」**跑一次看結果**，有答案再討論。
