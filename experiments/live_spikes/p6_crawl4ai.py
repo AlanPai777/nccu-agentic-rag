@@ -30,6 +30,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 OUT = Path(__file__).parent / "_out"
+COUNT = False                                           # set from --count in main()
 OFFICES = ["註冊組", "教務長室", "住宿輔導組", "生活事務暨僑生輔導組", "原住民族學生資源中心", "身心健康中心", "出納組",
            "圖書館(各組聯絡資訊)", "國際合作事務處"]
 FORMS = ["QP-T01-02-05", "QP-T01-03-02", "QP-T01-03-04"]
@@ -57,7 +58,8 @@ async def _crawl(targets: list[tuple[str, str]], limiter, progress) -> list[dict
     # ignore_https_errors is browser-wide in Crawl4AI (stack A skips TLS verification only for cashier); True here so cashier can be read
     browser = BrowserConfig(headless=True, user_agent=config.USER_AGENT, verbose=False, ignore_https_errors=True)
     run = CrawlerRunConfig(cache_mode=CacheMode.BYPASS, wait_until="load", page_timeout=config.REQUEST_TIMEOUT * 1000,
-                           delay_before_return_html=config.RENDER_SETTLE_MS / 1000, verbose=False, check_robots_txt=True)
+                           delay_before_return_html=config.RENDER_SETTLE_MS / 1000, verbose=False, check_robots_txt=True,
+                           capture_network_requests=COUNT)
     t0 = time.monotonic()
     peak = {"mb": 0.0}
 
@@ -78,7 +80,7 @@ async def _crawl(targets: list[tuple[str, str]], limiter, progress) -> list[dict
         try:
             r = await crawler.arun(url=url, config=run)
             res.update(ok=bool(r.success), status=r.status_code, error=(r.error_message or "")[:200],
-                       html=r.html or "", markdown=str(r.markdown or ""),
+                       net=list(r.network_requests or []), html=r.html or "", markdown=str(r.markdown or ""),
                        raw_markdown=str(getattr(r.markdown, "raw_markdown", "") or ""))
         except Exception as e:                           # noqa: BLE001 -- failure is data
             res.update(ok=False, status=None, error=f"{type(e).__name__}: {e}"[:200], html="", markdown="", raw_markdown="")
@@ -102,15 +104,19 @@ async def _crawl(targets: list[tuple[str, str]], limiter, progress) -> list[dict
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", action="store_true")
-    run = ap.parse_args().run
+    ap.add_argument("--count", action="store_true", help="staff pages only, record every network request Crawl4AI's Chromium makes")
+    args = ap.parse_args()
+    run, count = args.run, args.count
 
     from rag.live import config
     from rag.live.allowlist import host_of
     from rag.live.contacts import plan_pages
     from rag.live.forms import link_url_for
 
+    global COUNT
+    COUNT = count
     pages, _ = plan_pages(OFFICES)
-    targets = [(u, "staff") for u in pages] + [(link_url_for(f), "form") for f in FORMS]
+    targets = [(u, "staff") for u in pages] + ([] if count else [(link_url_for(f), "form") for f in FORMS])
     if not run:
         print("DRY RUN. Would send, through Crawl4AI's Chromium (all pages rendered, none httpx-first), our limiter pacing request starts "
               "per host, our User-Agent:")
@@ -147,7 +153,11 @@ def main() -> None:
             contacts = parse_office_contacts(text) if (text and r["kind"] == "staff") else []
             md = r["markdown"]
             b = base.get(unquote(r["url"]), {})
-            row = {"url": unquote(r["url"]), "kind": r["kind"], "host": r["host"], "ok": r["ok"], "status": r["status"], "error": r["error"],
+            reqs = [e for e in r.get("net", []) if e.get("event_type") == "request"]
+            row = {"net_requests": len(reqs), "net_nccu": sum(".nccu.edu.tw" in e["url"] or "//nccu.edu.tw" in e["url"] for e in reqs),
+                   "net_failed": sum(e.get("event_type") == "request_failed" for e in r.get("net", [])),
+                   "net_by_type": {t: sum(e.get("resource_type") == t for e in reqs) for t in sorted({e.get("resource_type") for e in reqs}, key=str)},
+                   "url": unquote(r["url"]), "kind": r["kind"], "host": r["host"], "ok": r["ok"], "status": r["status"], "error": r["error"],
                    "seconds": r["seconds"], "html_chars": len(r["html"]), "our_text_chars": len(text), "our_text_error": err,
                    "contacts_parsed": len(contacts) if r["kind"] == "staff" else None,
                    "baseline_contacts": b.get("contacts_parsed"), "baseline_chars": b.get("chars"), "baseline_method": b.get("method"),
@@ -163,7 +173,12 @@ def main() -> None:
     peak = max((r["_peak_rss_mb"] for r in results), default=0)
     out = {"wall_seconds": round(wall, 1), "peak_rss_mb_process_tree": peak, "rows": rows}
     OUT.mkdir(exist_ok=True)
-    (OUT / "p6_crawl4ai.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    (OUT / ("p6_crawl4ai_count.json" if count else "p6_crawl4ai.json")).write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    if count:
+        print("\nnetwork requests per page (Crawl4AI Chromium) vs our Playwright (2026-10-16 passive count: osa 56, aca 30, cashier 63, lib 22, oic 37):")
+        for r in rows:
+            print(f"  {r['net_requests']:4d} total, {r['net_nccu']:4d} to nccu.edu.tw, failed {r['net_failed']}  {r['net_by_type']}  {r['url'][:60]}")
+        print(f"  TOTAL {sum(r['net_requests'] for r in rows)} (ours: 406 for the same 9 pages)")
     print(f"\nwall {wall:.1f}s for {len(rows)} pages; peak RSS of the process tree ~{peak} MB "
           f"(stack A for the 9 staff pages: 30.4 s, 46 requests, only oic in Chromium)\n")
     print(f"{'host':22s} {'kind':5s} {'ok':3s} {'sec':>5} {'html':>6} {'ourtxt':>6} {'md':>6} {'ppl':>4} {'A-ppl':>5} {'A-chars':>7}")
