@@ -682,9 +682,12 @@ class OfficeLookupSkill:
         # fallback only when the dynamic index has nothing for this office.
         contacts, dynamic_urls = dynamic_contacts_for_office(
             office, texts=live.texts if live else None, parsed=live.parsed if live else None)
+        from_known = False
         if not contacts:
             contacts = KNOWN_CONTACTS.get(office, [])
+            from_known = bool(contacts)
         entry: dict = {
+            "contacts_source": "known_contacts" if from_known else "page",   # Phase J: lets the answer say it is fixed data
             "office":    office,
             "floor":     KNOWN_FLOORS.get(office),
             "phones":    [],

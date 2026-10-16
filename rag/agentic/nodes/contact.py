@@ -67,4 +67,25 @@ def contact_node(state: AgentState) -> dict:
         f"是否每個都要寫進最終答案由你根據問題判斷，不要假設清單已經先篩過。]"
     )
     context = header + "\n\n" + skill.format_context(result)
+    if live_mode() == "on":
+        context = _with_ledger(context, offices, result, live)
     return {"messages": [HumanMessage(content=context)]}
+
+
+def _with_ledger(context: str, offices: list[str], result: dict, live) -> str:
+    """Phase J: one marker per staff page that was (or should have been) checked live, one per office that fell back to the
+    hard-coded KNOWN_CONTACTS, and the list of offices that got no live check at all -- so the answer's 【資料狀態】 can say
+    exactly which people data is confirmed and which is not. The body is sanitized first: page-derived names/duties can
+    never contain a marker of their own."""
+    from rag.live import config
+    from rag.live.clock import taipei_minute
+    from rag.live.ledger import FIXED_DATA, contact_markers_text, make_marker, sanitize
+    markers: list[str] = []
+    if live is not None:
+        markers += [make_marker(o.url, o.state, o.checked, (o.snapshot_at or config.SNAPSHOT_ASOF)[:10], False, kind="contact")
+                    for o in live.pages.values()]
+    now = taipei_minute()
+    markers += [make_marker("fixed://KNOWN_CONTACTS/" + office, FIXED_DATA, now, "", False, kind="contact")
+                for office, entry in result.items() if entry.get("contacts_source") == "known_contacts"]
+    uncovered = list(offices) if live is None else live.uncovered
+    return sanitize(context) + "\n\n" + contact_markers_text(markers, uncovered)

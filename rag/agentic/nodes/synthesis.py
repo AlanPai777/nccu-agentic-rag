@@ -18,7 +18,7 @@ from langfuse import observe, get_client
 
 from rag.agentic.nodes.loop import _llm
 from rag.agentic.state import AgentState
-from rag.live.ledger import parse_gate_none, parse_markers, status_section
+from rag.live.ledger import parse_gate_none, parse_markers, parse_uncovered, status_section
 
 _SYNTHESIS_PROMPT = """你是政大學務問答系統的最終答案撰寫者，讀取以下對話歷史（已找到的頁面內容、表單全文、辦公室聯絡資訊），撰寫一則完整、有根據的答案。
 
@@ -99,7 +99,8 @@ def synthesis_node(state: AgentState) -> dict:
     answer = _invoke_synthesis_llm(prompt).content
     # Phase J: the data-status section is written by program from the source ledger, not by the LLM. Empty
     # (answer unchanged) unless pages were read with LIVE_FETCH=on.
-    answer += status_section(parse_markers(state["messages"]), parse_gate_none(state["messages"]))
+    answer += status_section(parse_markers(state["messages"]), parse_gate_none(state["messages"]),
+                              parse_uncovered(state["messages"]))
     # Also append to messages (not just state["answer"]) so the conclusion
     # survives into the next turn via the add_messages reducer -- state["answer"]
     # itself gets reset to None by every new turn's initial_state() and no node

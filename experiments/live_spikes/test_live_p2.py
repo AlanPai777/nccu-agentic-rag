@@ -169,7 +169,7 @@ class TestSynthesisFooter(unittest.TestCase):
 
     def test_footer_appended_by_program(self):
         mk = ledger.make_marker("https://aca.nccu.edu.tw/a", "snapshot_fallback", "2026-10-14T19:05", "2026-08-19")
-        out = self._run([ToolMessage(content=f"h\n{mk}\n\n全文：\nbody", tool_call_id="t")])
+        out = self._run([ToolMessage(content=f"get_page 取得 1 字\n{mk}\n\n全文：\nbody", tool_call_id="t")])
         self.assertTrue(out["answer"].startswith("LLM 答案"))
         self.assertIn(ledger.DISCLOSURE_HEADER, out["answer"])
         self.assertEqual(out["messages"][0].content, out["answer"])
@@ -180,7 +180,7 @@ class TestStage1Disclosure(unittest.TestCase):
 
     def state(self, answer, extra=()):
         return {"answer": answer, "query_type": "knowledge",
-                "messages": [ToolMessage(content=f"h\n{self.MK}\n\n全文：\nb", tool_call_id="t"), *extra]}
+                "messages": [ToolMessage(content=f"get_page 取得 1 字\n{self.MK}\n\n全文：\nb", tool_call_id="t"), *extra]}
 
     def test_fallback_without_disclosure_fails(self):
         from rag.agentic.logic.self_eval_checks import stage1_checklist
@@ -202,7 +202,7 @@ class TestStage1Disclosure(unittest.TestCase):
     def test_live_confirmed_pages_need_no_disclosure(self):
         from rag.agentic.logic.self_eval_checks import stage1_checklist
         mk = ledger.make_marker("https://aca.nccu.edu.tw/a", "live_same", "x", "x")
-        st = {"answer": "x", "query_type": "knowledge", "messages": [ToolMessage(content=f"h\n{mk}\n\n全文：\nb", tool_call_id="t")]}
+        st = {"answer": "x", "query_type": "knowledge", "messages": [ToolMessage(content=f"get_page 取得 1 字\n{mk}\n\n全文：\nb", tool_call_id="t")]}
         self.assertEqual(stage1_checklist(st), [])
 
     def test_off_mode_no_markers_no_failure(self):

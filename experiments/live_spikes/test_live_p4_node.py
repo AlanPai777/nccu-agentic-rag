@@ -30,6 +30,12 @@ from rag.live.schedule import RenderScheduler  # noqa: E402
 OFFICES = tc.OFFICES
 
 
+def strip_ledger(text: str) -> str:
+    """Drop the ledger section contact_node appends in `on` mode (it starts after a blank line with a marker line)."""
+    cuts = [i for i in (text.find("\n\n[live:src"), text.find("\n\n[contacts:")) if i >= 0]
+    return text[:min(cuts)] if cuts else text
+
+
 class NodeBase(tc.Base):
     def setUp(self):
         super().setUp()
@@ -92,10 +98,10 @@ class TestOn(NodeBase):
 
     def test_when_every_render_fails_the_answer_is_the_snapshot_answer(self):
         fail = {u: (lambda uu: RenderResult(uu, error="timeout", detail="x")) for u, _ in self.page_of.values()}
-        self.assertEqual(self.live_node(override=fail), self.node())
+        self.assertEqual(strip_ledger(self.live_node(override=fail)), self.node())
 
     def test_when_the_live_machinery_itself_breaks_the_answer_is_the_snapshot_answer(self):
-        self.assertEqual(self.live_node(scheduler_raises=True), self.node())
+        self.assertEqual(strip_ledger(self.live_node(scheduler_raises=True)), self.node())
 
     def test_an_office_the_index_does_not_cover_still_gets_its_snapshot_answer(self):
         offices = ["教務長室", "不存在的處室"]
