@@ -58,6 +58,9 @@ MAX_BODY_BYTES = 20_000_000
 BROWSER_IDLE_SECONDS = _env_float("LIVE_BROWSER_IDLE", 600.0)     # close Chromium after this long unused (estimate)
 RENDER_SETTLE_MS = _env_int("LIVE_RENDER_SETTLE_MS", 2000)        # wait after `load` for late JS (same as fetch_office_contacts.py)
 RENDER_NAV_TIMEOUT_MS = int(REQUEST_TIMEOUT * 1000)               # D8: one page, 60 s
+# Starting guess for how long one render takes, used by the scheduler until it has seen real ones (then it uses their
+# running mean). 3 s = P0's measurement on nine staff pages; the 2026-08-25 index crawl averaged 6.4 s per URL.
+RENDER_ESTIMATE_SECONDS = _env_float("LIVE_RENDER_ESTIMATE", 3.0)
 
 # --- rate limiting (§5.5) -------------------------------------------------------------------
 GLOBAL_CONCURRENCY = _env_int("LIVE_GLOBAL_CONCURRENCY", 4)  # prototype start; raise if no throttling seen

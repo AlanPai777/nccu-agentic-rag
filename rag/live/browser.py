@@ -21,13 +21,14 @@ changing the `render()` signature.
 from __future__ import annotations
 
 import atexit
+import contextlib
 import logging
 import queue
 import threading
 import time
 from concurrent.futures import Future
 from dataclasses import dataclass
-from typing import Callable, Protocol
+from typing import Callable, ContextManager, Protocol
 
 from rag.live import config
 
@@ -148,8 +149,10 @@ _STOP = object()
 
 class BrowserOwner:
     def __init__(self, backend_factory: Callable[[], Backend] = PlaywrightBackend,
-                 idle_seconds: float | None = None, name: str = "browser-owner"):
+                 idle_seconds: float | None = None, name: str = "browser-owner",
+                 around: Callable[[str], ContextManager] | None = None):
         self._factory = backend_factory
+        self._around = around          # url -> context manager held while that page renders (rate limiting)
         self._idle = config.BROWSER_IDLE_SECONDS if idle_seconds is None else idle_seconds
         self._name = name
         self._q: queue.Queue = queue.Queue()
@@ -213,7 +216,8 @@ class BrowserOwner:
                 return RenderResult(url, error="start_failed", detail=self._last_start_error,
                                     elapsed=time.monotonic() - t0)
             try:
-                res = self._backend.render(url)
+                with (self._around(url) if self._around else contextlib.nullcontext()):
+                    res = self._backend.render(url)
                 res.elapsed = res.elapsed or (time.monotonic() - t0)
                 return res
             except BrowserCrashed as e:

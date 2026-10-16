@@ -47,6 +47,12 @@ class RateLimiter:
             with self._global:
                 yield
 
+    def wait_time(self, host: str) -> float:
+        """Seconds until `host` may start another request (0 if now). Does not reserve anything: the scheduler uses
+        it to pick a page whose host is ready instead of idling behind a Crawl-delay."""
+        with self._lock:
+            return max(0.0, self._next_start.get(host, 0.0) - self._clock())
+
     def penalize(self, host: str, seconds: float) -> None:
         """Server said Retry-After: push this host's next start out."""
         with self._lock:
