@@ -453,7 +453,8 @@ def index_records_for_office(office: str) -> list[dict]:
     return [rec for name in record_names for rec in index.get(name, [])]
 
 
-def dynamic_contacts_for_office(office: str, texts: dict[str, str] | None = None) -> tuple[list[dict], list[str]]:
+def dynamic_contacts_for_office(office: str, texts: dict[str, str] | None = None,
+                                parsed: dict[str, list[dict]] | None = None) -> tuple[list[dict], list[str]]:
     """
     Primary contact lookup for `office` (Phase F condition 4) — queries
     office_contacts_index.jsonl, parses each matching record's raw text, and
@@ -489,7 +490,9 @@ def dynamic_contacts_for_office(office: str, texts: dict[str, str] | None = None
     doesn't cover the office.
 
     `texts` (Phase J, P4): optional {url: page text} that replaces a record's stored `text` for that url -- the live
-    path passes the text it decided to use (live or snapshot). None (the default) = the index text, exactly as before."""
+    path passes the text it decided to use (live or snapshot). None (the default) = the index text, exactly as before.
+    `parsed` ({url: contacts}) are contacts the live pipeline has ALREADY parsed from that text -- used as is, so a
+    page whose parse needs an LLM call is not parsed (and not paid for) a second time."""
     contacts: list[dict] = []
     seen_exts: set[str] = set()
     urls: list[str] = []
@@ -497,8 +500,12 @@ def dynamic_contacts_for_office(office: str, texts: dict[str, str] | None = None
         url = rec.get("url")
         if url and url not in urls:
             urls.append(url)
-        text = texts[url] if texts is not None and url in texts else rec.get("text", "")
-        for c in parse_office_contacts(text):
+        if parsed is not None and url in parsed:
+            page_contacts = parsed[url]
+        else:
+            text = texts[url] if texts is not None and url in texts else rec.get("text", "")
+            page_contacts = parse_office_contacts(text)
+        for c in page_contacts:
             if c["ext"] in seen_exts:
                 continue
             seen_exts.add(c["ext"])
@@ -655,7 +662,7 @@ class OfficeLookupSkill:
         # info["生僑組"] = {"floor": "行政大樓 3 樓", "phones": [...], "note": "..."}
     """
 
-    def _lookup_one(self, office: str) -> dict:
+    def _lookup_one(self, office: str, live=None) -> dict:
         """
         Everything run() needs to compute for ONE office. Extracted so run()
         can dispatch offices across a thread pool (Phase F Step 4.5 timing:
@@ -673,7 +680,8 @@ class OfficeLookupSkill:
         """
         # Condition 4: dynamic lookup is primary; KNOWN_CONTACTS is the
         # fallback only when the dynamic index has nothing for this office.
-        contacts, dynamic_urls = dynamic_contacts_for_office(office)
+        contacts, dynamic_urls = dynamic_contacts_for_office(
+            office, texts=live.texts if live else None, parsed=live.parsed if live else None)
         if not contacts:
             contacts = KNOWN_CONTACTS.get(office, [])
         entry: dict = {
@@ -743,11 +751,13 @@ class OfficeLookupSkill:
 
         return entry
 
-    def run(self, offices: list[str]) -> dict[str, dict]:
+    def run(self, offices: list[str], live=None) -> dict[str, dict]:
+        """`live` (rag.live.contacts.ContactsResult, Phase J P4) supplies the staff-page texts/parses decided by the live
+        check; None = the snapshot path, exactly as before."""
         if len(offices) <= 1:
-            return {o: self._lookup_one(o) for o in offices}
+            return {o: self._lookup_one(o, live) for o in offices}
         with ThreadPoolExecutor(max_workers=len(offices)) as ex:
-            entries = list(ex.map(self._lookup_one, offices))
+            entries = list(ex.map(lambda o: self._lookup_one(o, live), offices))
         return dict(zip(offices, entries))
 
     def format_context(self, lookup_result: dict[str, dict]) -> str:

@@ -59,6 +59,18 @@ class ContactsResult:
     def texts(self) -> dict[str, str]:
         return {u: p.text for u, p in self.pages.items()}
 
+    @property
+    def parsed(self) -> dict[str, list]:
+        """Contacts the handler already parsed, for pages where it succeeded and returned a list."""
+        return {u: p.handled for u, p in self.pages.items() if isinstance(p.handled, list) and not p.handler_error}
+
+
+def default_scheduler() -> RenderScheduler:
+    """The process-wide browser-owner thread, paced by the same limiter as the httpx fetcher."""
+    from rag.live.browser import get_owner
+    from rag.live.hook import get_fetcher
+    return RenderScheduler(get_owner().render, get_fetcher().limiter)
+
 
 def _default_handler(outcome: PageOutcome):
     from rag.skills.office_lookup_skill import parse_office_contacts

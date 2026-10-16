@@ -8,11 +8,16 @@ Ported directly from rag/agentic_main.py.
 
 from __future__ import annotations
 
+import logging
+
 from langchain_core.messages import HumanMessage
 from langfuse import observe
 
 from rag.agentic.state import AgentState
 from rag.agentic.logic.office_detection import _detect_offices
+from rag.live.config import live_mode
+
+log = logging.getLogger("rag.live")
 
 
 @observe(name="contact_node")
@@ -45,7 +50,17 @@ def contact_node(state: AgentState) -> dict:
         return {}
     from rag.skills.office_lookup_skill import OfficeLookupSkill
     skill = OfficeLookupSkill()
-    result = skill.run(offices)
+    live = None
+    if live_mode() == "on":
+        # Phase J P4: read the offices' staff pages live (Chromium), keep the snapshot where nothing changed. Any
+        # failure here must leave the snapshot answer intact -- the live check is an addition, never a dependency.
+        try:
+            from rag.live.contacts import default_scheduler, fetch_contact_pages
+            live = fetch_contact_pages(offices, default_scheduler())
+        except Exception as e:                           # noqa: BLE001
+            log.warning("live contact check failed, using the snapshot: %s: %s", type(e).__name__, e)
+            live = None
+    result = skill.run(offices, live=live)
     header = (
         f"[辦公室聯絡資訊，以下是內容中提及的全部 {len(offices)} 個辦公室（{'、'.join(offices)}），"
         f"未經相關性篩選——這是完整清單，不代表每一個都跟這題直接相關。"
