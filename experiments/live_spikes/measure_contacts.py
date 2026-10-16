@@ -1,13 +1,16 @@
 """
 experiments/live_spikes/measure_contacts.py
-P4 step 7: what does reading the 休學 chain's nine staff pages live really cost? Uses the REAL stack (browser-owner thread,
-scheduler, shared rate limiter, fixed extractor) on the nine index pages, with NO parsing and NO LLM (handler is a no-op).
-Reports per page: render time, the HTTP requests the page made (and how many went to *.nccu.edu.tw -- a page visit loads
-images/CSS/JS, not just the HTML), the state against the 2026-08-25 index, and for the whole run: wall time and the order
-the scheduler chose.
+P4 H5: what does reading the 休學 chain's nine staff pages live cost with "httpx first"? Uses the REAL stack (httpx fetcher with the
+shared rate limiter, escalation rules A/B/C, browser-owner thread for escalated pages, fixed extractor). The contact parser's LLM
+fallback is replaced by a stub that returns nothing, so this run makes NO LLM calls (the regex parse is still real, so rule C is
+judged on real parse results; a page that would normally be re-read by the LLM just keeps its regex candidates here).
 
-    python experiments/live_spikes/measure_contacts.py          # dry-run: lists what would be loaded, sends nothing
-    python experiments/live_spikes/measure_contacts.py --run    # loads the nine pages in Chromium (needs user approval)
+Reports per page: method (httpx / chromium), why it was escalated (if it was), time, requests (httpx GETs, and for escalated pages
+everything Chromium loaded), state against the 2026-08-25 index. And: total requests, wall time. For comparison, the earlier
+all-Chromium run (step 7, 2026-10-16): 406 requests, 35.1 s.
+
+    python experiments/live_spikes/measure_contacts.py          # dry-run: lists what would be requested, sends nothing
+    python experiments/live_spikes/measure_contacts.py --run    # runs it (needs user approval: requests to nccu.edu.tw)
 """
 
 from __future__ import annotations
@@ -17,6 +20,7 @@ import json
 import sys
 import time
 from pathlib import Path
+from unittest import mock
 from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -34,62 +38,74 @@ def main() -> None:
 
     from rag.live import config
     from rag.live.allowlist import host_of
-    from rag.live.contacts import fetch_contact_pages, plan_pages
-    from rag.live.schedule import RenderScheduler
+    from rag.live.contacts import default_backends, fetch_contact_pages, plan_pages
 
-    pages, uncovered = plan_pages(OFFICES)
+    pages, _ = plan_pages(OFFICES)
     if not run:
-        print("DRY RUN. Would load these pages in headless Chromium (TLS verified, default Chromium UA, load + "
-              f"{config.RENDER_SETTLE_MS} ms settle, fresh context each, no parsing, no LLM):")
+        print("DRY RUN. Would send (httpx, rate-limited per host, default User-Agent of the live fetcher; cashier without TLS "
+              "verification as decided):")
         for u, info in pages.items():
             pol = config.host_policy(host_of(u))
-            print(f"  {unquote(u)[:84]}   [{host_of(u)}: >= {pol.min_interval:g}s apart]  offices={info['offices']}")
+            print(f"  GET {unquote(u)[:84]}   [{host_of(u)}: >= {pol.min_interval:g}s apart]  offices={info['offices']}")
         osa = sum(1 for u in pages if host_of(u) == "osa.nccu.edu.tw")
-        print(f"\n{len(pages)} page loads ({osa} on osa.nccu.edu.tw, 10 s apart => at least {max(0, osa - 1) * 10} s of waiting). "
-              "Each load also fetches the page's images/CSS/JS (the fixtures show roughly 10-70 sub-requests per page); the "
-              "run counts them. Wall time estimate 33-50 s (simulation + P0 numbers; not measured).")
-        print("Pass --run to load them.")
+        print(f"\n{len(pages)} httpx GETs ({osa} on osa.nccu.edu.tw, 10 s apart => at least {max(0, osa - 1) * 10} s). A page is then sent "
+              f"to Chromium only if its static copy looks insufficient (similarity to the snapshot < {config.STATIC_SIMILARITY_MIN:g}, "
+              "no content, 403, or no contact parsed). Expected from the 2026-10-14 recordings: only oic.nccu.edu.tw, which then "
+              "loads its page and ~35 sub-resources in Chromium (started on demand, closed at the end). No LLM calls.")
+        print("Estimated total: ~9 httpx requests + ~37 Chromium requests, wall ~31-35 s (osa floor). Not measured. Pass --run.")
         return
 
+    import rag.skills.office_lookup_skill as skill
     from rag.live.browser import get_owner
     from rag.live.hook import get_fetcher
 
-    owner, limiter = get_owner(), get_fetcher().limiter
-    t0 = time.monotonic()
+    fetch_static, render = default_backends()
     timeline: list[dict] = []
+    t0 = time.monotonic()
 
-    def submit(url: str):
-        timeline.append({"t": round(time.monotonic() - t0, 2), "event": "submit", "url": unquote(url)})
-        fut = owner.render(url)
-        fut.add_done_callback(lambda f, u=url: timeline.append({"t": round(time.monotonic() - t0, 2), "event": "done", "url": unquote(u)}))
+    def timed_static(url):
+        timeline.append({"t": round(time.monotonic() - t0, 2), "event": "httpx-start", "url": unquote(url)})
+        r = fetch_static(url)
+        timeline.append({"t": round(time.monotonic() - t0, 2), "event": "httpx-done", "url": unquote(url), "ok": r.ok, "error": r.error})
+        return r
+
+    def timed_render(url):
+        timeline.append({"t": round(time.monotonic() - t0, 2), "event": "chromium-submit", "url": unquote(url)})
+        fut = render(url)
+        fut.add_done_callback(lambda f, u=url: timeline.append({"t": round(time.monotonic() - t0, 2), "event": "chromium-done", "url": unquote(u)}))
         return fut
 
-    sched = RenderScheduler(submit, limiter)
     try:
-        res = fetch_contact_pages(OFFICES, sched, handler=lambda o: None)
+        with mock.patch.object(skill, "_llm_extract_contacts", lambda text: []):          # no LLM in this run
+            res = fetch_contact_pages(OFFICES, timed_static, timed_render)
     finally:
-        owner.shutdown()
+        get_owner().shutdown()
     wall = time.monotonic() - t0
+    _ = get_fetcher
 
     rows = []
-    for u in sched.order:
-        o = res.pages[u]
-        rows.append({"url": unquote(u), "host": host_of(u), "offices": o.offices, "state": o.state, "error": o.error,
-                     "render_s": round(o.render_seconds, 2), "requests": o.requests, "requests_nccu": o.requests_nccu, "chars": len(o.text), "snapshot_chars": len(o.snapshot_text),
+    for u, o in res.pages.items():
+        rows.append({"url": unquote(u), "host": host_of(u), "offices": o.offices, "method": o.method, "escalated": o.escalated,
+                     "state": o.state, "error": o.error, "seconds": round(o.render_seconds, 2),
+                     "requests": o.requests, "static_requests_before_escalating": o.static_requests,
+                     "tls_unverified": o.tls_unverified, "chars": len(o.text), "snapshot_chars": len(o.snapshot_text),
+                     "contacts_parsed": len(o.handled) if isinstance(o.handled, list) else None,
                      "diff": o.comparison.summary() if o.comparison else ""})
-    out = {"wall_seconds": round(wall, 1), "order": [unquote(u) for u in sched.order], "rows": rows, "timeline": timeline}
+    total_requests = sum(r["requests"] + r["static_requests_before_escalating"] for r in rows)
+    out = {"wall_seconds": round(wall, 1), "total_requests": total_requests, "rows": rows, "timeline": timeline,
+           "finish_order": [unquote(u) for u in res.order]}
     OUT.mkdir(exist_ok=True)
-    (OUT / "measure_contacts.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"wall {wall:.1f}s for {len(rows)} pages (this includes the scheduler's waits for osa's 10 s gaps)\n")
-    print(f"{'#':>2} {'host':26s} {'state':18s} {'render_s':>8} {'requests(all/nccu)':>19} {'chars(live/snap)':>17}  offices")
-    for i, r in enumerate(rows, 1):
-        req = f"{r['requests']}/{r['requests_nccu']}"
-        print(f"{i:>2} {r['host']:26s} {r['state']:18s} {r['render_s']:>8} {req:>19} {r['chars']:>8}/{r['snapshot_chars']:<8} {r['offices']}")
-    print(f"\ntotal HTTP requests made by the nine page loads: {sum(r['requests'] for r in rows)} "
-          f"(to *.nccu.edu.tw: {sum(r['requests_nccu'] for r in rows)})")
-    print("\nstart/finish timeline (seconds since the first submit):")
+    (OUT / "measure_contacts_httpx_first.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"wall {wall:.1f}s for {len(rows)} pages; total HTTP requests {total_requests} "
+          f"(earlier all-Chromium run: 406 requests, 35.1 s)\n")
+    print(f"{'host':26s} {'method':9s} {'state':18s} {'sec':>5} {'req':>4}  escalated / notes")
+    for r in sorted(rows, key=lambda r: r["host"]):
+        note = r["escalated"] + (f"  (+{r['static_requests_before_escalating']} httpx before)" if r["escalated"] else "")
+        note += "  [TLS not verified]" if r["tls_unverified"] else ""
+        print(f"{r['host']:26s} {r['method']:9s} {r['state']:18s} {r['seconds']:>5} {r['requests']:>4}  {note}")
+    print("\ntimeline (s since start):")
     for ev in timeline:
-        print(f"  {ev['t']:6.1f}  {ev['event']:6s} {ev['url'][:80]}")
+        print(f"  {ev['t']:6.1f}  {ev['event']:15s} {ev['url'][:78]}")
 
 
 if __name__ == "__main__":
