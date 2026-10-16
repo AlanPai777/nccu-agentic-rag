@@ -18,6 +18,7 @@ in `uncovered`: they stay on the snapshot path and the answer says so.
 
 from __future__ import annotations
 
+import dataclasses
 import logging
 import threading
 import time
@@ -132,51 +133,65 @@ def default_backends() -> tuple[Callable[[str], LiveResult], Callable[[str], "Fu
     return (lambda url: fetcher.fetch(url, kind="contact", use_cache=False)), get_owner().render
 
 
+def _run_handler(outcome: PageOutcome, handler) -> None:
+    try:
+        outcome.handled = handler(outcome)
+    except Exception as e:                              # noqa: BLE001 -- one page's parse must not sink the others
+        outcome.handler_error = f"{type(e).__name__}: {e}"[:200]
+        log.warning("handler failed for %s: %s", outcome.url, outcome.handler_error)
+
+
+def process_page(url: str, info: dict, fetch_static: Callable[[str], LiveResult], render: Callable[[str], "Future"],
+                 handler: Callable[[PageOutcome], Any] | None = None) -> PageOutcome:
+    """One staff page, start to finish: static fetch -> compare -> A/B -> parse -> C -> (maybe) Chromium. Used by
+    fetch_contact_pages and by the prefetch (which runs it before contact_node asks)."""
+    handler = handler or _default_handler
+    try:
+        live = fetch_static(url)
+    except Exception as e:                              # noqa: BLE001 -- failure is data
+        live = LiveResult(url, error="network", detail=f"{type(e).__name__}: {e}"[:200])
+    similarity = static_similarity(info["snapshot_text"], live)
+    reason = pre_parse_reason(live, similarity)         # A, B: decided without parsing
+    outcome = _decide_static(url, info, live)
+    if reason is None:
+        _run_handler(outcome, handler)
+        reason = post_parse_reason(outcome.handled) if live.ok and not outcome.handler_error else None   # C
+    if reason is None:
+        return outcome
+    # the static result is not enough: let Chromium read the page
+    static_requests = outcome.requests
+    log.info("escalating %s to Chromium (%s)", url, reason)
+    try:
+        rendered = render(url).result()
+    except Exception as e:                              # noqa: BLE001
+        from rag.live.browser import RenderResult
+        rendered = RenderResult(url, error="render_error", detail=f"{type(e).__name__}: {e}"[:200])
+    final = _decide_rendered(url, info, rendered)
+    final.escalated, final.static_requests = reason, static_requests
+    _run_handler(final, handler)
+    return final
+
+
 def fetch_contact_pages(offices: list[str], fetch_static: Callable[[str], LiveResult],
                         render: Callable[[str], "Future"], handler: Callable[[PageOutcome], Any] | None = None,
-                        workers: int | None = None) -> ContactsResult:
+                        workers: int | None = None, store=None) -> ContactsResult:
     """Blocks until every page is settled. Never raises for a page problem: a failed page falls back to the snapshot text.
 
-    fetch_static(url) -> LiveResult (see rag.live.fetcher); render(url) -> Future[RenderResult] (see rag.live.browser)."""
+    fetch_static(url) -> LiveResult (see rag.live.fetcher); render(url) -> Future[RenderResult] (see rag.live.browser).
+    A page the prefetch (rag/live/prefetch.py) has already started or finished is taken from there instead of being fetched again."""
+    from rag.live.prefetch import get_store
+    store = store or get_store()
     handler = handler or _default_handler
     pages, uncovered = plan_pages(offices)
     result = ContactsResult(uncovered=uncovered)
     if not pages:
         return result
 
-    def run_handler(outcome: PageOutcome) -> None:
-        try:
-            outcome.handled = handler(outcome)
-        except Exception as e:                          # noqa: BLE001 -- one page's parse must not sink the others
-            outcome.handler_error = f"{type(e).__name__}: {e}"[:200]
-            log.warning("handler failed for %s: %s", outcome.url, outcome.handler_error)
-
     def page_task(url: str) -> PageOutcome:
         info = pages[url]
-        try:
-            live = fetch_static(url)
-        except Exception as e:                          # noqa: BLE001 -- failure is data
-            live = LiveResult(url, error="network", detail=f"{type(e).__name__}: {e}"[:200])
-        similarity = static_similarity(info["snapshot_text"], live)
-        reason = pre_parse_reason(live, similarity)     # A, B: decided without parsing
-        outcome = _decide_static(url, info, live)
-        if reason is None:
-            run_handler(outcome)
-            reason = post_parse_reason(outcome.handled) if live.ok and not outcome.handler_error else None   # C
-        if reason is None:
-            return outcome
-        # the static result is not enough: let Chromium read the page
-        static_requests = outcome.requests
-        log.info("escalating %s to Chromium (%s)", url, reason)
-        try:
-            rendered = render(url).result()
-        except Exception as e:                          # noqa: BLE001
-            from rag.live.browser import RenderResult
-            rendered = RenderResult(url, error="render_error", detail=f"{type(e).__name__}: {e}"[:200])
-        final = _decide_rendered(url, info, rendered)
-        final.escalated, final.static_requests = reason, static_requests
-        run_handler(final)
-        return final
+        outcome = store.contact(url, lambda: process_page(url, info, fetch_static, render, handler))
+        # the prefetch may have worked out a different office list for this page than the one asked for now
+        return dataclasses.replace(outcome, offices=info["offices"])
 
     finished: list[str] = []
     lock = threading.Lock()

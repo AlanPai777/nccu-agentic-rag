@@ -41,6 +41,12 @@ def _env_int(name: str, default: int) -> int:
         return default
 
 
+def prefetch_enabled() -> bool:
+    """LIVE_PREFETCH=on (default off): when a page with form ids is read, start the forms and staff pages it will lead to in the
+    background, using the SNAPSHOT to work out what they are (rag/live/prefetch.py). Only meaningful together with LIVE_FETCH=on."""
+    return os.environ.get("LIVE_PREFETCH", "off").strip().lower() == "on"
+
+
 def live_mode() -> str:
     """LIVE_FETCH=off|on (default off). Anything unrecognised is treated as off."""
     return "on" if os.environ.get("LIVE_FETCH", "off").strip().lower() == "on" else "off"
@@ -93,6 +99,10 @@ def host_policy(host: str) -> HostPolicy:
 # A live page whose normalized text is shorter than this fraction of the snapshot's is treated as an
 # incomplete static render (JS-built page), not as an edit. Estimate; P1 saw 37 vs 4956 chars (oic).
 INCOMPLETE_RATIO = _env_float("LIVE_INCOMPLETE_RATIO", 0.5)
+
+# --- prefetch (P5) -----------------------------------------------------------------------------------------------
+PREFETCH_TTL_SECONDS = _env_float("LIVE_PREFETCH_TTL", 120.0)   # a prefetched result is reused for this long (freshness, not a budget)
+PREFETCH_WORKERS = _env_int("LIVE_PREFETCH_WORKERS", 16)        # sleeping in the rate limiter is cheap; must exceed the pages one chain waits on
 
 # --- circuit breaker (§5.4) -----------------------------------------------------------------
 BREAKER_THRESHOLD = _env_int("LIVE_BREAKER_THRESHOLD", 5)

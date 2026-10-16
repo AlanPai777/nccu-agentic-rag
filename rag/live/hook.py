@@ -71,11 +71,14 @@ def apply_form(form_id: str, snapshot_form: dict) -> dict:
     """`snapshot_form` is agent_tools.get_form()'s result (or {"error": ...}). Same decision rule as pages:
     unchanged -> snapshot text, changed -> live text, live failed -> snapshot + disclosure, withdrawn -> no text."""
     if live_mode() == "off":
-        return snapshot_form
+        return snapshot_form() if callable(snapshot_form) else snapshot_form
     from rag.live.forms import fetch_form, link_url_for
-    snap_found = "error" not in snapshot_form
     link = link_url_for(form_id)
     live = fetch_form(form_id, get_fetcher())
+    # `snapshot_form` may be a callable (the prefetch passes one): the live fetch above has already started without waiting for the
+    # local snapshot lookup, which only has to be ready by the time the two are compared.
+    snapshot_form = snapshot_form() if callable(snapshot_form) else snapshot_form
+    snap_found = "error" not in snapshot_form
     log.info("live form %s -> %s in %.2fs (%d requests, cache=%s)", form_id, "ok" if live.ok else live.error,
              live.elapsed, live.requests, live.from_cache)
     checked = taipei_minute(live.fetched_at or None) if live.ok else taipei_minute()
