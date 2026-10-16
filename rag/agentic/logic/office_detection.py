@@ -51,6 +51,28 @@ _OFFICE_JUDGE_PROMPT = """以下文字裡可能提到了一些政大的辦公室
 請判斷：上面清單裡，哪些辦公室有在文字內容中被提到（用簡稱、口語說法、或全名都算，只要語意上是指同一個單位就算）？只回傳清單裡列出的正式名稱，用逗號分隔；如果都沒提到，回傳「無」。不要自己發明清單以外的名稱，不要有其他文字。"""
 
 
+def _drop_qualifier_parents(text: str, names: list[str]) -> list[str]:
+    """Drop a name that, wherever it appears in `text`, is only the front half of a longer unit written as
+    "<parent><child>" -- e.g. "教務處註冊組" matches both 教務處 and 註冊組 as substrings, but the unit meant is 註冊組.
+    A name is dropped only if it occurs literally, EVERY occurrence is immediately followed (optionally after spaces) by
+    another detected name, so "請洽教務處" or "教務處註冊組…另請洽教務處" keep 教務處. A name that does not occur literally
+    (a colloquial match made by the LLM judge) is never dropped: this rule cannot judge it.
+
+    Why: the office index maps a parent unit to ITS OWN row, and for 教務處 that row is the aca home page (9 characters of
+    text, no staff) -- the staff live in the child rows 教務長室/註冊組 (docs/contact.csv). Returning the parent next to its
+    child only added a lookup that finds nobody. Structural rule, not specific to 教務處."""
+    kept = []
+    for name in names:
+        starts = [m.start() for m in re.finditer(re.escape(name), text)]
+        if starts and all(
+                any(other != name and re.match(r"[ \t\u3000]*" + re.escape(other), text[i + len(name):])
+                    for other in names)
+                for i in starts):
+            continue
+        kept.append(name)
+    return kept
+
+
 def _detect_offices(text: str) -> list[str]:
     """LLM-judged semantic match against the full ~433-entry office catalog
     (domain_router.py's _keyword_table()). A form/page refers to offices
@@ -88,4 +110,4 @@ def _detect_offices(text: str) -> list[str]:
     candidates = [_TRAILING_PAREN_RE.sub("", n.strip()).strip() for n in re.split(r"[,，]", raw)]
     llm_hits = [n for n in candidates if n in valid_names]
 
-    return list(dict.fromkeys(layer1_hits + llm_hits))
+    return _drop_qualifier_parents(text, list(dict.fromkeys(layer1_hits + llm_hits)))
