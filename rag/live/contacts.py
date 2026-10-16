@@ -1,21 +1,27 @@
 """
 rag/live/contacts.py
-Live staff pages for the offices contact_node found (docs/phase_j_live_fetch_plan.md, P4 step 4).
+Live staff pages for the offices contact_node found (docs/phase_j_live_fetch_plan.md, P4, "httpx 優先").
 
 For each office: the office_contacts_index.jsonl record(s) say WHICH page lists its staff (the same lookup the snapshot
-path does). Those pages are rendered in Chromium (RenderScheduler -> browser-owner thread), turned into text with the
-snapshot's own extractor, compared with the text stored in the index (rag/live/resolve.py: same -> snapshot, different ->
-live, live failed or incomplete -> snapshot, flagged), and each page is handed to `handler` AS SOON AS it is ready --
-the pipeline: parsing (which may call an LLM for some page layouts) overlaps with the browser loading the next page.
+path does). Each such page is one task in a thread pool:
 
-Offices with no index record are returned in `uncovered`: they stay on the snapshot path and the answer says so.
+    httpx GET (rate-limited per host)  ->  text with the snapshot's own extractor  ->  compared with the index text
+      -> escalation check A/B (rag/live/escalate.py)  -> parse the contacts (handler; may call an LLM for some layouts)
+      -> escalation check C
+      -> no escalation: the static result stands
+      -> escalation:    Chromium renders the page (browser-owner thread), same compare/parse, and that result stands
+
+Pages run side by side; the rate limiter makes osa.nccu.edu.tw's pages wait their 10 s turns without holding anything
+up. One page's handler (parsing) runs while other pages are still being fetched. Offices with no index record are returned
+in `uncovered`: they stay on the snapshot path and the answer says so.
 """
 
 from __future__ import annotations
 
 import logging
+import threading
 import time
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import Future, ThreadPoolExecutor
 from dataclasses import dataclass, field
 from typing import Any, Callable
 
@@ -23,8 +29,8 @@ from rag.live import ledger, resolve as R
 from rag.live.clock import taipei_minute
 from rag.live.compare import Comparison
 from rag.live.extract import html_to_text
+from rag.live.escalate import post_parse_reason, pre_parse_reason, static_similarity
 from rag.live.fetcher import LiveResult
-from rag.live.schedule import RenderScheduler
 
 log = logging.getLogger("rag.live")
 
@@ -45,8 +51,12 @@ class PageOutcome:
     detail: str = ""
     comparison: Comparison | None = None
     render_seconds: float = 0.0
-    requests: int = 0                # HTTP requests the page made while rendering (passive count)
+    requests: int = 0                # HTTP requests it took (httpx: the page + redirects; Chromium: everything the page loaded)
     requests_nccu: int = 0
+    method: str = "httpx"            # how the text we used was obtained: httpx | chromium
+    escalated: str = ""              # why a static result was not enough (rag/live/escalate.py), if it was
+    static_requests: int = 0         # httpx requests spent before escalating (so the cost of escalation is visible)
+    tls_unverified: bool = False     # fetched over a connection whose certificate could not be verified (cashier)
     handled: Any = None              # whatever `handler` returned
     handler_error: str = ""
 
@@ -55,7 +65,7 @@ class PageOutcome:
 class ContactsResult:
     pages: dict[str, PageOutcome] = field(default_factory=dict)
     uncovered: list[str] = field(default_factory=list)      # offices with no index record -> snapshot path
-    order: list[str] = field(default_factory=list)          # order the pages were rendered in
+    order: list[str] = field(default_factory=list)          # order the pages finished in
 
     @property
     def texts(self) -> dict[str, str]:
@@ -65,13 +75,6 @@ class ContactsResult:
     def parsed(self) -> dict[str, list]:
         """Contacts the handler already parsed, for pages where it succeeded and returned a list."""
         return {u: p.handled for u, p in self.pages.items() if isinstance(p.handled, list) and not p.handler_error}
-
-
-def default_scheduler() -> RenderScheduler:
-    """The process-wide browser-owner thread, paced by the same limiter as the httpx fetcher."""
-    from rag.live.browser import get_owner
-    from rag.live.hook import get_fetcher
-    return RenderScheduler(get_owner().render, get_fetcher().limiter)
 
 
 def _default_handler(outcome: PageOutcome):
@@ -96,7 +99,17 @@ def plan_pages(offices: list[str]) -> tuple[dict[str, dict], list[str]]:
     return pages, uncovered
 
 
-def _decide(url: str, info: dict, rendered) -> PageOutcome:
+def _decide_static(url: str, info: dict, live: LiveResult) -> PageOutcome:
+    res = R.resolve(info["snapshot_text"], live)
+    n = 0 if live.error == "blocked_host" else max(1, live.attempts) + len(live.redirects)
+    return PageOutcome(
+        url=url, offices=info["offices"], state=_STATE[res.state], text=res.text, snapshot_text=info["snapshot_text"],
+        snapshot_at=info["snapshot_at"], checked=taipei_minute(), error=live.error, detail=live.detail,
+        comparison=res.comparison, render_seconds=live.elapsed, requests=n, requests_nccu=n, method="httpx",
+        tls_unverified=live.tls_unverified)
+
+
+def _decide_rendered(url: str, info: dict, rendered) -> PageOutcome:
     if rendered.ok:
         text, err = html_to_text(rendered.html, url)
     else:
@@ -107,38 +120,81 @@ def _decide(url: str, info: dict, rendered) -> PageOutcome:
         url=url, offices=info["offices"], state=_STATE[res.state], text=res.text, snapshot_text=info["snapshot_text"],
         snapshot_at=info["snapshot_at"], checked=taipei_minute(), error=err, detail=rendered.detail,
         comparison=res.comparison, render_seconds=rendered.elapsed,
-        requests=rendered.requests, requests_nccu=rendered.requests_nccu)
+        requests=rendered.requests, requests_nccu=rendered.requests_nccu, method="chromium")
 
 
-def fetch_contact_pages(offices: list[str], scheduler: RenderScheduler,
-                        handler: Callable[[PageOutcome], Any] | None = None, workers: int = 4) -> ContactsResult:
-    """Blocks until every page has been rendered, decided and handled. Never raises for a page problem."""
+def default_backends() -> tuple[Callable[[str], LiveResult], Callable[[str], "Future"]]:
+    """(static fetch, Chromium render) for production: the process-wide httpx fetcher and browser-owner thread, which share
+    one rate limiter, so the per-host gap holds across both kinds of request."""
+    from rag.live.browser import get_owner
+    from rag.live.hook import get_fetcher
+    fetcher = get_fetcher()
+    return (lambda url: fetcher.fetch(url, kind="contact", use_cache=False)), get_owner().render
+
+
+def fetch_contact_pages(offices: list[str], fetch_static: Callable[[str], LiveResult],
+                        render: Callable[[str], "Future"], handler: Callable[[PageOutcome], Any] | None = None,
+                        workers: int | None = None) -> ContactsResult:
+    """Blocks until every page is settled. Never raises for a page problem: a failed page falls back to the snapshot text.
+
+    fetch_static(url) -> LiveResult (see rag.live.fetcher); render(url) -> Future[RenderResult] (see rag.live.browser)."""
     handler = handler or _default_handler
     pages, uncovered = plan_pages(offices)
     result = ContactsResult(uncovered=uncovered)
     if not pages:
         return result
-    def process(url: str, rendered) -> PageOutcome:
-        outcome = _decide(url, pages[url], rendered)
+
+    def run_handler(outcome: PageOutcome) -> None:
         try:
             outcome.handled = handler(outcome)
         except Exception as e:                          # noqa: BLE001 -- one page's parse must not sink the others
             outcome.handler_error = f"{type(e).__name__}: {e}"[:200]
-            log.warning("handler failed for %s: %s", url, outcome.handler_error)
-        return outcome
+            log.warning("handler failed for %s: %s", outcome.url, outcome.handler_error)
 
-    futures = scheduler.run(list(pages))
-    url_of = {f: u for u, f in futures.items()}
-    with ThreadPoolExecutor(max_workers=workers, thread_name_prefix="contact-page") as pool:
-        work = []
-        # The pipeline: the moment a page has been rendered it goes to the pool, while the scheduler thread is already
-        # sending the browser the next page.
-        for fut in as_completed(futures.values()):
-            work.append(pool.submit(process, url_of[fut], fut.result()))
-        for w in work:
-            o = w.result()
-            result.pages[o.url] = o
-    result.order = list(scheduler.order)
+    def page_task(url: str) -> PageOutcome:
+        info = pages[url]
+        try:
+            live = fetch_static(url)
+        except Exception as e:                          # noqa: BLE001 -- failure is data
+            live = LiveResult(url, error="network", detail=f"{type(e).__name__}: {e}"[:200])
+        similarity = static_similarity(info["snapshot_text"], live)
+        reason = pre_parse_reason(live, similarity)     # A, B: decided without parsing
+        outcome = _decide_static(url, info, live)
+        if reason is None:
+            run_handler(outcome)
+            reason = post_parse_reason(outcome.handled) if live.ok and not outcome.handler_error else None   # C
+        if reason is None:
+            return outcome
+        # the static result is not enough: let Chromium read the page
+        static_requests = outcome.requests
+        log.info("escalating %s to Chromium (%s)", url, reason)
+        try:
+            rendered = render(url).result()
+        except Exception as e:                          # noqa: BLE001
+            from rag.live.browser import RenderResult
+            rendered = RenderResult(url, error="render_error", detail=f"{type(e).__name__}: {e}"[:200])
+        final = _decide_rendered(url, info, rendered)
+        final.escalated, final.static_requests = reason, static_requests
+        run_handler(final)
+        return final
+
+    finished: list[str] = []
+    lock = threading.Lock()
+
+    def tracked(url: str) -> PageOutcome:
+        try:
+            return page_task(url)
+        finally:
+            with lock:
+                finished.append(url)
+
+    n_workers = workers or min(len(pages), 16)          # sleeping in the limiter is cheap; never queue a ready host behind a waiting one
+    with ThreadPoolExecutor(max_workers=n_workers, thread_name_prefix="contact-page") as pool:
+        futures = {url: pool.submit(tracked, url) for url in pages}
+        for url, fut in futures.items():
+            result.pages[url] = fut.result()
+    result.order = list(finished)
     for o in result.pages.values():
-        log.info("live contact page %s -> %s (%.1fs render) offices=%s", o.url, o.state, o.render_seconds, o.offices)
+        log.info("live contact page %s -> %s via %s%s (%.1fs, %d requests) offices=%s", o.url, o.state, o.method,
+                 f" [escalated: {o.escalated}]" if o.escalated else "", o.render_seconds, o.requests, o.offices)
     return result

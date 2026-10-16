@@ -62,6 +62,12 @@ RENDER_NAV_TIMEOUT_MS = int(REQUEST_TIMEOUT * 1000)               # D8: one page
 # running mean). 3 s = P0's measurement on nine staff pages; the 2026-08-25 index crawl averaged 6.4 s per URL.
 RENDER_ESTIMATE_SECONDS = _env_float("LIVE_RENDER_ESTIMATE", 3.0)
 
+# Staff pages are fetched with httpx first; the page is sent to Chromium only when the static result looks insufficient
+# (rag/live/escalate.py). A static page whose normalized text is less similar to the snapshot than this is escalated.
+# 0.5 is a guess backed by nine samples: the 2026-10-14 staff pages scored 0.905-0.999 against the snapshot, the one that
+# needs JavaScript (oic) scored 0.016. Cheap to be wrong in the escalating direction (one more render), costly the other way.
+STATIC_SIMILARITY_MIN = _env_float("LIVE_STATIC_SIMILARITY_MIN", 0.5)
+
 # --- rate limiting (§5.5) -------------------------------------------------------------------
 GLOBAL_CONCURRENCY = _env_int("LIVE_GLOBAL_CONCURRENCY", 4)  # prototype start; raise if no throttling seen
 
