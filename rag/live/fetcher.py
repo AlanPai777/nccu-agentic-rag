@@ -230,15 +230,11 @@ class Fetcher:
         if "pdf" in ctype or final_url.lower().split("?")[0].endswith(".pdf"):
             text = self._pdf_text(body)
         else:
-            from rag.preprocess import extract_html_bytes, is_cloudflare_page
-            if is_cloudflare_page(body):
-                res.error = "cloudflare"
+            from rag.live.extract import html_to_text
+            text, err = html_to_text(body, final_url)
+            if err == "cloudflare":
+                res.error = err
                 return res
-            text = extract_html_bytes(body, final_url)
-            # With no usable content the extractor falls back to a title made from the URL's last
-            # path segment; that is "nothing extracted", not content.
-            if text.strip() == Path(final_url.rstrip("/").split("/")[-1]).stem or "Blank Component" in text:
-                text = ""
         if not text.strip():
             res.error = "empty"
             return res

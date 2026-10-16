@@ -55,11 +55,25 @@ class Backend(Protocol):
     def stop(self) -> None: ...
 
 
-class PlaywrightBackend:
-    """Real Chromium. All methods must be called from the owner thread. `render` arrives in P4 step 2."""
+_CRASH_MARKERS = ("Target closed", "has been closed", "Browser closed", "Connection closed", "Target page, context or browser")
 
-    def __init__(self) -> None:
-        self._pw = None
+
+class PlaywrightBackend:
+    """Real Chromium. All methods must be called from the owner thread.
+
+    `render` is what fetch_office_contacts.py did for every staff page: open the URL, wait for `load`, wait a fixed
+    settle time for late JS-injected content, take the DOM. (Not `networkidle`: tsc/cids.nccu.edu.tw never go idle.)
+    Each render uses a fresh browser context, so cookies and storage never leak from one page to the next.
+    """
+
+    def __init__(self, settle_ms: int | None = None, nav_timeout_ms: int | None = None,
+                 allow: Callable[[str], bool] | None = None, subresource_allow: Callable[[str], bool] | None = None):
+        from rag.live.allowlist import is_allowed
+        self.settle_ms = config.RENDER_SETTLE_MS if settle_ms is None else settle_ms
+        self.nav_timeout_ms = config.RENDER_NAV_TIMEOUT_MS if nav_timeout_ms is None else nav_timeout_ms
+        self._allow = allow or is_allowed                 # applied to the URL asked for and to wherever we end up
+        self._sub_allow = subresource_allow               # None in production (pages load fonts/analytics as in P0);
+        self._pw = None                                   # tests pass one to keep every request on localhost
         self.browser = None
 
     def start(self) -> None:
@@ -72,8 +86,47 @@ class PlaywrightBackend:
             self._pw = None
             raise
 
-    def render(self, url: str) -> RenderResult:                  # pragma: no cover -- step 2
-        raise NotImplementedError("single-page rendering is P4 step 2")
+    def render(self, url: str) -> RenderResult:
+        from playwright.sync_api import Error as PWError, TimeoutError as PWTimeout
+        t0 = time.monotonic()
+        if not self._allow(url):
+            return RenderResult(url, error="blocked_host", detail="not an http(s) *.nccu.edu.tw URL")
+        if self.browser is None or not self.browser.is_connected():
+            raise BrowserCrashed("browser is not connected")
+        ctx = None
+        try:
+            ctx = self.browser.new_context()
+            if self._sub_allow is not None:
+                ctx.route("**/*", lambda route: route.continue_() if self._sub_allow(route.request.url) else route.abort())
+            page = ctx.new_page()
+            resp = page.goto(url, timeout=self.nav_timeout_ms, wait_until="load")
+            if self.settle_ms:
+                page.wait_for_timeout(self.settle_ms)
+            final = page.url
+            if not self._allow(final):
+                return RenderResult(url, error="redirect_offsite", detail=final, elapsed=time.monotonic() - t0)
+            status = resp.status if resp else 0
+            if status >= 400:
+                return RenderResult(url, status=status, error="http_5xx" if status >= 500 else "http_4xx",
+                                    detail=f"HTTP {status}", elapsed=time.monotonic() - t0)
+            # page.content() is a Unicode string; we hand it on as UTF-8 bytes. A page with no <meta charset> (or one that
+            # still declares big5) would make the extractor's encoding sniffing guess wrong and garble Chinese text, so
+            # the bytes carry a UTF-8 BOM, which takes priority over any declared or guessed encoding.
+            return RenderResult(url, ok=True, html=b"\xef\xbb\xbf" + page.content().encode("utf-8"), status=status,
+                                elapsed=time.monotonic() - t0)
+        except PWTimeout as e:
+            return RenderResult(url, error="timeout", detail=str(e).splitlines()[0][:160], elapsed=time.monotonic() - t0)
+        except PWError as e:
+            msg = str(e)
+            if any(m in msg for m in _CRASH_MARKERS):
+                raise BrowserCrashed(msg.splitlines()[0][:160]) from e
+            return RenderResult(url, error="network", detail=msg.splitlines()[0][:160], elapsed=time.monotonic() - t0)
+        finally:
+            if ctx is not None:
+                try:
+                    ctx.close()
+                except Exception:                           # noqa: BLE001 -- a dead context must not mask the result
+                    pass
 
     def stop(self) -> None:
         try:
