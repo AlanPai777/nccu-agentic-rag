@@ -21,7 +21,7 @@ import test_live_p4_node as tn  # noqa: E402
 import rag.skills.office_lookup_skill as sk  # noqa: E402
 from rag.agentic.logic.self_eval_checks import stage1_checklist  # noqa: E402
 from rag.live import ledger  # noqa: E402
-from rag.live.browser import RenderResult  # noqa: E402
+import httpx  # noqa: E402
 
 OIC_OFFICE = "國際合作事務處"
 
@@ -31,8 +31,8 @@ class LedgerBase(tn.NodeBase):
         return HumanMessage(content=self.live_node(**kw))
 
     def fail_url(self, office):
-        url = self.page_of[office][0]
-        return {url: lambda u: RenderResult(u, error="timeout", detail="Timeout 60000ms")}
+        """The office's page cannot be fetched (timeout): the snapshot stands and no browser is summoned."""
+        return {self.page_of[office][0]: httpx.ReadTimeout("slow")}
 
 
 class TestMarkers(LedgerBase):
@@ -52,7 +52,7 @@ class TestMarkers(LedgerBase):
         self.assertEqual(ledger.parse_markers([HumanMessage(content=text)]), [])
 
     def test_a_failed_page_is_snapshot_fallback_and_so_is_its_fixed_data_fallback(self):
-        msg = self.block(override=self.fail_url(OIC_OFFICE))
+        msg = self.block(static_over=self.fail_url(OIC_OFFICE))
         srcs = ledger.parse_markers([msg])
         by_status = {s.status for s in srcs}
         self.assertIn("snapshot_fallback", by_status)
@@ -60,7 +60,7 @@ class TestMarkers(LedgerBase):
         self.assertEqual([s.url for s in fixed], ["fixed://KNOWN_CONTACTS/" + OIC_OFFICE])    # oic yields nobody from the snapshot
 
     def test_when_the_live_machinery_breaks_every_office_is_listed_as_not_checked(self):
-        msg = self.block(scheduler_raises=True)
+        msg = self.block(backends_raise=True)
         self.assertEqual(ledger.parse_uncovered([msg]), tn.OFFICES)
 
     def test_an_office_with_no_index_page_is_listed_as_not_checked(self):
@@ -95,13 +95,13 @@ class TestFooter(LedgerBase):
         self.assertNotIn("尚未現場確認", sec)
 
     def test_fixed_data_is_called_out_by_office_not_by_a_fake_url(self):
-        sec = self.footer(self.block(override=self.fail_url(OIC_OFFICE)))
+        sec = self.footer(self.block(static_over=self.fail_url(OIC_OFFICE)))
         self.assertIn("使用程式內建的固定聯絡資料", sec)
         self.assertIn(f"  - {OIC_OFFICE}", sec)
         self.assertNotIn("fixed://", sec)
 
     def test_not_checked_offices_are_named(self):
-        sec = self.footer(self.block(scheduler_raises=True))
+        sec = self.footer(self.block(backends_raise=True))
         self.assertIn("以下辦公室的承辦人與分機未經現場確認，仍為快照資料：", sec)
         self.assertIn("教務長室", sec)
 
@@ -114,13 +114,13 @@ class TestDisclosureCheck(LedgerBase):
         return {"answer": answer, "query_type": "knowledge", "messages": [msg]}
 
     def test_a_contact_page_served_from_the_snapshot_requires_the_disclosure_in_the_answer(self):
-        msg = self.block(override=self.fail_url("出納組"))
+        msg = self.block(static_over=self.fail_url("出納組"))
         fails = stage1_checklist(self.state(msg, "沒有揭露"))
         self.assertEqual(len(fails), 1)
         self.assertEqual(stage1_checklist(self.state(msg, "答案" + "\n\n---\n" + ledger.DISCLOSURE_HEADER)), [])
 
     def test_fixed_data_requires_the_disclosure_too(self):
-        msg = self.block(override=self.fail_url(OIC_OFFICE))
+        msg = self.block(static_over=self.fail_url(OIC_OFFICE))
         self.assertTrue(stage1_checklist(self.state(msg, "沒有揭露")))
 
     def test_all_live_needs_no_disclosure(self):
@@ -130,7 +130,7 @@ class TestDisclosureCheck(LedgerBase):
 class TestSynthesisFooter(LedgerBase):
     def test_the_synthesis_node_appends_the_people_data_status(self):
         from rag.agentic.nodes import synthesis
-        msg = self.block(override=self.fail_url("出納組"))
+        msg = self.block(static_over=self.fail_url("出納組"))
         with mock.patch.object(synthesis, "_invoke_synthesis_llm", return_value=mock.Mock(content="LLM 答案")):
             out = synthesis.synthesis_node({"query": "q", "messages": [msg]})
         self.assertIn(ledger.DISCLOSURE_HEADER, out["answer"])

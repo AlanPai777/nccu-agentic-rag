@@ -10,6 +10,8 @@ from __future__ import annotations
 import os
 import sys
 import unittest
+
+import httpx
 from pathlib import Path
 from unittest import mock
 
@@ -19,13 +21,11 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(Path(__file__).parent))
 
-import test_live_p4_contacts as tc  # noqa: E402  (PagesOwner, Base, OFFICES)
-import test_live_p4_schedule as sch  # noqa: E402
+import p4_fakes as fk  # noqa: E402
+import test_live_p4_contacts as tc  # noqa: E402  (Base, OFFICES)
 import rag.agentic.nodes.contact as cn  # noqa: E402
 import rag.live.contacts as lc  # noqa: E402
 import rag.skills.office_lookup_skill as sk  # noqa: E402
-from rag.live.browser import RenderResult  # noqa: E402
-from rag.live.schedule import RenderScheduler  # noqa: E402
 
 OFFICES = tc.OFFICES
 
@@ -56,16 +56,20 @@ class NodeBase(tc.Base):
     def node(self) -> str:
         return cn.contact_node({"query": "q", "messages": [HumanMessage(content="x")]})["messages"][0].content
 
-    def live_node(self, override=None, scheduler_raises=False) -> str:
-        owner = tc.PagesOwner(self.clock, self.limiter, self.pages, override)
-        sched = RenderScheduler(owner.render, self.limiter)
+    def live_node(self, static_over=None, render_over=None, backends_raise=False) -> str:
+        fetcher = fk.static_fetcher(self.static_pages(), static_over)
+        render = fk.FakeRender(self.pages, render_over)
+        self.render_calls = render.calls
 
-        def make():
-            if scheduler_raises:
+        def backends():
+            if backends_raise:
                 raise RuntimeError("chromium is not installed")
-            return sched
-        with mock.patch.dict(os.environ, {"LIVE_FETCH": "on"}), mock.patch.object(lc, "default_scheduler", make):
+            return (lambda u: fetcher.fetch(u, kind="contact", use_cache=False)), render
+        with mock.patch.dict(os.environ, {"LIVE_FETCH": "on"}), mock.patch.object(lc, "default_backends", backends):
             return self.node()
+
+    def all_static_fail(self):
+        return {u: httpx.ReadTimeout("slow") for u in self.pages}
 
 
 class TestOffIsUnchanged(NodeBase):
@@ -96,12 +100,11 @@ class TestOn(NodeBase):
         self.node()                                              # off: the index path parses each page once
         self.assertLessEqual(on_calls, len(self.llm_texts) + 1)   # live may add at most oic's newly-named page
 
-    def test_when_every_render_fails_the_answer_is_the_snapshot_answer(self):
-        fail = {u: (lambda uu: RenderResult(uu, error="timeout", detail="x")) for u, _ in self.page_of.values()}
-        self.assertEqual(strip_ledger(self.live_node(override=fail)), self.node())
+    def test_when_every_fetch_fails_the_answer_is_the_snapshot_answer(self):
+        self.assertEqual(strip_ledger(self.live_node(static_over=self.all_static_fail())), self.node())
 
     def test_when_the_live_machinery_itself_breaks_the_answer_is_the_snapshot_answer(self):
-        self.assertEqual(strip_ledger(self.live_node(scheduler_raises=True)), self.node())
+        self.assertEqual(strip_ledger(self.live_node(backends_raise=True)), self.node())
 
     def test_an_office_the_index_does_not_cover_still_gets_its_snapshot_answer(self):
         offices = ["教務長室", "不存在的處室"]

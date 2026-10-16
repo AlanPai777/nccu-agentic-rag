@@ -55,8 +55,9 @@ def contact_node(state: AgentState) -> dict:
         # Phase J P4: read the offices' staff pages live (Chromium), keep the snapshot where nothing changed. Any
         # failure here must leave the snapshot answer intact -- the live check is an addition, never a dependency.
         try:
-            from rag.live.contacts import default_scheduler, fetch_contact_pages
-            live = fetch_contact_pages(offices, default_scheduler())
+            from rag.live.contacts import default_backends, fetch_contact_pages
+            fetch_static, render = default_backends()
+            live = fetch_contact_pages(offices, fetch_static, render)
         except Exception as e:                           # noqa: BLE001
             log.warning("live contact check failed, using the snapshot: %s: %s", type(e).__name__, e)
             live = None
@@ -82,7 +83,8 @@ def _with_ledger(context: str, offices: list[str], result: dict, live) -> str:
     from rag.live.ledger import FIXED_DATA, contact_markers_text, make_marker, sanitize
     markers: list[str] = []
     if live is not None:
-        markers += [make_marker(o.url, o.state, o.checked, (o.snapshot_at or config.SNAPSHOT_ASOF)[:10], False, kind="contact")
+        markers += [make_marker(o.url, o.state, o.checked, (o.snapshot_at or config.SNAPSHOT_ASOF)[:10], o.tls_unverified,
+                                kind="contact")
                     for o in live.pages.values()]
     now = taipei_minute()
     markers += [make_marker("fixed://KNOWN_CONTACTS/" + office, FIXED_DATA, now, "", False, kind="contact")
