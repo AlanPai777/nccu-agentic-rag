@@ -112,6 +112,17 @@ def is_cloudflare_page(html_bytes: bytes) -> bool:
         return False
 
 
+# Class-name tokens that mark navigation/site chrome (see the long comment inside _parse_soup). Module-level so the
+# effect of changing it can be tested against recorded pages.
+# `header` is deliberately NOT a token here (2026-10-16): oic.nccu.edu.tw's staff cards keep each person's name and title
+# in `div.staff-header-row`, which this rule used to delete -- so the page's text had 36 extensions and no names. The
+# <header> TAG is still removed above; only the class-name rule was too broad. Effect measured on the nine recorded
+# staff pages + the aca 休學 page: only oic's text changes (+776 chars, the names/titles); the other nine are identical.
+_NOISE_CLASS_RE = re.compile(
+    r"(?:^|[-_])(?:nav|menu|breadcrumb|sidebar|footer)(?:$|[-_])", re.I
+)
+
+
 def _parse_soup(soup: BeautifulSoup, url: str = "") -> str:
     """
     Core HTML extraction logic shared by extract_html (file-based) and
@@ -172,9 +183,6 @@ def _parse_soup(soup: BeautifulSoup, url: str = "") -> str:
     # page. Requiring a start/end/hyphen/underscore boundary around the keyword
     # still matches genuine tokens ("nav-wrapper", "site-header", "footer_text")
     # but not accidental mid-word hits.
-    _NOISE_CLASS_RE = re.compile(
-        r"(?:^|[-_])(?:nav|menu|breadcrumb|sidebar|footer|header)(?:$|[-_])", re.I
-    )
     for tag in soup.find_all(class_=_NOISE_CLASS_RE):
         if tag.name in ("body", "html"):
             continue
