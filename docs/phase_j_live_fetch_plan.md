@@ -502,7 +502,7 @@ experiments/live_spikes/   # 套件小測試、固定測試資料、check_chain.
 
 ### 5.9 人員查詢：以「處室＋職務」為單位，現場渲染
 
-> **2026-10-16 更新**：下面是最初的設計草稿。P4 的定案設計（一律 Chromium、瀏覽器擁有者執行緒、循序加交錯排程、第一版不做快取與瀏覽器池／context 池）見 §6 的 P4 與 P4.5；兩者不一致處以 P4 為準。
+> **2026-10-16 更新**：下面是最初的設計草稿（一律 Playwright、瀏覽器池、多 context）。**實作的最終設計是 httpx 優先、必要時才升級 Chromium，由單一瀏覽器擁有者執行緒負責渲染、第一版不做快取**，見 §6 的「P4 最終狀態」；兩者不一致處以 P4 為準。
 
 **做什麼**
 - `contact_node` 對偵測到的每個處室：取得該處室人員頁網址（優先用 `office_contacts_index.jsonl` 該筆記錄已有的 `url`；不在索引中的處室，用 `domain_router._keyword_table()`（433 筆名稱、144 個子網域）找子網域，再從該子網域首頁導覽；全新設立的單位從校首頁行政單位目錄導覽）。
@@ -738,9 +738,9 @@ MCP 只是工具的打包與傳輸方式，不決定穩定度。分工準則是*
 
 - **P3 端到端已跑一次（2026-10-15 19:55，`LIVE_FETCH=on python agentic_rag.py "如何辦理休學" --stream`，3 輪、約 100 秒）**：分數 **23/26**（`contact_info` 1/2、`mental_health_note` 0/2），略低於歷次 24～26；單一樣本，無法歸因。4 個現場來源全是 `live_same`（休學頁＋3 張表單，內文與快照完全相同，所以給 LLM 的上下文除了標記行之外與 `off` 相同），頁尾正確列出 4 頁且只剩「承辦人與分機尚未現場確認」。`mental_health_note` 的缺失是答案沒有提身心健康中心（上一次有）——兩次的差別在 LLM 取樣，不在現場資料。**耗時（由旁路快取的 `fetched_at` 推得，非日誌）**：休學頁約 19:56:02.7 完成；3 張表單依序完成於 +3.8、+5.6、+4.0 秒，即**每張表單（5 個請求）約 4～5.6 秒、三張循序約 13 秒**；無 429／5xx／重試（stderr 無 WARNING）。啟用 INFO 日誌需設 `LIVE_LOG=info`（本次未設，所以沒有直接的計時日誌；此環境變數是事後加的）。→ 三張表單循序 13 秒是目前現場階段最大的單項，P5（預測性預抓）或在 `resource_node` 平行抓取（moltke 並行已調為 2）是明確的優化目標，但尚未做。**【更正，2026-10-15】這段由快取時間戳反推的數字偏高：它混入了 `get_form` 先查本地快照（對語料 `grep`）的時間，不是 moltke 的時間。直接量測（`measure_forms.py`，見 P3.5 小節）顯示穩定狀態下每張約 2.2～2.5 秒、其中約 2 秒是我們自己的 0.5 秒限速；因此「表單平行化」的好處也被高估（限速是整個主機共用，15 個請求至少約 7 秒）。**
 
-### P3.5　表單抓取前的相關性判斷（實驗；2026-10-15 提案，**尚未核准**）
+### P3.5　表單抓取前的相關性判斷（實驗；2026-10-15 提案；**已實作，預設關閉（`FORM_GATE=off`）；是否預設啟用未決**）
 
-**狀態**：只有草稿程式（預設關閉、未接入任何預設路徑）、離線測試 15 項、本計畫；**沒有對 LLM 或政大發過任何請求**。是否做、怎麼做，等使用者確認本節。
+**狀態（2026-10-16 更新）**：已實作（`rag/agentic/logic/form_gate.py`，`resource_node` 在 `FORM_GATE=on` 時使用），離線測試 22 項；做過 3 案例各 1 次的煙霧測試與一次 `FORM_GATE=on` 端到端（25/26）。**預設關閉，是否預設啟用未決**——需要結構不同的驗證案例與重複取樣（見本節「後續規劃」）；決定「一張都不抓」不退回全抓（使用者決定）使這條路徑只用假 LLM 驗證過。
 
 **緣起**：P3 端到端顯示，`resource_node` 把休學頁偵測到的 3 張表單全抓（15 個 moltke 請求、約 13 秒），其中提早復學申請書這題用不到。`resource_node` 對標記路徑「偵測到的全抓、篩選留給 synthesis」是 Phase H 的刻意設計（`phase_g_clean_pipeline_design.md` §N.1～N.4）：當時的抓取前判斷器（`_judge_forms`）在「退宿規定」上把兩張必要的表單判成「都不需要」，退費比例表整個消失；根因**沒有找到**（候選縮到 2 筆、description 格式、換行數三個假設都被推翻或無法證實；一組對照 8 次：完整 32 筆 8/8 正確、縮到 2 筆 0/8）。現場模式下，全抓的成本不再是零（每張 5 個請求、約 4～5 秒），所以重新評估。
 
@@ -832,7 +832,52 @@ MCP 只是工具的打包與傳輸方式，不決定穩定度。分工準則是*
 
 **實驗產出位置**：`experiments/form_gate/run_gate_eval.py`（預設 dry-run，只列出將送出的呼叫數；加 `--run` 才送）、`_out/` 放結果（gitignored，待補進 `.gitignore`）。
 
-### P4　人員頁現場渲染（組合 A）（設計於 2026-10-16 與使用者逐項討論後定案；**尚未實作**）
+### P4　人員頁現場讀取（**已實作並實測，2026-10-16；最終設計：httpx 優先、必要時才升級 Chromium**）
+
+#### P4 最終狀態（2026-10-16；H7 整理）
+
+**做了什麼**：`LIVE_FETCH=on` 時，`contact_node` 對偵測到的辦公室，依 `office_contacts_index.jsonl` 的記錄找到人員頁網址，**現場讀取**，與索引（8/25）的文字比對（相同→快照；不同→現場；失敗→快照並標示），再交給既有的 `OfficeLookupSkill`；答案頁尾由程式列出每頁的資料狀態。`LIVE_FETCH=off`（預設）時行為與 P4 之前**逐字相同**（以 9 個辦公室的 `contact_node` 輸出比對確認）。
+
+**最終流程（httpx 優先）**
+```
+contact_node → 辦公室 → 索引記錄（網址、8/25 文字）
+ 每個人員頁一個任務，放進執行緒池同時進行（限速器管每個主機的間隔；osa 10 秒）：
+   httpx GET（cashier 不驗證 TLS，頁尾標示）→ 抽文字（與快照同一支抽取器）→ 與快照比對
+     → 升級條件 A（沒內容／Cloudflare／403）、B（相似度 < 0.5）→ 解析聯絡人 → 條件 C（解析不出人）
+     ├─ 不升級 → 用靜態結果
+     └─ 升級 → 瀏覽器擁有者執行緒（Chromium）渲染 → 同樣的比對與解析 → 用 Chromium 結果
+   逾時／429／5xx／斷路器／轉址離開白名單：不升級，退回快照並標示
+ → 合併成「辦公室聯絡資訊」區塊，附 kind=contact 標記；沒有索引記錄的辦公室與使用內建固定資料（KNOWN_CONTACTS）的辦公室另行標示
+```
+
+**主要檔案**：`rag/live/contacts.py`（單頁任務、併發）、`escalate.py`（A／B／C 純函式）、`browser.py`（瀏覽器擁有者執行緒：`render(url)` 回傳 `Future`，需要時才啟動、閒置 10 分鐘關閉、`atexit`、崩潰重啟一次）、`extract.py`（HTML→文字，抓取器與渲染共用）、`ledger.py`（標記與頁尾）、`rag/agentic/nodes/contact.py`（接入）、`rag/agentic/logic/office_detection.py`（偵測器丟掉緊接著下屬的母單位）、`rag/preprocess.py`（抽取器不再刪 class 含 `header` 的元素）。
+
+**旗標與環境變數**（預設值；估計值都可由環境變數調整）
+| 變數 | 預設 | 作用 |
+|---|---|---|
+| `LIVE_FETCH` | `off` | `on` 才啟用所有現場讀取（頁面、表單、人員頁） |
+| `FORM_GATE` | `off` | `on` 才在抓表單前做相關性判斷（P3.5） |
+| `LIVE_LOG` | （空） | `info`／`debug` 把 `rag.live` 與 `rag.form_gate` 的日誌印到 stderr |
+| `LIVE_STATIC_SIMILARITY_MIN` | 0.5 | 條件 B 的門檻（只有 9 個樣本支持） |
+| `LIVE_BROWSER_IDLE` | 600 秒 | 瀏覽器閒置多久關閉（估計值） |
+| `LIVE_RENDER_SETTLE_MS` | 2000 | Chromium `load` 後固定等待（沿用 `fetch_office_contacts.py`） |
+| `LIVE_REQUEST_TIMEOUT`／`LIVE_MAX_RETRIES`／`LIVE_BACKOFF_BASE` | 60 秒／2／1 秒 | httpx 逾時與重試 |
+| `LIVE_GLOBAL_CONCURRENCY`／`LIVE_HOST_INTERVAL` | 4／1 秒 | 限速器（osa 另有 10 秒、moltke 0.5 秒、cpbae 5 秒，寫在 `config.HOST_POLICY`） |
+| `LIVE_BREAKER_THRESHOLD`／`LIVE_BREAKER_COOLDOWN` | 5／300 秒 | 斷路器 |
+| `LIVE_TTL_PAGE`／`_LISTING`／`_CONTACT`／`_FORM`／`_PDF` | 600／300／3600／3600／86400 秒 | 旁路快取有效期（人員頁路徑目前不讀快取） |
+| `LIVE_INCOMPLETE_RATIO` | 0.5 | `live_incomplete`（現場比快照短太多）的門檻 |
+| `LIVE_TODAY`／`LIVE_SNAPSHOT_ASOF` | （今天，台北）／2026-08-19 | 固定「今天」供測試；快照日期顯示 |
+| `LIVE_RENDER_ESTIMATE` | 3.0 秒 | 只有已閒置的 `schedule.py` 使用 |
+
+**測試**（全部離線，無網路、無 LLM；226 項）：`LANGFUSE_TRACING_ENABLED=false python -W ignore -m unittest experiments.live_spikes.test_live_p1 experiments.live_spikes.test_live_p2 experiments.live_spikes.test_live_p3 experiments.form_gate.test_form_gate experiments.live_spikes.test_live_p4_browser experiments.live_spikes.test_live_p4_render experiments.live_spikes.test_live_p4_schedule experiments.live_spikes.test_extractor_header experiments.live_spikes.test_live_p4_escalate experiments.live_spikes.test_live_p4_contacts experiments.live_spikes.test_live_p4_node experiments.live_spikes.test_live_p4_ledger experiments.live_spikes.test_office_detection_parents`（從 repo 根目錄）。部分測試需要 `experiments/live_fixtures/chain_xiuxue_2026-10-14/`（不被 git 追蹤，缺少時自動跳過）。`LANGFUSE_TRACING_ENABLED=false` 只是避免 LangFuse 連不上 localhost:3000 時一直重試而拖慢（不加整組約 200 秒）。這些測試用假瀏覽器、假網路、假 LLM，**不能取代實測**。
+
+**實測數字（單次樣本）**：人員頁 9 頁 H5（httpx 優先）：**46 個請求、30.4 秒**（只有國合處升級）；對照全部用 Chromium 的步驟 7：406 個請求、35.1 秒。`osa` 4 頁每頁 1 個請求、間隔 10 秒。端到端（休學、`on`）：步驟 8（全 Chromium）25/26；H6（httpx 優先）24/26、整題 219 秒（原因未歸因）。
+
+**已知限制與未決（細節見本節與 §12.5）**：①條件 C 對「母單位首頁」類記錄會白花一次 Chromium（教務處：93 個請求）——偵測器已不再因「教務處註冊組」回傳教務處，但直接問母單位仍會；母單位與下屬的對應（資料端）待使用者決定；通稱被拆成多列的單位（歷史學系）找不到。②盲點：靜態與快照一樣貧乏而 Chromium 其實更多、或只缺一部分——未處理。③聯絡人挑人與 `duty` 欄位（只放職稱）、同一辦公室每次挑的人不同、`self_eval` 的聯絡人判斷——併入 §12.5，延後。④`osa` 的 `Crawl-delay` 詮釋（起點到起點）與 Chromium 子請求。⑤219 秒的耗時未歸因（提議：`--stream` 加每個節點的經過秒數，未做）。⑥搜人名找不到（`on` 補足「讀」補不到「找」）。⑦固定等待 2 秒與擋圖片的量測未做。⑧辦公室數量與表單數量沒有上限。
+
+**閒置程式碼**：`rag/live/schedule.py` 與其 15 項測試（`test_live_p4_schedule.py`）、`RateLimiter.wait_time` 已不被正式路徑使用（httpx 頁面用執行緒池同時抓，不需要排程）。保留作為 P4.5 的起點；P4.5 若放棄，連同測試一併刪除。模組開頭已加註說明。
+
+> **以下「已定案的決定」到「風險」是 2026-10-16 討論初期的**最初設計**（Chromium 一律＋排程）；實作時依實測改為 httpx 優先，以上方「最終狀態」與後面的「httpx 優先」一節為準。保留是為了記錄設計如何演變。**
 
 **一句話**：把 `rag/fetch_office_contacts.py` 當初離線做的事，改成查詢時對 `contact_node` 偵測到的辦公室現場做一次。**唯一改的資料來源**：`dynamic_contacts_for_office()` 現在讀索引（2026-08-25）裡存的 `text`；P4 改成現場渲染該筆記錄的 `url` 取得文字，再交給**同一個** `parse_office_contacts()`。`contact_node`、`OfficeLookupSkill` 的解析、synthesis 都不動。
 
@@ -844,7 +889,7 @@ MCP 只是工具的打包與傳輸方式，不決定穩定度。分工準則是*
 | 抓取方式 | **一律 Chromium**（使用者 2026-10-16）〔**2026-10-16 實測後改為 httpx 優先、必要時才升級 Chromium，見「httpx 優先」一節；本列為最初決定**〕 | 延續 Phase F 的決定：399 個 URL 全用 Playwright，因為聯絡人頁容錯率低、JS 局部注入會造成靜態抓取悄悄缺漏。P1 實測 10 頁中 8 頁靜態與 Chromium 相同、`oic` 靜態只得 37 字，但「只缺一部分」的頁面我們的 `live_incomplete`（< 快照 50%）偵測不到，所以不冒險 |
 | 瀏覽器生命週期 | **瀏覽器擁有者執行緒**；**綁在行程上**：第一次需要時才啟動（不預熱）、之後保持開著、**閒置 10 分鐘關閉**（估計值，可調）、命令列行程結束時以 `atexit` 關閉、崩潰自動重啟 | 節點是同步函式，LangGraph 會把它們丟到執行緒池，不同問題的 `contact_node` 可能在不同執行緒；Playwright 同步 API 的物件只能在建立它的執行緒使用，所以要重用瀏覽器就需要一條固定的執行緒持有它。後端無法得知前端是否開著，所以不以前端為準 |
 | 對外介面 | `render(url)` **回傳 `Future`**（Python 標準庫 `concurrent.futures.Future`，像餐廳的號碼牌：馬上拿到、頁面還在渲染，之後用 `.result()` 領取，或用 `as_completed` 取得「先好的先處理」）；任何執行緒可呼叫，請求進佇列由擁有者執行緒處理（使用者 2026-10-16 同意） | 流水線要的就是「哪一頁先好就先處理」；P4 第一版由擁有者執行緒依序完成這些 Future，P4.5 同時完成它們，呼叫端程式完全不用改，也不必動 `contact_node` |
-| 渲染順序 | **循序渲染＋交錯排程** | `osa` 依 robots.txt 的 Crawl-delay 10 秒，4 頁至少約 33 秒；排程時在 `osa` 等待的空檔先渲染其他主機的頁面。休學鏈估計約 33 秒（循序、`osa` 在前則約 48 秒）；**皆為用 P0 單頁實測 2.5～3.4 秒推算的估計，整條鏈未實測** |
+| 渲染順序 | **循序渲染＋交錯排程**〔已被取代：httpx 頁面用執行緒池同時抓，不需排程〕 | `osa` 依 robots.txt 的 Crawl-delay 10 秒，4 頁至少約 33 秒；排程時在 `osa` 等待的空檔先渲染其他主機的頁面。休學鏈估計約 33 秒（循序、`osa` 在前則約 48 秒）；**皆為用 P0 單頁實測 2.5～3.4 秒推算的估計，整條鏈未實測** |
 | 快取 | **第一版不做** | 驗證最單純（一看就知道有沒有真的去抓；P3.5 端到端曾因表單來自快取而沒量到真實請求）；60 分鐘 TTL 也與「與官網一樣新」稍有衝突。需要時再加（`LiveCache` 已有到期判斷，只需接上 Chromium 路徑） |
 | 範圍 | 只處理 `office_contacts_index.jsonl` 有記錄的辦公室；不在索引的（`_find_pages` 那條路）、新設立的單位、`KNOWN_CONTACTS` 後備，**維持快照並標示** | 不擴大範圍 |
 | 以職務查 | 不新增職務解析、不追蹤個人 | 現有解析本來就把「職稱／姓名／分機」成組讀出，現場頁面是誰就是誰；P0 的教務長室（現場不再列出劉建興）會自然反映 |
@@ -868,7 +913,7 @@ contact_node 偵測到辦公室
 
 **已知取捨：辦公室數量沒有上限（使用者 2026-10-16：P4 先不加，之後再討論；不算缺口）**：一次要查的辦公室很多時（例如 `_detect_offices` 在長頁面上回傳大量辦公室，實際最壞情況會有幾個目前**沒有資料**），渲染會排成一條很長的隊：每頁約 3 秒，加上 `osa` 的 10 秒間隔，整題等很久、也對政大發大量請求。**這是等待時間與請求量的問題，不是執行緒爆炸**：`OfficeLookupSkill.run()` 每辦公室開一條執行緒是**現有行為**，只做解析；P4 的 Chromium 渲染由單一擁有者執行緒排隊，不會同時開很多瀏覽器（P4.5 之後才會同時渲染，且仍受限速器約束）。另外，§5.4 的慢速警告（30／60／120／300 秒）在設定檔有秒數但**尚未實作**，所以目前沒有任何程式在使用它。之後可討論：辦公室數量上限（超過者維持快照並標示）、「先 httpx 再 Playwright」（P1 的 10 頁中 8 頁靜態等同 Chromium 是依據之一）。P4 第一版維持 Playwright，因為與 `office_contacts_index.jsonl` 當初的爬取方式相同。
 
-**預期的延遲代價**：休學鏈多出約 33～48 秒（估計；主要來自 `osa` 的 Crawl-delay，是我們決定完全遵守 robots.txt 的後果，不是程式效率問題）。
+**預期的延遲代價**〔最初估計，實測見 H5／H6〕：休學鏈多出約 33～48 秒（估計；主要來自 `osa` 的 Crawl-delay，是我們決定完全遵守 robots.txt 的後果，不是程式效率問題）。
 
 **替代方案**：靜態 httpx 優先、必要時才升級 Chromium（P1 的 8/10 結果支持，但有「只缺一部分」偵測不到的風險，使用者選擇不冒險）；每條執行緒各開一個瀏覽器（吃資源、無法重用）；整個專案改 async（影響節點、命令列 `invoke`、複合問題的巢狀 `invoke`、評分腳本；已驗證純 async 節點用同步 `invoke` 會報 `TypeError: No synchronous function provided`）。
 

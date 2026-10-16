@@ -23,6 +23,11 @@ the rate limiter still enforces every gap.
 `as_completed`. Future callbacks run on the dispatcher thread -- they must hand real work to a pool, not do it inline,
 or they would delay the next dispatch. This is the simultaneous-crawling hook for P4.5 too: only `_choose` and the
 dispatch loop would change.
+
+NOTE (2026-10-16, P4 H7): NOT USED by the production path any more. Staff pages are now fetched with httpx first (a thread pool
+plus the rate limiter, rag/live/contacts.py), so there is no longer a single browser queue whose order needs choosing; only the
+rare escalated page goes to the browser. Kept (with its tests) as the starting point for P4.5 (simultaneous crawling), which is
+deferred; delete this module and test_live_p4_schedule.py if P4.5 is dropped. RateLimiter.wait_time exists only for this module.
 """
 
 from __future__ import annotations
