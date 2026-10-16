@@ -878,6 +878,15 @@ contact_node 偵測到辦公室
 - URL 漂移：處室改版後舊網址 404、轉址或空殼頁，一律算失敗並標示，不算「已確認」。
 - `osa` 的 10 秒間隔使延遲不可避免；Chromium 啟動與記憶體占用**未量測**。
 
+**步驟 0 結果（2026-10-16，`experiments/live_spikes/p4_step0_threads.py`，全程本機、不連政大、無 LLM；各測項只跑一次，另重跑 T4a 三次）**
+- T1 同一執行緒使用 Playwright 同步 API：成功；Chromium `launch` 約 0.4 秒，整個流程（含首次載入 Playwright）3.8 秒。
+- T2 在執行緒 A 建立的頁面物件，從執行緒 B 使用：**失敗**，`greenlet.error: Cannot switch to a different thread`——證實「要重用瀏覽器就需要固定的擁有者執行緒」。
+- T3 擁有者執行緒模式（佇列＋`Future`）：3 條不同的呼叫執行緒各自 `render()` 都拿到正確結果，約 1.5 秒（含啟動）。
+- T4a 在 LangGraph 同步節點（`astream` 驅動，與伺服器同路徑）裡直接用 `sync_playwright()`：成功；節點跑在執行緒 `asyncio_0`（執行緒池執行緒）、該執行緒上**沒有執行中的事件迴圈**——這是我們原先最大的未驗證風險，現已確認不會觸發錯誤。T4b 節點呼叫擁有者執行緒、連續兩次 `astream`：成功。**限制**：兩次都落在同一條 `asyncio_0`，所以**沒有實際觀察到「不同的問題落在不同執行緒」**，這點仍靠 T2 的結果推論，不是觀察到的。
+- T5 在「已有事件迴圈在跑」的執行緒裡用 `sync_playwright()`：**失敗**，`It looks like you are using Playwright Sync API inside the asyncio loop`——確認若節點被放進事件迴圈所在執行緒就會出錯，目前路徑不會。
+- 附帶發現：第一次 `astream` 的整體耗時約 15 秒（T4a 首次 15.4／16.7 秒，之後 1.2～1.5 秒），但**用不含 Playwright 的空節點也是 14.5 秒、第二次 0.00 秒**，所以這個冷啟動成本是 **LangGraph 首次執行**，不是 Playwright；原因未查（推測是首次載入，未驗證）。與 P4 無關，但表示伺服器行程的第一個請求可能多出這段時間。
+- 結論：擁有者執行緒設計成立，無需調整；Chromium 啟動成本小（約 0.4～1.3 秒，本機、`set_content`，非政大頁面）。
+
 **測試與驗收**
 - 離線（不連網、不啟動 Chromium）：擁有者執行緒的佇列、崩潰重啟、閒置關閉、`atexit`（用假渲染器）；交錯排程的排序；`resolve` 對教務長室（不同）、計數器（相同）、國合處（不完整→保留快照並標示）；標記行解析與偽造防護；頁尾只針對未走現場者。已有 9 個人員頁的 Chromium／靜態 fixture 可重用。
 - 本機 Chromium 冒煙測試：渲染本機 HTML（`set_content`／`file://`），**不連政大**。
