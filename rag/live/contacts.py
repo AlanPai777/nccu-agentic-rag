@@ -45,6 +45,8 @@ class PageOutcome:
     detail: str = ""
     comparison: Comparison | None = None
     render_seconds: float = 0.0
+    requests: int = 0                # HTTP requests the page made while rendering (passive count)
+    requests_nccu: int = 0
     handled: Any = None              # whatever `handler` returned
     handler_error: str = ""
 
@@ -104,7 +106,8 @@ def _decide(url: str, info: dict, rendered) -> PageOutcome:
     return PageOutcome(
         url=url, offices=info["offices"], state=_STATE[res.state], text=res.text, snapshot_text=info["snapshot_text"],
         snapshot_at=info["snapshot_at"], checked=taipei_minute(), error=err, detail=rendered.detail,
-        comparison=res.comparison, render_seconds=rendered.elapsed)
+        comparison=res.comparison, render_seconds=rendered.elapsed,
+        requests=rendered.requests, requests_nccu=rendered.requests_nccu)
 
 
 def fetch_contact_pages(offices: list[str], scheduler: RenderScheduler,

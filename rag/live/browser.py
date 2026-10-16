@@ -44,6 +44,8 @@ class RenderResult:
     error: str = ""            # start_failed|render_error|crashed|closed|<backend-specific>
     detail: str = ""
     elapsed: float = 0.0
+    requests: int = 0          # HTTP requests the page made (the page itself + everything it loaded); passive count
+    requests_nccu: int = 0     # ...of which went to *.nccu.edu.tw
 
 
 class BrowserCrashed(Exception):
@@ -100,6 +102,12 @@ class PlaywrightBackend:
             if self._sub_allow is not None:
                 ctx.route("**/*", lambda route: route.continue_() if self._sub_allow(route.request.url) else route.abort())
             page = ctx.new_page()
+            seen = {"all": 0, "nccu": 0}
+
+            def count(req) -> None:                       # passive: only counts what the page itself asks for
+                seen["all"] += 1
+                seen["nccu"] += int(self._is_nccu(req.url))
+            page.on("request", count)
             resp = page.goto(url, timeout=self.nav_timeout_ms, wait_until="load")
             if self.settle_ms:
                 page.wait_for_timeout(self.settle_ms)
@@ -114,7 +122,7 @@ class PlaywrightBackend:
             # still declares big5) would make the extractor's encoding sniffing guess wrong and garble Chinese text, so
             # the bytes carry a UTF-8 BOM, which takes priority over any declared or guessed encoding.
             return RenderResult(url, ok=True, html=b"\xef\xbb\xbf" + page.content().encode("utf-8"), status=status,
-                                elapsed=time.monotonic() - t0)
+                                elapsed=time.monotonic() - t0, requests=seen["all"], requests_nccu=seen["nccu"])
         except PWTimeout as e:
             return RenderResult(url, error="timeout", detail=str(e).splitlines()[0][:160], elapsed=time.monotonic() - t0)
         except PWError as e:
@@ -128,6 +136,12 @@ class PlaywrightBackend:
                     ctx.close()
                 except Exception:                           # noqa: BLE001 -- a dead context must not mask the result
                     pass
+
+    @staticmethod
+    def _is_nccu(url: str) -> bool:
+        from urllib.parse import urlsplit
+        host = (urlsplit(url).hostname or "").lower()
+        return host == config.ALLOWED_DOMAIN or host.endswith("." + config.ALLOWED_DOMAIN)
 
     def stop(self) -> None:
         try:
