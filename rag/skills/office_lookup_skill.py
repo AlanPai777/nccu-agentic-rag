@@ -444,7 +444,16 @@ def _load_contacts_index() -> dict[str, list[dict]]:
     return by_name
 
 
-def dynamic_contacts_for_office(office: str) -> tuple[list[dict], list[str]]:
+def index_records_for_office(office: str) -> list[dict]:
+    """The office_contacts_index.jsonl records that dynamic_contacts_for_office() reads for `office` (literal record
+    name first, else the _OFFICE_NAME_MAP aliases). Split out so the live path (rag/live/contacts.py) asks the index the
+    same question the snapshot path does."""
+    index = _load_contacts_index()
+    record_names = [office] if office in index else _OFFICE_NAME_MAP.get(office, [])
+    return [rec for name in record_names for rec in index.get(name, [])]
+
+
+def dynamic_contacts_for_office(office: str, texts: dict[str, str] | None = None) -> tuple[list[dict], list[str]]:
     """
     Primary contact lookup for `office` (Phase F condition 4) — queries
     office_contacts_index.jsonl, parses each matching record's raw text, and
@@ -477,23 +486,23 @@ def dynamic_contacts_for_office(office: str) -> tuple[list[dict], list[str]]:
     contact_node answer had real names/extensions but nothing to cite as
     a source. Returning urls here lets _lookup_one() use this index's own
     URL as a fallback source when the legacy _find_pages() path (below)
-    doesn't cover the office."""
-    index = _load_contacts_index()
-    record_names = [office] if office in index else _OFFICE_NAME_MAP.get(office, [])
+    doesn't cover the office.
 
+    `texts` (Phase J, P4): optional {url: page text} that replaces a record's stored `text` for that url -- the live
+    path passes the text it decided to use (live or snapshot). None (the default) = the index text, exactly as before."""
     contacts: list[dict] = []
     seen_exts: set[str] = set()
     urls: list[str] = []
-    for record_name in record_names:
-        for rec in index.get(record_name, []):
-            url = rec.get("url")
-            if url and url not in urls:
-                urls.append(url)
-            for c in parse_office_contacts(rec.get("text", "")):
-                if c["ext"] in seen_exts:
-                    continue
-                seen_exts.add(c["ext"])
-                contacts.append(c)
+    for rec in index_records_for_office(office):
+        url = rec.get("url")
+        if url and url not in urls:
+            urls.append(url)
+        text = texts[url] if texts is not None and url in texts else rec.get("text", "")
+        for c in parse_office_contacts(text):
+            if c["ext"] in seen_exts:
+                continue
+            seen_exts.add(c["ext"])
+            contacts.append(c)
     return contacts, urls
 
 

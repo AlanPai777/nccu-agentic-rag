@@ -269,10 +269,18 @@ _owner: BrowserOwner | None = None
 _owner_lock = threading.Lock()
 
 
+def _shared_limiter_slot(url: str):
+    """Rate-limit Chromium page loads with the SAME limiter the httpx fetcher uses, so the per-host gap (osa: 10 s) holds
+    across both kinds of request."""
+    from rag.live.allowlist import host_of
+    from rag.live.hook import get_fetcher
+    return get_fetcher().limiter.slot(host_of(url))
+
+
 def get_owner() -> BrowserOwner:
     global _owner
     with _owner_lock:
         if _owner is None or _owner._closed:
-            _owner = BrowserOwner()
+            _owner = BrowserOwner(around=_shared_limiter_slot)
             atexit.register(_owner.shutdown)
         return _owner
