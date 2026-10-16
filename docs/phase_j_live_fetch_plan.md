@@ -1062,6 +1062,13 @@ contact_node 偵測到辦公室
 ### P6　挑戰者 B（Crawl4AI）轉接器＋評分卡
 - 範圍：安裝（§9）、`adapters/crawl4ai.py`、`experiments/live_spikes/` 的共同測試框架；固定 URL 集單次跑完。驗收：評分卡填完，依 §5.17 準則決定是否採用。停損：B 在格式相容上不及格就放棄。
 
+- **安裝紀錄（2026-10-16，使用者自行執行）**：
+  - 使用者把 `pip install -U crawl4ai` 直接裝進**主 venv**（`/mnt/d/NCCU_DATA/NCCU-AI-SYSTEM/venv`，Python 3.14.4），而非我建議的獨立 venv。結果：**Crawl4AI 0.9.5** 已安裝（Playwright 仍是 1.62.0）、**numpy 升到 2.5.4**。
+  - pip 警告衝突：`llama-index-core 0.10.68.post1 requires numpy<2.0.0, but you have numpy 2.5.4`。影響範圍是 **classic RAG**（`rag/retriever.py` 用 LlamaIndex）。**使用者決定（2026-10-16）：classic RAG 基本沒有在用了，先記錄，不還原 numpy、不處理。** 若日後要重新啟用 classic RAG，需先處理這個衝突（降回 `numpy<2`，或把 Crawl4AI 移到獨立 venv）。
+  - 已驗證：`import agentic_rag` 正常（主線與 Phase J 不受影響）。**未驗證**：`import llama_index.core` 是否真的壞了（在 60 秒內沒跑完就被我的逾時終止，無法區分「冷啟動慢」與「numpy 2 不相容」）；`pip check` 的完整輸出未取得。
+  - **`crawl4ai-setup` 不需要跑**（讀 `crawl4ai/install.py`）：它會①刪除並重建 `~/.crawl4ai/cache`；②執行 `playwright install --with-deps --force chromium`（強制重裝瀏覽器，`--with-deps` 會經 apt 裝系統函式庫、通常要 sudo）；③資料遷移。我們已有 Playwright Chromium（`~/.cache/ms-playwright`），所以跳過；若執行時缺瀏覽器再補。安裝後只需跑一次，不是每次。
+  - 教訓：共用 venv 裝實驗性套件會動到共用相依；之後 P9 的 `mcp`、`docling`、`markitdown` 等實驗性安裝，先 `pip install --dry-run` 看會動到什麼。
+
 ### P7　`recent_node`
 - 範圍：`timeintent`、`dates`、`registry.json`、`recent.py`、答案形狀；先 2～3 個網域，再擴大；擴大前重新評估 D11（User-Agent／知會計中）。
 - 驗收：fixture 測試（日期解析、列表解析、分頁與置頂）；「10/14 哪些處室有更新」**跑一次看結果**，有答案再討論。
