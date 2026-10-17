@@ -1102,6 +1102,62 @@ contact_node 偵測到辦公室
 
 - **頁尾措辭與檢查時間（使用者 2026-10-16 決定：目前的用語視為測試階段的用語，等接上前端時再改）**：現在的 `【資料狀態】` 用的是開發者用語——「現場確認，內容與快照一致／內容已更新（以現場為準）／現場確認失敗，使用快照」，「快照」是內部術語，一般使用者不需要知道。接前端（本階段）時要一併改：①措辭改成使用者看得懂的說法（例如「已與官網核對，內容無變動／已更新」「未能與官網核對，使用 8 月的資料」）；②**檢查時間**：目前顯示所有來源中最晚的一個，會掩蓋較舊的來源（旁路快取最久可到頁面 10 分鐘、表單與人員頁索引外的 60 分鐘），改為顯示最舊的檢查時間或每個來源各標；③被快取而非本次抓取的來源，不應寫成「現場確認」。這些在 P8 之前不改，避免現在測試的輸出與日後不同而難以比較。
 
+- **P8 計畫（2026-10-18 定稿；參考圖在 `CourseLangChain-frontend/Design_photo/`，互動草圖見 artifact「政大 AI 助手 P8 介面草圖」；狀態：待使用者修正「§P8.9 開工前確認」後開始實作）**
+
+  **P8.0 目標**：主線是把「能現場查」的 demo 做出來，對象是測試與指導教授，讓人**看見系統有即時查詢的能力**；「核對時間」（每個來源幾月幾號幾點與官網核對）本身就是 demo。**不是**要證明答案變好（證據不足，見 P5／P6 結論）。
+
+  **P8.1 已決定（使用者 2026-10-17～18）**
+
+  | 項目 | 決定 |
+  |---|---|
+  | 進度顯示 | Claude 式步驟列：頂端膠囊可整個收合；每一列可展開；列右側「↗」按鈕直接開官網頁面；展開內容中的網址也是連結。列前的圓點改成**網站標誌**（圓形，保留圓形／方形切換，之後再討論） |
+  | 步驟展開內容 | 先做 **A**：網址（可點）、狀態、核對時間、耗時。**A＋B**（與資料庫的差異：分機與表單編號的增減、變動行原文）等 A 全部完成、且離線看過 7 頁實際差異之後再決定 |
+  | 查現場開關 | 輸入框旁，**預設開**，旁邊**不寫預估時間**。B2 用**丙**：前端開關為主（`/ask?live=on\|off`，預設 on）；環境變數 `LIVE_FETCH` **明確設成 `off`** 時強制關閉（忽略前端請求）；環境變數未設時：server 依請求、命令列維持原本的關 |
+  | 來源面板 | America.gov 式視窗，**依網站分組**（組內每筆標題寫處室名），每組可展開，每筆是連結；有「改用查現場重新查詢」按鈕（關閉現場時顯示） |
+  | 核對時間 | 絕對時間為主（「10/17 14:31」），被快取者補「（約 N 分鐘前核對）」 |
+  | 關閉現場的用語 | 標籤「使用資料庫（8/19）」；提示列「本題沒有查官網，答案來自資料庫（8 月 19 日更新），之後官網可能已有變動」；`snapshot_fallback` →「未能連上官網，使用資料庫（8/19）」 |
+  | 答案內的頁尾 | **串流時不再送出**（只在步驟列與來源視窗呈現）；但答案本身（`state["answer"]`）**仍含頁尾**——`self_eval` 的 Stage 1 揭露檢查、CLI、`eval` 都靠它 |
+  | 憑證 | 先不在連結旁加警告（使用者實測瀏覽器沒有警告），**但展開細節記錄「系統讀取此站時未驗證憑證」**；日後真的出現警告再加 |
+  | 不做／延後 | **B5**（讓 agent 呼叫工具時附一句說明）先不做；讚／倒讚、後續問題建議不做；`$\rightarrow$` 外露等小修「看情況」（預設不做）；標誌的小圖示是否每站都有可用，**demo 看過效果再查** |
+  | 要做 | B6 慢速提示（30／60／120／300 秒）、B7 使用者看得懂的狀態用語 |
+
+  **P8.2 事件契約（SSE；未知的 `type` 舊前端會直接略過，所以向後相容）**
+  - 既有不動：`{"type":"status","text":…}`、`{"type":"reset"}`、`{"data":…}`、`SPECIAL_END_TOKEN`。
+  - 新增 `{"type":"meta","live":bool,"live_available":bool,"snapshot_date":"2026-08-19"}`：每個串流開頭送一次，告訴前端「這題實際用不用現場」與總開關是否被強制關閉。
+  - 新增 `{"type":"step","id":str,"phase":"start|done","kind":"page|form|contact","host":str,"site_name":str,"title":str,"office":str,"url":str,"state":"pending|waiting|live_same|live_changed|live_new|snapshot_fallback|live_incomplete|discontinued|fixed_data|snapshot","checked":"YYYY-MM-DDTHH:MM"|null,"cached":bool,"age_min":int|null,"seconds":float|null,"tls_unverified":bool}`。`id` 相同的事件更新同一列（start→done）。
+  - 新增 `{"type":"sources","live":bool,"snapshot_date":str,"groups":[{"host":str,"name":str,"items":[{"title","office","url","state","label","checked","cached","age_min","tls_unverified"}]}]}`：在 `synthesis_node` 結束時送一次。
+  - 新增 `{"type":"slow","seconds":30|60|120|300,"text":str}`：每個門檻最多一次；有 token 開始吐字就不再送。
+  - 新增 `GET /config` →`{"live_available":bool}`（丙：環境變數明確 `off` 時為 false，前端把開關灰掉）。
+
+  **P8.3 後端步驟（本 repo；每步先寫測試、離線可驗；順序即依賴順序）**
+  1. **S1 每次請求的 `live` 旗標（B2 丙）**。`AgentState` 加 `live: bool | None`（`initial_state(..., live=None)`）；新函式 `config.live_enabled(request_live)`：環境變數明確 `off` → False；否則 request_live 非 None → 用它；否則依環境變數（未設＝False，與現在相同）。`hook.apply_page`／`apply_form`、`prefetch.maybe_start`、`contact_node`（2 處）改吃明確的 `live` 參數，不再自己讀 `live_mode()`。**注意**：`resource_node` 直接 `get_form_tool.invoke({"form_id":…})`（沒有 state，不能用 `InjectedState`）→ 把工具本體抽成 `fetch_form_for_agent(form_id, live)`，工具與 `resource_node` 都呼叫它；`get_form_tool` 加 `InjectedState`。命令列加 `--live on|off`（預設不傳，沿用環境變數）。**測試**：`live_enabled` 真值表；`live=False` 時即使環境變數 on 也**不發任何請求**（假 fetcher 計數為 0）；`live=None` 且環境變數未設時輸出與 P8 前逐字相同（`contact_node`、`resource_node`、工具輸出）。
+  2. **S2 標記與用語（B7）**。標記加 `cache=1`、`age=<分鐘>`、`t=<網頁標題，百分比編碼>`（解析器本來就吃 `key=value`，向後相容；`sanitize` 仍擋偽造標記）；`ledger._LABEL` 改成使用者用語（P8.1 表）並**同一份給頁尾與來源面板用**；頁尾不再只取最晚時間，改為每個來源各自一個時間。**要改的既有測試**：`test_live_p2.py`、`test_live_p3.py`、`test_live_p4_ledger.py`、`experiments/form_gate/test_form_gate.py` 內含舊措辭的斷言；另查 `self_eval_checks.py`、`synthesis.py` 是否依賴舊措辭（grep 已確認這些檔案提到「資料狀態／現場確認」）。
+  3. **S3 網站→顯示名稱**。新增 `experiments/live_spikes/build_site_names.py`（一次性、離線）讀 `docs/contact.csv`（144 個主機）產生 `rag/live/site_names.json`：規則＝該主機有「根網址」那一列就用它的名稱（aca→教務處、osa→學生事務處）；否則用該主機第一列名稱並**去掉最後的括號說明**（`商學院(現任院長)`→商學院）；**手動覆寫**：moltke→校務表單服務（csv 沒有）、www.nccu.edu.tw→政大首頁（csv 第一列是校長室，會誤導）、emba／mba／imba 等需逐一看過。產生後列出所有覆寫與可疑項給使用者看。`rag/live/site_names.py::site_name(host)`：查不到退回主機名稱。**測試**：aca／osa／cashier／www.lib／oic／moltke／www.cs 的名稱；未知主機退回主機名。
+  4. **S4 `sources` 建構**。新增 `rag/live/sources.py::build_sources(messages, live)`：用 `parse_markers`／`parse_uncovered`／`parse_gate_none` 組成 P8.2 的 `groups`（依主機分組，名稱用 S3，組內依讀取順序）；**`live=False` 時沒有標記**，改由本次 `get_page`／`get_form`／`contact` 讀過的網址組出 `state="snapshot"` 的來源；`fixed_data`（`fixed://…`）沒有網址，只顯示「使用內建的固定聯絡資料」。**測試**：各狀態的標籤與時間；快取來源的 `cached/age_min`；`live=False`；分組順序；偽造標記不被採信。
+  5. **S5 即時步驟事件**。新增 `rag/live/events.py`：`emit(event: dict)`——用 LangGraph 的 `get_stream_writer()`（已確認可匯入）；**在節點／工具的執行緒內先取得 writer 並傳給執行緒池的 worker**（`contacts.fetch_contact_pages` 是用執行緒池跑的；worker 裡沒有節點脈絡）；任何失敗吞掉、記 log，**不得影響圖**；`live=False` 不送。送出位置：`hook.apply_page`、`hook.apply_form`（表單）、`contacts.process_page`（人員頁：start、同網站排隊時 `waiting`、done）；預抓背景鏈沒有節點脈絡，**只在真正取用結果時送**。`server.py::_pump` 的 `stream_mode` 加 `"custom"` 並轉成 SSE；`synthesis_node` 結束時送 `sources`，並**不再**把頁尾當 `data` 串出。**測試**：假 emitter 驗事件順序與欄位；emitter 丟例外圖照常完成；`live=False` 零事件；同一 `id` 的 start→done。
+  6. **S6 `/ask` 與 `/config`**。`/ask?live=on|off`（預設 on）→ 傳入 `initial_state`；串流開頭送 `meta`；`GET /config`。**測試**：用 FastAPI `TestClient` 與假圖驗參數、`meta`、`/config`（環境變數 `off` 時 `live_available=false` 且請求被忽略）。
+  7. **S7 慢速提示（B6）**。`_generate` 已有心跳迴圈；加門檻（`LIVE_SLOW_WARN_SECONDS=30,60,120,300`，已在設定檔）與依階段的文字；有 token 後停止；**測試**：假時鐘驗門檻只觸發一次、token 到達後不再送。
+  8. **S8 重播工具**（只為前端開發）：`experiments/live_spikes/replay_sse.py`——讀一份錄好的事件序列 JSON，在 8001 埠提供 `/ask` 與 `/config`，**不呼叫 LLM、不對政大發請求**，讓前端可反覆調整。事件序列的第一份可由手寫（依 P8.2）；真實錄製需一次端到端（須先經使用者核准）。
+
+  **P8.4 前端步驟（`CourseLangChain-frontend`，分支 `feat/add-assistant-entry`；由使用者提交；先用 S8 的重播開發）**
+  1. **F1 `useChat.ts`**：處理 `meta`／`step`／`sources`／`slow`；`EventSource` 網址加 `live=`；新狀態 `steps`（依 `id` 更新）、`sources`、`slowNotice`、`meta`。保留既有 `status`／`reset`／`courses` 與 `SPECIAL_END_TOKEN` 邏輯，不認得的 `type` 照舊略過。
+  2. **F2 步驟列元件**：取代 `AssistantChat.vue` 的純文字 `statusLog`；膠囊保留走路動畫與耗時；每列＝標誌＋動詞＋標題＋主機＋狀態標籤＋時間＋展開箭頭＋「↗」；展開顯示網址、狀態、核對時間、耗時，cashier 另顯示未驗證憑證的記錄；進行中的列有轉圈；開始吐字後自動收合（沿用既有行為）。
+  3. **F3 `SiteLogo` 元件**：圓形（可切換方形）；先試 `https://<host>/favicon.ico`，載入失敗退回網站名稱第一個字的文字縮寫圓形（**未驗證**政大各站的 `/favicon.ico` 是否存在；demo 看過效果再決定要不要離線建圖示表）。
+  4. **F4 來源視窗**：答案下方「來源 N 筆 · M 個網站」按鈕（疊標誌）＋視窗（依網站分組、可展開、每筆是連結、帶狀態與核對時間）；關閉現場時顯示「改用查現場重新查詢」並重送同一個問題。
+  5. **F5 查現場開關**：輸入框旁的 `role="switch"`；預設開；選擇記在 `localStorage`（**讀寫都要 try/catch，讀不到就用預設**）；`/config` 回報 `live_available=false` 時灰掉；不顯示預估時間。
+  6. **F6 慢速提示**：`slow` 事件顯示在步驟列下方的提示條。
+  7. **F7（預設不做）**：`$\rightarrow$` 外露、輸入框提示字改中文、來源改可點連結（答案內的純文字網址）。
+
+  **P8.5 驗收**：①離線測試全過，既有 244 項測試中因措辭而改的斷言已同步更新；②**`live` 未傳且環境變數未設時，所有輸出與 P8 前逐字相同**（沿用 P4 的基準比對）；③前端用重播序列能走完整個畫面（步驟列、展開、來源視窗、開關、關閉現場提示、慢速提示）；④**一次**真實端到端（休學或國合處，`live=on`）與**一次**關閉現場（同一題）各跑一次，確認事件順序、核對時間與頁面一致；真實請求前先列清單給使用者核准。
+
+  **P8.6 風險**：①`custom` 串流在執行緒池 worker 中不一定能取得 writer——所以計畫是先在節點執行緒取得再傳入，並以假 emitter 測試；②事件跨執行緒的順序不保證，前端以 `id` 與 `phase` 合併而不依賴到達順序；③`resource_node` 的表單路徑原本沒有 state，S1 的重構要小心，必須用 P4 的基準比對確認輸出不變；④9 頁人員頁中 7 頁被判「已更新」，**差異內容沒有逐頁看過**，可能包含對使用者沒意義的差異（例如發佈日期文字），demo 前要先離線看過，否則「已與官網核對，已更新」可能誤導（這也是 A＋B 延後的原因）；⑤server 預設對所有請求開現場（丙），多使用者時的排隊與延遲見 P10；⑥前端是另一個 repo，兩邊的事件契約若不同步會靜默失效（所以契約寫在 P8.2，且未知事件不報錯）。
+
+  **P8.7 未涵蓋／之後**：A＋B 的差異摘要；小圖示離線表；形狀切換的最終選擇；P7 `recent_node`（「10/17 有什麼更新」，答案形式參考 America.gov 的「could not verify」並說明查了什麼、找到什麼、沒找到什麼）；B5；讚／倒讚與後續問題建議。
+
+  **P8.8 demo 腳本（建議）**：①「國合處的聯絡人是誰」（資料庫只有 37 字，現場讀得到 29 人）；②「我要辦理休學，要找哪些單位」（多個來源，看得到核對時間與分組）；③同一題把「查現場」關掉再問一次，對照速度與用語。
+
+  **P8.9 開工前確認**（使用者修正後才開始）：見對話；已寫入此處的待辦：`docs/contact.csv` 是否為最新版；名稱覆寫清單（moltke、www.nccu.edu.tw、emba／mba／imba）；前端 repo 的未提交修改（`vite.config.ts`、`.env` 等）的處理；是否同意改動 `get_form_tool` 的簽名（S1）。
+
 ### P9　MCP 實驗 I、代理式導覽 J
 - 範圍：見 §5.18；僅研究用途，不進產品路徑。
 
