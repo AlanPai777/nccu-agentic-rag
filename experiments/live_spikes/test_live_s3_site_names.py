@@ -91,7 +91,8 @@ class TestTheShippedTable(unittest.TestCase):
         sn._table.cache_clear()
         want = {"aca.nccu.edu.tw": "教務處", "osa.nccu.edu.tw": "學生事務處", "cashier.nccu.edu.tw": "出納組", "www.lib.nccu.edu.tw": "圖書館",
                 "oic.nccu.edu.tw": "國際合作事務處", "moltke.nccu.edu.tw": "校務表單服務", "www.nccu.edu.tw": "政大首頁",
-                "www.cs.nccu.edu.tw": "資訊科學系"}
+                "www.cs.nccu.edu.tw": "資訊科學系", "www.es.nccu.edu.tw": "附設實驗國民小學", "es.video.nccu.edu.tw": "附設實驗國民小學（家長會）",
+                "ahs.nccu.edu.tw": "附屬高級中學"}
         for host, name in want.items():
             self.assertEqual(sn.site_name(host), name, host)
 
