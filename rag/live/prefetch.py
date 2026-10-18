@@ -144,7 +144,7 @@ class Deps:
 
     def live_form(self, form_id: str, snapshot_provider) -> dict:
         from rag.live.hook import apply_form
-        return apply_form(form_id, snapshot_provider)
+        return apply_form(form_id, snapshot_provider, live=True)       # the chain only runs when this question is live
 
     def detect_offices(self, text: str) -> list[str]:
         from rag.agentic.logic.office_detection import _detect_offices
@@ -161,11 +161,11 @@ class Deps:
 
 
 def maybe_start(page_url: str, snapshot_page: dict, store: PrefetchStore | None = None, deps: Deps | None = None,
-                force: bool = False) -> bool:
+                force: bool = False, live: bool | None = None) -> bool:
     """Called by get_page_tool right after the local snapshot read and BEFORE the live check. Returns True if a chain was started.
     Never raises and never blocks: everything runs in the background."""
     try:
-        if not force and not (config.live_mode() == "on" and config.prefetch_enabled()):
+        if not force and not (config.live_enabled(live) and config.prefetch_enabled()):
             return False
         if not isinstance(snapshot_page, dict) or "error" in snapshot_page:
             return False

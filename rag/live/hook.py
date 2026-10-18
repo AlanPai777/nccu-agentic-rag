@@ -17,7 +17,7 @@ from rag.live import config
 from rag.live.allowlist import is_allowed
 from rag.live.cache import LiveCache
 from rag.live.clock import taipei_minute
-from rag.live.config import live_mode
+from rag.live.config import live_enabled
 from rag.live.fetcher import Fetcher
 from rag.live.ledger import (DISCONTINUED, LIVE_CHANGED, LIVE_INCOMPLETE, LIVE_NEW, LIVE_SAME, SNAPSHOT_FALLBACK, make_marker,
                              sanitize)
@@ -40,9 +40,10 @@ def get_fetcher() -> Fetcher:
         return _fetcher
 
 
-def apply_page(url: str, snapshot_page: dict) -> dict:
-    """`snapshot_page` is get_page()'s result: a page dict, or {"error": ...} when the URL is not in the corpus."""
-    if live_mode() == "off":
+def apply_page(url: str, snapshot_page: dict, live: bool | None = None) -> dict:
+    """`snapshot_page` is get_page()'s result: a page dict, or {"error": ...} when the URL is not in the corpus.
+    `live` is this question's choice (AgentState["live"]); None = decided by LIVE_FETCH alone (config.live_enabled)."""
+    if not live_enabled(live):
         return snapshot_page
     snap_found = "error" not in snapshot_page
     target = snapshot_page.get("url") or url          # the stored URL when get_page matched by prefix
@@ -67,10 +68,10 @@ def apply_page(url: str, snapshot_page: dict) -> dict:
     return page
 
 
-def apply_form(form_id: str, snapshot_form: dict) -> dict:
+def apply_form(form_id: str, snapshot_form: dict, live: bool | None = None) -> dict:
     """`snapshot_form` is agent_tools.get_form()'s result (or {"error": ...}). Same decision rule as pages:
     unchanged -> snapshot text, changed -> live text, live failed -> snapshot + disclosure, withdrawn -> no text."""
-    if live_mode() == "off":
+    if not live_enabled(live):
         return snapshot_form() if callable(snapshot_form) else snapshot_form
     from rag.live.forms import fetch_form, link_url_for
     link = link_url_for(form_id)

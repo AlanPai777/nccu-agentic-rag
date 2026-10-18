@@ -52,6 +52,23 @@ def live_mode() -> str:
     return "on" if os.environ.get("LIVE_FETCH", "off").strip().lower() == "on" else "off"
 
 
+def live_enabled(request_live: bool | None = None) -> bool:
+    """Should this question confirm things live? `request_live` is the per-question choice (AgentState["live"]: the front end's
+    "查現場" switch via /ask?live=, or the CLI's --live); None means the caller did not say.
+
+      LIVE_FETCH=off (or anything unrecognised)  -> False always: the operator's kill switch beats any request
+      LIVE_FETCH unset or empty                  -> the request decides; no request -> False (the CLI default, as before)
+      LIVE_FETCH=on                              -> the request decides; no request -> True (as before)
+
+    So with no request and no variable nothing changes from before P8 S1."""
+    raw = os.environ.get("LIVE_FETCH", "").strip().lower()
+    if raw not in ("", "on"):
+        return False
+    if request_live is not None:
+        return bool(request_live)
+    return raw == "on"
+
+
 # --- requests -------------------------------------------------------------------------------
 REQUEST_TIMEOUT = _env_float("LIVE_REQUEST_TIMEOUT", 60.0)   # D8: one request, not the whole question
 MAX_RETRIES = _env_int("LIVE_MAX_RETRIES", 2)

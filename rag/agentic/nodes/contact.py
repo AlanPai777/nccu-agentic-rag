@@ -15,7 +15,7 @@ from langfuse import observe
 
 from rag.agentic.state import AgentState
 from rag.agentic.logic.office_detection import _detect_offices
-from rag.live.config import live_mode
+from rag.live.config import live_enabled
 
 log = logging.getLogger("rag.live")
 
@@ -51,7 +51,8 @@ def contact_node(state: AgentState) -> dict:
     from rag.skills.office_lookup_skill import OfficeLookupSkill
     skill = OfficeLookupSkill()
     live = None
-    if live_mode() == "on":
+    use_live = live_enabled(state.get("live"))         # this question's choice, decided once (S1)
+    if use_live:
         # Phase J P4: read the offices' staff pages live (Chromium), keep the snapshot where nothing changed. Any
         # failure here must leave the snapshot answer intact -- the live check is an addition, never a dependency.
         try:
@@ -68,7 +69,7 @@ def contact_node(state: AgentState) -> dict:
         f"是否每個都要寫進最終答案由你根據問題判斷，不要假設清單已經先篩過。]"
     )
     context = header + "\n\n" + skill.format_context(result)
-    if live_mode() == "on":
+    if use_live:
         context = _with_ledger(context, offices, result, live)
     return {"messages": [HumanMessage(content=context)]}
 

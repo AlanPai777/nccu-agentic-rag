@@ -14,7 +14,7 @@ from langfuse import observe, get_client
 from rag.agent_tools import extract_form_ids
 from rag.agentic.state import AgentState
 from rag.live.ledger import gate_none_message
-from rag.agentic.tools.form import get_form_tool
+from rag.agentic.tools.form import fetch_form_for_agent
 from rag.agentic.logic.form_extraction import (
     _judge_forms, _extract_station_roles, _offices_from_role_keywords, _extract_checklist_blocks,
 )
@@ -62,7 +62,8 @@ def resource_node(state: AgentState) -> dict:
         if not relevant_ids:
             return {}
     fetched_ids = set(relevant_ids)
-    results = [get_form_tool.invoke({"form_id": fid}) for fid in relevant_ids]
+    live = state.get("live")           # this question's choice (S1); the forms below honour it
+    results = [fetch_form_for_agent(fid, live) for fid in relevant_ids]
     combined = "\n\n".join(results)
 
     # Cross-reference pass: a fetched form's own text can reference another
@@ -70,7 +71,7 @@ def resource_node(state: AgentState) -> dict:
     # principle (no judge here either). Bounded to a single extra pass.
     new_ids = [fid for fid in extract_form_ids(combined) if fid not in fetched_ids]
     if new_ids:
-        combined += "\n\n" + "\n\n".join(get_form_tool.invoke({"form_id": fid}) for fid in new_ids)
+        combined += "\n\n" + "\n\n".join(fetch_form_for_agent(fid, live) for fid in new_ids)
 
     # Structural extraction runs BEFORE office detection so its findings
     # can feed the offices list (not after resource->contact has already

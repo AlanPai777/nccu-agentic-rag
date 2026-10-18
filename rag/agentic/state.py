@@ -61,6 +61,9 @@ class AgentState(TypedDict):
                                  # Asia/Taipei, refilled every turn by initial_state() via
                                  # rag/live/clock.py -- the reference date "今天"/"10/14"/"本週"
                                  # resolve against. No node reads it yet (P0 adds the field only).
+    live:           bool | None  # Phase J P8 S1: this question's "查現場" choice (front end switch via /ask?live=, CLI --live);
+                                 # None = not said, rag/live/config.py live_enabled() then falls back to LIVE_FETCH alone.
+                                 # Refilled every turn by initial_state().
     compacted_boundary: int     # server.py-only (multi-turn compaction, outside
                                  # agentic_main.py's original 9-field scope): index into
                                  # `messages` where the in-progress turn's own live scratch

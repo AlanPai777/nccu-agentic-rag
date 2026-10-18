@@ -235,7 +235,7 @@ class TestFormTool(MoltkeBase):
         from rag.agentic.tools import form as ft
         hook._fetcher = self.fetcher(self.server())
         with mock.patch.object(ft, "_get_form_raw", side_effect=self._snap_raw_dispatch()):
-            outs = [ft.get_form_tool.func(fid) for fid in self.items]
+            outs = [ft.get_form_tool.func(fid, {}) for fid in self.items]
         combined = "[表單全文，系統偵測到表單編號後自動抓取]\n\n" + "\n\n".join(outs)      # what resource_node builds
         src = ledger.parse_markers([HumanMessage(content=combined)])
         self.assertEqual(sorted(s.kind for s in src), ["form"] * 3)
@@ -252,7 +252,7 @@ class TestFormTool(MoltkeBase):
         from rag.agentic.tools import form as ft
         hook._fetcher = self.fetcher(lambda r: httpx.Response(503))
         with mock.patch.object(ft, "_get_form_raw", side_effect=self._snap_raw_dispatch()):
-            out = ft.get_form_tool.func("QP-T01-03-02")
+            out = ft.get_form_tool.func("QP-T01-03-02", {})
         msg = HumanMessage(content="[表單全文]\n\n" + out)
         self.assertEqual([s.status for s in ledger.parse_markers([msg])], ["snapshot_fallback"])
         sec = ledger.status_section(ledger.parse_markers([msg]))

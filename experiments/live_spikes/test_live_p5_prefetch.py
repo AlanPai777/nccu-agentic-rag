@@ -156,7 +156,7 @@ class TestWhenItStarts(StoreCase):
         order = []
         with mock.patch.object(page_tool, "_get_page_raw", lambda *a, **k: order.append("snapshot read") or dict(SNAP_PAGE)), \
                 mock.patch.object(page_tool, "start_prefetch", lambda *a, **k: order.append("prefetch")), \
-                mock.patch.object(page_tool, "apply_page", lambda u, p: order.append("live check") or p), \
+                mock.patch.object(page_tool, "apply_page", lambda u, p, live=None: order.append("live check") or p), \
                 mock.patch.object(page_tool, "_detect_offices", lambda t: []):
             page_tool.get_page_tool.func(PAGE, {"subdomain_hint": None})
         self.assertEqual(order, ["snapshot read", "prefetch", "live check"])
@@ -170,7 +170,7 @@ class TestRealChainReusesIt(StoreCase):
             counts["raw"].append(fid)
             return {"form_id": fid, "form_title": f"T{fid}", "text": "snap", "url": "u"}
 
-        def apply(fid, snap):
+        def apply(fid, snap, live=None):
             counts["apply"].append(fid)
             snap = snap() if callable(snap) else snap
             return {**snap, "live_marker": f"[live:src status=live_same kind=form checked=x snap=x tls=0 url=u/{fid}]"}
@@ -190,7 +190,7 @@ class TestRealChainReusesIt(StoreCase):
                 mock.patch.object(form_tool, "_get_form_raw", raw), mock.patch.object(form_tool, "apply_form", apply):
             pf.maybe_start(PAGE, SNAP_PAGE, self.store, deps, force=True)
             self.assertTrue(wait_for(lambda: counts["apply"] == ["QP-A"]))
-            out = form_tool.get_form_tool.func("QP-A")
+            out = form_tool.get_form_tool.func("QP-A", {})
         self.assertEqual((counts["raw"], counts["apply"]), (["QP-A"], ["QP-A"]))   # once each: the tool did NOT redo them
         self.assertIn("TQP-A", out)
         self.assertIn("kind=form", out)
@@ -199,8 +199,8 @@ class TestRealChainReusesIt(StoreCase):
         counts, raw, apply = self._tool_counts()
         with mock.patch.object(form_tool, "get_store", lambda: self.store), \
                 mock.patch.object(form_tool, "_get_form_raw", raw), mock.patch.object(form_tool, "apply_form", apply):
-            form_tool.get_form_tool.func("QP-A")
-            form_tool.get_form_tool.func("QP-A")
+            form_tool.get_form_tool.func("QP-A", {})
+            form_tool.get_form_tool.func("QP-A", {})
         self.assertEqual((counts["raw"], counts["apply"]), (["QP-A"] * 2, ["QP-A"] * 2))   # nothing stored, nothing reused
 
     def test_a_form_the_prefetch_did_not_predict_is_fetched_normally(self):
@@ -216,8 +216,8 @@ class TestRealChainReusesIt(StoreCase):
                 mock.patch.object(form_tool, "_get_form_raw", raw), mock.patch.object(form_tool, "apply_form", apply):
             pf.maybe_start(PAGE, SNAP_PAGE, self.store, D(ids=["QP-A"], offices=[]), force=True)
             self.assertTrue(wait_for(lambda: counts["apply"] == ["QP-A"]))
-            form_tool.get_form_tool.func("QP-A")
-            form_tool.get_form_tool.func("QP-NEW")                                   # the live page listed a form the snapshot did not
+            form_tool.get_form_tool.func("QP-A", {})
+            form_tool.get_form_tool.func("QP-NEW", {})                                   # the live page listed a form the snapshot did not
         self.assertEqual(sorted(counts["apply"]), ["QP-A", "QP-NEW"])
 
     def test_a_failed_prefetch_falls_back_to_doing_it_normally(self):
@@ -228,7 +228,7 @@ class TestRealChainReusesIt(StoreCase):
             pf.maybe_start(PAGE, SNAP_PAGE, self.store, deps, force=True)
             self.assertTrue(wait_for(lambda: any(w == "snapshot_start" for w, _ in deps.log)))
             time.sleep(0.2)
-            out = form_tool.get_form_tool.func("QP-A")
+            out = form_tool.get_form_tool.func("QP-A", {})
         self.assertEqual(counts["raw"], ["QP-A"])                                     # done normally, once
         self.assertIn("TQP-A", out)
 

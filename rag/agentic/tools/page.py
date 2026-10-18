@@ -28,8 +28,9 @@ from rag.live.prefetch import maybe_start as start_prefetch
 def get_page_tool(url: str, state: Annotated[dict, InjectedState]) -> str:
     """取得已知URL的完整頁面內容。只在已有明確URL時呼叫。"""
     snapshot = _get_page_raw(url, subdomain=state.get("subdomain_hint"))
-    start_prefetch(url, snapshot)       # no-op unless LIVE_FETCH=on and LIVE_PREFETCH=on; runs in the background, before the live check
-    p = apply_page(url, snapshot)
+    live = state.get("live")            # this question's choice (None = LIVE_FETCH alone decides)
+    start_prefetch(url, snapshot, live=live)   # no-op unless live and LIVE_PREFETCH=on; runs in the background, before the live check
+    p = apply_page(url, snapshot, live)
     if "error" in p:
         return f"get_page 失敗: {p['error']}"
     text = p.get("text", "")
@@ -61,7 +62,7 @@ def extract_links_tool(url: str, state: Annotated[dict, InjectedState]) -> str:
     # when the page changed), not from the snapshot alone. get_page_tool just read this URL, so with LIVE_FETCH=on the side cache normally
     # answers without a new request. With LIVE_FETCH=off apply_page returns the snapshot page untouched: same links as before.
     snapshot = _get_page_raw(url, subdomain=state.get("subdomain_hint"))
-    page = apply_page(url, snapshot)
+    page = apply_page(url, snapshot, state.get("live"))
     links = [] if "error" in page else links_from_text(page.get("text", ""))
     if not links:
         return "extract_links 找到 0 個連結"

@@ -117,11 +117,11 @@ class TestDecisionIsRecorded(unittest.TestCase):
     def test_resource_node_puts_the_decision_on_the_trace_span(self):
         from rag.agentic.nodes import resource
         tool = mock.Mock()
-        tool.invoke.side_effect = lambda a: f"get_form 取得表單 {a['form_id']}\n\nbody"
+        tool.side_effect = lambda fid, live=None: f"get_form 取得表單 {fid}\n\nbody"
         client = mock.Mock()
         state = {"query": "如何辦理休學", "subdomain_hint": "aca", "messages": [ToolMessage(content=TOOL_TEXT, tool_call_id="1")]}
         res = fg.GateResult(["QP-T01-03-02"], {"QP-T01-03-04": "r"})
-        with mock.patch.dict(os.environ, {"FORM_GATE": "on"}), mock.patch.object(resource, "get_form_tool", tool), \
+        with mock.patch.dict(os.environ, {"FORM_GATE": "on"}), mock.patch.object(resource, "fetch_form_for_agent", tool), \
                 mock.patch.object(resource, "_detect_offices", return_value=[]), \
                 mock.patch.object(resource, "select_forms", return_value=res), \
                 mock.patch.object(resource, "get_client", return_value=client):
@@ -138,7 +138,7 @@ class TestNoFormsNeeded(unittest.TestCase):
         tool = mock.Mock()
         state = {"query": "q", "subdomain_hint": "aca", "messages": [ToolMessage(content=TOOL_TEXT, tool_call_id="1")]}
         res = fg.GateResult([], {i: "r" for i in IDS})
-        with mock.patch.dict(os.environ, {"FORM_GATE": "on"}), mock.patch.object(resource, "get_form_tool", tool), \
+        with mock.patch.dict(os.environ, {"FORM_GATE": "on"}), mock.patch.object(resource, "fetch_form_for_agent", tool), \
                 mock.patch.object(resource, "_detect_offices", return_value=offices) as det, \
                 mock.patch.object(resource, "select_forms", return_value=res), \
                 mock.patch.object(resource, "get_client", return_value=mock.Mock()):
@@ -147,7 +147,7 @@ class TestNoFormsNeeded(unittest.TestCase):
 
     def test_no_form_fetched_and_offices_still_routed_to_contact(self):
         out, tool, det, resource, state = self._run(["註冊組"])
-        tool.invoke.assert_not_called()
+        tool.assert_not_called()
         self.assertIn("[偵測到辦公室: 註冊組]", out["messages"][0].content)
         det.assert_called_once_with("休學請填 QP-T01-03-02。提早復學請填 QP-T01-03-04。")      # page text only, cleaned
         state["messages"].append(out["messages"][0])
@@ -155,7 +155,7 @@ class TestNoFormsNeeded(unittest.TestCase):
 
     def test_no_form_and_no_office_still_leaves_a_record_and_goes_back_to_the_loop(self):
         out, tool, det, resource, state = self._run([])
-        tool.invoke.assert_not_called()
+        tool.assert_not_called()
         msg = out["messages"][0]
         self.assertNotIn("偵測到辦公室", msg.content)
         state["messages"].append(msg)
@@ -182,14 +182,14 @@ class TestResourceNodeWiring(unittest.TestCase):
     def _run(self, gate_env, gate_result=None):
         from rag.agentic.nodes import resource
         tool = mock.Mock()
-        tool.invoke.side_effect = lambda a: f"get_form 取得表單 {a['form_id']}\n\nbody"
+        tool.side_effect = lambda fid, live=None: f"get_form 取得表單 {fid}\n\nbody"
         state = {"query": "如何辦理休學", "subdomain_hint": "aca", "messages": [ToolMessage(content=TOOL_TEXT, tool_call_id="1")]}
         env = {"FORM_GATE": gate_env}
-        with mock.patch.dict(os.environ, env), mock.patch.object(resource, "get_form_tool", tool), \
+        with mock.patch.dict(os.environ, env), mock.patch.object(resource, "fetch_form_for_agent", tool), \
                 mock.patch.object(resource, "_detect_offices", return_value=[]), \
                 mock.patch.object(resource, "select_forms", return_value=gate_result) as sel:
             resource.resource_node(state)
-        return [c.args[0]["form_id"] for c in tool.invoke.call_args_list], sel
+        return [c.args[0] for c in tool.call_args_list], sel
 
     def test_gate_off_fetches_every_detected_form_and_never_calls_gate(self):
         fetched, sel = self._run("off", fg.GateResult(["QP-T01-03-02"]))
