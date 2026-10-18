@@ -117,10 +117,11 @@ LIVE_LOG=info python server.py
 ```
 
 A live question normally takes **70–220 seconds**; the first browser-rendered page also starts
-Chromium. Results are kept in a side cache (`rag/live/_cache/`, gitignored; pages for 10 minutes,
-staff pages and forms for 1 hour), so asking the same thing again soon is much faster and the
-source is shown as "checked about N minutes ago". Chromium needs Playwright's browser
-(`playwright install chromium`).
+Chromium. Pages and forms are kept in a side cache (`rag/live/_cache/`, gitignored; pages for
+10 minutes, forms for 1 hour), so asking about the same page again soon is faster and the source
+is shown as "checked about N minutes ago". **Staff pages are never read from the cache**: they
+are re-fetched on every question (the cache still records them, but nothing reads that copy).
+Chromium needs Playwright's browser (`playwright install chromium`).
 
 **Settings** (environment variables, all optional):
 

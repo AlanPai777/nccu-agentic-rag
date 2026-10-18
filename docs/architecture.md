@@ -151,7 +151,7 @@ get_page_tool ─────────┐
 extract_links_tool ────┼─▶ hook.apply_page ──┐
 get_form_tool ─────────┤                      │          allowlist (*.nccu.edu.tw, redirects too)
 resource_node ─────────┴─▶ hook.apply_form ──┤          per-host rate limit, retry, circuit breaker
-contact_node ──▶ contacts.fetch_contact_pages ┤          side cache rag/live/_cache (TTL by kind)
+contact_node ──▶ contacts.fetch_contact_pages ┤          side cache rag/live/_cache (TTL by kind; staff pages are written, never read)
                                               ▼
                               Fetcher (httpx) ── static text too different, or no contacts parsed ──▶ Chromium
                                               │                       (one browser-owner thread, same extractor)
