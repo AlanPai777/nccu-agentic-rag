@@ -6,6 +6,7 @@ HTML: locates div.item-page (Joomla) or div.page-inner (PageOne CMS), strips
 PDF:  uses pdfplumber; falls back to OCR if extracted text < 10 chars (likely scanned).
 """
 
+import base64
 import logging
 import re
 from pathlib import Path
@@ -97,6 +98,33 @@ def _decode_cf_emails_in_soup(soup: BeautifulSoup) -> None:
             span.replace_with(email)
 
 
+_B64_EMAIL_RE = re.compile(r'atob\(\s*["\']([A-Za-z0-9+/=]+)["\']\s*\)')
+
+
+def _decode_script_emails_in_soup(soup: BeautifulSoup) -> None:
+    """
+    In-place: turn base64 "script.e-enc" emails into the mailto link the script would have written.
+    tiipm.nccu.edu.tw ships each address as <script class="e-enc">var e = atob("...");$(...).before("<a href='mailto:" + e ...)
+    in the served HTML, so a plain HTTP fetch has no address at all (all 63 on its faculty page) while a rendered page has them.
+    Scripts already marked `act` have run: their link sits right before them and the script is removed later with the others.
+    """
+    for script in soup.find_all("script", class_="e-enc"):
+        if "act" in (script.get("class") or []):
+            continue
+        m = _B64_EMAIL_RE.search(script.string or script.get_text() or "")
+        if not m:
+            continue
+        try:
+            email = base64.b64decode(m.group(1)).decode("utf-8")
+        except Exception:
+            continue
+        if "@" not in email:
+            continue
+        link = soup.new_tag("a", href=f"mailto:{email}")
+        link.string = email
+        script.replace_with(link)
+
+
 def is_cloudflare_page(html_bytes: bytes) -> bool:
     """
     Return True if the bytes are a Cloudflare challenge/interstitial page
@@ -138,6 +166,7 @@ def _parse_soup(soup: BeautifulSoup, url: str = "") -> str:
     """
     # Decode Cloudflare-obfuscated emails before any other processing
     _decode_cf_emails_in_soup(soup)
+    _decode_script_emails_in_soup(soup)
 
     # Extract page title as fallback for empty/placeholder pages
     # If no <title> tag, derive from URL filename
