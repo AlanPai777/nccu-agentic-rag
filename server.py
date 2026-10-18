@@ -20,6 +20,7 @@ import json
 import logging
 import os
 import re
+import time
 
 from dotenv import load_dotenv
 from fastapi import FastAPI
@@ -32,6 +33,7 @@ from langfuse import observe
 from agentic_rag import build_graph, initial_state
 from rag.agentic.compaction import compact_previous_turn
 from rag.agentic.nodes.self_eval import _SELF_EVAL_MAX_TURN
+from rag.live import config as live_config
 from rag.live.sources import build_sources
 
 load_dotenv()  # rag/agentic/nodes/loop.py already does this on import; kept for direct runs
@@ -205,6 +207,36 @@ def _thread_config(session_id: str | None) -> dict:
     return {"configurable": {"thread_id": session_id or f"ephemeral-{os.urandom(8).hex()}"}}
 
 
+def _live_available() -> bool:
+    """False when the operator turned live off for the whole server (LIVE_FETCH=off, or anything unrecognised): the front end's switch is then
+    greyed out and every question runs from the snapshot."""
+    return os.environ.get("LIVE_FETCH", "").strip().lower() in ("", "on")
+
+
+def _effective_live(param: str | None) -> bool:
+    """The "查現場" choice for one question: /ask?live=on|off; the kill switch beats it. With no parameter (curl, an old client) LIVE_FETCH alone
+    decides -- unset means off, so nothing reaches nccu.edu.tw by accident; the front end's switch starts "on" and always sends the parameter.
+    Always an explicit bool, so a question that turns live off still records the pages it read (rag/live/hook.py)."""
+    if not _live_available():
+        return False
+    choice = (param or "").strip().lower()
+    if choice in ("on", "off"):
+        return choice == "on"
+    return live_config.live_enabled(None)
+
+
+def _slow_text(seconds: int, live: bool) -> str:
+    """The waiting notice for a threshold (rag/live/config.py SLOW_WARN_SECONDS); warn only, never abort."""
+    what = "官網資料" if live else "資料"
+    if seconds >= 300:
+        return "已等待超過 5 分鐘，官網回應很慢。你可以先停止，改用資料庫的資料回答。" if live else "已等待超過 5 分鐘，系統回應很慢。你可以先停止後再試一次。"
+    if seconds >= 120:
+        return "已等待 2 分鐘以上，仍在等官網回應……" if live else "已等待 2 分鐘以上，仍在處理……"
+    if seconds >= 60:
+        return f"已等待 1 分鐘以上，仍在確認{what}，需要多一點時間……"
+    return f"需要多一點時間，正在確認{what}……"
+
+
 async def _put_sources(config: dict, queue: asyncio.Queue) -> None:
     """After the graph finished (self_eval may have sent synthesis round again, so only now is the answer final): the sources the answer
     was written from, built from the ledger markers in the thread's messages. A failure here must not spoil an answer that already streamed."""
@@ -217,7 +249,8 @@ async def _put_sources(config: dict, queue: asyncio.Queue) -> None:
 
 @observe(name="server.pump")
 async def _pump(
-    question: str, subdomain_hint: str | None, session_id: str | None, config: dict, queue: asyncio.Queue
+    question: str, subdomain_hint: str | None, session_id: str | None, config: dict, queue: asyncio.Queue,
+    live: bool | None = None,
 ) -> None:
     """Run one turn, push every SSE-worthy event into the queue.
 
@@ -235,7 +268,10 @@ async def _pump(
             # starts -- an ephemeral (session_id-less) thread is always
             # fresh, so skip the wasted checkpoint read for those.
             compact_previous_turn(_graph, config)
-        state = initial_state(question, subdomain_hint)
+        state = initial_state(question, subdomain_hint, live)
+        # Tells the front end what this question really runs with (the operator's switch may have overridden its request).
+        await queue.put({"type": "meta", "live": live_config.live_enabled(live), "live_available": _live_available(),
+                         "snapshot_date": live_config.SNAPSHOT_ASOF})
         async for stream_mode, payload in _graph.astream(
             state, config=config, stream_mode=["updates", "messages", "custom"]
         ):
@@ -285,17 +321,27 @@ async def _pump(
         await queue.put(_STREAM_DONE)
 
 
-async def _generate(question: str, subdomain_hint: str | None, session_id: str | None):
+async def _generate(question: str, subdomain_hint: str | None, session_id: str | None, live: bool | None = None):
     config = _thread_config(session_id)
     queue: asyncio.Queue = asyncio.Queue()
-    pump = asyncio.create_task(_pump(question, subdomain_hint, session_id, config, queue))
+    pump = asyncio.create_task(_pump(question, subdomain_hint, session_id, config, queue, live))
+    started = time.monotonic()
+    pending_warnings = list(live_config.SLOW_WARN_SECONDS)       # each threshold fires once, and only while no answer text has appeared
+    answering = False
 
     try:
         while True:
             try:
                 item = await asyncio.wait_for(queue.get(), timeout=_HEARTBEAT_SEC)
             except asyncio.TimeoutError:
+                item = None
                 yield ": keepalive\n\n"
+            if isinstance(item, dict) and "data" in item:
+                answering = True
+            while pending_warnings and not answering and time.monotonic() - started >= pending_warnings[0]:
+                secs = pending_warnings.pop(0)
+                yield f"data: {json.dumps({'type': 'slow', 'seconds': secs, 'text': _slow_text(secs, live_config.live_enabled(live))})}\n\n"
+            if item is None:
                 continue
 
             if item is _STREAM_DONE:
@@ -313,12 +359,20 @@ async def _generate(question: str, subdomain_hint: str | None, session_id: str |
     yield f"data: {json.dumps({'data': 'SPECIAL_END_TOKEN'})}\n\n"
 
 
+@app.get("/config")
+async def get_config():
+    """What the front end needs before the first question: whether its "查現場" switch can work at all (the operator's LIVE_FETCH=off kill
+    switch greys it out) and the date of the snapshot ("資料庫") the answers fall back on."""
+    return {"live_available": _live_available(), "snapshot_date": live_config.SNAPSHOT_ASOF}
+
+
 @app.get("/ask")
-async def ask(question: str, session_id: str | None = None, subdomain: str | None = None):
+async def ask(question: str, session_id: str | None = None, subdomain: str | None = None, live: str | None = None):
     """SSE chat endpoint. `session_id` ties multi-turn context to a
-    LangGraph thread_id; omit it for a one-off, memory-less question."""
+    LangGraph thread_id; omit it for a one-off, memory-less question.
+    `live=on|off`: whether this question confirms pages with nccu.edu.tw while it answers; omitted = LIVE_FETCH decides (unset: off)."""
     return StreamingResponse(
-        _generate(question, subdomain, session_id),
+        _generate(question, subdomain, session_id, _effective_live(live)),
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "Connection": "keep-alive"},
     )
