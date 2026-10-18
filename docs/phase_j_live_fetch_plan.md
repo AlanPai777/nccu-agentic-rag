@@ -1166,7 +1166,7 @@ contact_node 偵測到辦公室
   6. **F6 慢速提示**：`slow` 事件顯示在步驟列下方的提示條。
   7. **F7（預設不做）**：`$\rightarrow$` 外露、輸入框提示字改中文、來源改可點連結（答案內的純文字網址）。
 
-  **F1～F7 實作結果（2026-10-18；前端 repo `CourseLangChain-frontend`，分支 `feat/assistant-live-ui`；使用者自己提交）**：全部**照使用者決定一併做完**（F7 原本預設不做，使用者要求做）。**驗證只有 `vue-tsc --noEmit` 通過、`vite build` 成功（輸出到暫存資料夾、沒動 `dist`）、以及用重播工具逐欄位比對前端讀的欄位都存在（現場 91 個事件、關閉現場 81 個，缺欄位：無）——我看不到瀏覽器畫面，沒有實際渲染過，視覺要由使用者看。**
+  **F1～F7 實作結果（2026-10-18；前端 repo `CourseLangChain-frontend`，分支 `feat/assistant-live-ui`；使用者自己提交）**：全部**照使用者決定一併做完**（F7 原本預設不做，使用者要求做）。**驗證只有 `vue-tsc --noEmit` 通過、`vite build` 成功（輸出到暫存資料夾、沒動 `dist`）、以及用重播工具逐欄位比對前端讀的欄位都存在（現場 91 個事件、關閉現場 81 個，缺欄位：無）——我看不到瀏覽器畫面，沒有實際渲染過，視覺要由使用者看。**（**更新 2026-10-18：之後使用者已用真實 `server.py` 與前端實際看過，見下方「P8 實跑後的確認」。**）
   - **F1** `useChat.ts`：處理 `meta`／`step`／`sources`／`slow`（snake_case 轉 camelCase）；新增 `timeline`（說明行與動作區塊依到達順序混排，列依 `group_id` 歸屬、依 `id` 更新，連續重複的說明行略過）、`meta`、`sources`、`slowNotice`；選項 `live` 有給才在網址加 `live=on|off`（排課系統不傳，行為不變）；`phase` 改為清單最後一項（跑到一半的區塊優先）；`reset` 事件多加一行「答案不夠完整，重新生成」；型別在 `src/types/Progress.d.ts`。
   - **F2** `ProgressList.vue`＋`StateChip.vue`：說明行（純文字）與動作區塊（點開是頁面列，整列是連結、開新分頁、右側 ↗；固定資料沒有網址就是純文字列；`tlsUnverified` 時該列下一行小字「系統讀取此站時未驗證憑證」；沒有結果的區塊顯示「沒有找到相關頁面」）；`AssistantChat.vue` 的膠囊是整張清單的收合開關（完成後「已查詢官網 · 耗時 …」／「未查官網 · 使用資料庫 · 耗時 …」，開始吐字後自動收合沿用原邏輯）。
   - **F3** `SiteLogo.vue`：先試 `https://<host>/favicon.ico`（使用者的瀏覽器直接載入），失敗退回名稱第一個字的彩色圓形；形狀預設圓形，網址加 `?logo=square`（或 `?logo=circle`）切換並記在 `localStorage`（`useAssistantPrefs.ts`）。**未驗證各站 favicon 是否存在。**
@@ -1176,6 +1176,25 @@ contact_node 偵測到辦公室
   - **F7** `$\rightarrow$`／`$\to$` 換成「→」（純外觀）、輸入框提示字「Type here」→「輸入問題…」、答案裡的純文字網址自動成為連結（`linkify`）且一律開新分頁。
   - **用法**：後端用 `LIVE_FETCH=off python server.py`（平常、零請求）或重播工具 `python experiments/live_spikes/replay_sse.py`（不呼叫 LLM、不對政大發請求，`?scenario=slow|error` 可看等待提示與錯誤）；前端 `pnpm dev`（埠 3000）時後端的 `ASSISTANT_FRONTEND_ORIGIN` 要設成 `http://localhost:3000`（程式預設是 3001，或前端改用 `pnpm exec vite --port 3001`）。
 
+
+  **P8 實跑後的確認（2026-10-18；使用者實跑之後，助手以本機資料做離線檢查，另對政大抓了 6 頁一次）**
+
+  1. **實跑**：使用者用真實 `server.py`（`ASSISTANT_FRONTEND_ORIGIN=http://localhost:3000 LANGFUSE_TRACING_ENABLED=false python server.py`）加前端看過，回報「整體測試下來不錯」。**沒有更細的紀錄**（不知道問了幾題、走了哪些路徑、畫面上哪幾頁標「已更新」）。等待中狀態（同網站排隊 10 秒）仍未實作，排隊中的頁面顯示「讀取中…」。
+  2. **決定：搜尋是找路，讀取才核對。** 搜尋列（`search_texts`／`grep_texts`）標「使用資料庫」是正確的，因為搜尋只回標題與片段、不連官網；答案依據的是 `get_page`／`get_form`／人員頁，這幾種才會連官網比對並帶核對時間。**唯一的漏洞**：agent 若只靠搜尋片段回答、沒呼叫 `get_page`，那題內文就沒核對過；使用者觀察目前沒有發生，**沒有計數**（延續 S0 的紀錄）。搜尋列的標籤要不要改成「資料庫搜尋」（避免被誤解成整題沒查官網）**待決，未改**。
+  3. **旁路快取離線比對**（`rag/live/_cache/live.sqlite` 的複本，不碰 server、0 請求；共 31 筆：頁面 8、人員頁 20、表單 3，更正先前口頭說的 33）。**限制**：快取每個網址只留最後一次，且存的是**靜態抓取**的結果；會升級 Chromium 的頁面，最終用的文字不在快取裡。
+     - **頁面 8 筆**：7 筆與資料庫相同（含 aca 休學頁）；1 筆（`osa.nccu.edu.tw/tw` 首頁）只有最新消息輪播與語言切換連結在變，標「已更新」技術上正確但沒有資訊量。
+     - **表單 3 張**（QP-T01-02-05、03-02、03-04）：全部相同（比對的是快取 JSON 裡的 `text`，不是整個 JSON）。
+     - **人員頁 20 筆**：3 筆相同（cashier、aca 首頁、osa 學生安全輔導組），17 筆有差異（先前口頭說 14 筆是算錯）。這 17 筆分成：
+       - **官網真的改了（9 頁）**：osa 住宿輔導組（職務代理人張君豪→陳源宗、職稱與信箱換）、身心健康中心（代理人與分機換、業務改寫）、職涯發展中心（代理人換）、課外活動組（代理人分機 62238→62232）、原資中心（業務改寫、學院四→五）、生活事務暨僑生輔導組（「弱勢」→「不利處境」）、藝文中心（多一位技術組員、分機 63393）；aca 註冊組與教務長室（用 10/17 存的瀏覽器 HTML 以現場抽取器重做：官網現在**只顯示姓氏加職稱**，如「王組長」「馬主任」，資料庫版是全名）。這代表現場版的答案會比資料庫版少全名，是官網的事、不是缺陷。
+       - **tiipm 兩頁（缺陷，見第 4 點）**。members2 另有一處真的變動（多一位 Chu C.F.，分機 89091）。
+       - **cs.nccu 4 頁（標籤不準）**：現場版與資料庫版的差異主要是資料庫版多了重複的導覽列（「搜尋／loading／系上成員」）；導覽列以外還有兩處小差異（`team.jsp` 一個個人網頁連結換了網域、一個信箱字串 `mftsaics.nccu.edu.tw`→`mftsainccu.edu.tw` 原因不明），**比對輸出每頁只列前 6 行差異，其餘沒有逐行確認**。這 4 頁被標成「官網內容已更新」，嚴格來說不實，但沒有資訊損失。**原因未確定**：先前推測是「快照用舊版抽取器」，已被實測推翻（取出建立索引時的抽取器 `54fc086` 去抽今天的 HTML，也不會出現導覽列；索引與現場用的是同一條路：Playwright 取 DOM 後 `extract_html_bytes`；現場的 httpx 與 Chromium 文字幾乎相同）。現場 HTML 本身有導覽列，但兩個版本的抽取器都會濾掉；8/25 的原始 HTML 沒有保存，所以只能推論是當時頁面結構與今天不同。**決定：先記錄、不修**（使用者 2026-10-18：現場版沒有缺資料，缺資料的 tiipm 才需要處理）。選項留待之後：補忽略規則、聯絡人頁改比對欄位（會漏掉業務改寫）、用現場抽取器重建聯絡人索引（對政大請求量大，需另外核准）。
+       - **oic（國合處）**：快取只有 37 字，**不是錯誤**——那是 httpx 靜態抓取（頁面靠 JS 顯示內容），系統因相似度過低升級 Chromium；用 10/17 存的 HTML 重做，抽出 5730 字、含國合長到組員的分機與信箱。這一頁的快取比對**無效**。
+  4. **缺陷：tiipm 信箱遺失（已修）**。路徑：tiipm 用 `script.e-enc`＋`atob("<base64>")` 在瀏覽器裡才組出 `mailto` 連結，靜態 HTML 沒有信箱。httpx 抓回的文字與資料庫相似度 0.83，高於 `STATIC_SIMILARITY_MIN=0.5`，不升級（條件 B）；解析後名字還在、聯絡人非空，條件 C 也不觸發。結果靜態版被採用，**faculty 頁 63 個信箱全部消失，且畫面標「已更新」**。Chromium 版與資料庫版完全相同。**修正**：`rag/preprocess.py` 新增 `_decode_script_emails_in_soup`（只處理 `script.e-enc`、跳過已執行的 `act`、解碼結果不含 `@` 就不動），緊接在既有 Cloudflare 信箱解碼之後呼叫。抽取器是現場與語料預處理共用的，所以影響範圍是：現場抓取與日後重跑 `preprocess_all.py`；已建好的語料與索引不變。離線驗證（剛抓的 HTML）：members1 的 httpx 文字信箱 0→63，與 Chromium 版及資料庫版相同；members2 的 httpx 與 Chromium 文字一致。測試 `experiments/live_spikes/test_extractor_script_email.py` 4 項，加既有 `test_extractor_header` 共 10 項通過（沒跑全套）。**暫不做**（使用者 2026-10-18 只要 a）：升級條件 D（現場文字的信箱或分機數量少於資料庫就升級 Chromium），可當通用保險，之後再討論。
+  5. **對政大的請求（使用者核准）**：tiipm 兩頁與 cs 四頁，每頁 httpx 一次加 Chromium 一次。httpx 共 6 個請求；Chromium 共 241 個請求（含頁面載入的子資源，其中 195 個到 `*.nccu.edu.tw`），全部成功、無錯誤。**事前我估「約 6 個請求」偏低**——Chromium 會計入子資源。原始 HTML 與腳本在暫存資料夾，未進專案。
+  6. **ToolNode 注入 state**：把 `ToolNode([get_form_tool])` 放進最小的圖，丟假的 tool call：state 的 `live=False` 時輸出帶 `status=snapshot` 標記，`live=None` 時沒有標記，**注入有效**（零請求、零 LLM）。同時補上 S1 的「未驗證」。
+  7. **CORS 預設值**：`server.py` 的 `ASSISTANT_FRONTEND_ORIGIN` 預設是 `http://localhost:3001`，`CLAUDE.md` 寫 3000，**以程式為準**。推測原因：LangFuse 預設佔 3000，前端改放 3001（**沒有查 git 歷史證實**）。前端 `pnpm dev` 若跑在 3000，要設 `ASSISTANT_FRONTEND_ORIGIN=http://localhost:3000`。
+  8. **文件缺口**：`README.md`、`CLAUDE.md`、`docs/setup.md`、`docs/architecture.md` 都沒有 Phase J（live）內容。分工（細節只寫一處）：計畫文件＝為什麼與結果；`architecture.md`＝怎麼運作；`setup.md`＝怎麼跑起來；`README.md`＝是什麼；`CLAUDE.md`＝給 Claude 的規則。**待寫**。
+  9. **仍未驗證／待辦**：「已更新」在使用者那次實跑中**實際出現在哪幾頁**（不知道）；`LIVE_LOG=info` 的 `live diff` 沒有開，所以沒有 server 端的差異紀錄；聯絡人索引是否帶著 `www.es` 的錯誤辦公室名稱；等待中狀態；搜尋列措辭；條件 D；索引重建選項。
 
   **P8.5 驗收**：①離線測試全過，既有 244 項測試中因措辭而改的斷言已同步更新；②**`live` 未傳且環境變數未設時，所有輸出與 P8 前逐字相同**（沿用 P4 的基準比對）；③前端用重播序列能走完整個畫面（步驟列、展開、來源視窗、開關、關閉現場提示、慢速提示）；④**一次**真實端到端（休學或國合處，`live=on`）與**一次**關閉現場（同一題）各跑一次，確認事件順序、核對時間與頁面一致；真實請求前先列清單給使用者核准。
 
