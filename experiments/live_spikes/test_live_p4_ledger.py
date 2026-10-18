@@ -89,20 +89,20 @@ class TestFooter(LedgerBase):
 
     def test_everything_checked_live_means_no_blanket_unverified_sentence(self):
         sec = self.footer(self.block())
-        self.assertIn("現場確認，內容已更新（以現場為準）：7 頁", sec)
-        self.assertIn("現場確認，內容與快照一致：2 頁", sec)
-        self.assertNotIn("未經現場確認", sec)
-        self.assertNotIn("尚未現場確認", sec)
+        self.assertIn("已與官網核對，內容已更新：7 頁", sec)
+        self.assertIn("已與官網核對，內容無變動：2 頁", sec)
+        self.assertNotIn("未經官網核對", sec)
+        self.assertNotIn("尚未核對", sec)
 
     def test_fixed_data_is_called_out_by_office_not_by_a_fake_url(self):
         sec = self.footer(self.block(static_over=self.fail_url(OIC_OFFICE)))
-        self.assertIn("使用程式內建的固定聯絡資料", sec)
+        self.assertIn("使用內建的固定聯絡資料", sec)
         self.assertIn(f"  - {OIC_OFFICE}", sec)
         self.assertNotIn("fixed://", sec)
 
     def test_not_checked_offices_are_named(self):
         sec = self.footer(self.block(backends_raise=True))
-        self.assertIn("以下辦公室的承辦人與分機未經現場確認，仍為快照資料：", sec)
+        self.assertIn("以下辦公室的承辦人與分機未經官網核對，使用資料庫：", sec)
         self.assertIn("教務長室", sec)
 
     def test_off_mode_answer_has_no_section_at_all(self):
@@ -134,7 +134,7 @@ class TestSynthesisFooter(LedgerBase):
         with mock.patch.object(synthesis, "_invoke_synthesis_llm", return_value=mock.Mock(content="LLM 答案")):
             out = synthesis.synthesis_node({"query": "q", "messages": [msg]})
         self.assertIn(ledger.DISCLOSURE_HEADER, out["answer"])
-        self.assertIn("⚠ 現場確認失敗，使用快照", out["answer"])
+        self.assertIn("⚠ 未能連上官網，使用資料庫", out["answer"])
         self.assertIn("cashier.nccu.edu.tw", out["answer"])
 
 

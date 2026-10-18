@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import logging
 import threading
+import time
 
 from rag.live import config
 from rag.live.allowlist import is_allowed
@@ -30,6 +31,14 @@ _fetcher_lock = threading.Lock()
 
 _STATE_MAP = {R.LIVE_SAME: LIVE_SAME, R.LIVE_CHANGED: LIVE_CHANGED, R.LIVE_ONLY: LIVE_NEW,
               R.LIVE_INCOMPLETE: LIVE_INCOMPLETE, R.SNAPSHOT_FALLBACK: SNAPSHOT_FALLBACK}
+
+
+def _cache_info(from_cache: bool, fetched_at: float) -> tuple[bool, int | None]:
+    """(came from the side cache, minutes since it was fetched). The marker says so, so the answer can tell "checked 3 minutes ago"
+    from "checked for this question"."""
+    if not from_cache:
+        return False, None
+    return True, max(0, int((time.time() - fetched_at) // 60)) if fetched_at else None
 
 
 def get_fetcher() -> Fetcher:
@@ -59,7 +68,9 @@ def apply_page(url: str, snapshot_page: dict, live: bool | None = None) -> dict:
     page["text"] = sanitize(res.text)
     state = _STATE_MAP[res.state]
     checked = taipei_minute(live.fetched_at or None) if live.ok else taipei_minute()
-    page["live_marker"] = make_marker(target, state, checked, config.SNAPSHOT_ASOF, res.tls_unverified)
+    cached, age = _cache_info(live.from_cache, live.fetched_at)
+    page["live_marker"] = make_marker(target, state, checked, config.SNAPSHOT_ASOF, res.tls_unverified, cached=cached, age_min=age,
+                                      title=page.get("title") or "")
     page["live_state"] = state
     if res.comparison and not res.comparison.same:
         log.info("live diff %s: %s", target, res.comparison.summary())
@@ -85,7 +96,9 @@ def apply_form(form_id: str, snapshot_form: dict, live: bool | None = None) -> d
     checked = taipei_minute(live.fetched_at or None) if live.ok else taipei_minute()
 
     def marked(page: dict, state: str) -> dict:
-        page["live_marker"] = make_marker(link, state, checked, config.SNAPSHOT_ASOF, kind="form")
+        cached, age = _cache_info(live.from_cache, live.fetched_at)
+        page["live_marker"] = make_marker(link, state, checked, config.SNAPSHOT_ASOF, kind="form", cached=cached, age_min=age,
+                                          title=page.get("form_title") or "")
         page["live_state"] = state
         return page
 

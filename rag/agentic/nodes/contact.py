@@ -85,7 +85,7 @@ def _with_ledger(context: str, offices: list[str], result: dict, live) -> str:
     markers: list[str] = []
     if live is not None:
         markers += [make_marker(o.url, o.state, o.checked, (o.snapshot_at or config.SNAPSHOT_ASOF)[:10], o.tls_unverified,
-                                kind="contact")
+                                kind="contact", title="、".join(o.offices) + " 人員頁")
                     for o in live.pages.values()]
     now = taipei_minute()
     markers += [make_marker("fixed://KNOWN_CONTACTS/" + office, FIXED_DATA, now, "", False, kind="contact")

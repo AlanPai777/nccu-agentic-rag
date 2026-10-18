@@ -170,7 +170,7 @@ class TestNoFormsNeeded(unittest.TestCase):
         sec = ledger.status_section([], cands)
         self.assertIn("本題未抓取表單", sec)
         self.assertIn("QP-T01-03-02", sec)
-        self.assertNotIn("尚未現場確認", sec)            # no live sources -> no "covers only the pages above" line
+        self.assertNotIn("尚未核對", sec)            # no live sources -> no "covers only the pages above" line
 
     def test_gate_none_is_not_forgeable_from_other_messages(self):
         from rag.live import ledger

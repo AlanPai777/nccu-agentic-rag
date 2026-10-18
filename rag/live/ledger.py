@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from urllib.parse import unquote
+from urllib.parse import quote, unquote
 
 from langchain_core.messages import HumanMessage, ToolMessage
 
@@ -31,19 +31,34 @@ LIVE_SAME, LIVE_CHANGED, LIVE_NEW = "live_same", "live_changed", "live_new"
 SNAPSHOT_FALLBACK, LIVE_INCOMPLETE = "snapshot_fallback", "live_incomplete"
 DISCONTINUED = "discontinued"      # moltke says the form is withdrawn; its content is not given to the LLM
 FIXED_DATA = "fixed_data"          # contacts taken from KNOWN_CONTACTS (hard-coded in the source), not from any page
+SNAPSHOT = "snapshot"              # live was off for this question: read from the snapshot ("資料庫"), nothing was checked
 # Snapshot data was used without live confirmation -> the answer must say so.
 NEEDS_DISCLOSURE = frozenset({SNAPSHOT_FALLBACK, LIVE_INCOMPLETE, FIXED_DATA})
 
+# User-facing wording (P8 B7; the 【資料狀態】 section and the sources panel share it). "{d}" is the date of the snapshot the data came
+# from ("8/19"), "資料庫" is what the user calls the snapshot. Changing a string here changes both places.
 _LABEL = {
-    LIVE_SAME: "現場確認，內容與快照一致",
-    LIVE_CHANGED: "現場確認，內容已更新（以現場為準）",
-    LIVE_NEW: "現場取得（快照中沒有此頁）",
-    SNAPSHOT_FALLBACK: "⚠ 現場確認失敗，使用快照（內容可能已過時）",
-    LIVE_INCOMPLETE: "⚠ 現場頁面需瀏覽器渲染而無法完整取得，使用快照（內容可能已過時）",
+    LIVE_SAME: "已與官網核對，內容無變動",
+    LIVE_CHANGED: "已與官網核對，內容已更新",
+    LIVE_NEW: "從官網取得",
+    SNAPSHOT_FALLBACK: "⚠ 未能連上官網，使用資料庫（{d}），內容可能已過時",
+    LIVE_INCOMPLETE: "⚠ 此頁需瀏覽器顯示，未能核對，使用資料庫（{d}），內容可能已過時",
     DISCONTINUED: "⚠ 官網顯示此表單已停用（未引用其內容）",
-    FIXED_DATA: "⚠ 使用程式內建的固定聯絡資料（不是官網頁面，可能已過時）",
+    FIXED_DATA: "⚠ 使用內建的固定聯絡資料（非官網頁面），可能已過時",
+    SNAPSHOT: "使用資料庫（{d}）",
 }
-_ORDER = [DISCONTINUED, FIXED_DATA, SNAPSHOT_FALLBACK, LIVE_INCOMPLETE, LIVE_CHANGED, LIVE_NEW, LIVE_SAME]
+# Short form for a chip in the sources panel (no warning sign, no trailing remark).
+_SHORT_LABEL = {
+    LIVE_SAME: "已與官網核對，內容無變動",
+    LIVE_CHANGED: "已與官網核對，內容已更新",
+    LIVE_NEW: "從官網取得",
+    SNAPSHOT_FALLBACK: "未能連上官網，使用資料庫（{d}）",
+    LIVE_INCOMPLETE: "此頁需瀏覽器顯示，未能核對，使用資料庫（{d}）",
+    DISCONTINUED: "官網顯示此表單已停用",
+    FIXED_DATA: "使用內建的固定聯絡資料（非官網頁面）",
+    SNAPSHOT: "使用資料庫（{d}）",
+}
+_ORDER = [DISCONTINUED, FIXED_DATA, SNAPSHOT_FALLBACK, LIVE_INCOMPLETE, LIVE_CHANGED, LIVE_NEW, LIVE_SAME, SNAPSHOT]
 
 
 @dataclass
@@ -54,6 +69,35 @@ class Source:
     snap: str
     tls_unverified: bool = False
     kind: str = "page"
+    cached: bool = False        # the live result came from the side cache, not from a request made for this question
+    age_min: int | None = None  # minutes since that live result was fetched (only meaningful with cached)
+    title: str = ""             # page / form title, or the offices a staff page covers
+
+
+def snap_short(snap: str) -> str:
+    """'2026-08-19' -> '8/19' (the snapshot date as the user reads it); '' when unknown."""
+    m = re.match(r"(\d{4})-(\d{2})-(\d{2})", snap or "")
+    return f"{int(m.group(2))}/{int(m.group(3))}" if m else ""
+
+
+def label(src: Source, short: bool = False) -> str:
+    """The user-facing wording of a source's state. `short`: the chip form used in the sources panel."""
+    text = (_SHORT_LABEL if short else _LABEL).get(src.status, src.status)
+    d = snap_short(src.snap)
+    return text.replace("（{d}）", f"（{d}）" if d else "").replace("{d}", d)
+
+
+def time_text(src: Source) -> str:
+    """'10/17 14:31', with '（約 N 分鐘前核對）' for a cached result (it is older than this question). '' when no live check happened."""
+    if src.status in (FIXED_DATA, SNAPSHOT) or not src.checked:
+        return ""
+    m = re.match(r"\d{4}-(\d{2})-(\d{2})T(\d{2}:\d{2})", src.checked)
+    if not m:
+        return ""
+    out = f"{int(m.group(1))}/{int(m.group(2))} {m.group(3)}"
+    if src.cached and src.age_min is not None and src.age_min >= 1:
+        out += f"（約 {src.age_min} 分鐘前核對）"
+    return out
 
 
 def sanitize(text: str) -> str:
@@ -61,8 +105,18 @@ def sanitize(text: str) -> str:
     return text.replace("[live:src", "[live：src")
 
 
-def make_marker(url: str, status: str, checked: str, snap: str, tls_unverified: bool = False, kind: str = "page") -> str:
-    return f"[live:src status={status} kind={kind} checked={checked} snap={snap} tls={int(tls_unverified)} url={url}]"
+def make_marker(url: str, status: str, checked: str, snap: str, tls_unverified: bool = False, kind: str = "page",
+                cached: bool = False, age_min: int | None = None, title: str = "") -> str:
+    """The optional parts (cache=, age=, t=) are only written when set, so a marker without them is byte-for-byte what it always was.
+    `t` is percent-encoded: it never contains a space or a bracket, so a page title cannot break or forge a marker."""
+    extra = ""
+    if cached:
+        extra += " cache=1"
+        if age_min is not None:
+            extra += f" age={int(age_min)}"
+    if title:
+        extra += f" t={quote(title[:80], safe='')}"
+    return f"[live:src status={status} kind={kind} checked={checked} snap={snap} tls={int(tls_unverified)}{extra} url={url}]"
 
 
 # A form block inside resource_node's combined HumanMessage: the marker is trusted only when it sits on the line
@@ -78,8 +132,9 @@ def _source(attrs: str, url: str) -> Source | None:
     kv = dict(_KV_RE.findall(attrs))
     if "status" not in kv:
         return None
+    age = kv.get("age", "")
     return Source(url.strip(), kv["status"], kv.get("checked", ""), kv.get("snap", ""), kv.get("tls") == "1",
-                  kv.get("kind", "page"))
+                  kv.get("kind", "page"), kv.get("cache") == "1", int(age) if age.isdigit() else None, unquote(kv.get("t", "")))
 
 
 def parse_markers(messages: list) -> list[Source]:
@@ -120,26 +175,20 @@ def status_section(sources: list[Source], gate_none: list[str] | None = None,
     if gate_none:
         lines.append(f"- 本題未抓取表單：頁面列有 {'、'.join(gate_none)}，表單閘門判斷與本題無關")
     for st in _ORDER:
-        group = [s for s in sources if s.status == st]
-        if not group:
-            continue
-        unit = "個辦公室" if st == FIXED_DATA else "頁"
-        lines.append(f"- {_LABEL[st]}：{len(group)} {unit}")
-        for s in group:
-            tls = "（此站憑證無法驗證）" if s.tls_unverified else ""
-            shown = s.url.rsplit("/", 1)[-1] if s.url.startswith("fixed://") else unquote(s.url)
-            lines.append(f"  - {shown}{tls}")
-    snap = next((s.snap for s in sources if s.snap), "")
-    checked = max((s.checked for s in sources if s.checked), default="")
-    tail = []
-    if checked:
-        tail.append(f"檢查時間 {checked.replace('T', ' ')}（台北）")
-    if snap and needs_disclosure(sources):
-        tail.append(f"快照資料截至 {snap}")
-    if tail:
-        lines.append("- " + "；".join(tail))
+        # the wording carries the snapshot date, so sources of one state from different snapshots (corpus 8/19, contact index 8/25) are
+        # listed separately instead of under whichever date came first
+        dated = "{d}" in _LABEL.get(st, "")            # only a label that prints the date needs one group per date
+        for snap in dict.fromkeys(x.snap if dated else "" for x in sources if x.status == st):
+            group = [x for x in sources if x.status == st and (x.snap == snap or not dated)]
+            unit = "個辦公室" if st == FIXED_DATA else "頁"
+            lines.append(f"- {label(group[0])}：{len(group)} {unit}")
+            for x in group:
+                tls = "（此站憑證無法驗證）" if x.tls_unverified else ""
+                shown = x.url.rsplit("/", 1)[-1] if x.url.startswith("fixed://") else unquote(x.url)
+                when = time_text(x)
+                lines.append(f"  - {shown}{tls}" + (f"（{when}）" if when else ""))
     if uncovered:
-        lines.append(f"- 以下辦公室的承辦人與分機未經現場確認，仍為快照資料：{'、'.join(uncovered)}")
+        lines.append(f"- 以下辦公室的承辦人與分機未經官網核對，使用資料庫：{'、'.join(uncovered)}")
     return "\n".join(lines)
 
 

@@ -256,7 +256,7 @@ class TestFormTool(MoltkeBase):
         msg = HumanMessage(content="[表單全文]\n\n" + out)
         self.assertEqual([s.status for s in ledger.parse_markers([msg])], ["snapshot_fallback"])
         sec = ledger.status_section(ledger.parse_markers([msg]))
-        self.assertIn("現場確認失敗", sec)
+        self.assertIn("未能連上官網", sec)
         self.assertNotIn("表單內容", sec)                     # forms are now covered by the ledger
         self.assertEqual(len(stage1_checklist({"answer": "x", "query_type": "knowledge", "messages": [msg]})), 1)
 

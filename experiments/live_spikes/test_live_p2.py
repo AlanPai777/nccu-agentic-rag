@@ -145,9 +145,9 @@ class TestLedger(unittest.TestCase):
         msgs = [self.tm("live_same", "https://aca.nccu.edu.tw/ok"), self.tm("snapshot_fallback", "https://osa.nccu.edu.tw/bad")]
         sec = ledger.status_section(ledger.parse_markers(msgs))
         self.assertIn(ledger.DISCLOSURE_HEADER, sec)
-        self.assertLess(sec.index("現場確認失敗"), sec.index("內容與快照一致"))
+        self.assertLess(sec.index("未能連上官網"), sec.index("已與官網核對，內容無變動"))
         self.assertIn("https://osa.nccu.edu.tw/bad", sec)
-        self.assertIn("快照資料截至 2026-08-19", sec)
+        self.assertIn("使用資料庫（8/19）", sec)               # the snapshot date is in the wording itself now
 
     def test_split_footer_roundtrip(self):
         msgs = [self.tm("live_same")]
