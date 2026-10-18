@@ -95,7 +95,7 @@ rationale and implementation findings (including two real bugs found and
 fixed during rollout) are in `docs/phase_i_assistant_api_design.md`; this
 section is the distilled current-state summary.
 
-- **Streaming**: `graph.astream(..., stream_mode=["updates","messages"])`.
+- **Streaming**: `graph.astream(..., stream_mode=["updates","messages","custom"])` (`"custom"` carries the live-check progress events, see the next section).
   The `"messages"` stream is filtered to
   `isinstance(chunk, AIMessageChunk) and metadata["langgraph_node"]=="synthesis_node"`
   — both conditions matter. `langgraph_node` alone isn't enough because
@@ -138,6 +138,43 @@ section is the distilled current-state summary.
   blank with "已停止生成" even though the backend had produced a good
   answer — full investigation trail in `debug.md` (repo root, untracked).
 
+## Live check against nccu.edu.tw (Phase J)
+
+The corpus is a snapshot. With live mode on, the pages an answer is based on are re-fetched
+from `nccu.edu.tw`, compared with the snapshot, and every source is reported with a check time
+and a status. Design record, measurements and every decision: `docs/phase_j_live_fetch_plan.md`;
+this section is the distilled current state. The graph above is unchanged: live checking is a
+layer under the tools and the two routed nodes, so the agent still just calls `get_page`.
+
+```
+get_page_tool ─────────┐
+extract_links_tool ────┼─▶ hook.apply_page ──┐
+get_form_tool ─────────┤                      │          allowlist (*.nccu.edu.tw, redirects too)
+resource_node ─────────┴─▶ hook.apply_form ──┤          per-host rate limit, retry, circuit breaker
+contact_node ──▶ contacts.fetch_contact_pages ┤          side cache rag/live/_cache (TTL by kind)
+                                              ▼
+                              Fetcher (httpx) ── static text too different, or no contacts parsed ──▶ Chromium
+                                              │                       (one browser-owner thread, same extractor)
+                                              ▼
+                          compare.normalize/compare  (counters and volatile lines removed)
+                          resolve: same → snapshot text · changed → live text · failed → snapshot + disclosure
+                                              │
+                         ledger marker  [live:src status=… checked=… snap=… url=…]  in the tool output header
+                                              │
+                       ┌──────────────────────┴───────────────────────┐
+         synthesis_node appends 【資料狀態】 footer          server.py: build_sources() → `sources` event
+         (state["answer"] keeps it; not streamed)            (grouped by site, only pages the model really read)
+```
+
+- **Searching never touches the site.** `search_texts` and `grep_texts` read the database and only find candidates; reading a page (`get_page`), a form, or an office's staff page is what checks the site. A search row labelled "使用資料庫" is therefore correct. A question the agent answers from search snippets alone, without reading a page, has no checked content.
+- **Per-question choice.** `AgentState.live` (`True` / `False` / `None`) is set from `/ask?live=on|off` or the CLI's `--live`, and the tools read it with `InjectedState`. `rag/live/config.py::live_enabled` combines it with `LIVE_FETCH` (see [setup.md](setup.md#path-1c--live-mode-checking-pages-against-nccuedutw)). `None` leaves every output byte-identical to the pre-live system; an explicit `False` makes the tools write a `snapshot` marker so the sources list still shows the database pages that were read.
+- **Ledger.** The marker lines are the single source of truth: the footer and the `sources` event are both built from them with `ledger.parse_markers`, which only trusts the headers of tool messages (page text is sanitized, so a page cannot forge a marker). User-facing wording lives in `ledger.py` (`_LABEL`, `_SHORT_LABEL`): 已與官網核對，內容無變動 · 已與官網核對，內容已更新 · 從官網取得 · 未能連上官網，使用資料庫（8/19） · 此頁需瀏覽器顯示，未能核對，使用資料庫（8/19） · 官網顯示此表單已停用 · 使用內建的固定聯絡資料（非官網頁面） · 使用資料庫（8/19）.
+- **One extractor.** Live HTML goes through the same `rag/preprocess.py::extract_html_bytes` as the corpus, so differences between live and snapshot are meant to be real changes. Known exceptions are recorded in the plan (a contact-index snapshot whose page structure differed from today's; staff emails that a site writes with JavaScript are decoded by `_decode_script_emails_in_soup`).
+- **Progress events** (`"custom"` stream, `rag/live/events.py`): `{"type":"step","kind":"group",…}` opens one block per tool action (`search`, `grep`, `page`, `links`, `form`, `contacts`), `{"type":"step","kind":"row",…}` adds or updates a page row inside it (pending → done, with state, label, check time, cached age). Worker threads must be started with `events.submit_with_context` (a copy of the node's context), otherwise the stream writer fails while streaming and succeeds silently under `invoke`.
+- **Server additions** (`server.py`): `GET /config` (`live_available`, `snapshot_date`), `/ask?live=on|off`, a `meta` event at the start, `slow` notices (120 s / 300 s, once each, only before answer text appears), and a `sources` event sent after the graph ends, so a `self_eval` retry cannot leave a stale list. The status side channel now says only what the action blocks cannot (question type, narrowed site, what a page mentioned).
+- **Frontend** (`CourseLangChain-frontend`, `useChat.ts`, `ProgressList.vue`, `SourcesModal.vue`, `LiveSwitch.vue`): a collapsible timeline of notes and action blocks, a sources pill and modal grouped by site, the "查現場" switch, the waiting notice.
+- **Not done**: a "waiting" row state for pages queued behind the same host's rate limit (they show "讀取中…"), a marker for `extract_links` (it goes through `apply_page` but writes no ledger line), model-written narration of the steps (the lines are assembled by code).
+
 ## Key modules
 
 | Module | Role |
@@ -153,6 +190,7 @@ section is the distilled current-state summary.
 | `rag/llm_client.py` | Ollama cloud / OpenRouter client |
 | `rag/eval.py` | 13-criteria / 26-point scoring used in regression testing |
 | `rag/skills/office_lookup_skill.py` | Office-contact lookup against `output/office_contacts_index.jsonl`; regex-parses labeled/tabular page layouts first, falls back to an LLM extraction pass (`_llm_extract_contacts()`) over the whole page when the regex layer can't find an explicit name label (2026-09-03 fix — see `debug.md`) |
+| `rag/live/` | Live check against nccu.edu.tw: `hook.py` (`apply_page`/`apply_form`), `fetcher.py`, `browser.py` (Chromium owner thread), `contacts.py`, `forms.py`, `compare.py`, `resolve.py`, `ledger.py` (markers, footer), `sources.py`, `events.py`, `site_names.py`, `config.py` |
 | `rag/classic_rag.py` | Separate, stable classic (embedding-based) RAG system — not part of this pipeline, see README |
 
 ## Project structure
@@ -202,6 +240,8 @@ rag/
 │       ├── grep.py                   grep_texts_tool
 │       ├── page.py                   get_page_tool, extract_links_tool
 │       └── form.py                   get_form_tool
+│
+├── live/                     # Phase J: live check against nccu.edu.tw (see the section above)
 │
 ├── skills/
 │   ├── office_lookup_skill.py    # Dynamic office-contact lookup (output/office_contacts_index.jsonl)
