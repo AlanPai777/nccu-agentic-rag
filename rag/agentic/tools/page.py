@@ -15,8 +15,8 @@ from langfuse import observe
 
 from rag.agent_tools import (
     get_page as _get_page_raw,
-    extract_links as _extract_links_raw,
     extract_form_ids,
+    links_from_text,
 )
 from rag.agentic.logic.office_detection import _detect_offices
 from rag.live.hook import apply_page
@@ -57,7 +57,12 @@ def get_page_tool(url: str, state: Annotated[dict, InjectedState]) -> str:
 @observe(as_type="tool", name="extract_links_tool")
 def extract_links_tool(url: str, state: Annotated[dict, InjectedState]) -> str:
     """取得頁面正文明確提到的其他連結。當目前頁面內容不足以回答問題、但內文提到其他相關文件或頁面時使用。"""
-    links = _extract_links_raw(url, subdomain=state.get("subdomain_hint"))
+    # The links come from the page as the live check left it (the snapshot when nothing changed or the live fetch failed, the live text
+    # when the page changed), not from the snapshot alone. get_page_tool just read this URL, so with LIVE_FETCH=on the side cache normally
+    # answers without a new request. With LIVE_FETCH=off apply_page returns the snapshot page untouched: same links as before.
+    snapshot = _get_page_raw(url, subdomain=state.get("subdomain_hint"))
+    page = apply_page(url, snapshot)
+    links = [] if "error" in page else links_from_text(page.get("text", ""))
     if not links:
         return "extract_links 找到 0 個連結"
     return "extract_links 找到:\n" + "\n".join(f"- {l['label']}: {l['url']}" for l in links[:10])
