@@ -137,4 +137,15 @@ TTL_SECONDS = {
 }
 
 # --- slow-query warnings (§5.4, D9): warn only, never abort ---------------------------------
-SLOW_WARN_SECONDS = (30, 60, 120, 300)
+def _env_seconds(name: str, default: tuple[float, ...]) -> tuple[float, ...]:
+    """A comma-separated list of positive seconds ("120,300"), ascending; anything unusable falls back to the default."""
+    try:
+        vals = sorted({float(x) for x in os.environ[name].split(",") if x.strip()})
+    except (KeyError, ValueError):
+        return default
+    return tuple(vals) if vals and vals[0] > 0 else default
+
+
+# P8 B6 (changed 2026-10-18 from 30/60/120/300): a live question normally takes 70-220 s, and the progress list already shows what is
+# happening, so only an unusually long wait is worth a notice.
+SLOW_WARN_SECONDS = _env_seconds("LIVE_SLOW_WARN_SECONDS", (120, 300))

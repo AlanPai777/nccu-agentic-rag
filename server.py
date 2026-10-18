@@ -225,16 +225,16 @@ def _effective_live(param: str | None) -> bool:
     return live_config.live_enabled(None)
 
 
-def _slow_text(seconds: int, live: bool) -> str:
-    """The waiting notice for a threshold (rag/live/config.py SLOW_WARN_SECONDS); warn only, never abort."""
-    what = "官網資料" if live else "資料"
+def _slow_text(seconds: float, live: bool) -> str:
+    """The waiting notice for a threshold (rag/live/config.py SLOW_WARN_SECONDS, LIVE_SLOW_WARN_SECONDS); warn only, never abort."""
+    waited = f"{seconds / 60:g} 分鐘" if seconds >= 60 else f"{seconds:g} 秒"
     if seconds >= 300:
-        return "已等待超過 5 分鐘，官網回應很慢。你可以先停止，改用資料庫的資料回答。" if live else "已等待超過 5 分鐘，系統回應很慢。你可以先停止後再試一次。"
-    if seconds >= 120:
-        return "已等待 2 分鐘以上，仍在等官網回應……" if live else "已等待 2 分鐘以上，仍在處理……"
-    if seconds >= 60:
-        return f"已等待 1 分鐘以上，仍在確認{what}，需要多一點時間……"
-    return f"需要多一點時間，正在確認{what}……"
+        if live:
+            return f"已等待 {waited}，官網可能回應很慢或沒有回應。你可以按停止，之後再問一次，或關閉「查現場」改用資料庫的資料。"
+        return f"已等待 {waited}，系統回應很慢。你可以按停止後再問一次。"
+    if live:
+        return f"已等待 {waited}，比平常久一些，仍在向官網確認資料，請再稍候。"
+    return f"已等待 {waited}，比平常久一些，仍在處理，請再稍候。"
 
 
 async def _put_sources(config: dict, queue: asyncio.Queue) -> None:
