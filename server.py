@@ -69,28 +69,14 @@ _graph = build_graph(checkpointer=InMemorySaver())
 _HEARTBEAT_SEC = 15
 _STREAM_DONE = object()  # sentinel distinct from a legitimate None chunk
 
-# node_name -> static status phrase, for nodes with no natural-language
-# output of their own to reuse (see _status_text below for the nodes that do).
-# Also the fallback for agent_node/tools/resource_node/contact_node below when
-# the richer per-call text they now try first isn't available for that call.
-_STATIC_STATUS = {
-    "plan_node": "正在判斷問題類型…",
-    "agent_node": "正在決定下一步…",
-    "tools": "正在查詢政大官方資料…",
-    "resource_node": "正在讀取表單…",
-    "contact_node": "正在查詢辦公室聯絡資訊…",
-    "multi_sub_query_node": "正在拆解問題…",
+# The status lines are the plain-text "說明行" of the front end's progress list (rag/live/events.py draws the action blocks: every tool
+# action and the form/contact nodes already show up there with real pages, so the lines below only say what the blocks cannot -- what kind
+# of question this is, where the search is narrowed to, what a page mentioned, that the data is enough). Nodes with nothing to add return
+# None and send no line.
+_QUERY_TYPE_LABEL = {
+    "procedure": "辦理流程", "contact": "聯絡資訊", "resource": "表單與連結", "knowledge": "一般資訊", "compound": "多個問題",
 }
-
-# TOOLS' registered names (rag/agentic/tools/__init__.py) -> a readable phrase,
-# for the "tools" node's ToolMessage.name (set by langgraph's prebuilt ToolNode).
-_TOOL_STATUS = {
-    "search_texts": "正在搜尋頁面全文索引…",
-    "grep_texts_tool": "正在用關鍵字比對頁面…",
-    "get_page_tool": "正在讀取頁面全文…",
-    "extract_links_tool": "正在展開頁面內的相關連結…",
-    "get_form_tool": "正在讀取表單…",
-}
+_DONE_WORDS = {"夠了", "够了", "足夠", "足够", "完成", "done"}
 
 # Reuses the exact marker format rag/agentic/tools/page.py's get_page_tool
 # already stamps onto its own return value when it detects a form/office
@@ -99,82 +85,70 @@ _TOOL_STATUS = {
 # with that text.
 _FORM_MARKER_RE = re.compile(r"\[偵測到表單編號: ([^\]]+)\]")
 _OFFICE_MARKER_RE = re.compile(r"\[偵測到辦公室: ([^\]]+)\]")
-# contact_node (rag/agentic/nodes/contact.py) builds its own header prose
-# instead of the marker above, so it needs its own extraction pattern.
-_CONTACT_OFFICES_RE = re.compile(r"個辦公室（([^）]+)）")
+# domain_router_node's message (rag/agentic/nodes/loop.py): "1. aca（描述）— …" is its first candidate.
+_FIRST_SUBDOMAIN_RE = re.compile(r"^1\. ([A-Za-z0-9.\-]+)（", re.M)
+_MAX_LINE = 80
+
+
+def _short(text: str) -> str:
+    text = text.strip().split("\n")[0].strip()
+    return text if len(text) <= _MAX_LINE else text[:_MAX_LINE - 1] + "…"
 
 
 def _status_text(node_name: str, delta: dict) -> str | None:
-    """One node update -> one human-readable status line.
+    """One node update -> one plain-text status line for the progress list, or None when the node has nothing to add.
 
-    Prefers text the node already generated for its own purposes over a
-    static label (phase_g_brainstorming.txt's "one LLM output, two
-    consumers" idea) -- rewrite_node's `rewritten` and domain_router_node/
-    self_eval_node's injected messages are natural-language LLM output
-    already, no separate summarizer call needed. agent_node/tools/
-    resource_node/contact_node below extend the same idea to data that was
-    already being returned in `delta` but simply never read for status
-    purposes -- none of this changes what any node returns to the graph.
-    """
+    Prefers text a node already generated for its own purposes (rewrite_node's `rewritten`, agent_node's reply text, self_eval's note) --
+    "one LLM output, two consumers" (phase_g_brainstorming.txt) -- and otherwise composes a sentence from real data in `delta`
+    (the question type, the narrowed site, the forms/offices a page mentioned). No extra LLM call (P8.7b: model-written narration, B5,
+    is deliberately not done yet). None of this changes what any node returns to the graph."""
+    if node_name == "plan_node":
+        label = _QUERY_TYPE_LABEL.get(str(delta.get("query_type") or "").lower())
+        return f"判斷問題類型：{label}" if label else "判斷問題類型"
+    if node_name == "multi_sub_query_node":
+        return "拆解成多個問題，逐一查詢"
     if node_name == "rewrite_node" and delta.get("rewritten"):
-        return f"正在搜尋：{delta['rewritten']}"
+        return f"搜尋詞：{_short(delta['rewritten'])}"
     if node_name == "domain_router_node":
         msgs = delta.get("messages") or []
-        if msgs:
-            return str(msgs[-1].content).split("\n")[0]
-    if node_name == "self_eval_node" and delta.get("self_eval_note"):
-        # self_eval_node's three failure branches (Stage 1 checklist,
-        # 情況A, 情況B) don't all populate `messages` -- 情況B (routes back
-        # to plan_node, which never reads `messages` at all) only sets
-        # self_eval_note. That field is the one signal common to all three,
-        # so it's the correct thing to key off, not `messages`'s presence.
-        msgs = delta.get("messages") or []
-        text = str(msgs[-1].content) if msgs else delta["self_eval_note"]
-        return text.split("\n")[0]
+        if not msgs:
+            return None
+        text = str(msgs[-1].content)
+        hit = _FIRST_SUBDOMAIN_RE.search(text)
+        if hit:
+            from rag.live.site_names import site_name
+            host = hit.group(1) if "." in hit.group(1) else f"{hit.group(1)}.nccu.edu.tw"
+            return f"縮小搜尋範圍：{site_name(host)}"
+        return "不限定單一網站，搜尋全部網站" if "無（" in text else None
     if node_name == "agent_node":
-        # agent_node's docstring notes resp.content is generated as a side
-        # effect of the bind_tools() call and then discarded -- it's already
-        # in `delta["messages"]`, just never read until now. Empty when the
-        # model replied with tool_calls only and no text (falls through to
-        # the static label below in that case).
+        # agent_node's docstring notes resp.content is generated as a side effect of the bind_tools() call and then discarded -- it is
+        # already in delta["messages"]. Empty when the model replied with tool_calls only (then the action blocks speak for it).
         msgs = delta.get("messages") or []
-        if msgs:
-            text = str(getattr(msgs[-1], "content", "") or "").strip()
-            if text:
-                return text.split("\n")[0]
+        text = str(getattr(msgs[-1], "content", "") or "").strip() if msgs else ""
+        if not text:
+            return None
+        return "資料已足夠，整理答案" if text.strip("。.!！ ") in _DONE_WORDS else _short(text)
     if node_name == "tools":
-        msgs = delta.get("messages") or []
-        names = [getattr(m, "name", None) for m in msgs if getattr(m, "name", None)]
-        if names:
-            base = "、".join(_TOOL_STATUS.get(n, n) for n in dict.fromkeys(names))
-            hits = []
-            for m in msgs:
-                content = str(getattr(m, "content", "") or "")
-                form_hit = _FORM_MARKER_RE.search(content)
-                office_hit = _OFFICE_MARKER_RE.search(content)
-                if form_hit:
-                    hits.append(f"表單:{form_hit.group(1)}")
-                if office_hit:
-                    hits.append(f"辦公室:{office_hit.group(1)}")
-            return base + (f"(偵測到{'、'.join(hits)})" if hits else "")
+        # The tool actions are drawn as blocks; what a block cannot show is what the page MENTIONED.
+        hits = []
+        for m in delta.get("messages") or []:
+            content = str(getattr(m, "content", "") or "")
+            form_hit, office_hit = _FORM_MARKER_RE.search(content), _OFFICE_MARKER_RE.search(content)
+            if form_hit:
+                hits.append(f"表單 {form_hit.group(1)}")
+            if office_hit:
+                hits.append(f"辦公室 {office_hit.group(1)}")
+        return f"頁面提到：{'；'.join(hits)}" if hits else None
     if node_name == "resource_node":
-        # The combined text resource_node returns doesn't itself name which
-        # form_id(s) it fetched (that's a local variable, never part of the
-        # returned message) -- only the office marker survives into `delta`
-        # when station_roles matched. Falls back to the static label when
-        # it didn't, same as before this change.
         msgs = delta.get("messages") or []
-        if msgs:
-            hit = _OFFICE_MARKER_RE.search(str(getattr(msgs[-1], "content", "") or ""))
-            if hit:
-                return f"正在讀取表單全文,偵測到辦公室:{hit.group(1)}"
-    if node_name == "contact_node":
+        hit = _OFFICE_MARKER_RE.search(str(getattr(msgs[-1], "content", "") or "")) if msgs else None
+        return f"表單提到辦公室：{hit.group(1)}" if hit else None
+    if node_name == "self_eval_node" and delta.get("self_eval_note"):
+        # self_eval_node's three failure branches (Stage 1 checklist, 情況A, 情況B) don't all populate `messages` -- 情況B only sets
+        # self_eval_note, the one signal common to all three, so it is the thing to key off.
         msgs = delta.get("messages") or []
-        if msgs:
-            hit = _CONTACT_OFFICES_RE.search(str(getattr(msgs[-1], "content", "") or ""))
-            if hit:
-                return f"正在查詢辦公室聯絡資訊：{hit.group(1)}"
-    return _STATIC_STATUS.get(node_name)
+        return _short(str(msgs[-1].content) if msgs else delta["self_eval_note"])
+    return None                                           # contact_node, synthesis_node, …: their blocks / the answer speak for them
 
 
 def _is_retry_signal(node_name: str, delta: dict, current_turn: int) -> bool:
