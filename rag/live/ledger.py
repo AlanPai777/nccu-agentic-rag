@@ -161,6 +161,12 @@ def parse_markers(messages: list) -> list[Source]:
     return list(out.values())
 
 
+def source_from_marker(text: str | None) -> Source | None:
+    """The Source a single marker line describes (a tool's page/form dict carries it as "live_marker"), or None."""
+    mk = _MARKER_RE.search(text or "")
+    return _source(mk.group(1), mk.group(2)) if mk else None
+
+
 def needs_disclosure(sources: list[Source]) -> list[Source]:
     return [s for s in sources if s.status in NEEDS_DISCLOSURE]
 

@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
 import os
 import re
 
@@ -31,9 +32,11 @@ from langfuse import observe
 from agentic_rag import build_graph, initial_state
 from rag.agentic.compaction import compact_previous_turn
 from rag.agentic.nodes.self_eval import _SELF_EVAL_MAX_TURN
-from rag.live.ledger import split_footer
+from rag.live.sources import build_sources
 
 load_dotenv()  # rag/agentic/nodes/loop.py already does this on import; kept for direct runs
+
+log = logging.getLogger("rag.server")
 
 app = FastAPI()
 
@@ -202,6 +205,16 @@ def _thread_config(session_id: str | None) -> dict:
     return {"configurable": {"thread_id": session_id or f"ephemeral-{os.urandom(8).hex()}"}}
 
 
+async def _put_sources(config: dict, queue: asyncio.Queue) -> None:
+    """After the graph finished (self_eval may have sent synthesis round again, so only now is the answer final): the sources the answer
+    was written from, built from the ledger markers in the thread's messages. A failure here must not spoil an answer that already streamed."""
+    try:
+        values = (await _graph.aget_state(config)).values
+        await queue.put(build_sources(values.get("messages") or [], bool(values.get("live"))))
+    except Exception as e:  # noqa: BLE001
+        log.warning("sources event not sent: %s: %s", type(e).__name__, e)
+
+
 @observe(name="server.pump")
 async def _pump(
     question: str, subdomain_hint: str | None, session_id: str | None, config: dict, queue: asyncio.Queue
@@ -224,7 +237,7 @@ async def _pump(
             compact_previous_turn(_graph, config)
         state = initial_state(question, subdomain_hint)
         async for stream_mode, payload in _graph.astream(
-            state, config=config, stream_mode=["updates", "messages"]
+            state, config=config, stream_mode=["updates", "messages", "custom"]
         ):
             if stream_mode == "messages":
                 chunk, metadata = payload
@@ -244,6 +257,11 @@ async def _pump(
                     and chunk.content
                 ):
                     await queue.put({"data": chunk.content})
+            elif stream_mode == "custom":
+                # Progress events from rag/live/events.py (tools and nodes: {"type":"step",...}); forwarded as they come. A front end
+                # that does not know a "type" ignores it.
+                if isinstance(payload, dict) and payload.get("type"):
+                    await queue.put(payload)
             elif stream_mode == "updates":
                 for node_name, delta in payload.items():
                     delta = delta or {}
@@ -255,15 +273,12 @@ async def _pump(
                     # them clear-then-explain reads correctly top to bottom.
                     if _is_retry_signal(node_name, delta, current_turn):
                         await queue.put({"type": "reset"})
-                    if node_name == "synthesis_node" and delta.get("answer"):
-                        # The data-status section is appended by program after the LLM finishes, so it never
-                        # went through token streaming; send it as the last chunk of this synthesis pass.
-                        footer = split_footer(delta["answer"])[1]
-                        if footer:
-                            await queue.put({"data": footer})
+                    # P8: the 【資料狀態】 footer is no longer streamed as answer text -- the same information goes out as the
+                    # "sources" event below. The footer stays in state["answer"] (self_eval's disclosure check, the CLI and eval read it).
                     text = _status_text(node_name, delta)
                     if text:
                         await queue.put({"type": "status", "text": text})
+        await _put_sources(config, queue)
     except Exception as e:  # noqa: BLE001 -- formatted for the user by _generate
         await queue.put(e)
     finally:

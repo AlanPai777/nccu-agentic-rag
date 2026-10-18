@@ -15,6 +15,7 @@ from langfuse import observe
 
 from rag.agentic.state import AgentState
 from rag.agentic.logic.office_detection import _detect_offices
+from rag.live import events
 from rag.live.config import live_enabled
 
 log = logging.getLogger("rag.live")
@@ -52,17 +53,19 @@ def contact_node(state: AgentState) -> dict:
     skill = OfficeLookupSkill()
     live = None
     use_live = live_enabled(state.get("live"))         # this question's choice, decided once (S1)
-    if use_live:
-        # Phase J P4: read the offices' staff pages live (Chromium), keep the snapshot where nothing changed. Any
-        # failure here must leave the snapshot answer intact -- the live check is an addition, never a dependency.
-        try:
-            from rag.live.contacts import default_backends, fetch_contact_pages
-            fetch_static, render = default_backends()
-            live = fetch_contact_pages(offices, fetch_static, render)
-        except Exception as e:                           # noqa: BLE001
-            log.warning("live contact check failed, using the snapshot: %s: %s", type(e).__name__, e)
-            live = None
-    result = skill.run(offices, live=live)
+    with events.group("contacts", events.title_list(offices)) as grp:          # progress events for the front end (S5)
+        if use_live:
+            # Phase J P4: read the offices' staff pages live (Chromium), keep the snapshot where nothing changed. Any
+            # failure here must leave the snapshot answer intact -- the live check is an addition, never a dependency.
+            try:
+                from rag.live.contacts import default_backends, fetch_contact_pages
+                fetch_static, render = default_backends()
+                live = fetch_contact_pages(offices, fetch_static, render)       # emits one row per staff page as each settles
+            except Exception as e:                           # noqa: BLE001
+                log.warning("live contact check failed, using the snapshot: %s: %s", type(e).__name__, e)
+                live = None
+        result = skill.run(offices, live=live)
+        _emit_snapshot_rows(grp, offices, result, live_done=live is not None)
     header = (
         f"[辦公室聯絡資訊，以下是內容中提及的全部 {len(offices)} 個辦公室（{'、'.join(offices)}），"
         f"未經相關性篩選——這是完整清單，不代表每一個都跟這題直接相關。"
@@ -76,14 +79,10 @@ def contact_node(state: AgentState) -> dict:
     return {"messages": [HumanMessage(content=context)]}
 
 
-def _snapshot_ledger(context: str, offices: list[str], result: dict) -> str:
-    """The question turned live off: one "snapshot" marker per staff page the contact data was read from (the page each office's entry
-    cites), titled with the offices it covers, and one "fixed_data" marker per office that fell back to KNOWN_CONTACTS. Nothing was checked, so
-    there is no check time and no "uncovered" line."""
-    from rag.live import config
-    from rag.live.clock import taipei_minute
+def _snapshot_pages(offices: list[str], result: dict) -> tuple[dict[str, list[str]], dict[str, str]]:
+    """({staff page url: the offices whose contacts were read from it}, {url: the index record's date}) for the contacts that came from a page
+    (not from KNOWN_CONTACTS). Used by the snapshot ledger and by the progress rows."""
     from rag.live.contacts import plan_pages
-    from rag.live.ledger import FIXED_DATA, SNAPSHOT, contact_markers_text, make_marker, sanitize
     try:
         dates = {u: (info.get("snapshot_at") or "")[:10] for u, info in plan_pages(offices)[0].items()}
     except Exception:                                  # noqa: BLE001 -- the ledger is an addition, never a dependency
@@ -93,6 +92,31 @@ def _snapshot_ledger(context: str, offices: list[str], result: dict) -> str:
         url = entry.get("page_url")
         if entry.get("contacts_source") == "page" and url:
             by_url.setdefault(url, []).append(office)
+    return by_url, dates
+
+
+def _emit_snapshot_rows(grp, offices: list[str], result: dict, live_done: bool) -> None:
+    """Progress rows for what was NOT checked live: the staff pages the contacts were read from when live was off (live_done=False; with a
+    live check those pages already emitted their own rows) and the offices that fell back to KNOWN_CONTACTS (never a web page)."""
+    from rag.live import config
+    from rag.live.clock import taipei_minute
+    if not live_done:
+        by_url, dates = _snapshot_pages(offices, result)
+        for url, offs in by_url.items():
+            grp.row("done", url=url, title="、".join(offs) + " 人員頁", state="snapshot", kind="contact", snap=dates.get(url) or config.SNAPSHOT_ASOF)
+    for office, entry in result.items():
+        if entry.get("contacts_source") == "known_contacts":
+            grp.row("done", url="", title=office, state="fixed_data", kind="contact", checked=taipei_minute())
+
+
+def _snapshot_ledger(context: str, offices: list[str], result: dict) -> str:
+    """The question turned live off: one "snapshot" marker per staff page the contact data was read from (the page each office's entry
+    cites), titled with the offices it covers, and one "fixed_data" marker per office that fell back to KNOWN_CONTACTS. Nothing was checked, so
+    there is no check time and no "uncovered" line."""
+    from rag.live import config
+    from rag.live.clock import taipei_minute
+    from rag.live.ledger import FIXED_DATA, SNAPSHOT, contact_markers_text, make_marker, sanitize
+    by_url, dates = _snapshot_pages(offices, result)
     markers = [make_marker(url, SNAPSHOT, "", dates.get(url) or config.SNAPSHOT_ASOF, kind="contact", title="、".join(offs) + " 人員頁")
                for url, offs in by_url.items()]
     now = taipei_minute()

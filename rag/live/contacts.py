@@ -26,7 +26,7 @@ from concurrent.futures import Future, ThreadPoolExecutor
 from dataclasses import dataclass, field
 from typing import Any, Callable
 
-from rag.live import ledger, resolve as R
+from rag.live import config, events, ledger, resolve as R
 from rag.live.clock import taipei_minute
 from rag.live.compare import Comparison
 from rag.live.extract import html_to_text
@@ -187,11 +187,20 @@ def fetch_contact_pages(offices: list[str], fetch_static: Callable[[str], LiveRe
     if not pages:
         return result
 
+    grp = events.current_group()                        # the contact_node's progress group, if it opened one; workers inherit it (S5)
+
     def page_task(url: str) -> PageOutcome:
         info = pages[url]
+        title = "、".join(info["offices"]) + " 人員頁"
+        rid = grp.row("start", url=url, title=title, state="pending", kind="contact") if grp else None
+        t0 = time.monotonic()
         outcome = store.contact(url, lambda: process_page(url, info, fetch_static, render, handler))
         # the prefetch may have worked out a different office list for this page than the one asked for now
-        return dataclasses.replace(outcome, offices=info["offices"])
+        outcome = dataclasses.replace(outcome, offices=info["offices"])
+        if grp:
+            grp.row("done", rid=rid, url=url, title=title, state=outcome.state, checked=outcome.checked, tls_unverified=outcome.tls_unverified,
+                    snap=(outcome.snapshot_at or config.SNAPSHOT_ASOF)[:10], seconds=time.monotonic() - t0, kind="contact")
+        return outcome
 
     finished: list[str] = []
     lock = threading.Lock()
@@ -205,7 +214,7 @@ def fetch_contact_pages(offices: list[str], fetch_static: Callable[[str], LiveRe
 
     n_workers = workers or min(len(pages), 16)          # sleeping in the limiter is cheap; never queue a ready host behind a waiting one
     with ThreadPoolExecutor(max_workers=n_workers, thread_name_prefix="contact-page") as pool:
-        futures = {url: pool.submit(tracked, url) for url in pages}
+        futures = {url: events.submit_with_context(pool, tracked, url) for url in pages}     # workers need the run context to emit
         for url, fut in futures.items():
             result.pages[url] = fut.result()
     result.order = list(finished)
