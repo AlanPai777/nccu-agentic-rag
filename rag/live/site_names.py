@@ -27,13 +27,14 @@ from urllib.parse import urlparse
 DATA = Path(__file__).with_name("site_names.json")
 ALLOWED_SUFFIX = "nccu.edu.tw"
 
-# Hand-written exceptions. The first two were agreed with the user (2026-10-18); the others come out of the review of the derived table and
-# are PROPOSED until the user confirms them (docs/phase_j_live_fetch_plan.md, P8.3 S3).
+# Hand-written exceptions, all agreed with the user (2026-10-18): moltke and www.nccu.edu.tw as proposed, emba and gcit from the review of the
+# derived table, es.video from the user's own knowledge of that page (docs/phase_j_live_fetch_plan.md, P8.3 S3).
 OVERRIDES = {
     "moltke.nccu.edu.tw": "校務表單服務",                      # not in contact.csv
     "www.nccu.edu.tw": "政大首頁",                             # the csv's first row for this host is 校長室, which would mislead
     "emba.nccu.edu.tw": "商學院經營管理碩士學程（EMBA）",       # derived 商學院, the same as commerce.nccu.edu.tw
     "gcit.nccu.edu.tw": "全球傳播與創新科技碩士學位學程",       # derived name kept a stray note, "(師資陣容)"
+    "es.video.nccu.edu.tw": "附屬高級中學（家長會）",            # the site is the parents' association's page, not the school's (user, 2026-10-18)
 }
 
 _TRAILING_NOTE = re.compile(r"\s*[(（][^()（）]*[)）]\s*$")

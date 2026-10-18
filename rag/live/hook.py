@@ -20,7 +20,7 @@ from rag.live.cache import LiveCache
 from rag.live.clock import taipei_minute
 from rag.live.config import live_enabled
 from rag.live.fetcher import Fetcher
-from rag.live.ledger import (DISCONTINUED, LIVE_CHANGED, LIVE_INCOMPLETE, LIVE_NEW, LIVE_SAME, SNAPSHOT_FALLBACK, make_marker,
+from rag.live.ledger import (DISCONTINUED, LIVE_CHANGED, LIVE_INCOMPLETE, LIVE_NEW, LIVE_SAME, SNAPSHOT, SNAPSHOT_FALLBACK, make_marker,
                              sanitize)
 from rag.live import resolve as R
 
@@ -41,6 +41,18 @@ def _cache_info(from_cache: bool, fetched_at: float) -> tuple[bool, int | None]:
     return True, max(0, int((time.time() - fetched_at) // 60)) if fetched_at else None
 
 
+def _snapshot_marked(page: dict, url: str, title_key: str, kind: str) -> dict:
+    """A question that explicitly turned live OFF (live=False, the front end's switch) still records what it read: the page comes back
+    unchanged, plus a ledger line with state "snapshot" so the sources panel can list it as database data. live=None (the CLI default, or
+    LIVE_FETCH unset) returns the page untouched, byte-for-byte as before P8."""
+    if "error" in page:
+        return page
+    out = dict(page)
+    out["live_marker"] = make_marker(url if kind == "form" else (page.get("url") or url), SNAPSHOT, "", config.SNAPSHOT_ASOF, kind=kind, title=page.get(title_key) or "")
+    out["live_state"] = SNAPSHOT
+    return out
+
+
 def get_fetcher() -> Fetcher:
     global _fetcher
     with _fetcher_lock:
@@ -53,7 +65,7 @@ def apply_page(url: str, snapshot_page: dict, live: bool | None = None) -> dict:
     """`snapshot_page` is get_page()'s result: a page dict, or {"error": ...} when the URL is not in the corpus.
     `live` is this question's choice (AgentState["live"]); None = decided by LIVE_FETCH alone (config.live_enabled)."""
     if not live_enabled(live):
-        return snapshot_page
+        return _snapshot_marked(snapshot_page, url, "title", "page") if live is False else snapshot_page
     snap_found = "error" not in snapshot_page
     target = snapshot_page.get("url") or url          # the stored URL when get_page matched by prefix
     if not is_allowed(target):
@@ -83,7 +95,11 @@ def apply_form(form_id: str, snapshot_form: dict, live: bool | None = None) -> d
     """`snapshot_form` is agent_tools.get_form()'s result (or {"error": ...}). Same decision rule as pages:
     unchanged -> snapshot text, changed -> live text, live failed -> snapshot + disclosure, withdrawn -> no text."""
     if not live_enabled(live):
-        return snapshot_form() if callable(snapshot_form) else snapshot_form
+        form = snapshot_form() if callable(snapshot_form) else snapshot_form
+        if live is False:
+            from rag.live.forms import link_url_for
+            return _snapshot_marked(form, link_url_for(form_id), "form_title", "form")
+        return form
     from rag.live.forms import fetch_form, link_url_for
     link = link_url_for(form_id)
     live = fetch_form(form_id, get_fetcher())

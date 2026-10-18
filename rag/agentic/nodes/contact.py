@@ -71,7 +71,34 @@ def contact_node(state: AgentState) -> dict:
     context = header + "\n\n" + skill.format_context(result)
     if use_live:
         context = _with_ledger(context, offices, result, live)
+    elif state.get("live") is False:                   # live explicitly OFF for this question: record what was read (S4), change nothing else
+        context = _snapshot_ledger(context, offices, result)
     return {"messages": [HumanMessage(content=context)]}
+
+
+def _snapshot_ledger(context: str, offices: list[str], result: dict) -> str:
+    """The question turned live off: one "snapshot" marker per staff page the contact data was read from (the page each office's entry
+    cites), titled with the offices it covers, and one "fixed_data" marker per office that fell back to KNOWN_CONTACTS. Nothing was checked, so
+    there is no check time and no "uncovered" line."""
+    from rag.live import config
+    from rag.live.clock import taipei_minute
+    from rag.live.contacts import plan_pages
+    from rag.live.ledger import FIXED_DATA, SNAPSHOT, contact_markers_text, make_marker, sanitize
+    try:
+        dates = {u: (info.get("snapshot_at") or "")[:10] for u, info in plan_pages(offices)[0].items()}
+    except Exception:                                  # noqa: BLE001 -- the ledger is an addition, never a dependency
+        dates = {}
+    by_url: dict[str, list[str]] = {}
+    for office, entry in result.items():
+        url = entry.get("page_url")
+        if entry.get("contacts_source") == "page" and url:
+            by_url.setdefault(url, []).append(office)
+    markers = [make_marker(url, SNAPSHOT, "", dates.get(url) or config.SNAPSHOT_ASOF, kind="contact", title="、".join(offs) + " 人員頁")
+               for url, offs in by_url.items()]
+    now = taipei_minute()
+    markers += [make_marker("fixed://KNOWN_CONTACTS/" + office, FIXED_DATA, now, "", False, kind="contact")
+                for office, entry in result.items() if entry.get("contacts_source") == "known_contacts"]
+    return sanitize(context) + "\n\n" + contact_markers_text(markers, []) if markers else context
 
 
 def _with_ledger(context: str, offices: list[str], result: dict, live) -> str:

@@ -83,8 +83,9 @@ class TestHook(Counting):
     def test_apply_page_honours_the_question_choice(self):
         with env(LIVE_FETCH="on"):
             out = hook.apply_page(URL, SNAP, live=False)
-        self.assertIs(out, SNAP)
         self.assertEqual(self.hits, [])
+        self.assertEqual({k: v for k, v in out.items() if k not in ("live_marker", "live_state")}, SNAP)   # same page; S4 adds a "snapshot" marker
+        self.assertEqual(out["live_state"], "snapshot")
         with env(LIVE_FETCH=None):                       # server without the variable: the request alone turns it on
             out = hook.apply_page(URL, dict(SNAP), live=True)
         self.assertEqual(len(self.hits), 1)
@@ -107,7 +108,9 @@ class TestHook(Counting):
                                                       elapsed=0.0, requests=1, fetched_at=0.0, from_cache=False))
         with mock.patch("rag.live.forms.fetch_form", fake):
             with env(LIVE_FETCH="on"):
-                self.assertEqual(hook.apply_form("QP-A", dict(snap), live=False), snap)
+                out = hook.apply_form("QP-A", dict(snap), live=False)
+            self.assertEqual({k: v for k, v in out.items() if k not in ("live_marker", "live_state")}, snap)
+            self.assertEqual(out["live_state"], "snapshot")
             fake.assert_not_called()
             with env(LIVE_FETCH=None):
                 hook.apply_form("QP-A", dict(snap), live=True)
