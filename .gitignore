@@ -43,3 +43,9 @@ rag/live/_logs/
 experiments/live_spikes/_out/
 experiments/live_fixtures/
 experiments/form_gate/_out/
+
+# Author's own working material, not part of the project
+plan/
+experiments/
+worklog/
+rag/agentic_main.py
