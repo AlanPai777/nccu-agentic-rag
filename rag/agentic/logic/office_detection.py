@@ -1,20 +1,10 @@
 """
 rag/agentic/logic/office_detection.py
-_detect_offices(): office-name detection against the full ~433-entry
-catalog (Migration Step 3, docs/phase_h_agentic_rag_migration_plan.md
-Part 5). Ported directly from rag/agentic_main.py's own _detect_offices()
-(D12's LLM-judged redesign + N.7's Layer 1 substring pre-check) -- pulled
-forward from its originally-planned Step 4 home because
-rag/agentic/tools/page.py's get_page_tool needs it directly (a page with
-no form IDs runs office detection on its own text, per §M D4's
-established sequencing). Step 4's contact_node/resource_node will import
-this same function, not a second copy.
-
-Pure logic, no LangGraph state dependency -- takes text, returns a list
-of office names. Independently testable (this session repeatedly used
-throwaway scripts to sample-test this exact function's reliability; being
-a plain function makes that natural rather than requiring a fake
-AgentState).
+_detect_offices(): office-name detection against the full catalog of about 433 names. A deterministic substring
+check runs first, so a name written out in the text is never missed, and an LLM then judges the text against the whole
+catalog. It is a plain function with no LangGraph state dependency: it takes text and returns a list of office names,
+so it can be tested without a fake AgentState. get_page_tool runs it on a page's own text when the page has no form
+IDs, and resource_node and contact_node import this same function.
 """
 
 from __future__ import annotations

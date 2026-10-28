@@ -1,9 +1,7 @@
 """
 rag/agentic/nodes/contact.py
-contact_node -- deterministic office-contact lookup, replacing
-production's office_lookup.py's hardcoded _PROCEDURE_OFFICES fallback
-(Migration Step 4, docs/phase_h_agentic_rag_migration_plan.md Part 5).
-Ported directly from rag/agentic_main.py.
+contact_node -- deterministic office-contact lookup. It finds the offices mentioned in the text and looks each one up in
+the office index, so it works for any office and not for a fixed list.
 """
 
 from __future__ import annotations
@@ -45,7 +43,7 @@ def contact_node(state: AgentState) -> dict:
     in the answer belongs in synthesis, after the data exists."""
     messages = state.get("messages") or []
     last = messages[-1] if messages else None
-    # P6.5: on the direct CONTACT route (plan_node -> contact_node, before any rewrite) the question is what is scanned, on EVERY turn. From
+    # On the direct CONTACT route (plan_node -> contact_node, before any rewrite) the question is what is scanned, on EVERY turn. From
     # the second turn on `messages` is not empty (the previous turn's [question, answer] stays), so reading messages[-1] there scanned the
     # previous ANSWER. Every other entry (a marker after a tool, a form's text) still scans the last message.
     from_question = last is None or (state.get("query_type") == "contact" and state.get("turn", 0) == 0)
@@ -61,11 +59,11 @@ def contact_node(state: AgentState) -> dict:
     from rag.skills.office_lookup_skill import OfficeLookupSkill
     skill = OfficeLookupSkill()
     live = None
-    use_live = live_enabled(state.get("live"))         # this question's choice, decided once (S1)
-    with events.group("contacts", events.title_list(offices)) as grp:          # progress events for the front end (S5)
+    use_live = live_enabled(state.get("live"))         # this question's choice, decided once
+    with events.group("contacts", events.title_list(offices)) as grp:          # progress events for the front end
         live_ready, fetch_static, render = False, None, None
         if use_live:
-            # Phase J P4: read the offices' staff pages live (Chromium), keep the snapshot where nothing changed. Any
+            # Read the offices' staff pages live (Chromium), keep the snapshot where nothing changed. Any
             # failure here must leave the snapshot answer intact -- the live check is an addition, never a dependency.
             try:
                 from rag.live.contacts import default_backends
@@ -104,7 +102,7 @@ def contact_node(state: AgentState) -> dict:
     context = header + "\n\n" + skill.format_context(result)
     if use_live:
         context = _with_ledger(context, offices, result, live)
-    elif state.get("live") is False:                   # live explicitly OFF for this question: record what was read (S4), change nothing else
+    elif state.get("live") is False:                   # live explicitly OFF for this question: record what was read, change nothing else
         context = _snapshot_ledger(context, offices, result)
     return {"messages": [HumanMessage(content=context)]}
 
@@ -126,7 +124,7 @@ def _snapshot_pages(offices: list[str], result: dict) -> tuple[dict[str, list[st
 
 
 def _emit_snapshot_rows(grp, offices: list[str], result: dict, live_done: bool) -> None:
-    """Progress rows for what was NOT checked live: the staff pages the contacts were read from when live was off (live_done=False; with a
+    """Progress rows for what was NOT checked live: the staff pages the contacts were read from when live was off (live_done=False. With a
     live check those pages already emitted their own rows) and the offices that fell back to KNOWN_CONTACTS (never a web page)."""
     from rag.live import config
     from rag.live.clock import taipei_minute
@@ -156,7 +154,7 @@ def _snapshot_ledger(context: str, offices: list[str], result: dict) -> str:
 
 
 def _with_ledger(context: str, offices: list[str], result: dict, live) -> str:
-    """Phase J: one marker per staff page that was (or should have been) checked live, one per office that fell back to the
+    """One marker per staff page that was (or should have been) checked live, one per office that fell back to the
     hard-coded KNOWN_CONTACTS, and the list of offices that got no live check at all -- so the answer's 【資料狀態】 can say
     exactly which people data is confirmed and which is not. The body is sanitized first: page-derived names/duties can
     never contain a marker of their own."""

@@ -1,8 +1,6 @@
 """
 rag/agentic/tools/page.py
-get_page_tool / extract_links_tool: fetch a known URL's full content, or
-the links it references (Migration Step 3). Ported directly from
-rag/agentic_main.py.
+get_page_tool / extract_links_tool: fetch a known URL's full content, or the links it references.
 """
 
 from __future__ import annotations
@@ -51,8 +49,8 @@ def get_page_tool(url: str, state: Annotated[dict, InjectedState]) -> str:
             header += f"\n[偵測到表單編號: {', '.join(form_ids)}]"
         else:
             # Only check here when there's no form -- when a form IS present,
-            # resource_node scans the form's own (freshly-fetched) text per §M
-            # D4's established sequencing, not this page's narrative text.
+            # resource_node scans the form's own (freshly-fetched) text,
+            # not this page's narrative text.
             # Pure CONTACT-type queries never surface a form marker at all
             # (e.g. "出納組電話幾號"), so without this branch contact_node was
             # unreachable except as a side effect of resource_node -- there was

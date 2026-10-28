@@ -1,20 +1,12 @@
 """
 rag/agentic/nodes/compound.py
-Compound-query handling (v1 sequential) -- multi_sub_query_node runs each
-detected sub-query through its own fully independent nested .invoke() of
-an inner loop graph, replacing production's Send-based sub_query_node/
-merge_node (decomposition.py). Migration Step 6,
-docs/phase_h_agentic_rag_migration_plan.md Part 5 / §0.2.
+Compound-query handling. multi_sub_query_node runs each detected sub-query, one after another, through its own fully
+independent nested .invoke() of an inner loop graph.
 
-Ported directly from rag/agentic_main.py. Deliberately NOT Send/parallel:
-sequential sidesteps the concurrent-write problem entirely (per §0.2,
-Send cannot directly target this package's live multi-turn loop nodes --
-spike_send.py proved concurrent branches writing different values to a
-non-reducer field like `turn` raise InvalidUpdateError). Send upgrade
-(via a wrapper node that internally does its own nested .invoke(), the
-pattern spike_nested_invoke.py validated) is an explicit follow-up, not
-solved this step -- matches production's own v1-then-Send-upgrade
-precedent for the same feature.
+It is deliberately sequential and not Send/parallel. LangGraph's Send cannot directly target this package's
+multi-turn loop nodes, and concurrent branches that write different values to a non-reducer field such as `turn`
+raise InvalidUpdateError (shown by a spike). Moving to Send through a wrapper node that does its own nested .invoke()
+is a possible follow-up and has not been done.
 """
 
 from __future__ import annotations
@@ -40,7 +32,7 @@ _loop_graph_cache = None
 def _build_loop_graph():
     """Compiles rewrite_node<->agent_node<->tools (plus resource_node/
     contact_node's marker chain) as an INDEPENDENT StateGraph, separate
-    from the outer graph (agentic_rag.py at repo root, Step 9) -- reused by
+    from the outer graph (agentic_rag.py at the repo root) -- reused by
     multi_sub_query_node's nested .invoke() calls so each sub-query gets
     its own fully isolated turn/rewritten/subdomain_hint/query_type, with
     zero risk of the concurrent-write InvalidUpdateError a shared graph

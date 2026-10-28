@@ -1,7 +1,6 @@
 """
 rag/agentic/tools/form.py
-get_form_tool: fetch a known form ID's full content (Migration Step 3).
-Ported directly from rag/agentic_main.py.
+get_form_tool: fetch a known form ID's full content.
 """
 
 from __future__ import annotations
@@ -39,8 +38,8 @@ def fetch_form_for_agent(form_id: str, live: bool | None = None) -> str:
     link = link_url_for(form_id)
     rid = g.row("start", url=link, title=form_id, state="pending", kind="form") if (g and live_enabled(live)) else None
     t0 = time.monotonic()
-    # With LIVE_PREFETCH on, the snapshot lookup and the live fetch may already have been done (or be under way) by the prefetch;
-    # otherwise these two lines do exactly what they always did.
+    # With LIVE_PREFETCH on, the snapshot lookup and the live fetch may already have been done (or be under way) by the prefetch.
+    # Otherwise these two lines do exactly what they always did.
     store = get_store()
     snap = store.form_snapshot(form_id, lambda: _get_form_raw(form_id))
     f = store.form_live(form_id, lambda: apply_form(form_id, snap, live))

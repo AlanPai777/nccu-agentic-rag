@@ -1,8 +1,6 @@
 """
 rag/agentic/tools/grep.py
-grep_texts_tool: literal-match search tool with scoping + fallback +
-already-read dedup (Migration Step 3). Ported directly from
-rag/agentic_main.py.
+grep_texts_tool: literal-match search tool with scoping, fallback and already-read dedup.
 """
 
 from __future__ import annotations

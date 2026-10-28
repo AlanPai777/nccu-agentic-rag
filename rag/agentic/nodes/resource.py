@@ -1,9 +1,6 @@
 """
 rag/agentic/nodes/resource.py
-resource_node / _after_resource -- deterministic fetch-all form retrieval,
-replacing production's retrieval_resource.py (Migration Step 4,
-docs/phase_h_agentic_rag_migration_plan.md Part 5). Ported directly from
-rag/agentic_main.py.
+resource_node / _after_resource: deterministic fetch-all form retrieval.
 """
 
 from __future__ import annotations
@@ -46,7 +43,7 @@ def resource_node(state: AgentState) -> dict:
     detected_ids = sorted(extract_form_ids(context_text)) if context_text else []
     if detected_ids:
         relevant_ids = detected_ids
-        if gate_enabled():          # P3.5 experiment, off by default: drop forms the page marks for another situation
+        if gate_enabled():          # an experiment, off by default: drop forms the page marks for another situation
             gate = select_forms(state["query"], context_text, detected_ids)
             relevant_ids = gate.fetch_ids
             get_client().update_current_span(metadata={"form_gate": {      # visible in LangFuse when configured
@@ -63,7 +60,7 @@ def resource_node(state: AgentState) -> dict:
         if not relevant_ids:
             return {}
     fetched_ids = set(relevant_ids)
-    live = state.get("live")           # this question's choice (S1); the forms below honour it
+    live = state.get("live")           # this question's choice, the forms below honour it
     with events.group("form", ", ".join(relevant_ids), refine=True):       # one progress block for all the forms this node reads
         results = [fetch_form_for_agent(fid, live) for fid in relevant_ids]
         combined = "\n\n".join(results)

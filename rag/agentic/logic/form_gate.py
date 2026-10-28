@@ -1,18 +1,18 @@
 """
 rag/agentic/logic/form_gate.py
-P3.5 experiment (docs/phase_j_live_fetch_plan.md): decide, BEFORE fetching, which of the forms detected on a page
-the question actually needs. One LLM call: question + the page's own text + the candidate forms' metadata ->
-JSON saying fetch / skip per form.
+An experiment that is off by default. It decides, BEFORE fetching, which of the forms detected on a page the question
+actually needs. One LLM call takes the question, the page's own text and the candidate forms' metadata, and returns
+JSON saying fetch or skip for each form.
 
-Why this is not the pre-fetch judge Phase H removed (docs/phase_g_clean_pipeline_design.md N.1-N.4):
-  * input is the page text only -- system-written header/marker lines are stripped first (the suspected cause of the
-    "one extra newline flips the verdict" failure; suspected, never proven);
-  * output is parsed JSON, not "which form ids appear anywhere in the reply";
-  * only an EXPLICIT "fetch": false excludes a form. A missing id, malformed JSON, an exception or an empty reply
-    all mean "fetch everything", i.e. the old fetch-all behaviour: failing to answer never loses a form. But a
-    clear answer is honoured even when it is "none of them" (user decision 2026-10-15: the route may have been
-    wrong from the start, so zero forms is a legitimate result, not a failure).
-Off by default (FORM_GATE=on). Whether it is stable enough to keep is decided by experiments/form_gate/run_gate_eval.py.
+An earlier pre-fetch judge was removed because it excluded a form that was needed. This one differs in three ways:
+  * The input is the page text only. System-written header and marker lines are stripped first. They are the
+    suspected cause of the "one extra newline flips the verdict" failure, suspected but never proven.
+  * The output is parsed JSON, not "which form ids appear anywhere in the reply".
+  * Only an EXPLICIT "fetch": false excludes a form. A missing id, malformed JSON, an exception or an empty reply
+    all mean "fetch everything", which is the old fetch-all behaviour, so failing to answer never loses a form.
+    But a clear answer is honoured even when it is "none of them". The route may have been wrong from the start,
+    so zero forms is a legitimate result and not a failure.
+Off by default (FORM_GATE=on). Whether it is stable enough to keep is decided by running it against labelled cases.
 """
 
 from __future__ import annotations
@@ -86,14 +86,14 @@ def _parse(raw: str, candidates: list[str]) -> dict[str, tuple[bool, str]] | Non
 
 def _record(query: str, candidates: list[str], r: GateResult) -> GateResult:
     """One log line per decision (LIVE_LOG=info prints it) so a wrong exclusion can be found afterwards -- the
-    failure class that cost Phase H its refund table. The reasons live only in `r.skipped` otherwise."""
+    failure class that once cost an answer its refund table. The reasons live only in `r.skipped` otherwise."""
     log.info("form gate q=%r candidates=%s fetch=%s skipped=%s fell_back=%s", query, candidates, r.fetch_ids,
              r.skipped, r.fell_back)
     return r
 
 
 def select_forms(query: str, page_text: str, candidates: list[str], llm=None) -> GateResult:
-    """candidates: form ids already detected on the page (deterministically). llm: callable(prompt)->str; defaults
+    """candidates: form ids already detected on the page (deterministically). llm: callable(prompt)->str. Defaults
     to the project's simple_chat so the experiment uses the same model path as _judge_forms."""
     candidates = list(dict.fromkeys(candidates))
     if len(candidates) <= 1:

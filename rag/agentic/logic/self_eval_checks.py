@@ -1,25 +1,12 @@
 """
 rag/agentic/logic/self_eval_checks.py
-Stage 1 of self_eval_node's two-stage design (Migration Step 7,
-docs/phase_h_agentic_rag_migration_plan.md §6.2/§6.3, Part 5 Step 7) --
-deterministic, zero-LLM-cost checks that run BEFORE the Stage 2 LLM
-judgment (agentic_main.py's existing self_eval_node/_SELF_EVAL_PROMPT,
-ported into rag/agentic/nodes/self_eval.py). A Stage 1 failure produces a
-concrete, deterministic correction hint (the checklist already knows
-what's missing, no LLM needed to describe it) and skips Stage 2 entirely.
+Stage 1 of self_eval_node's two-stage design. These are deterministic checks that cost no LLM call and run BEFORE the
+Stage 2 LLM judgment, which is in rag/agentic/nodes/self_eval.py. A Stage 1 failure produces a concrete correction
+hint, because the checklist already knows what is missing, and skips Stage 2 entirely.
 
-Adapted from production's rag/nodes/self_eval.py's _SELF_EVAL_CRITERIA
-(sources/procedure_format keyword checks) plus a structural-completeness
-spirit borrowed from its stations/person_names checks -- but NOT a
-literal port, because production's structural checks read a separate
-extraction_checklist state field that doesn't exist in this package's
-state (see rag/agentic/state.py's docstring on why: Migration Step 1
-corrected state.py to match agentic_main.py's actual AgenticState, which
-has no such field). Here, the equivalent structural signal is read
-directly from state["messages"] -- resource_node's own
-"[表單站點審核層級偵測]" block and contact_node's own "[辦公室聯絡資訊...]"
-block, both already-computed data that's sitting in the message history
-rather than a parallel state field.
+The structural checks read their signal directly from state["messages"]: resource_node's own "[表單站點審核層級偵測]"
+block and contact_node's own "[辦公室聯絡資訊...]" block. Both are already-computed data sitting in the message
+history, so there is no parallel state field for them (see rag/agentic/state.py).
 """
 
 from __future__ import annotations
@@ -54,7 +41,7 @@ def _extract_station_roles(messages: list) -> list[str]:
     """Pulls station role keywords out of resource_node's own
     "[表單站點審核層級偵測]" block -- e.g. "- 站點7：組長、教務長（多層審核...)"
     -> ["組長", "教務長"]. Only present when a fetched form's table actually
-    had a multi-role station (D15's _extract_station_roles finding
+    had a multi-role station (_extract_station_roles finding
     something) -- most forms won't trigger this block at all, which is
     expected, not a gap."""
     roles: list[str] = []
@@ -73,7 +60,7 @@ _DISCLOSURE_TAG = "資料狀態揭露"
 
 
 def _check_data_state_disclosure(answer: str, messages: list) -> str | None:
-    """Phase J: if any page was served from the snapshot because live confirmation failed (or was
+    """If any page was served from the snapshot because live confirmation failed (or was
     incomplete), the answer must carry the data-status section. synthesis_node appends that section by
     program, so this is a safety net, not a routine retry trigger -- and it fires AT MOST ONCE per turn
     (a repeat would send self_eval round the loop forever; the project already had to disable the Stage 1
@@ -100,8 +87,8 @@ def stage1_checklist(state: dict) -> list[str]:
     building a reliable presence-check against arbitrary bullet text
     without more real-case testing risks the same kind of unreliable
     deterministic rule this project has repeatedly had to walk back
-    elsewhere (see docs/phase_g_clean_pipeline_design.md's D12/_STRIP_RE
-    lessons)."""
+    elsewhere (the keyword-stripping regexes this project replaced
+    for exactly that reason are an example)."""
     answer = state.get("answer") or ""
     messages = state.get("messages") or []
     failures: list[str] = []
@@ -113,7 +100,7 @@ def stage1_checklist(state: dict) -> list[str]:
     # mirrors _SYNTHESIS_PROMPT rule 2's own distinction ("單純查資訊/查
     # 電話這類非流程類問題不受此規則限制"). query_type carries plan_node's
     # classification label even though PROCEDURE/KNOWLEDGE share one graph
-    # path (Migration Step 1 decision) -- the label itself still exists
+    # path -- the label itself still exists
     # for exactly this kind of downstream distinction.
     if state.get("query_type") == "procedure":
         if not any(kw in answer for kw in ("第一步", "步驟", "①", "第1步", "1.", "1、")):

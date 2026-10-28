@@ -1,7 +1,6 @@
 """
 rag/agentic/tools/search.py
-search_texts: FTS5 + LLM-judge semantic search tool (Migration Step 3).
-Ported directly from rag/agentic_main.py.
+search_texts: FTS5 + LLM-judge semantic search tool.
 """
 
 from __future__ import annotations

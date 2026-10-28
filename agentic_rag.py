@@ -1,17 +1,10 @@
 """
 agentic_rag.py
-Graph assembly + CLI for the migrated agentic RAG pipeline (Migration
-Step 9, docs/phase_h_agentic_rag_migration_plan.md Part 5). Replaces
-rag/proto3_langgraph.py as the production entry point -- same role
-(build_graph()/run()/CLI only, no node logic of its own), assembled
-entirely from rag/agentic/*'s already-ported and verified node functions
-(Steps 1-8).
+Graph assembly and command line for the agentic RAG pipeline, the production entry point. It has no node logic of
+its own. It assembles the node functions in rag/agentic/ into a graph (build_graph), runs it (run) and offers the CLI.
 
-Moved to the repo root (post-Step-10 reorg) so the production entry point
-is visible at a glance, sitting alongside rag/classic_rag.py (classic RAG,
-renamed from rag/main.py in the same reorg). Both direct execution and
-module invocation work without any sys.path patch, since the repo root is
-this file's own directory:
+It sits at the repo root next to rag/classic_rag.py, the separate classic RAG system. Both direct execution and module
+invocation work without any sys.path patch, since the repo root is this file's own directory:
     python agentic_rag.py "如何辦理休學"
     python -m agentic_rag "出納組的電話" --subdomain aca
     python agentic_rag.py "選課上限幾學分" --stream

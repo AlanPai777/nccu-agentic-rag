@@ -460,7 +460,7 @@ def _is_site_root(url: str) -> bool:
 
 
 def parent_children(office: str) -> tuple[list[dict], list[dict]] | None:
-    """(home records, child records) when `office` is a parent unit, else None (docs/phase_j_live_fetch_plan.md, P6.5).
+    """(home records, child records) when `office` is a parent unit, else None.
 
     A parent unit is one whose index record(s) point at a site's HOME PAGE (教務處 -> https://aca.nccu.edu.tw, 學生事務處 ->
     https://osa.nccu.edu.tw/) while the same host has other index records: the staff are listed on those records' pages, not on

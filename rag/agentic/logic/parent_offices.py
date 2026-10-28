@@ -1,7 +1,7 @@
 """
 rag/agentic/logic/parent_offices.py
-Bare parent units (docs/phase_j_live_fetch_plan.md, P6.5): 教務處 and 學生事務處 are registered in the office index with their site's
-HOME PAGE, which lists no staff (教務處: 9 characters; 學生事務處: a news page the contact parser turns into a made-up "contact").
+Bare parent units: 教務處 and 學生事務處 are registered in the office index with their site's
+HOME PAGE, which lists no staff (教務處 has 9 characters, and 學生事務處 is a news page the contact parser turns into a made-up "contact").
 The staff are on the pages of the units under them (教務長室, 註冊組, ... / 學務長室, ...), registered in the same host, in
 docs/contact.csv's order (the head's office first).
 

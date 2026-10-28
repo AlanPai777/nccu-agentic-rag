@@ -1,14 +1,7 @@
 """
 rag/agentic/nodes/synthesis.py
-synthesis_node -- dedicated final-answer generation, replacing production's
-rag/nodes/synthesis.py (which branches by query_type: RESOURCE/KNOWLEDGE
-pass-through, only PROCEDURE/CONTACT actually call an LLM) and the answer-
-writing previously scattered across retrieval_node/resource_node.
-Migration Step 5, docs/phase_h_agentic_rag_migration_plan.md Part 5.
-
-Ported directly from rag/agentic_main.py. All paths now converge on this
-ONE node -- agent_node's own .content (from the tool-selection call) is
-always discarded, never used as an answer.
+synthesis_node: the dedicated final-answer generation. All paths converge on this ONE node. agent_node's own .content,
+from the tool-selection call, is always discarded and never used as an answer.
 """
 
 from __future__ import annotations
@@ -97,7 +90,7 @@ def synthesis_node(state: AgentState) -> dict:
     # answers run long (1000-2000+ tokens), and the Ollama cloud API needs a
     # positive num_predict, not -1/unlimited.
     answer = _invoke_synthesis_llm(prompt).content
-    # Phase J: the data-status section is written by program from the source ledger, not by the LLM. Empty
+    # The data-status section is written by program from the source ledger, not by the LLM. Empty
     # (answer unchanged) unless pages were read with LIVE_FETCH=on.
     answer += status_section(parse_markers(state["messages"]), parse_gate_none(state["messages"]),
                               parse_uncovered(state["messages"]))

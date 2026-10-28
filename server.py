@@ -3,11 +3,9 @@ server.py
 FastAPI service exposing agentic_rag.py's graph over SSE to
 CourseLangChain-frontend's AssistantChat.vue page (VITE_ASSISTANT_API_BASE).
 
-docs/phase_i_assistant_api_design.md is the design record for why this
-shape -- filtering stream_mode="messages" by langgraph_node instead of
-CourseLangChain/app.py's "no tool_calls = final answer" heuristic -- was
-needed: agentic_rag.py's graph has several nodes that call an LLM, and only
-synthesis_node's output is meant to reach the user.
+The final answer is picked out of stream_mode="messages" by langgraph_node, not by
+CourseLangChain/app.py's "no tool_calls = final answer" heuristic. agentic_rag.py's graph
+has several nodes that call an LLM, and only synthesis_node's output is meant to reach the user.
 
     python server.py
     uvicorn server:app --host 0.0.0.0 --port 8001
@@ -81,7 +79,7 @@ _DONE_WORDS = {"夠了", "够了", "足夠", "足够", "完成", "done"}
 # Reuses the exact marker format rag/agentic/tools/page.py's get_page_tool
 # already stamps onto its own return value when it detects a form/office
 # reference (rag/agentic/logic/{form_extraction,office_detection}.py) --
-# read-only here, purely for display; doesn't change what the agent does
+# read-only here, purely for display. Doesn't change what the agent does
 # with that text.
 _FORM_MARKER_RE = re.compile(r"\[偵測到表單編號: ([^\]]+)\]")
 _OFFICE_MARKER_RE = re.compile(r"\[偵測到辦公室: ([^\]]+)\]")
@@ -99,9 +97,8 @@ def _status_text(node_name: str, delta: dict) -> str | None:
     """One node update -> one plain-text status line for the progress list, or None when the node has nothing to add.
 
     Prefers text a node already generated for its own purposes (rewrite_node's `rewritten`, agent_node's reply text, self_eval's note) --
-    "one LLM output, two consumers" (phase_g_brainstorming.txt) -- and otherwise composes a sentence from real data in `delta`
-    (the question type, the narrowed site, the forms/offices a page mentioned). No extra LLM call (P8.7b: model-written narration, B5,
-    is deliberately not done yet). None of this changes what any node returns to the graph."""
+    "one LLM output, two consumers"  -- and otherwise composes a sentence from real data in `delta`
+    (the question type, the narrowed site, the forms/offices a page mentioned). No extra LLM call (model-written narration is deliberately not done yet). None of this changes what any node returns to the graph."""
     if node_name == "plan_node":
         label = _QUERY_TYPE_LABEL.get(str(delta.get("query_type") or "").lower())
         return f"判斷問題類型：{label}" if label else "判斷問題類型"
@@ -129,7 +126,7 @@ def _status_text(node_name: str, delta: dict) -> str | None:
             return None
         return "資料已足夠，整理答案" if text.strip("。.!！ ") in _DONE_WORDS else _short(text)
     if node_name == "tools":
-        # The tool actions are drawn as blocks; what a block cannot show is what the page MENTIONED.
+        # The tool actions are drawn as blocks. What a block cannot show is what the page MENTIONED.
         hits = []
         for m in delta.get("messages") or []:
             content = str(getattr(m, "content", "") or "")
@@ -188,7 +185,7 @@ def _live_available() -> bool:
 
 
 def _effective_live(param: str | None) -> bool:
-    """The "查現場" choice for one question: /ask?live=on|off; the kill switch beats it. With no parameter (curl, an old client) LIVE_FETCH alone
+    """The "查現場" choice for one question: /ask?live=on|off. The kill switch beats it. With no parameter (curl, an old client) LIVE_FETCH alone
     decides -- unset means off, so nothing reaches nccu.edu.tw by accident; the front end's switch starts "on" and always sends the parameter.
     Always an explicit bool, so a question that turns live off still records the pages it read (rag/live/hook.py)."""
     if not _live_available():
@@ -200,7 +197,7 @@ def _effective_live(param: str | None) -> bool:
 
 
 def _slow_text(seconds: float, live: bool) -> str:
-    """The waiting notice for a threshold (rag/live/config.py SLOW_WARN_SECONDS, LIVE_SLOW_WARN_SECONDS); warn only, never abort."""
+    """The waiting notice for a threshold (rag/live/config.py SLOW_WARN_SECONDS, LIVE_SLOW_WARN_SECONDS). Warn only, never abort."""
     waited = f"{seconds / 60:g} 分鐘" if seconds >= 60 else f"{seconds:g} 秒"
     if seconds >= 300:
         if live:
@@ -268,7 +265,7 @@ async def _pump(
                 ):
                     await queue.put({"data": chunk.content})
             elif stream_mode == "custom":
-                # Progress events from rag/live/events.py (tools and nodes: {"type":"step",...}); forwarded as they come. A front end
+                # Progress events from rag/live/events.py (tools and nodes: {"type":"step",...}). Forwarded as they come. A front end
                 # that does not know a "type" ignores it.
                 if isinstance(payload, dict) and payload.get("type"):
                     await queue.put(payload)
@@ -283,7 +280,7 @@ async def _pump(
                     # them clear-then-explain reads correctly top to bottom.
                     if _is_retry_signal(node_name, delta, current_turn):
                         await queue.put({"type": "reset"})
-                    # P8: the 【資料狀態】 footer is no longer streamed as answer text -- the same information goes out as the
+                    # The 【資料狀態】 footer is no longer streamed as answer text -- the same information goes out as the
                     # "sources" event below. The footer stays in state["answer"] (self_eval's disclosure check, the CLI and eval read it).
                     text = _status_text(node_name, delta)
                     if text:
