@@ -1,7 +1,7 @@
 """
 rag/live/
-Phase J live-fetch package (docs/phase_j_live_fetch_plan.md). Currently only
-clock.py (P0); fetcher/compare/cache/ratelimit/... arrive in later stages.
+Checks pages against nccu.edu.tw while a question is answered. The settings are in config.py, fetching in fetcher.py,
+and the comparison with the snapshot in compare.py and resolve.py.
 """
 
 

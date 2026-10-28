@@ -1,6 +1,6 @@
 """
 rag/live/site_names.py
-Host -> the name a user knows it by ("aca.nccu.edu.tw" -> "教務處"), for the sources panel's group titles (docs/phase_j_live_fetch_plan.md, P8 S3).
+Host -> the name a user knows it by ("aca.nccu.edu.tw" -> "教務處"), for the sources panel's group titles.
 
 The table is derived from docs/contact.csv (the hand-made list of offices and their pages) by experiments/live_spikes/build_site_names.py and
 stored in site_names.json, so the running system needs neither the csv nor any code to know the names. A host the table does not know (the
@@ -27,14 +27,14 @@ from urllib.parse import urlparse
 DATA = Path(__file__).with_name("site_names.json")
 ALLOWED_SUFFIX = "nccu.edu.tw"
 
-# Hand-written exceptions, all agreed with the user (2026-10-18): moltke and www.nccu.edu.tw as proposed, emba and gcit from the review of the
-# derived table, es.video and ahs from the user's own knowledge of those sites (docs/phase_j_live_fetch_plan.md, P8.3 S3).
+# Hand-written exceptions, all agreed with the user. moltke and www.nccu.edu.tw were proposed, emba and gcit came from the review of the
+# derived table, and es.video and ahs come from the user's own knowledge of those sites.
 OVERRIDES = {
     "moltke.nccu.edu.tw": "校務表單服務",                      # not in contact.csv
     "www.nccu.edu.tw": "政大首頁",                             # the csv's first row for this host is 校長室, which would mislead
     "emba.nccu.edu.tw": "商學院經營管理碩士學程（EMBA）",       # derived 商學院, the same as commerce.nccu.edu.tw
     "gcit.nccu.edu.tw": "全球傳播與創新科技碩士學位學程",       # derived name kept a stray note, "(師資陣容)"
-    "es.video.nccu.edu.tw": "附設實驗國民小學（家長會）",        # the elementary school's parents' association (user, 2026-10-18; the csv says 附屬高級中學)
+    "es.video.nccu.edu.tw": "附設實驗國民小學（家長會）",        # the elementary school's parents' association (from the user, the csv says 附屬高級中學)
     "ahs.nccu.edu.tw": "附屬高級中學",                          # the high school's own site; contact.csv has no row for it, its 附中 rows sit under www.es
 }
 
@@ -42,12 +42,12 @@ _TRAILING_NOTE = re.compile(r"\s*[(（][^()（）]*[)）]\s*$")
 
 
 def strip_note(name: str) -> str:
-    """Drop the last trailing parenthetical (a note about the page); never returns an empty string."""
+    """Drop the last trailing parenthetical (a note about the page). Never returns an empty string."""
     return _TRAILING_NOTE.sub("", name).strip() or name.strip()
 
 
 def read_rows(csv_path: Path | str) -> list[tuple[str, str]]:
-    """(name, url) for every csv row whose last cell is a URL. The file has 2- and 3-column rows and a few free-text lines; only the last two
+    """(name, url) for every csv row whose last cell is a URL. The file has 2- and 3-column rows and a few free-text lines. Only the last two
     cells matter."""
     out = []
     with open(csv_path, encoding="utf-8", newline="") as f:

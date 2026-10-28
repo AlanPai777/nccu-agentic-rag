@@ -1,6 +1,6 @@
 """
 rag/live/prefetch.py
-Prefetch (docs/phase_j_live_fetch_plan.md, P5): start the live reads a chain will need BEFORE the chain asks for them.
+Prefetch: start the live reads a chain will need BEFORE the chain asks for them.
 
 Today the live reads are a relay race -- each leg needs the previous leg's text to know what to fetch:
     read the page (live check) -> its form ids -> fetch the forms -> their offices -> fetch the staff pages
@@ -16,7 +16,7 @@ is simply done the normal way. Only entries the prefetch itself started are stor
 empty and behaviour is exactly what it was.
 
 Off by default (LIVE_PREFETCH=on, and only together with LIVE_FETCH=on). No budget cap of its own: it fetches what the real chain
-would have fetched anyway (user decision 2026-10-16); the chain's own lack of caps is a known, separately recorded trade-off.
+would have fetched anyway. That was a deliberate choice, and the chain's own lack of caps is a known trade-off.
 """
 
 from __future__ import annotations
@@ -187,7 +187,7 @@ def _run_chain(page_url: str, ids: list[str], store: PrefetchStore, deps: Deps) 
         snaps: dict[str, Future] = {}
         for fid in ids:
             snaps[fid] = store.submit("snap", fid, lambda fid=fid: deps.form_snapshot(fid))
-            # the live fetch starts now; it only needs the snapshot at the moment the two are compared
+            # the live fetch starts now. It only needs the snapshot at the moment the two are compared
             store.submit("form", fid, lambda fid=fid: deps.live_form(fid, lambda fid=fid: snaps[fid].result()))
         texts = []
         for fid, fut in snaps.items():

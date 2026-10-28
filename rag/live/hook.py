@@ -1,6 +1,6 @@
 """
 rag/live/hook.py
-The single place get_page_tool asks "should this page be confirmed live?" (docs/phase_j_live_fetch_plan.md §5.2).
+The single place get_page_tool asks "should this page be confirmed live?"
 
   LIVE_FETCH=off (default): returns the snapshot dict untouched -> agent behaviour is exactly as before.
   LIVE_FETCH=on : fetch the live page (the snapshot was already read, in milliseconds), compare, and return
@@ -44,7 +44,7 @@ def _cache_info(from_cache: bool, fetched_at: float) -> tuple[bool, int | None]:
 def _snapshot_marked(page: dict, url: str, title_key: str, kind: str) -> dict:
     """A question that explicitly turned live OFF (live=False, the front end's switch) still records what it read: the page comes back
     unchanged, plus a ledger line with state "snapshot" so the sources panel can list it as database data. live=None (the CLI default, or
-    LIVE_FETCH unset) returns the page untouched, byte-for-byte as before P8."""
+    LIVE_FETCH unset) returns the page untouched, byte-for-byte as before the per-question switch existed."""
     if "error" in page:
         return page
     out = dict(page)

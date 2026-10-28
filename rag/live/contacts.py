@@ -1,6 +1,6 @@
 """
 rag/live/contacts.py
-Live staff pages for the offices contact_node found (docs/phase_j_live_fetch_plan.md, P4, "httpx 優先").
+Live staff pages for the offices contact_node found.
 
 For each office: the office_contacts_index.jsonl record(s) say WHICH page lists its staff (the same lookup the snapshot
 path does). Each such page is one task in a thread pool:
@@ -11,7 +11,7 @@ path does). Each such page is one task in a thread pool:
       -> no escalation: the static result stands
       -> escalation:    Chromium renders the page (browser-owner thread), same compare/parse, and that result stands
 
-Pages run side by side; the rate limiter makes osa.nccu.edu.tw's pages wait their 10 s turns without holding anything
+Pages run side by side. The rate limiter makes osa.nccu.edu.tw's pages wait their 10 s turns without holding anything
 up. One page's handler (parsing) runs while other pages are still being fetched. Offices with no index record are returned
 in `uncovered`: they stay on the snapshot path and the answer says so.
 """
@@ -187,7 +187,7 @@ def fetch_contact_pages(offices: list[str], fetch_static: Callable[[str], LiveRe
     if not pages:
         return result
 
-    grp = events.current_group()                        # the contact_node's progress group, if it opened one; workers inherit it (S5)
+    grp = events.current_group()                        # the contact_node's progress group, if it opened one; workers inherit it
 
     def page_task(url: str) -> PageOutcome:
         info = pages[url]
@@ -225,7 +225,7 @@ def fetch_contact_pages(offices: list[str], fetch_static: Callable[[str], LiveRe
 
 
 def merge_contact_results(*results: ContactsResult | None) -> ContactsResult | None:
-    """One ContactsResult out of several (the batches of a parent unit's children, plus the other offices' pages); None when
+    """One ContactsResult out of several (the batches of a parent unit's children, plus the other offices' pages), or None when
     there is nothing to merge. A url read twice keeps the later outcome."""
     got = [r for r in results if r is not None]
     if not got:

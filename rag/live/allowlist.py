@@ -1,6 +1,6 @@
 """
 rag/live/allowlist.py
-Only *.nccu.edu.tw over http(s) may ever be fetched (§5.8). Also applied to every redirect hop, so a
+Only *.nccu.edu.tw over http(s) may ever be fetched. It is also applied to every redirect hop, so a
 page cannot bounce the fetcher to another domain. Fetched text is data, never instructions.
 """
 

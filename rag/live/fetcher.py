@@ -1,6 +1,6 @@
 """
 rag/live/fetcher.py
-Live HTTP fetch of one nccu.edu.tw URL -> extracted text (§5.1-5.6), using the same extractors that
+Live HTTP fetch of one nccu.edu.tw URL -> extracted text, using the same extractors that
 built the snapshot (rag/preprocess.py) so live-vs-snapshot differences are real, not extractor drift.
 
 Failure is data, not an exception: fetch() always returns a LiveResult, with `error` set to a short

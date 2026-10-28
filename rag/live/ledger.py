@@ -1,6 +1,6 @@
 """
 rag/live/ledger.py
-Source ledger (docs/phase_j_live_fetch_plan.md §5.11). Every page the agent reads in `on` mode carries one
+Source ledger. Every page the agent reads in `on` mode carries one
 marker line in its ToolMessage header:
 
     [live:src status=live_same checked=2026-10-14T19:05 snap=2026-08-19 tls=0 url=https://aca.nccu.edu.tw/...]
@@ -29,13 +29,13 @@ _KV_RE = re.compile(r"(\w+)=(\S*)")
 # states
 LIVE_SAME, LIVE_CHANGED, LIVE_NEW = "live_same", "live_changed", "live_new"
 SNAPSHOT_FALLBACK, LIVE_INCOMPLETE = "snapshot_fallback", "live_incomplete"
-DISCONTINUED = "discontinued"      # moltke says the form is withdrawn; its content is not given to the LLM
+DISCONTINUED = "discontinued"      # moltke says the form is withdrawn. Its content is not given to the LLM
 FIXED_DATA = "fixed_data"          # contacts taken from KNOWN_CONTACTS (hard-coded in the source), not from any page
 SNAPSHOT = "snapshot"              # live was off for this question: read from the snapshot ("資料庫"), nothing was checked
 # Snapshot data was used without live confirmation -> the answer must say so.
 NEEDS_DISCLOSURE = frozenset({SNAPSHOT_FALLBACK, LIVE_INCOMPLETE, FIXED_DATA})
 
-# User-facing wording (P8 B7; the 【資料狀態】 section and the sources panel share it). "{d}" is the date of the snapshot the data came
+# User-facing wording (the 【資料狀態】 section and the sources panel share it). "{d}" is the date of the snapshot the data came
 # from ("8/19"), "資料庫" is what the user calls the snapshot. Changing a string here changes both places.
 _LABEL = {
     LIVE_SAME: "已與官網核對，內容無變動",
@@ -75,7 +75,7 @@ class Source:
 
 
 def snap_short(snap: str) -> str:
-    """'2026-08-19' -> '8/19' (the snapshot date as the user reads it); '' when unknown."""
+    """'2026-08-19' -> '8/19' (the snapshot date as the user reads it), or '' when unknown."""
     m = re.match(r"(\d{4})-(\d{2})-(\d{2})", snap or "")
     return f"{int(m.group(2))}/{int(m.group(3))}" if m else ""
 

@@ -1,10 +1,10 @@
 """
 rag/live/browser.py
-The browser-owner thread (docs/phase_j_live_fetch_plan.md, P4).
+The browser-owner thread.
 
-Playwright's SYNC API objects only work in the thread that created them (P4 step 0, T2: using a page from another
+Playwright's SYNC API objects only work in the thread that created them (using a page from another
 thread raises "Cannot switch to a different thread"), while LangGraph runs our sync nodes on whatever pool thread is
-free. So ONE dedicated thread owns Chromium; any thread calls `render(url)` and gets a `Future` back -- like a
+free. So ONE dedicated thread owns Chromium. Any thread calls `render(url)` and gets a `Future` back -- like a
 restaurant ticket: returned at once, redeemed later with `.result()` or picked up in completion order with
 `concurrent.futures.as_completed`. Requests are served one at a time, in the order they arrive.
 
@@ -14,7 +14,7 @@ atexit, and a crashed browser is restarted once per request. Failure is data: a 
 resolves to a RenderResult with `ok=False` and an error code (`start_failed`, `render_error`, `crashed`, `closed`).
 
 The thing that actually drives Chromium is a `Backend` (swappable: tests use a fake, so none of this logic needs a
-real browser). P4.5 (simultaneous crawling) can replace the loop with an asyncio one inside this same thread without
+real browser). A future version could replace the loop with an asyncio one inside this same thread without
 changing the `render()` signature.
 """
 
@@ -75,7 +75,7 @@ class PlaywrightBackend:
         self.settle_ms = config.RENDER_SETTLE_MS if settle_ms is None else settle_ms
         self.nav_timeout_ms = config.RENDER_NAV_TIMEOUT_MS if nav_timeout_ms is None else nav_timeout_ms
         self._allow = allow or is_allowed                 # applied to the URL asked for and to wherever we end up
-        self._sub_allow = subresource_allow               # None in production (pages load fonts/analytics as in P0);
+        self._sub_allow = subresource_allow               # None in production, where pages load fonts and analytics as usual,
         self._pw = None                                   # tests pass one to keep every request on localhost
         self.browser = None
 
@@ -83,6 +83,8 @@ class PlaywrightBackend:
         from playwright.sync_api import sync_playwright
         self._pw = sync_playwright().start()
         try:
+            # No user agent is set, so Chromium sends its own default. The staff-page index was produced the same way,
+            # which keeps rendered pages comparable with the indexed ones.
             self.browser = self._pw.chromium.launch(headless=True)
         except BaseException:
             self._pw.stop()
@@ -118,7 +120,7 @@ class PlaywrightBackend:
             if status >= 400:
                 return RenderResult(url, status=status, error="http_5xx" if status >= 500 else "http_4xx",
                                     detail=f"HTTP {status}", elapsed=time.monotonic() - t0)
-            # page.content() is a Unicode string; we hand it on as UTF-8 bytes. A page with no <meta charset> (or one that
+            # page.content() is a Unicode string. We hand it on as UTF-8 bytes. A page with no <meta charset> (or one that
             # still declares big5) would make the extractor's encoding sniffing guess wrong and garble Chinese text, so
             # the bytes carry a UTF-8 BOM, which takes priority over any declared or guessed encoding.
             return RenderResult(url, ok=True, html=b"\xef\xbb\xbf" + page.content().encode("utf-8"), status=status,
@@ -190,7 +192,7 @@ class BrowserOwner:
         return fut
 
     def shutdown(self, timeout: float = 30.0) -> None:
-        """Idempotent. Pending requests resolve with error='closed'; Chromium is closed."""
+        """Idempotent. Pending requests resolve with error='closed', and Chromium is closed."""
         with self._lock:
             if self._closed:
                 return

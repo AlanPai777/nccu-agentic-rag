@@ -1,6 +1,6 @@
 """
 rag/live/resolve.py
-Live-vs-snapshot decision (§5.2): same -> snapshot text; different -> live text; live failed -> snapshot.
+Live-vs-snapshot decision: same -> snapshot text, different -> live text, live failed -> snapshot.
 Pure given a LiveResult, so it is testable without a network.
 """
 

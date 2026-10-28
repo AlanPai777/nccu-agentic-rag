@@ -1,10 +1,10 @@
 """
 rag/live/forms.py
-Live retrieval of a moltke form (docs/phase_j_live_fetch_plan.md §5.7).
+Live retrieval of a moltke form.
 
 The 5-request chain (link.jsp -> login.formservice -> viewDetail.formservice -> viewFormDetail.jsp -> df?<token>)
 is held together by a server-side session: viewFormDetail.jsp carries NO form id in its URL, the cookie set by the
-first redirect decides which form you get. So every form uses its OWN client (own cookie jar); forms fetched
+first redirect decides which form you get. So every form uses its OWN client (own cookie jar). Forms fetched
 side by side can never see each other's session.
 
 Not OCR'd: an image-only PDF yields no text and is reported as a failure (caller falls back to the snapshot).

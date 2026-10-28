@@ -1,6 +1,6 @@
 """
 rag/live/sources.py
-The "sources" the front end shows (docs/phase_j_live_fetch_plan.md, P8.2 / P8.3 S4): every page, form or contact record whose CONTENT reached the
+The "sources" the front end shows: every page, form or contact record whose CONTENT reached the
 model while it wrote the answer, grouped by site, each with how it was checked (live, or database) and when.
 
 Built from the ledger markers in state["messages"] (rag/live/ledger.py), the same source the 【資料狀態】 section uses, so the two cannot
@@ -47,7 +47,7 @@ def _item(src: Source) -> dict:
 
 
 def build_sources(messages: list, live: bool) -> dict:
-    """The payload of the {"type":"sources"} SSE event. Groups appear in the order their first page was read; items keep reading order."""
+    """The payload of the {"type":"sources"} SSE event. Groups appear in the order their first page was read. Items keep reading order."""
     groups: dict[str, dict] = {}
     for src in parse_markers(messages):
         host = FIXED_GROUP if src.status == FIXED_DATA else urlparse(src.url).netloc.lower()

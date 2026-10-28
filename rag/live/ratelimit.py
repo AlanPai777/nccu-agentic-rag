@@ -1,6 +1,6 @@
 """
 rag/live/ratelimit.py
-Per-host pacing + per-host concurrency + global concurrency + circuit breaker (§5.5, §5.4).
+Per-host pacing + per-host concurrency + global concurrency + circuit breaker.
 
 "Concurrency" is how many requests are in flight at once; "interval" is the minimum gap between
 request *starts* to one host. A slot is reserved by time before it waits, so a 10-second Crawl-delay

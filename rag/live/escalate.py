@@ -1,7 +1,6 @@
 """
 rag/live/escalate.py
-When is a static (httpx) result for a staff page not enough, so that Chromium must read the page? (docs/phase_j_live_fetch_plan.md,
-P4 "httpx 優先")
+When is a static (httpx) result for a staff page not enough, so that Chromium must read the page?
 
   A. the fetch itself says so: the page came back with no content, or is a Cloudflare challenge, or the server answered 403.
      (Timeouts, 429, 5xx, an open circuit breaker, a redirect off the allowlist do NOT escalate: when the server is unhappy a
@@ -10,7 +9,7 @@ P4 "httpx 優先")
   C. the static text yields no contact at all. This one does NOT look at the snapshot: the snapshot can itself be poor
      (oic's lost every name to an extractor bug, so "the snapshot had people" would have kept oic off Chromium forever).
 
-A and B are decided before parsing (parsing may call an LLM); C needs the parse. Returns a short reason string, or None.
+A and B are decided before parsing, which may call an LLM. C needs the parse. Returns a short reason string, or None.
 A wrong "no" costs missing data, a wrong "yes" costs one more page render, so the thresholds lean towards escalating.
 
 Known blind spot (recorded in the plan, not handled): static and snapshot are equally poor while Chromium would show more, or

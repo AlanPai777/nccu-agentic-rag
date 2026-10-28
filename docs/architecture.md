@@ -176,6 +176,22 @@ contact_node ──▶ contacts.fetch_contact_pages ┤          side cache rag/
 - **Parent units** (`rag/agentic/logic/parent_offices.py`, plan P6.5): a unit whose index page is a site's home page (教務處, 學生事務處) has no staff there, so `contact_node` reads its sibling staff pages instead, in `docs/contact.csv` order, three at a time (`PARENT_BATCH_SIZE`, the user's choice), stopping at the first batch with parsed contacts; the parent's own page and then `KNOWN_CONTACTS` come last. This happens only when the parent is named in the user's question: on the direct CONTACT route the question is scanned on every turn, and a parent that appears only in page text is skipped. Stray spaces inside a unit name are removed (between Chinese characters only) before the detector's substring checks. Checked against the real site for 教務處 and 學生事務處 (single sample); multi-turn, compound questions and other hosts are not verified.
 - **Not done**: a "waiting" row state for pages queued behind the same host's rate limit (they show "讀取中…"), a marker for `extract_links` (it goes through `apply_page` but writes no ledger line), model-written narration of the steps (the lines are assembled by code).
 
+### Politeness toward the university servers
+
+- **Where requests may go.** Only `nccu.edu.tw` and its subdomains. Anything else is refused before a request is made.
+- **Identity.** The httpx requests send the same User-Agent string as the earlier crawler that built the corpus, an "academic research bot". The URL inside it points at the university home page, so the string does not say how to reach this project. Playwright keeps Chromium's own default user agent.
+- **Pace.** Each host allows one new request per second and two in flight, and the whole process allows four in flight. `osa.nccu.edu.tw` is limited to one request every 10 seconds, one at a time, because its robots.txt asks for `Crawl-delay: 10`. `moltke` and `cpbae` have their own settings. All of it is in `rag/live/config.py` and can be changed with environment variables.
+- **Failures.** A request that times out, or a host that fails several times in a row, only affects its own pages. Those pages fall back to the snapshot and are marked as a fallback in the answer.
+- **Certificates.** Verification is turned off for one host only, `cashier.nccu.edu.tw`, and every such page is flagged so the answer can say it.
+
+### Known limitations
+
+- `aff.nccu.edu.tw` and `mend.nccu.edu.tw` do not send an intermediate certificate, like `cashier`, but they are not on the exception list. Their pages show as unreachable.
+- robots.txt is not read while running. The 10-second pace for `osa` is written into the settings by hand, and other hosts' robots.txt files have not been checked.
+- A page that is fetched but yields no people is not reported as such to the user.
+- The failure message "未能連上官網" is shown for every failed fetch, including a 404 or an empty page.
+- Contact lists are limited to a few people per office in the final answer, even when the page lists many more.
+
 ## Key modules
 
 | Module | Role |

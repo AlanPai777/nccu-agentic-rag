@@ -1,10 +1,9 @@
 """
 rag/live/clock.py
-Reference date for time-intent parsing (Phase J P0, docs/phase_j_live_fetch_plan.md
-§5.12). "今天" / "10/14" / "本週" can only be resolved against a known "today";
+Reference date for time-intent parsing. "今天" / "10/14" / "本週" can only be resolved against a known "today".
 AgentState.today is filled from here once per turn by agentic_rag.initial_state().
 
-No node reads state["today"] yet (P0 adds the field only, behaviour unchanged).
+No node reads state["today"] yet. The field exists so that a later time-aware route can resolve dates, and filling it changes no behaviour.
 """
 
 from __future__ import annotations

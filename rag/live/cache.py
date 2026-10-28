@@ -1,6 +1,6 @@
 """
 rag/live/cache.py
-Side-channel SQLite cache for live results (§5.3). Never written into the git-tracked
+Side-channel SQLite cache for live results. It is never written into the git-tracked
 output/*/extracted_texts.jsonl, never merged into the corpus. gitignored (rag/live/_cache/).
 """
 

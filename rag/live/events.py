@@ -1,17 +1,17 @@
 """
 rag/live/events.py
-Live progress events for the front end (docs/phase_j_live_fetch_plan.md, P8.2 / P8.3 S5). Every tool or node that reads something says so as it
+Live progress events for the front end. Every tool or node that reads something says so as it
 goes, with LangGraph's custom stream, and server.py forwards the events as SSE:
 
     {"type":"step","kind":"group","id":"g1","verb":"page","title":"休學…","phase":"start"|"done","seconds":2.4}
     {"type":"step","kind":"row","group_id":"g1","id":"r1","phase":"start"|"done","host":…,"site_name":…,"title":…,"url":…,"state":…,
      "label":…,"time":…,"checked":…,"cached":…,"age_min":…,"seconds":…,"tls_unverified":…}
 
-A group is one tool action (search, grep, page, form, contacts, links); its rows are the pages it read. A row with the same id updates the
+A group is one tool action (search, grep, page, form, contacts, links). Its rows are the pages it read. A row with the same id updates the
 earlier one (start -> done). Nothing here may ever hurt the question: every emit is wrapped, and without a listener (graph.invoke, the CLI)
 it does nothing.
 
-Threads (measured in experiments/live_spikes/test_live_s5_writer.py): LangGraph's writer only works inside the run context. A thread-pool worker
+Threads: LangGraph's writer only works inside the run context. A thread-pool worker
 or a plain thread gets "Called get_config outside of a runnable context" while a stream is being consumed (and says nothing under invoke), so
 work that may emit from another thread must be started with submit_with_context / start_thread_with_context, which run it in a copy of the
 caller's context. The current group travels the same way (a ContextVar), so a worker's rows land in the right group.
@@ -44,7 +44,7 @@ def _next(prefix: str) -> str:
 
 
 def emit(event: dict) -> None:
-    """Send one custom event to whoever streams this run. Never raises; a no-op outside a graph run or when nobody listens."""
+    """Send one custom event to whoever streams this run. Never raises. A no-op outside a graph run or when nobody listens."""
     try:
         from langgraph.config import get_stream_writer
         get_stream_writer()(event)

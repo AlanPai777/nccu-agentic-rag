@@ -1,9 +1,9 @@
 """
 rag/live/compare.py
-normalize() + compare(): decide whether a live page differs from the snapshot (§5.2).
+normalize() + compare(): decide whether a live page differs from the snapshot.
 
 Over-normalizing hides real changes, under-normalizing makes every page "different", so
-VOLATILE_PATTERNS only holds fields confirmed to change per visit (P0: osa 點擊數, www.lib 瀏覽數; P1: cashier 頁尾 瀏覽人次).
+VOLATILE_PATTERNS only holds fields confirmed to change per visit (seen so far: osa 點擊數, www.lib 瀏覽數, and cashier's footer 瀏覽人次).
 """
 
 from __future__ import annotations
@@ -14,11 +14,11 @@ from dataclasses import dataclass, field
 
 from rag.agent_tools import extract_form_ids
 
-# Page-view counters. Whole-line counters are dropped; inline "label: number" pairs are cut out.
+# Page-view counters. Whole-line counters are dropped. Inline "label: number" pairs are cut out.
 VOLATILE_PATTERNS = [
-    # number optional: a JS-filled counter is an empty "瀏覽數:" in static HTML (P1, www.lib)
+    # number optional: a JS-filled counter is an empty "瀏覽數:" in static HTML (seen on www.lib)
     re.compile(r"^\W*(?:點擊數|瀏覽數|瀏覽次數|瀏覽人次|點閱數|點閱次數|人氣)\s*[:：]?\s*[\d,]*\W*$"),
-    # <noscript> text appears in static HTML only, never in the rendered snapshot (P1, www.lib)
+    # <noscript> text appears in static HTML only, never in the rendered snapshot (seen on www.lib)
     re.compile(r"^您的瀏覽器不支援\s*JavaScript"),
 ]
 VOLATILE_INLINE = re.compile(r"(?:點擊數|瀏覽數|瀏覽次數|瀏覽人次|參觀人次|訪客人次|點閱數|點閱次數)\s*[:：]\s*[\d,]+(?:\s*[人次])?")
@@ -79,6 +79,6 @@ def compare(snapshot: str, live: str, sample: int = 6) -> Comparison:
             added += bl[j1:j2]
     fa, fr = _delta(set(extract_form_ids(a)), set(extract_form_ids(b)))
     ea, er = _delta(set(EXT_RE.findall(a)), set(EXT_RE.findall(b)))
-    # line-level ratio keeps this cheap on long pages; char-level only when small
+    # line-level ratio keeps this cheap on long pages. Char-level only when small
     sim = difflib.SequenceMatcher(None, a, b, autojunk=False).ratio() if len(a) + len(b) < 20_000 else sm.ratio()
     return Comparison(False, sim, fa, fr, ea, er, [x[:120] for x in added[:sample]], [x[:120] for x in removed[:sample]])
