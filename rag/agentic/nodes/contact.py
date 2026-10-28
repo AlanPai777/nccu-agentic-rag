@@ -45,26 +45,56 @@ def contact_node(state: AgentState) -> dict:
     in the answer belongs in synthesis, after the data exists."""
     messages = state.get("messages") or []
     last = messages[-1] if messages else None
-    context_text = str(last.content) if last is not None else state["query"]
+    # P6.5: on the direct CONTACT route (plan_node -> contact_node, before any rewrite) the question is what is scanned, on EVERY turn. From
+    # the second turn on `messages` is not empty (the previous turn's [question, answer] stays), so reading messages[-1] there scanned the
+    # previous ANSWER. Every other entry (a marker after a tool, a form's text) still scans the last message.
+    from_question = last is None or (state.get("query_type") == "contact" and state.get("turn", 0) == 0)
+    context_text = state["query"] if from_question else str(last.content)
     offices = _detect_offices(context_text)
     if not offices:
+        return {}
+    from rag.agentic.logic.parent_offices import expand_parent_offices, triage
+    offices, _parents, _skipped = triage(offices, from_question)
+    if not offices:                                    # only parent units named in page text: nothing to look up
+        log.info("contact: nothing to look up, skipped parent units %s", _skipped)
         return {}
     from rag.skills.office_lookup_skill import OfficeLookupSkill
     skill = OfficeLookupSkill()
     live = None
     use_live = live_enabled(state.get("live"))         # this question's choice, decided once (S1)
     with events.group("contacts", events.title_list(offices)) as grp:          # progress events for the front end (S5)
+        live_ready, fetch_static, render = False, None, None
         if use_live:
             # Phase J P4: read the offices' staff pages live (Chromium), keep the snapshot where nothing changed. Any
             # failure here must leave the snapshot answer intact -- the live check is an addition, never a dependency.
             try:
-                from rag.live.contacts import default_backends, fetch_contact_pages
+                from rag.live.contacts import default_backends
                 fetch_static, render = default_backends()
-                live = fetch_contact_pages(offices, fetch_static, render)       # emits one row per staff page as each settles
+                live_ready = True
             except Exception as e:                           # noqa: BLE001
                 log.warning("live contact check failed, using the snapshot: %s: %s", type(e).__name__, e)
-                live = None
-        result = skill.run(offices, live=live)
+
+        def read_batch(names):                         # one batch of a parent unit's children; None = use the snapshot
+            if not live_ready:
+                return None
+            from rag.live.contacts import fetch_contact_pages
+            return fetch_contact_pages(names, fetch_static, render)
+
+        exp = expand_parent_offices(offices, from_question, skill, read_batch)
+        live_plain = None
+        if live_ready and exp.plain:
+            try:
+                from rag.live.contacts import fetch_contact_pages
+                live_plain = fetch_contact_pages(exp.plain, fetch_static, render)   # emits one row per staff page as each settles
+            except Exception as e:                           # noqa: BLE001
+                log.warning("live contact check failed, using the snapshot: %s: %s", type(e).__name__, e)
+        from rag.live.contacts import merge_contact_results
+        live = merge_contact_results(exp.live, live_plain)
+        plain_result = skill.run(exp.plain, live=live_plain) if exp.plain else {}
+        result = {o: exp.entries.get(o) or plain_result[o] for o in exp.order}
+        for parent, why in exp.fallback_notes.items():  # the children had nobody: the parent's own page (or KNOWN_CONTACTS) answers
+            result[parent]["note"] = "；".join(x for x in (why, result[parent].get("note")) if x)
+        offices = exp.order                            # what is shown and cited from here on: the children that had contacts, not the parent
         _emit_snapshot_rows(grp, offices, result, live_done=live is not None)
     header = (
         f"[辦公室聯絡資訊，以下是內容中提及的全部 {len(offices)} 個辦公室（{'、'.join(offices)}），"

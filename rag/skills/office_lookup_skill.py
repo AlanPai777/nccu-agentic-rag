@@ -23,6 +23,7 @@ import json
 import re
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from urllib.parse import urlparse
 
 from rag.agent_tools import grep_texts, get_page
 from rag.llm_client import simple_chat
@@ -451,6 +452,39 @@ def index_records_for_office(office: str) -> list[dict]:
     index = _load_contacts_index()
     record_names = [office] if office in index else _OFFICE_NAME_MAP.get(office, [])
     return [rec for name in record_names for rec in index.get(name, [])]
+
+
+def _is_site_root(url: str) -> bool:
+    """A site's home page: no path ("https://aca.nccu.edu.tw", ".../") -- also a bare "#fragment" of a single-page app."""
+    return urlparse(url).path in ("", "/")
+
+
+def parent_children(office: str) -> tuple[list[dict], list[dict]] | None:
+    """(home records, child records) when `office` is a parent unit, else None (docs/phase_j_live_fetch_plan.md, P6.5).
+
+    A parent unit is one whose index record(s) point at a site's HOME PAGE (教務處 -> https://aca.nccu.edu.tw, 學生事務處 ->
+    https://osa.nccu.edu.tw/) while the same host has other index records: the staff are listed on those records' pages, not on
+    the home page. The children are those other records in index order, which is docs/contact.csv's order (the unit head's
+    office comes first). Structural test, no host list: it also fires for www.es (an elementary school whose host also lists the
+    attached high school's units) and law; their children currently parse to no contacts, so nothing is attributed to the wrong
+    unit, and the caller labels where each contact was read from. A home page with no sibling record (secrt, gcit, cids) is not a
+    parent: there is nothing to read instead."""
+    homes = index_records_for_office(office)
+    if not homes or not all(_is_site_root(r.get("url", "")) for r in homes):
+        return None
+    hosts = {urlparse(r["url"]).netloc for r in homes}
+    if len(hosts) != 1:
+        return None
+    host = next(iter(hosts))
+    home_urls = {r["url"] for r in homes}
+    children, seen = [], set()
+    for recs in _load_contacts_index().values():            # name -> records, in the index file's order
+        for rec in recs:
+            url = rec.get("url", "")
+            if url and urlparse(url).netloc == host and not _is_site_root(url) and url not in home_urls and rec["name"] not in seen:
+                seen.add(rec["name"])
+                children.append(rec)
+    return (homes, children) if children else None
 
 
 def dynamic_contacts_for_office(office: str, texts: dict[str, str] | None = None,

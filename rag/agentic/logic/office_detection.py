@@ -51,6 +51,17 @@ _OFFICE_JUDGE_PROMPT = """以下文字裡可能提到了一些政大的辦公室
 請判斷：上面清單裡，哪些辦公室有在文字內容中被提到（用簡稱、口語說法、或全名都算，只要語意上是指同一個單位就算）？只回傳清單裡列出的正式名稱，用逗號分隔；如果都沒提到，回傳「無」。不要自己發明清單以外的名稱，不要有其他文字。"""
 
 
+# A page's layout sometimes breaks a unit name with a stray space ("教務處註冊 組", seen in aca's course-selection rules), which hides
+# the child from the substring checks below and leaves the bare parent "教務處" behind. Spaces/tabs between two Chinese characters
+# carry no meaning in Chinese text, so the checks run on a copy without them. Newlines are kept (they separate table cells), and spaces
+# next to Latin text are kept, so "Office hour" and "IMBA 學程" are untouched. Text without such a gap comes back unchanged.
+_CJK_GAP_RE = re.compile(r"(?<=[一-鿿])[ \t　]+(?=[一-鿿])")
+
+
+def _squeeze_cjk_gaps(text: str) -> str:
+    return _CJK_GAP_RE.sub("", text)
+
+
 def _drop_qualifier_parents(text: str, names: list[str]) -> list[str]:
     """Drop a name that, wherever it appears in `text`, is only the front half of a longer unit written as
     "<parent><child>" -- e.g. "教務處註冊組" matches both 教務處 and 註冊組 as substrings, but the unit meant is 註冊組.
@@ -102,7 +113,8 @@ def _detect_offices(text: str) -> list[str]:
     if not catalog:
         return []
     valid_names = {name for name, _sub in catalog}
-    layer1_hits = [name for name in valid_names if name in text]
+    squeezed = _squeeze_cjk_gaps(text)                  # layer 1 and the parent rule see "教務處註冊 組" as "教務處註冊組"
+    layer1_hits = [name for name in valid_names if name in squeezed]
 
     catalog_str = "\n".join(f"- {name}（{sub}）" for name, sub in catalog)
     prompt = _OFFICE_JUDGE_PROMPT.format(text=text, catalog=catalog_str)
@@ -110,4 +122,4 @@ def _detect_offices(text: str) -> list[str]:
     candidates = [_TRAILING_PAREN_RE.sub("", n.strip()).strip() for n in re.split(r"[,，]", raw)]
     llm_hits = [n for n in candidates if n in valid_names]
 
-    return _drop_qualifier_parents(text, list(dict.fromkeys(layer1_hits + llm_hits)))
+    return _drop_qualifier_parents(squeezed, list(dict.fromkeys(layer1_hits + llm_hits)))

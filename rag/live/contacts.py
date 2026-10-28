@@ -222,3 +222,19 @@ def fetch_contact_pages(offices: list[str], fetch_static: Callable[[str], LiveRe
         log.info("live contact page %s -> %s via %s%s (%.1fs, %d requests) offices=%s", o.url, o.state, o.method,
                  f" [escalated: {o.escalated}]" if o.escalated else "", o.render_seconds, o.requests, o.offices)
     return result
+
+
+def merge_contact_results(*results: ContactsResult | None) -> ContactsResult | None:
+    """One ContactsResult out of several (the batches of a parent unit's children, plus the other offices' pages); None when
+    there is nothing to merge. A url read twice keeps the later outcome."""
+    got = [r for r in results if r is not None]
+    if not got:
+        return None
+    if len(got) == 1:                                   # nothing to merge: the very same object (the ordinary, no-parent path)
+        return got[0]
+    out = ContactsResult()
+    for r in got:
+        out.pages.update(r.pages)
+        out.uncovered += [o for o in r.uncovered if o not in out.uncovered]
+        out.order += [u for u in getattr(r, "order", []) if u not in out.order]
+    return out
