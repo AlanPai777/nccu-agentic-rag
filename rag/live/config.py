@@ -113,6 +113,11 @@ def host_policy(host: str) -> HostPolicy:
     return HOST_POLICY.get(host.lower(), DEFAULT_POLICY)
 
 
+# A parent unit named in the question (教務處, 學生事務處; plan P6.5) reads this many of its sibling staff pages per batch and stops at the first
+# batch with parsed contacts. 3 is the user's choice (2026-10-28), not measured; the rate limiter above still decides how fast they go out.
+PARENT_BATCH_SIZE = _env_int("LIVE_PARENT_BATCH_SIZE", 3)
+
+
 # A live page whose normalized text is shorter than this fraction of the snapshot's is treated as an
 # incomplete static render (JS-built page), not as an edit. Estimate; P1 saw 37 vs 4956 chars (oic).
 INCOMPLETE_RATIO = _env_float("LIVE_INCOMPLETE_RATIO", 0.5)

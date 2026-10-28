@@ -6,7 +6,7 @@ The staff are on the pages of the units under them (教務長室, 註冊組, ...
 docs/contact.csv's order (the head's office first).
 
 When such a parent is named:
-  * by the USER'S QUESTION -> read the next 1-2 children (a batch is as many pages as the host's concurrency limit, so no new setting),
+  * by the USER'S QUESTION -> read the next children, config.PARENT_BATCH_SIZE (3) at a time (the host's rate limiter still paces the requests),
     keep the batch's contacts and stop as soon as one batch has parsed contacts; keep going otherwise. When no child has any, the
     parent falls back to its own page the ordinary way (its home page, then KNOWN_CONTACTS, then nothing).
   * by a PAGE or FORM text -> skipped. A bare "教務處" there is almost always the institution (an announcement, a stamp, a
@@ -21,7 +21,6 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass, field
 from typing import Callable
-from urllib.parse import urlparse
 
 log = logging.getLogger("rag.live")
 
@@ -37,9 +36,9 @@ class Expansion:
     expanded: dict[str, list[str]] = field(default_factory=dict)  # parent -> the children whose contacts were kept
 
 
-def _batch_size(host: str) -> int:
+def _batch_size() -> int:
     from rag.live import config
-    return max(1, config.host_policy(host).concurrency)
+    return max(1, config.PARENT_BATCH_SIZE)
 
 
 def triage(offices: list[str], from_question: bool) -> tuple[list[str], dict[str, tuple[list[dict], list[dict]]], list[str]]:
@@ -71,7 +70,7 @@ def expand_parent_offices(offices: list[str], from_question: bool, skill,
     live = None
     for parent, (homes, kids) in parents.items():
         names = [k["name"] for k in kids]
-        size = _batch_size(urlparse(homes[0]["url"]).netloc)
+        size = _batch_size()
         kept: list[str] = []
         for i in range(0, len(names), size):
             batch = names[i:i + size]

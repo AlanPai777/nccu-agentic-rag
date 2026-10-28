@@ -82,16 +82,16 @@ class P65Base(unittest.TestCase):
 class ParentFromTheQuestion(P65Base):
     def test_教務處_reads_the_first_children_not_the_home_page(self):
         text = self.run_node(_state("教務處的聯絡人是誰"))
-        self.assertEqual(self.fakes.fetched, [self.url["教務長室"], self.url["註冊組"]])     # aca: concurrency 2 -> one batch of two
+        self.assertEqual(sorted(self.fakes.fetched), sorted(self.url[n] for n in ("教務長室", "註冊組", "課務組")))     # one batch of PARENT_BATCH_SIZE (3); the pages of a batch go out together, so their order is not fixed
         self.assertNotIn(self.url["教務處"], self.fakes.fetched)                             # the 9-character home page is not read
         self.assertEqual(self.fakes.rendered, [])                                            # and no Chromium render is wasted on it
         self.assertIn("劉吉軒", text)
         self.assertIn("「教務處」是網站首頁、沒有人員資料，改讀同網站的教務長室", text)
         self.assertNotIn("內建的固定資料", text)
 
-    def test_學生事務處_reads_one_child_and_stops(self):
+    def test_學生事務處_reads_one_batch_of_three_and_stops(self):
         text = self.run_node(_state("學生事務處的聯絡人"))
-        self.assertEqual(self.fakes.fetched, [self.url["學務長室(學務長)"]])                  # osa: concurrency 1; the first page has a person
+        self.assertEqual(sorted(self.fakes.fetched), sorted(self.url[n] for n in ("學務長室(學務長)", "學務長室(副學務長)", "學務長室(中心與成員)")))   # one batch of 3, then stop
         self.assertIn("蔡炎龍", text)
         self.assertNotIn("職涯講座", text)                                                   # the home page's made-up "contact" is gone
 
@@ -104,8 +104,8 @@ class ParentFromTheQuestion(P65Base):
             "課務組": [rec("課務組", "https://aca.nccu.edu.tw/c", "簡介")],
         })
         text = self.run_node(_state("教務處電話"))
-        # two batches of children first (2 + 1), the parent's own page last, in that order
-        self.assertEqual(self.fakes.fetched[:3], ["https://aca.nccu.edu.tw/a", "https://aca.nccu.edu.tw/b", "https://aca.nccu.edu.tw/c"])
+        # one batch of the 3 children first, the parent's own page last, in that order
+        self.assertEqual(sorted(self.fakes.fetched[:3]), ["https://aca.nccu.edu.tw/a", "https://aca.nccu.edu.tw/b", "https://aca.nccu.edu.tw/c"])
         self.assertEqual(self.fakes.fetched[-1], "https://aca.nccu.edu.tw")
         self.assertIn("同網站的 3 個子單位頁面都沒有解析到人員", text)
         self.assertIn("劉吉軒", text)                                                         # KNOWN_CONTACTS["教務處"], the last resort
