@@ -1,7 +1,7 @@
 """
 rag/classic_rag.py — Unified CLI entry point for classic (embedding-based) RAG.
 
-Renamed from rag/main.py (post-Step-10 reorg, docs/phase_h_agentic_rag_migration_plan.md)
+Renamed from rag/main.py
 so the filename doesn't collide in meaning with the repo-root agentic_rag.py,
 which is production. This file is unchanged otherwise -- still stable,
 not part of active development.

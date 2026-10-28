@@ -5,8 +5,7 @@ retrieval_anchor_node should search, replacing the subdomain="aca" hardcode
 that Phase E's PROCEDURE/KNOWLEDGE paths inherited from having only the
 single 休學 test case to develop against.
 
-Two layers implemented here (see phase_f_planning_report.md 6.12 for the
-full four-layer design and its unresolved risks):
+Two layers are implemented here (the full design has four, and its unresolved risks are not part of this repository):
 
   Layer 1 (keyword table, near-zero cost): office/unit names harvested from
            output/office_contacts_index.jsonl (144 subdomains, Step 0c) —
@@ -22,8 +21,7 @@ retrieval_procedure.py), not here — it's is_ambiguous() below, gating a
 plain substitution ("search globally instead of domain-scoped") rather
 than a quality-scored comparison, since agent_tools.grep_texts() has no
 relevance ranking to compare scores on in the first place. Confirmed fixing
-the real osa-dilution case ("如何辦理復學") — see phase_f_planning_report.md
-for the full validation.
+the real osa-dilution case ("如何辦理復學") .
 
 Deliberately still NOT implemented: candidate hedging (Send-based dispatch
 when top-2 Layer 2 scores are close, comparing two candidates' retrieval
@@ -49,8 +47,7 @@ out-scores a small/precise one" risk this could introduce is real (page
 counts across the 152 subdomains range from 1 to 26,289) but UNTESTED —
 none of the queries that could have exposed it actually reach Layer 2 in
 practice, because Layer 1's office-name keyword table already intercepts
-them first. See phase_f_planning_report.md Gotchas for the full comparison
-data and this open risk.
+them first. The comparison data behind this open risk is not part of this repository.
 """
 
 from __future__ import annotations

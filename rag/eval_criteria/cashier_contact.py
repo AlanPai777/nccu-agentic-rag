@@ -3,7 +3,7 @@ rag/eval_criteria/cashier_contact.py
 出納組電話 Q&A evaluation（CONTACT）. Split out of rag/eval.py (2026-09-18).
 
 Added 2026-09-13. Gold standard 來源：Phase F Step 1 baseline
-(docs/phase_f_step1_eval_baseline.md Q3，2026-08-25 人工查證版本，proto3_langgraph
+(Phase F 基準筆記 Q3，2026-08-25 人工查證版本，proto3_langgraph
 上實測「正確」)。出納組沒有單一代表號，官方公布的合法分機範圍是
 62119-62123、62125-62127、62172、62173（來源：cscr subdomain 繳費須知頁）；
 62120（劉桂芬組長）是官網 footer 實際使用的代表號，62123（余淑娟）是範圍內另一

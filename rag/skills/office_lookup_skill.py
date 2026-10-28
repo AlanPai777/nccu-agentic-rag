@@ -217,7 +217,7 @@ def _llm_extract_contacts(text: str) -> list[dict]:
     """LLM-based structured extraction of [{name, ext, duty, email}, ...] from
     a raw office/dept roster page — the page-level replacement for
     _parse_labeled()'s output whenever ANY entry there needed the unreliable
-    _NAME_TITLE_RE fallback (found 2026-09-03, docs/debug.md problem 2):
+    _NAME_TITLE_RE fallback (found 2026-09-03):
     that fallback grabs a substring of a person's OWN multi-part title
     string — e.g. "學位學程" out of "...資訊安全碩士學位學程主任" — instead of
     their actual name, which on team.jsp-style pages sits nearby as a
@@ -496,9 +496,9 @@ def dynamic_contacts_for_office(office: str, texts: dict[str, str] | None = None
     resolves to no records at all — caller falls back to KNOWN_CONTACTS in
     that case.
 
-    `office` is tried two ways (2026-08-30, agentic_main.py integration):
+    `office` is tried two ways:
     1. As a literal record name already present in the index -- e.g. what
-       agentic_main.py's _detect_offices() now passes: an LLM-resolved
+       _detect_offices() now passes: an LLM-resolved
        match against the FULL catalog ("住宿輔導組"), not a hardcoded
        alias, so it's already the exact key this index is stored under.
     2. Falling back to _OFFICE_NAME_MAP -- the original path, for callers

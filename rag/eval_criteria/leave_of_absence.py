@@ -127,7 +127,7 @@ EVAL_CRITERIA = [
 # rules instead of reading this form's actual content, it will hallucinate
 # a 教務長 approval step that doesn't exist here — exactly the generalization
 # failure mode Phase F exists to catch (see CLAUDE.md "Phase E persistent
-# failures" / phase_f_planning_report.md 6.x). Like `no_hallucination` this
+# failures"). Like `no_hallucination` this
 # is scored full-marks by default and corrected on manual read of the answer.
 EVAL_CRITERIA_RESUMPTION = [
     {
@@ -189,7 +189,7 @@ EVAL_CRITERIA_RESUMPTION = [
 
 # ── 複合查詢：休學 + 圖書館電話 Q&A evaluation ───────────────────────────────
 # Added 2026-09-13. Gold standard 來源：Phase F Step 1 baseline
-# (docs/phase_f_step1_eval_baseline.md Q6，2026-08-25 人工查證版本，proto3_langgraph
+# (Phase F 基準筆記 Q6，2026-08-25 人工查證版本，proto3_langgraph
 # 上實測 14/26——休學那半被複合查詢稀釋，7 站蓋章鏈只剩 3 站，form_links/
 # conditional_stops/pickup_method/supplementary_forms 全部歸零。agentic_rag.py 改用
 # multi_sub_query_node 拆成獨立子查詢後，Migration Step 10 regression 驗證兩邊皆正確

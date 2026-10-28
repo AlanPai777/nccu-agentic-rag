@@ -5,13 +5,8 @@ and how it fits together. For setup/running instructions see
 [setup.md](setup.md); for the classic (embedding-based) system, see the
 [README](../README.md)'s Classic RAG section.
 
-This is a distilled view. The full design rationale — every decision,
-alternative considered, and the spike scripts that proved or disproved
-each one — lives in `docs/phase_h_agentic_rag_migration_plan.md` and the
-earlier `docs/phase_g_*` research documents. Those are written for
-picking a project back up mid-thought across sessions, not for a reader
-who just wants to know what the system does today — read this file
-instead unless you specifically need the "why."
+This is a distilled view of what the system does today. The working notes behind each design decision,
+with the alternatives that were considered, are the author's own planning documents and are not part of this repository.
 
 ## Overview
 
@@ -90,9 +85,7 @@ plan_node — rag/router.py's 2-layer classifier (keyword → LLM fallback).
 
 `server.py` (repo root) wraps the graph above in a FastAPI SSE service for
 `CourseLangChain-frontend`'s "政大 AI 助手" page — the pipeline described so
-far is otherwise unchanged, this is purely a serving layer. Full design
-rationale and implementation findings (including two real bugs found and
-fixed during rollout) are in `docs/phase_i_assistant_api_design.md`; this
+far is otherwise unchanged, this is purely a serving layer. This
 section is the distilled current-state summary.
 
 - **Streaming**: `graph.astream(..., stream_mode=["updates","messages","custom"])` (`"custom"` carries the live-check progress events, see the next section).
@@ -142,8 +135,7 @@ section is the distilled current-state summary.
 
 The corpus is a snapshot. With live mode on, the pages an answer is based on are re-fetched
 from `nccu.edu.tw`, compared with the snapshot, and every source is reported with a check time
-and a status. Design record, measurements and every decision: `docs/phase_j_live_fetch_plan.md`;
-this section is the distilled current state. The graph above is unchanged: live checking is a
+and a status. This section is the distilled current state. The graph above is unchanged: live checking is a
 layer under the tools and the two routed nodes, so the agent still just calls `get_page`.
 
 ```
@@ -173,7 +165,7 @@ contact_node ──▶ contacts.fetch_contact_pages ┤          side cache rag/
 - **Progress events** (`"custom"` stream, `rag/live/events.py`): `{"type":"step","kind":"group",…}` opens one block per tool action (`search`, `grep`, `page`, `links`, `form`, `contacts`), `{"type":"step","kind":"row",…}` adds or updates a page row inside it (pending → done, with state, label, check time, cached age). Worker threads must be started with `events.submit_with_context` (a copy of the node's context), otherwise the stream writer fails while streaming and succeeds silently under `invoke`.
 - **Server additions** (`server.py`): `GET /config` (`live_available`, `snapshot_date`), `/ask?live=on|off`, a `meta` event at the start, `slow` notices (120 s / 300 s, once each, only before answer text appears), and a `sources` event sent after the graph ends, so a `self_eval` retry cannot leave a stale list. The status side channel now says only what the action blocks cannot (question type, narrowed site, what a page mentioned).
 - **Frontend** (`CourseLangChain-frontend`, `useChat.ts`, `ProgressList.vue`, `SourcesModal.vue`, `LiveSwitch.vue`): a collapsible timeline of notes and action blocks, a sources pill and modal grouped by site, the "查現場" switch, the waiting notice.
-- **Parent units** (`rag/agentic/logic/parent_offices.py`, plan P6.5): a unit whose index page is a site's home page (教務處, 學生事務處) has no staff there, so `contact_node` reads its sibling staff pages instead, in `docs/contact.csv` order, three at a time (`PARENT_BATCH_SIZE`, the user's choice), stopping at the first batch with parsed contacts; the parent's own page and then `KNOWN_CONTACTS` come last. This happens only when the parent is named in the user's question: on the direct CONTACT route the question is scanned on every turn, and a parent that appears only in page text is skipped. Stray spaces inside a unit name are removed (between Chinese characters only) before the detector's substring checks. Checked against the real site for 教務處 and 學生事務處 (single sample); multi-turn, compound questions and other hosts are not verified.
+- **Parent units** (`rag/agentic/logic/parent_offices.py`): a unit whose index page is a site's home page (教務處, 學生事務處) has no staff there, so `contact_node` reads its sibling staff pages instead, in `docs/contact.csv` order, three at a time (`PARENT_BATCH_SIZE`, the user's choice), stopping at the first batch with parsed contacts; the parent's own page and then `KNOWN_CONTACTS` come last. This happens only when the parent is named in the user's question: on the direct CONTACT route the question is scanned on every turn, and a parent that appears only in page text is skipped. Stray spaces inside a unit name are removed (between Chinese characters only) before the detector's substring checks. Checked against the real site for 教務處 and 學生事務處 (single sample); multi-turn, compound questions and other hosts are not verified.
 - **Not done**: a "waiting" row state for pages queued behind the same host's rate limit (they show "讀取中…"), a marker for `extract_links` (it goes through `apply_page` but writes no ledger line), model-written narration of the steps (the lines are assembled by code).
 
 ### Politeness toward the university servers
@@ -226,7 +218,6 @@ rag/
 ├── preprocess.py             # HTML/PDF -> extracted_texts.jsonl (single record)
 ├── preprocess_all.py         # Batch extraction driver (all/one subdomain)
 ├── keyword_store.py          # SQLite-FTS5 + jieba BM25 (shared by search_texts and Classic RAG)
-├── agentic_main.py           # Research/prototype pipeline predating the migration -- not production
 ├── proto1_direct.py          # Older baseline agent loop (Mode 1/2/3), reference only
 │
 ├── analyze_links.py          # One-off: discover supplementary link sources in a crawled subdomain
@@ -319,7 +310,7 @@ The 23 subdomains named above (20 by volume + these 3 core offices) are the ones
 
 Supplementary PDFs (official forms from moltke.nccu.edu.tw and newdoc.nccu.edu.tw) are indexed separately per subdomain in `supplementary_map.json` — `get_form()` reads these, not `extracted_texts.jsonl`.
 
-> Some subdomains under `nccuga` and similar administrative groups render content via JavaScript and were largely unextractable via static crawling; this was investigated in `docs/phase_f_planning_report.md` and found to affect only a small number of true positives (`x`/`cpbae`/`gcit`), not the broader `nccuga` group as originally suspected.
+> Some subdomains under `nccuga` and similar administrative groups render content via JavaScript and were largely unextractable via static crawling; this was investigated and found to affect only a small number of true positives (`x`/`cpbae`/`gcit`), not the broader `nccuga` group as originally suspected.
 
 ## Current status
 
@@ -332,7 +323,7 @@ Supplementary PDFs (official forms from moltke.nccu.edu.tw and newdoc.nccu.edu.t
 
 ## Future work
 
-Items with a clear direction but not yet started. Full context for each is in `docs/phase_h_agentic_rag_migration_plan.md` and `docs/phase_g_clean_pipeline_design.md`.
+Items with a clear direction but not yet started.
 
 - **Split `rag/agentic/` out of the `rag/` package.** Right now `agentic_rag.py` sits at repo root but still imports from `rag.agentic.*`, and `rag/` also holds shared utilities (`agent_tools.py`, `router.py`, `llm_client.py`, `eval.py`, etc.) that both the agentic and classic systems depend on. A cleaner split — agentic-specific code fully out of `rag/`, shared utilities in their own package — is deferred until there's enough shared-code growth to justify the ~15-file import rewrite.
 - **Parallelize compound-query handling.** `multi_sub_query_node` currently processes sub-queries sequentially (v1); a `Send`-based parallel version is a known, scoped upgrade, not yet done.

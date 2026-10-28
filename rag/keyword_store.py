@@ -38,7 +38,7 @@ DEFAULT_DB_PATH = Path(__file__).parent / "fts.db"
 # was loaded would still have the old "復"+"學" tokens, so any FTS5 index
 # built before this file existed must be rebuilt for the fix to take effect.
 # Every entry here was individually confirmed mis-segmented before adding
-# (see git history / phase_f_planning_report.md) — this is not a guessed
+# (see git history) — this is not a guessed
 # list, and is not claimed to be exhaustive; other NCCU-specific compounds
 # not tested yet may still mis-segment.
 _USERDICT_PATH = Path(__file__).parent / "jieba_userdict.txt"

@@ -89,8 +89,7 @@ persistence across processes; this is a known, deliberate v1 limitation, not a b
 ## Path 1c — Live mode (checking pages against nccu.edu.tw)
 
 Live mode re-fetches the pages an answer is based on from `nccu.edu.tw` and labels every
-source with its check time and status (how it works: [architecture.md](architecture.md#live-check-against-nccuedutw-phase-j);
-why and what was measured: `phase_j_live_fetch_plan.md`). **It sends requests to the
+source with its check time and status (how it works: [architecture.md](architecture.md#live-check-against-nccuedutw-phase-j)). **It sends requests to the
 university's servers**, so it is off unless you ask for it.
 
 **Who decides, per question** (`rag/live/config.py::live_enabled`):
@@ -138,12 +137,12 @@ Chromium needs Playwright's browser (`playwright install chromium`).
 
 Only `*.nccu.edu.tw` is ever fetched (allowlist, redirects included).
 
-**Looking at the live UI without any network or LLM.** `experiments/live_spikes/replay_sse.py`
+**Looking at the live UI without any network or LLM.** `scripts/replay_sse.py`
 is a stand-in for `server.py` that replays one **fictional** run through the real event code
 (same endpoints and event shapes, same default port 8001):
 
 ```bash
-ASSISTANT_FRONTEND_ORIGIN=http://localhost:3000 python experiments/live_spikes/replay_sse.py
+ASSISTANT_FRONTEND_ORIGIN=http://localhost:3000 python scripts/replay_sse.py
 #   --speed 5            five times faster        --port N       another port
 #   ?live=on | ?live=off the same question with the site checked / answered from the database
 #   &scenario=slow       adds the 120 s / 300 s waiting notices;  &scenario=error  ends in an error

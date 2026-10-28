@@ -2,7 +2,7 @@
 rag/live/site_names.py
 Host -> the name a user knows it by ("aca.nccu.edu.tw" -> "教務處"), for the sources panel's group titles.
 
-The table is derived from docs/contact.csv (the hand-made list of offices and their pages) by experiments/live_spikes/build_site_names.py and
+The table is derived from docs/contact.csv (the hand-made list of offices and their pages) by scripts/build_site_names.py and
 stored in site_names.json, so the running system needs neither the csv nor any code to know the names. A host the table does not know (the
 corpus has more sites than the csv lists, and the live fetcher may reach any *.nccu.edu.tw) is shown as its host name.
 

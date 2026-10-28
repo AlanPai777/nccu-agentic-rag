@@ -18,8 +18,7 @@ Usage:
         # map.json only → extracted_texts.jsonl. Use when the subdomain
         # already has its own separately-sourced extracted_supplementary.jsonl
         # (e.g. from an NCCU-Crawler bulk sync) and re-merging
-        # supplementary_map.json would just duplicate it — see
-        # phase_f_planning_report.md, 2026-08-27 aca/osa duplication finding.
+        # supplementary_map.json would just duplicate it (the aca and osa subdomains hold duplicated pages).
     python rag/preprocess_all.py --subdomain aca --mode supplementary
         # supplementary_map.json only → extracted_supplementary.jsonl (a new
         # output file this script didn't produce before this mode existed).
@@ -50,8 +49,7 @@ def process_subdir(subdir: Path, test: bool = False, mode: str = "all") -> None:
                        the subdomain already has an extracted_supplementary
                        .jsonl from elsewhere (e.g. an NCCU-Crawler bulk
                        sync) and re-merging supplementary_map.json would
-                       just duplicate it (aca/osa, 2026-08-27 finding —
-                       see phase_f_planning_report.md).
+                       just duplicate it (the aca and osa subdomains hold duplicated pages).
       "supplementary" — supplementary_map.json only, into a NEW output file
                        extracted_supplementary.jsonl (this script never
                        wrote that file before this mode existed) — aligns
