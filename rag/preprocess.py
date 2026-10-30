@@ -6,6 +6,7 @@ HTML: locates div.item-page (Joomla) or div.page-inner (PageOne CMS), strips
 PDF:  uses pdfplumber; falls back to OCR if extracted text < 10 chars (likely scanned).
 """
 
+import base64
 import logging
 import re
 from pathlib import Path
@@ -97,6 +98,33 @@ def _decode_cf_emails_in_soup(soup: BeautifulSoup) -> None:
             span.replace_with(email)
 
 
+_B64_EMAIL_RE = re.compile(r'atob\(\s*["\']([A-Za-z0-9+/=]+)["\']\s*\)')
+
+
+def _decode_script_emails_in_soup(soup: BeautifulSoup) -> None:
+    """
+    In-place: turn base64 "script.e-enc" emails into the mailto link the script would have written.
+    tiipm.nccu.edu.tw ships each address as <script class="e-enc">var e = atob("...");$(...).before("<a href='mailto:" + e ...)
+    in the served HTML, so a plain HTTP fetch has no address at all (all 63 on its faculty page) while a rendered page has them.
+    Scripts already marked `act` have run: their link sits right before them and the script is removed later with the others.
+    """
+    for script in soup.find_all("script", class_="e-enc"):
+        if "act" in (script.get("class") or []):
+            continue
+        m = _B64_EMAIL_RE.search(script.string or script.get_text() or "")
+        if not m:
+            continue
+        try:
+            email = base64.b64decode(m.group(1)).decode("utf-8")
+        except Exception:
+            continue
+        if "@" not in email:
+            continue
+        link = soup.new_tag("a", href=f"mailto:{email}")
+        link.string = email
+        script.replace_with(link)
+
+
 def is_cloudflare_page(html_bytes: bytes) -> bool:
     """
     Return True if the bytes are a Cloudflare challenge/interstitial page
@@ -110,6 +138,17 @@ def is_cloudflare_page(html_bytes: bytes) -> bool:
         return "_cf_chl_opt" in snippet or "cdn-cgi/challenge-platform" in snippet
     except Exception:
         return False
+
+
+# Class-name tokens that mark navigation/site chrome (see the long comment inside _parse_soup). Module-level so the
+# effect of changing it can be tested against recorded pages.
+# `header` is deliberately NOT a token here (2026-10-16): oic.nccu.edu.tw's staff cards keep each person's name and title
+# in `div.staff-header-row`, which this rule used to delete -- so the page's text had 36 extensions and no names. The
+# <header> TAG is still removed above; only the class-name rule was too broad. Effect measured on the nine recorded
+# staff pages + the aca 休學 page: only oic's text changes (+776 chars, the names/titles); the other nine are identical.
+_NOISE_CLASS_RE = re.compile(
+    r"(?:^|[-_])(?:nav|menu|breadcrumb|sidebar|footer)(?:$|[-_])", re.I
+)
 
 
 def _parse_soup(soup: BeautifulSoup, url: str = "") -> str:
@@ -127,6 +166,7 @@ def _parse_soup(soup: BeautifulSoup, url: str = "") -> str:
     """
     # Decode Cloudflare-obfuscated emails before any other processing
     _decode_cf_emails_in_soup(soup)
+    _decode_script_emails_in_soup(soup)
 
     # Extract page title as fallback for empty/placeholder pages
     # If no <title> tag, derive from URL filename
@@ -172,9 +212,6 @@ def _parse_soup(soup: BeautifulSoup, url: str = "") -> str:
     # page. Requiring a start/end/hyphen/underscore boundary around the keyword
     # still matches genuine tokens ("nav-wrapper", "site-header", "footer_text")
     # but not accidental mid-word hits.
-    _NOISE_CLASS_RE = re.compile(
-        r"(?:^|[-_])(?:nav|menu|breadcrumb|sidebar|footer|header)(?:$|[-_])", re.I
-    )
     for tag in soup.find_all(class_=_NOISE_CLASS_RE):
         if tag.name in ("body", "html"):
             continue

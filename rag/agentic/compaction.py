@@ -2,8 +2,7 @@
 rag/agentic/compaction.py
 compact_previous_turn() -- collapses a closed conversation turn's raw
 scratch work down to a clean [question, answer] pair before a new turn
-starts on the same thread_id. Design record: docs/phase_i_assistant_api_design.md
-(Decision C).
+starts on the same thread_id.
 
 Why this exists: synthesis_node's _render_full_messages() renders the
 *entire* messages list with no per-turn scoping, so an uncompacted
@@ -16,8 +15,7 @@ whatever window survives.
 
 Safe to reduce a turn down to just its answer because _SYNTHESIS_PROMPT
 (rag/agentic/nodes/synthesis.py) rule 6 already requires the answer to end
-with a 來源：URL citation -- verified producing real 來源：lines in the
-2026-09-02 regression run, not just a prompt promise. The compacted answer
+with a 來源：URL citation -- verified to produce real 來源：lines in a regression run, not just a prompt promise. The compacted answer
 is therefore already "conclusion + source" in one string.
 """
 

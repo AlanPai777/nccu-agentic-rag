@@ -73,7 +73,7 @@ class _NavigationFilter(BaseNodePostprocessor):
 
     Navigation chunks score high in dense similarity but contain no real
     content. Filtering them *before* RRF fusion prevents them from
-    occupying dense candidate slots. See docs/phase5.5-report.md.
+    occupying dense candidate slots.
     """
 
     def _postprocess_nodes(

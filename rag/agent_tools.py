@@ -207,13 +207,15 @@ def extract_links(url: str, subdomain: str | None = None) -> list[dict]:
     page = get_page(url, subdomain=subdomain)
     if "error" in page:
         return []
+    return links_from_text(page.get("text", ""))
 
-    text = page.get("text", "")
-    matches = NCCU_LINK_RE.findall(text)
 
+def links_from_text(text: str) -> list[dict]:
+    """The markdown links to *.nccu.edu.tw in `text`, first occurrence of each URL, in page order. Shared by extract_links (snapshot
+    text) and the live-confirmed path in rag/agentic/tools/page.py."""
     seen: set[str] = set()
     result = []
-    for label, link_url in matches:
+    for label, link_url in NCCU_LINK_RE.findall(text):
         if link_url not in seen:
             seen.add(link_url)
             result.append({"label": label, "url": link_url})

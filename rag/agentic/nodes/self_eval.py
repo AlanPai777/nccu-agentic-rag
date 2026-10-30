@@ -1,30 +1,21 @@
 """
 rag/agentic/nodes/self_eval.py
-self_eval_node / _after_self_eval -- two-stage design (Migration Step 7,
-docs/phase_h_agentic_rag_migration_plan.md §6.2/§6.3/Part 5 Step 7).
+self_eval_node / _after_self_eval: a two-stage design.
 
-Stage 1 (logic/self_eval_checks.py's stage1_checklist): deterministic,
-free checks. On failure, returns a concrete correction hint immediately
-and skips Stage 2 entirely -- the checklist already knows what's missing,
-no LLM call needed to describe it.
+Stage 1 (logic/self_eval_checks.py's stage1_checklist) is deterministic and free. On failure it returns a concrete
+correction hint immediately and skips Stage 2 entirely, because the checklist already knows what is missing and no
+LLM call is needed to describe it.
 
-Stage 2 (only runs if Stage 1 passes): agentic_main.py's own
-self_eval_node/_SELF_EVAL_PROMPT, ported directly -- a single LLM
-judgment against the FULL original query, catching what Stage 1
-structurally cannot (format-correct-but-off-topic answers, compound
-queries silently answered half). Same three-way verdict (通過/情況A/情況B).
+Stage 2 only runs if Stage 1 passes. It is a single LLM judgment against the FULL original query. It catches what
+Stage 1 structurally cannot, such as an answer that is well formed but off topic, or a compound query silently
+answered by half. The verdict has three outcomes: 通過, 情況A and 情況B.
 
-Per §6.3 (explicit decision, reversing an earlier draft proposal): runs
-uniformly on ALL paths, including ones plan_node routed directly (never
-skipped just because a path "looks simple/direct") -- a smooth routing
-path doesn't guarantee a correct answer (see this session's own
-_detect_offices() history: 14/15 failures happened on exactly the
-"routed directly, no problem visible" path).
+It runs uniformly on ALL paths, including ones plan_node routed directly. A path is never skipped just because it
+looks simple, since a smooth routing path does not guarantee a correct answer. Office detection once failed in 14 of
+15 samples on exactly the "routed directly, no problem visible" path.
 
-Per §0.1 (explicit decision): no _MAX_SELF_EVAL_RETRIES-style hard cap,
-unlike production's `max 2`. _SELF_EVAL_MAX_TURN is a generous risk-only
-ceiling, not a correctness cap -- reuses state["turn"] (incremented by
-every rewrite_node pass) instead of inventing a dedicated counter.
+There is no hard retry cap. _SELF_EVAL_MAX_TURN is a generous ceiling against risk and is not a correctness cap. It
+reuses state["turn"], which every rewrite_node pass increments, instead of a dedicated counter.
 """
 
 from __future__ import annotations
@@ -71,8 +62,8 @@ Plan_node當初的分類：{query_type}
 def self_eval_node(state: AgentState) -> dict:
     """Stage 1 first (free, deterministic) -- on failure, return its
     concrete hint directly and skip Stage 2 (the LLM call) entirely.
-    Stage 2 only runs when Stage 1 passes, matching agentic_main.py's own
-    self_eval_node otherwise unchanged: one LLM call (_SELF_EVAL_PROMPT)
+    Stage 2 only runs when Stage 1 passes, and is
+    one LLM call (_SELF_EVAL_PROMPT)
     judges against the FULL original state["query"] (not a rewritten
     sub-query) -- this is what lets it catch compound queries a
     keyword-only detector structurally cannot.

@@ -23,6 +23,7 @@ import json
 import re
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from urllib.parse import urlparse
 
 from rag.agent_tools import grep_texts, get_page
 from rag.llm_client import simple_chat
@@ -216,7 +217,7 @@ def _llm_extract_contacts(text: str) -> list[dict]:
     """LLM-based structured extraction of [{name, ext, duty, email}, ...] from
     a raw office/dept roster page — the page-level replacement for
     _parse_labeled()'s output whenever ANY entry there needed the unreliable
-    _NAME_TITLE_RE fallback (found 2026-09-03, docs/debug.md problem 2):
+    _NAME_TITLE_RE fallback (found 2026-09-03):
     that fallback grabs a substring of a person's OWN multi-part title
     string — e.g. "學位學程" out of "...資訊安全碩士學位學程主任" — instead of
     their actual name, which on team.jsp-style pages sits nearby as a
@@ -444,7 +445,50 @@ def _load_contacts_index() -> dict[str, list[dict]]:
     return by_name
 
 
-def dynamic_contacts_for_office(office: str) -> tuple[list[dict], list[str]]:
+def index_records_for_office(office: str) -> list[dict]:
+    """The office_contacts_index.jsonl records that dynamic_contacts_for_office() reads for `office` (literal record
+    name first, else the _OFFICE_NAME_MAP aliases). Split out so the live path (rag/live/contacts.py) asks the index the
+    same question the snapshot path does."""
+    index = _load_contacts_index()
+    record_names = [office] if office in index else _OFFICE_NAME_MAP.get(office, [])
+    return [rec for name in record_names for rec in index.get(name, [])]
+
+
+def _is_site_root(url: str) -> bool:
+    """A site's home page: no path ("https://aca.nccu.edu.tw", ".../") -- also a bare "#fragment" of a single-page app."""
+    return urlparse(url).path in ("", "/")
+
+
+def parent_children(office: str) -> tuple[list[dict], list[dict]] | None:
+    """(home records, child records) when `office` is a parent unit, else None.
+
+    A parent unit is one whose index record(s) point at a site's HOME PAGE (教務處 -> https://aca.nccu.edu.tw, 學生事務處 ->
+    https://osa.nccu.edu.tw/) while the same host has other index records: the staff are listed on those records' pages, not on
+    the home page. The children are those other records in index order, which is docs/contact.csv's order (the unit head's
+    office comes first). Structural test, no host list: it also fires for www.es (an elementary school whose host also lists the
+    attached high school's units) and law; their children currently parse to no contacts, so nothing is attributed to the wrong
+    unit, and the caller labels where each contact was read from. A home page with no sibling record (secrt, gcit, cids) is not a
+    parent: there is nothing to read instead."""
+    homes = index_records_for_office(office)
+    if not homes or not all(_is_site_root(r.get("url", "")) for r in homes):
+        return None
+    hosts = {urlparse(r["url"]).netloc for r in homes}
+    if len(hosts) != 1:
+        return None
+    host = next(iter(hosts))
+    home_urls = {r["url"] for r in homes}
+    children, seen = [], set()
+    for recs in _load_contacts_index().values():            # name -> records, in the index file's order
+        for rec in recs:
+            url = rec.get("url", "")
+            if url and urlparse(url).netloc == host and not _is_site_root(url) and url not in home_urls and rec["name"] not in seen:
+                seen.add(rec["name"])
+                children.append(rec)
+    return (homes, children) if children else None
+
+
+def dynamic_contacts_for_office(office: str, texts: dict[str, str] | None = None,
+                                parsed: dict[str, list[dict]] | None = None) -> tuple[list[dict], list[str]]:
     """
     Primary contact lookup for `office` (Phase F condition 4) — queries
     office_contacts_index.jsonl, parses each matching record's raw text, and
@@ -452,9 +496,9 @@ def dynamic_contacts_for_office(office: str) -> tuple[list[dict], list[str]]:
     resolves to no records at all — caller falls back to KNOWN_CONTACTS in
     that case.
 
-    `office` is tried two ways (2026-08-30, agentic_main.py integration):
+    `office` is tried two ways:
     1. As a literal record name already present in the index -- e.g. what
-       agentic_main.py's _detect_offices() now passes: an LLM-resolved
+       _detect_offices() now passes: an LLM-resolved
        match against the FULL catalog ("住宿輔導組"), not a hardcoded
        alias, so it's already the exact key this index is stored under.
     2. Falling back to _OFFICE_NAME_MAP -- the original path, for callers
@@ -477,23 +521,29 @@ def dynamic_contacts_for_office(office: str) -> tuple[list[dict], list[str]]:
     contact_node answer had real names/extensions but nothing to cite as
     a source. Returning urls here lets _lookup_one() use this index's own
     URL as a fallback source when the legacy _find_pages() path (below)
-    doesn't cover the office."""
-    index = _load_contacts_index()
-    record_names = [office] if office in index else _OFFICE_NAME_MAP.get(office, [])
+    doesn't cover the office.
 
+    `texts` (Phase J, P4): optional {url: page text} that replaces a record's stored `text` for that url -- the live
+    path passes the text it decided to use (live or snapshot). None (the default) = the index text, exactly as before.
+    `parsed` ({url: contacts}) are contacts the live pipeline has ALREADY parsed from that text -- used as is, so a
+    page whose parse needs an LLM call is not parsed (and not paid for) a second time."""
     contacts: list[dict] = []
     seen_exts: set[str] = set()
     urls: list[str] = []
-    for record_name in record_names:
-        for rec in index.get(record_name, []):
-            url = rec.get("url")
-            if url and url not in urls:
-                urls.append(url)
-            for c in parse_office_contacts(rec.get("text", "")):
-                if c["ext"] in seen_exts:
-                    continue
-                seen_exts.add(c["ext"])
-                contacts.append(c)
+    for rec in index_records_for_office(office):
+        url = rec.get("url")
+        if url and url not in urls:
+            urls.append(url)
+        if parsed is not None and url in parsed:
+            page_contacts = parsed[url]
+        else:
+            text = texts[url] if texts is not None and url in texts else rec.get("text", "")
+            page_contacts = parse_office_contacts(text)
+        for c in page_contacts:
+            if c["ext"] in seen_exts:
+                continue
+            seen_exts.add(c["ext"])
+            contacts.append(c)
     return contacts, urls
 
 
@@ -646,7 +696,7 @@ class OfficeLookupSkill:
         # info["生僑組"] = {"floor": "行政大樓 3 樓", "phones": [...], "note": "..."}
     """
 
-    def _lookup_one(self, office: str) -> dict:
+    def _lookup_one(self, office: str, live=None) -> dict:
         """
         Everything run() needs to compute for ONE office. Extracted so run()
         can dispatch offices across a thread pool (Phase F Step 4.5 timing:
@@ -664,10 +714,14 @@ class OfficeLookupSkill:
         """
         # Condition 4: dynamic lookup is primary; KNOWN_CONTACTS is the
         # fallback only when the dynamic index has nothing for this office.
-        contacts, dynamic_urls = dynamic_contacts_for_office(office)
+        contacts, dynamic_urls = dynamic_contacts_for_office(
+            office, texts=live.texts if live else None, parsed=live.parsed if live else None)
+        from_known = False
         if not contacts:
             contacts = KNOWN_CONTACTS.get(office, [])
+            from_known = bool(contacts)
         entry: dict = {
+            "contacts_source": "known_contacts" if from_known else "page",   # Phase J: lets the answer say it is fixed data
             "office":    office,
             "floor":     KNOWN_FLOORS.get(office),
             "phones":    [],
@@ -734,11 +788,13 @@ class OfficeLookupSkill:
 
         return entry
 
-    def run(self, offices: list[str]) -> dict[str, dict]:
+    def run(self, offices: list[str], live=None) -> dict[str, dict]:
+        """`live` (rag.live.contacts.ContactsResult, Phase J P4) supplies the staff-page texts/parses decided by the live
+        check; None = the snapshot path, exactly as before."""
         if len(offices) <= 1:
-            return {o: self._lookup_one(o) for o in offices}
+            return {o: self._lookup_one(o, live) for o in offices}
         with ThreadPoolExecutor(max_workers=len(offices)) as ex:
-            entries = list(ex.map(self._lookup_one, offices))
+            entries = list(ex.map(lambda o: self._lookup_one(o, live), offices))
         return dict(zip(offices, entries))
 
     def format_context(self, lookup_result: dict[str, dict]) -> str:

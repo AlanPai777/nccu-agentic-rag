@@ -1,11 +1,8 @@
 """
 rag/agentic/logic/form_extraction.py
-Form metadata lookup + deterministic structural extraction from fetched
-form text (Migration Step 4, docs/phase_h_agentic_rag_migration_plan.md
-Part 5). Ported directly from rag/agentic_main.py -- D15's structural
-extraction (station roles, checklist blocks) plus _judge_forms(), the
-fallback path used only when resource_node is entered directly from
-plan_node's RESOURCE route (no page text to extract form_ids from yet).
+Form metadata lookup and deterministic structural extraction from fetched form text: station roles and checklist
+blocks. It also holds _judge_forms(), the fallback path used only when resource_node is entered directly from
+plan_node's RESOURCE route, where there is no page text to extract form_ids from yet.
 """
 
 from __future__ import annotations

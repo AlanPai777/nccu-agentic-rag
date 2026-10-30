@@ -1,17 +1,8 @@
 """
 rag/agentic/nodes/loop.py
-rewrite_node / domain_router_node / agent_node / _after_agent -- the main
-search loop, replacing production's retrieval_node (whole ReAct loop
-packed inside one function) + retrieval_anchor_node/retrieval_expand_node
-(PROCEDURE-specific anchor+expand). Migration Step 3,
-docs/phase_h_agentic_rag_migration_plan.md Part 5.
-
-Ported directly from rag/agentic_main.py -- not reimplemented, this is the
-already-validated reference implementation. Each turn is now a real,
-separate set of LangGraph nodes (rewrite_node -> domain_router_node ->
-agent_node -> tools -> back to rewrite_node), so .stream() shows every
-turn and the loop is a genuine graph structure, not a black-box function
-call -- this is the core motivation for this migration step.
+rewrite_node / domain_router_node / agent_node / _after_agent: the main search loop. Each turn is a real, separate set
+of LangGraph nodes (rewrite_node -> domain_router_node -> agent_node -> tools -> back to rewrite_node), so .stream()
+shows every turn and the loop is a genuine graph structure and not a black-box function call.
 """
 
 from __future__ import annotations
@@ -100,7 +91,7 @@ def domain_router_node(state: AgentState) -> dict:
     check of its own -- it currently only gets reached via the
     knowledge/procedure path because plan_node routes CONTACT/RESOURCE
     elsewhere, not because this node restricts itself to those types. That
-    distinction matters once self_eval_node's 情況B exists (Step 7): it may
+    distinction matters because self_eval_node's 情況B can
     route an arbitrary query back into the main loop regardless of its
     original plan_node classification, and this node must keep working
     for it."""
@@ -150,7 +141,7 @@ def _invoke_agent_llm(messages: list):
 def agent_node(state: AgentState) -> dict:
     """Tool-selection only -- does NOT also generate the final answer.
     When _after_agent sees no tool_calls, it routes to synthesis_node
-    (Step 5) instead of END -- this response's .content is discarded
+    instead of END -- this response's .content is discarded
     (still generated as a side effect of the bind_tools() call, just never
     read; not worth a separate tool-choice-only call shape for this)."""
     messages = state["messages"]
@@ -165,7 +156,7 @@ def _after_agent(state: AgentState) -> str:
     # the agent decide for itself when it has enough, per the project's
     # core research question (don't cap turns deterministically to avoid
     # trusting the LLM's own stopping judgment). doom-loop detection
-    # (Step 4's _after_tools) is the ONLY remaining safety net, and it
+    # (_after_tools) is the ONLY remaining safety net, and it
     # only catches exact-repeat tool_calls -- it will NOT catch an agent
     # that keeps trying genuinely different search terms without ever
     # concluding.

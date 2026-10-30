@@ -1,17 +1,10 @@
 """
 agentic_rag.py
-Graph assembly + CLI for the migrated agentic RAG pipeline (Migration
-Step 9, docs/phase_h_agentic_rag_migration_plan.md Part 5). Replaces
-rag/proto3_langgraph.py as the production entry point -- same role
-(build_graph()/run()/CLI only, no node logic of its own), assembled
-entirely from rag/agentic/*'s already-ported and verified node functions
-(Steps 1-8).
+Graph assembly and command line for the agentic RAG pipeline, the production entry point. It has no node logic of
+its own. It assembles the node functions in rag/agentic/ into a graph (build_graph), runs it (run) and offers the CLI.
 
-Moved to the repo root (post-Step-10 reorg) so the production entry point
-is visible at a glance, sitting alongside rag/classic_rag.py (classic RAG,
-renamed from rag/main.py in the same reorg). Both direct execution and
-module invocation work without any sys.path patch, since the repo root is
-this file's own directory:
+It sits at the repo root next to rag/classic_rag.py, the separate classic RAG system. Both direct execution and module
+invocation work without any sys.path patch, since the repo root is this file's own directory:
     python agentic_rag.py "如何辦理休學"
     python -m agentic_rag "出納組的電話" --subdomain aca
     python agentic_rag.py "選課上限幾學分" --stream
@@ -39,6 +32,7 @@ from rag.agentic.nodes.compound import multi_sub_query_node
 from rag.agentic.nodes.self_eval import self_eval_node, _after_self_eval
 from rag.agentic.logic.rewrite import _render_messages
 from rag.agentic.tools import TOOLS
+from rag.live.clock import today_taipei
 
 
 def build_graph(checkpointer=None):
@@ -71,7 +65,7 @@ def build_graph(checkpointer=None):
     return g.compile(checkpointer=checkpointer)
 
 
-def initial_state(query: str, subdomain_hint: str | None = None) -> AgentState:
+def initial_state(query: str, subdomain_hint: str | None = None, live: bool | None = None) -> AgentState:
     """Shared per-turn starting state -- used by both the CLI's run() (no
     checkpointer, always a fresh conversation) and server.py (checkpointer-
     backed, one call per turn on a possibly-existing thread_id). Kept in one
@@ -80,13 +74,14 @@ def initial_state(query: str, subdomain_hint: str | None = None) -> AgentState:
     return {
         "query": query, "subdomain_hint": subdomain_hint, "query_type": None, "turn": 0, "rewritten": "",
         "stuck_turns": 0, "messages": [], "answer": None, "self_eval_note": None,
+        "today": today_taipei(), "live": live,
     }
 
 
 @observe(name="agentic_rag.run")
-def run(query: str, subdomain_hint: str | None = None, stream: bool = False) -> dict:
+def run(query: str, subdomain_hint: str | None = None, stream: bool = False, live: bool | None = None) -> dict:
     graph = build_graph()
-    initial = initial_state(query, subdomain_hint)
+    initial = initial_state(query, subdomain_hint, live)
 
     if stream:
         final_state = dict(initial)
@@ -111,11 +106,14 @@ if __name__ == "__main__":
     parser.add_argument("--subdomain", default=None)
     parser.add_argument("--stream", action="store_true")
     parser.add_argument("--no-eval", action="store_true", help="跳過 eval 評分")
+    parser.add_argument("--live", choices=("on", "off"), default=None,
+                        help="這一題要不要查現場（預設不指定：只看環境變數 LIVE_FETCH，沒設就是不查；LIVE_FETCH=off 時一律不查）")
     args = parser.parse_args()
 
     print(f"[agentic_rag] model={get_active_model()}  provider={PROVIDER}", file=sys.stderr)
 
-    result = run(args.query, subdomain_hint=args.subdomain, stream=args.stream)
+    result = run(args.query, subdomain_hint=args.subdomain, stream=args.stream,
+                 live=None if args.live is None else args.live == "on")
 
     print(f"\n{'='*70}")
     print(f"Query: {args.query!r}")

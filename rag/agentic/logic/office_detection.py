@@ -1,20 +1,10 @@
 """
 rag/agentic/logic/office_detection.py
-_detect_offices(): office-name detection against the full ~433-entry
-catalog (Migration Step 3, docs/phase_h_agentic_rag_migration_plan.md
-Part 5). Ported directly from rag/agentic_main.py's own _detect_offices()
-(D12's LLM-judged redesign + N.7's Layer 1 substring pre-check) -- pulled
-forward from its originally-planned Step 4 home because
-rag/agentic/tools/page.py's get_page_tool needs it directly (a page with
-no form IDs runs office detection on its own text, per §M D4's
-established sequencing). Step 4's contact_node/resource_node will import
-this same function, not a second copy.
-
-Pure logic, no LangGraph state dependency -- takes text, returns a list
-of office names. Independently testable (this session repeatedly used
-throwaway scripts to sample-test this exact function's reliability; being
-a plain function makes that natural rather than requiring a fake
-AgentState).
+_detect_offices(): office-name detection against the full catalog of about 433 names. A deterministic substring
+check runs first, so a name written out in the text is never missed, and an LLM then judges the text against the whole
+catalog. It is a plain function with no LangGraph state dependency: it takes text and returns a list of office names,
+so it can be tested without a fake AgentState. get_page_tool runs it on a page's own text when the page has no form
+IDs, and resource_node and contact_node import this same function.
 """
 
 from __future__ import annotations
@@ -51,6 +41,39 @@ _OFFICE_JUDGE_PROMPT = """以下文字裡可能提到了一些政大的辦公室
 請判斷：上面清單裡，哪些辦公室有在文字內容中被提到（用簡稱、口語說法、或全名都算，只要語意上是指同一個單位就算）？只回傳清單裡列出的正式名稱，用逗號分隔；如果都沒提到，回傳「無」。不要自己發明清單以外的名稱，不要有其他文字。"""
 
 
+# A page's layout sometimes breaks a unit name with a stray space ("教務處註冊 組", seen in aca's course-selection rules), which hides
+# the child from the substring checks below and leaves the bare parent "教務處" behind. Spaces/tabs between two Chinese characters
+# carry no meaning in Chinese text, so the checks run on a copy without them. Newlines are kept (they separate table cells), and spaces
+# next to Latin text are kept, so "Office hour" and "IMBA 學程" are untouched. Text without such a gap comes back unchanged.
+_CJK_GAP_RE = re.compile(r"(?<=[一-鿿])[ \t　]+(?=[一-鿿])")
+
+
+def _squeeze_cjk_gaps(text: str) -> str:
+    return _CJK_GAP_RE.sub("", text)
+
+
+def _drop_qualifier_parents(text: str, names: list[str]) -> list[str]:
+    """Drop a name that, wherever it appears in `text`, is only the front half of a longer unit written as
+    "<parent><child>" -- e.g. "教務處註冊組" matches both 教務處 and 註冊組 as substrings, but the unit meant is 註冊組.
+    A name is dropped only if it occurs literally, EVERY occurrence is immediately followed (optionally after spaces) by
+    another detected name, so "請洽教務處" or "教務處註冊組…另請洽教務處" keep 教務處. A name that does not occur literally
+    (a colloquial match made by the LLM judge) is never dropped: this rule cannot judge it.
+
+    Why: the office index maps a parent unit to ITS OWN row, and for 教務處 that row is the aca home page (9 characters of
+    text, no staff) -- the staff live in the child rows 教務長室/註冊組 (docs/contact.csv). Returning the parent next to its
+    child only added a lookup that finds nobody. Structural rule, not specific to 教務處."""
+    kept = []
+    for name in names:
+        starts = [m.start() for m in re.finditer(re.escape(name), text)]
+        if starts and all(
+                any(other != name and re.match(r"[ \t\u3000]*" + re.escape(other), text[i + len(name):])
+                    for other in names)
+                for i in starts):
+            continue
+        kept.append(name)
+    return kept
+
+
 def _detect_offices(text: str) -> list[str]:
     """LLM-judged semantic match against the full ~433-entry office catalog
     (domain_router.py's _keyword_table()). A form/page refers to offices
@@ -80,7 +103,8 @@ def _detect_offices(text: str) -> list[str]:
     if not catalog:
         return []
     valid_names = {name for name, _sub in catalog}
-    layer1_hits = [name for name in valid_names if name in text]
+    squeezed = _squeeze_cjk_gaps(text)                  # layer 1 and the parent rule see "教務處註冊 組" as "教務處註冊組"
+    layer1_hits = [name for name in valid_names if name in squeezed]
 
     catalog_str = "\n".join(f"- {name}（{sub}）" for name, sub in catalog)
     prompt = _OFFICE_JUDGE_PROMPT.format(text=text, catalog=catalog_str)
@@ -88,4 +112,4 @@ def _detect_offices(text: str) -> list[str]:
     candidates = [_TRAILING_PAREN_RE.sub("", n.strip()).strip() for n in re.split(r"[,，]", raw)]
     llm_hits = [n for n in candidates if n in valid_names]
 
-    return list(dict.fromkeys(layer1_hits + llm_hits))
+    return _drop_qualifier_parents(squeezed, list(dict.fromkeys(layer1_hits + llm_hits)))

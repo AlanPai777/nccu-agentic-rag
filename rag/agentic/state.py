@@ -1,34 +1,12 @@
 """
 rag/agentic/state.py
-Shared LangGraph state schema for agentic_rag.py's pipeline (repo root, Migration
-Step 1, docs/phase_h_agentic_rag_migration_plan.md Part 5).
+Shared LangGraph state for agentic_rag.py's pipeline.
 
-⚠ Revised during Step 3 (2026-09-01), replacing the Step 1 version. The
-original Step 1 draft started from production's rag/nodes/state.py
-(context_pages/sources/office_context/extraction_checklist/sub_queries/
-etc., all Annotated[..., operator.add] accumulators) and added 4 fields on
-top. That was wrong: every node this migration actually ports from
-agentic_main.py (rewrite_node/domain_router_node/agent_node/tools,
-resource_node/contact_node, synthesis_node, self_eval_node) is built
-entirely around state["messages"] (LangChain AIMessage/ToolMessage/
-HumanMessage objects) -- ToolNode, InjectedState, and the deterministic
-marker-regex routing (_FORM_MARKER_RE/_OFFICE_MARKER_RE checking the last
-ToolMessage's content) all depend on that shape. None of production's
-structured fields are read or written by any node this migration carries
-forward -- they belonged exclusively to retrieval_procedure.py/
-retrieval_knowledge.py/extraction.py/office_lookup.py/decomposition.py's
-Send-based sub_query_node, all of which retire (Part 4.1). Keeping them
-in state.py would have meant either rewriting every ported node against
-the wrong schema (defeating "port the validated implementation") or
-silently carrying dead fields. Confirmed via direct grep of
-agentic_main.py that composite-query handling (multi_sub_query_node)
-never reads a stored sub_queries field either -- it re-splits state["query"]
-fresh each time, so that field was never actually needed under this
-design.
-
-This file now mirrors agentic_main.py's own AgenticState field-for-field
-(9 fields, not 21) -- not a redesign, a direct port of the schema the
-reference implementation actually uses.
+Every node is built around state["messages"], a list of LangChain AIMessage, ToolMessage and HumanMessage objects.
+ToolNode, InjectedState and the deterministic marker routing (_FORM_MARKER_RE and _OFFICE_MARKER_RE checking the last
+ToolMessage's content) all depend on that shape. So the state is deliberately small and holds no separate structured
+fields such as a list of sub-queries or an extraction checklist. Nothing would read them. Compound-query handling does
+not need a stored sub-query list either, because multi_sub_query_node splits state["query"] again each time.
 """
 
 from __future__ import annotations
@@ -43,22 +21,27 @@ class AgentState(TypedDict):
     subdomain_hint: str | None  # set once by domain_router_node (turn 1), reused
                                  # for the rest of the loop
     query_type:     str | None  # "procedure" / "contact" / "resource" / "knowledge" /
-                                 # "compound" -- set by plan_node (Step 2); PROCEDURE is
-                                 # a label only, not a distinct graph path (Migration
-                                 # Step 1 decision)
+                                 # "compound" -- set by plan_node. PROCEDURE is
+                                 # a label only, not a distinct graph path
     turn:           int         # incremented once per rewrite_node/agent_node cycle;
                                  # doom-loop/risk-ceiling checks read this
     rewritten:      str         # this turn's rewrite_node output
     stuck_turns:    int         # consecutive-identical-tool-call counter (doom-loop
                                  # detection, _MAX_STUCK)
     messages:       Annotated[list, add_messages]  # AIMessage/ToolMessage/HumanMessage
-                                                     # history; add_messages is the
+                                                     # history. add_messages is the
                                                      # reducer LangChain's ToolNode and
                                                      # ChatOllama.bind_tools() expect
     answer:         str | None  # final answer, written by synthesis_node
-    self_eval_note: str | None  # Part 6.2's Stage 1/2 self_eval output
-    compacted_boundary: int     # server.py-only (multi-turn compaction, outside
-                                 # agentic_main.py's original 9-field scope): index into
+    self_eval_note: str | None  # the output of self_eval's Stage 1 or Stage 2
+    today:          str         # YYYY-MM-DD in
+                                 # Asia/Taipei, refilled every turn by initial_state() via
+                                 # rag/live/clock.py. It is the reference date that "今天", "10/14" and "本週"
+                                 # resolve against. No node reads it yet.
+    live:           bool | None  # this question's "查現場" choice (front end switch via /ask?live=, CLI --live);
+                                 # None = not said, rag/live/config.py live_enabled() then falls back to LIVE_FETCH alone.
+                                 # Refilled every turn by initial_state().
+    compacted_boundary: int     # server.py-only (multi-turn compaction): index into
                                  # `messages` where the in-progress turn's own live scratch
                                  # begins -- everything before it is already-compacted
                                  # prior-turn [question, answer] history that

@@ -1,23 +1,23 @@
 """
 rag/agentic/nodes/resource.py
-resource_node / _after_resource -- deterministic fetch-all form retrieval,
-replacing production's retrieval_resource.py (Migration Step 4,
-docs/phase_h_agentic_rag_migration_plan.md Part 5). Ported directly from
-rag/agentic_main.py.
+resource_node / _after_resource: deterministic fetch-all form retrieval.
 """
 
 from __future__ import annotations
 
 from langchain_core.messages import HumanMessage
-from langfuse import observe
+from langfuse import observe, get_client
 
 from rag.agent_tools import extract_form_ids
 from rag.agentic.state import AgentState
-from rag.agentic.tools.form import get_form_tool
+from rag.live.ledger import gate_none_message
+from rag.agentic.tools.form import fetch_form_for_agent
+from rag.live import events
 from rag.agentic.logic.form_extraction import (
     _judge_forms, _extract_station_roles, _offices_from_role_keywords, _extract_checklist_blocks,
 )
 from rag.agentic.logic.office_detection import _detect_offices, _OFFICE_MARKER_RE
+from rag.agentic.logic.form_gate import clean_page_text, gate_enabled, select_forms
 
 
 @observe(name="resource_node")
@@ -43,20 +43,34 @@ def resource_node(state: AgentState) -> dict:
     detected_ids = sorted(extract_form_ids(context_text)) if context_text else []
     if detected_ids:
         relevant_ids = detected_ids
+        if gate_enabled():          # an experiment, off by default: drop forms the page marks for another situation
+            gate = select_forms(state["query"], context_text, detected_ids)
+            relevant_ids = gate.fetch_ids
+            get_client().update_current_span(metadata={"form_gate": {      # visible in LangFuse when configured
+                "candidates": detected_ids, "fetched": gate.fetch_ids, "skipped": gate.skipped, "fell_back": gate.fell_back}})
+        if not relevant_ids:
+            # The gate decided this question needs none of the page's forms. Offices are normally discovered from
+            # the fetched forms' text (get_page_tool only scans the page itself when it lists NO form ids), so with
+            # no forms nothing would ever route to contact_node -- scan the page here instead.
+            offices = _detect_offices(clean_page_text(context_text))
+            # always leave a record in messages: the answer's 【資料狀態】 line says no form was fetched, and why
+            return {"messages": [HumanMessage(content=gate_none_message(detected_ids, offices))]}
     else:
         relevant_ids = _judge_forms(state["query"], context_text, state.get("subdomain_hint"))
         if not relevant_ids:
             return {}
     fetched_ids = set(relevant_ids)
-    results = [get_form_tool.invoke({"form_id": fid}) for fid in relevant_ids]
-    combined = "\n\n".join(results)
+    live = state.get("live")           # this question's choice, the forms below honour it
+    with events.group("form", ", ".join(relevant_ids), refine=True):       # one progress block for all the forms this node reads
+        results = [fetch_form_for_agent(fid, live) for fid in relevant_ids]
+        combined = "\n\n".join(results)
 
-    # Cross-reference pass: a fetched form's own text can reference another
-    # form_id never mentioned before -- fetch those too, same fetch-all
-    # principle (no judge here either). Bounded to a single extra pass.
-    new_ids = [fid for fid in extract_form_ids(combined) if fid not in fetched_ids]
-    if new_ids:
-        combined += "\n\n" + "\n\n".join(get_form_tool.invoke({"form_id": fid}) for fid in new_ids)
+        # Cross-reference pass: a fetched form's own text can reference another
+        # form_id never mentioned before -- fetch those too, same fetch-all
+        # principle (no judge here either). Bounded to a single extra pass.
+        new_ids = [fid for fid in extract_form_ids(combined) if fid not in fetched_ids]
+        if new_ids:
+            combined += "\n\n" + "\n\n".join(fetch_form_for_agent(fid, live) for fid in new_ids)
 
     # Structural extraction runs BEFORE office detection so its findings
     # can feed the offices list (not after resource->contact has already

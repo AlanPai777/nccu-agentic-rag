@@ -3,7 +3,7 @@ rag/eval_criteria/leave_form_download.py
 休學申請表下載連結 Q&A evaluation（RESOURCE）. Split out of rag/eval.py (2026-09-18).
 
 Added 2026-09-13. Gold standard 來源：Phase F Step 1 baseline
-(docs/phase_f_step1_eval_baseline.md Q4，2026-08-25 人工查證版本，proto3_langgraph
+(Phase F 基準筆記 Q4，2026-08-25 人工查證版本，proto3_langgraph
 上實測「失敗」——router 當時沒有 RESOURCE 分類，誤判成 PROCEDURE，通篇沒有下載
 連結。agentic_rag.py 的 resource_node 已於 Migration Step 10 regression 驗證修復，
 見 CLAUDE.md「休學申請表在哪裡下載」一列）。

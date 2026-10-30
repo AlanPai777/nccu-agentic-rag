@@ -1,9 +1,6 @@
 """
 rag/agentic/logic/rewrite.py
-Rewrite/judge helpers for the main search loop (Migration Step 3,
-docs/phase_h_agentic_rag_migration_plan.md Part 5). Ported directly from
-rag/agentic_main.py -- _rewrite_query/_judge_candidates/_render_messages,
-unchanged.
+Rewrite and judge helpers for the main search loop: _rewrite_query, _judge_candidates and _render_messages.
 """
 
 from __future__ import annotations

@@ -5,13 +5,8 @@ and how it fits together. For setup/running instructions see
 [setup.md](setup.md); for the classic (embedding-based) system, see the
 [README](../README.md)'s Classic RAG section.
 
-This is a distilled view. The full design rationale — every decision,
-alternative considered, and the spike scripts that proved or disproved
-each one — lives in `docs/phase_h_agentic_rag_migration_plan.md` and the
-earlier `docs/phase_g_*` research documents. Those are written for
-picking a project back up mid-thought across sessions, not for a reader
-who just wants to know what the system does today — read this file
-instead unless you specifically need the "why."
+This is a distilled view of what the system does today. The working notes behind each design decision,
+with the alternatives that were considered, are the author's own planning documents and are not part of this repository.
 
 ## Overview
 
@@ -90,12 +85,10 @@ plan_node — rag/router.py's 2-layer classifier (keyword → LLM fallback).
 
 `server.py` (repo root) wraps the graph above in a FastAPI SSE service for
 `CourseLangChain-frontend`'s "政大 AI 助手" page — the pipeline described so
-far is otherwise unchanged, this is purely a serving layer. Full design
-rationale and implementation findings (including two real bugs found and
-fixed during rollout) are in `docs/phase_i_assistant_api_design.md`; this
+far is otherwise unchanged, this is purely a serving layer. This
 section is the distilled current-state summary.
 
-- **Streaming**: `graph.astream(..., stream_mode=["updates","messages"])`.
+- **Streaming**: `graph.astream(..., stream_mode=["updates","messages","custom"])` (`"custom"` carries the live-check progress events, see the next section).
   The `"messages"` stream is filtered to
   `isinstance(chunk, AIMessageChunk) and metadata["langgraph_node"]=="synthesis_node"`
   — both conditions matter. `langgraph_node` alone isn't enough because
@@ -138,6 +131,59 @@ section is the distilled current-state summary.
   blank with "已停止生成" even though the backend had produced a good
   answer — full investigation trail in `debug.md` (repo root, untracked).
 
+## Live check against nccu.edu.tw (Phase J)
+
+The corpus is a snapshot. With live mode on, the pages an answer is based on are re-fetched
+from `nccu.edu.tw`, compared with the snapshot, and every source is reported with a check time
+and a status. This section is the distilled current state. The graph above is unchanged: live checking is a
+layer under the tools and the two routed nodes, so the agent still just calls `get_page`.
+
+```
+get_page_tool ─────────┐
+extract_links_tool ────┼─▶ hook.apply_page ──┐
+get_form_tool ─────────┤                      │          allowlist (*.nccu.edu.tw, redirects too)
+resource_node ─────────┴─▶ hook.apply_form ──┤          per-host rate limit, retry, circuit breaker
+contact_node ──▶ contacts.fetch_contact_pages ┤          side cache rag/live/_cache (TTL by kind; staff pages are written, never read)
+                                              ▼
+                              Fetcher (httpx) ── static text too different, or no contacts parsed ──▶ Chromium
+                                              │                       (one browser-owner thread, same extractor)
+                                              ▼
+                          compare.normalize/compare  (counters and volatile lines removed)
+                          resolve: same → snapshot text · changed → live text · failed → snapshot + disclosure
+                                              │
+                         ledger marker  [live:src status=… checked=… snap=… url=…]  in the tool output header
+                                              │
+                       ┌──────────────────────┴───────────────────────┐
+         synthesis_node appends 【資料狀態】 footer          server.py: build_sources() → `sources` event
+         (state["answer"] keeps it; not streamed)            (grouped by site, only pages the model really read)
+```
+
+- **Searching never touches the site.** `search_texts` and `grep_texts` read the database and only find candidates; reading a page (`get_page`), a form, or an office's staff page is what checks the site. A search row labelled "使用資料庫" is therefore correct. A question the agent answers from search snippets alone, without reading a page, has no checked content.
+- **Per-question choice.** `AgentState.live` (`True` / `False` / `None`) is set from `/ask?live=on|off` or the CLI's `--live`, and the tools read it with `InjectedState`. `rag/live/config.py::live_enabled` combines it with `LIVE_FETCH` (see [setup.md](setup.md#path-1c--live-mode-checking-pages-against-nccuedutw)). `None` leaves every output byte-identical to the pre-live system; an explicit `False` makes the tools write a `snapshot` marker so the sources list still shows the database pages that were read.
+- **Ledger.** The marker lines are the single source of truth: the footer and the `sources` event are both built from them with `ledger.parse_markers`, which only trusts the headers of tool messages (page text is sanitized, so a page cannot forge a marker). User-facing wording lives in `ledger.py` (`_LABEL`, `_SHORT_LABEL`): 已與官網核對，內容無變動 · 已與官網核對，內容已更新 · 從官網取得 · 未能連上官網，使用資料庫（8/19） · 此頁需瀏覽器顯示，未能核對，使用資料庫（8/19） · 官網顯示此表單已停用 · 使用內建的固定聯絡資料（非官網頁面） · 使用資料庫（8/19）.
+- **One extractor.** Live HTML goes through the same `rag/preprocess.py::extract_html_bytes` as the corpus, so differences between live and snapshot are meant to be real changes. Known exceptions are recorded in the plan (a contact-index snapshot whose page structure differed from today's; staff emails that a site writes with JavaScript are decoded by `_decode_script_emails_in_soup`).
+- **Progress events** (`"custom"` stream, `rag/live/events.py`): `{"type":"step","kind":"group",…}` opens one block per tool action (`search`, `grep`, `page`, `links`, `form`, `contacts`), `{"type":"step","kind":"row",…}` adds or updates a page row inside it (pending → done, with state, label, check time, cached age). Worker threads must be started with `events.submit_with_context` (a copy of the node's context), otherwise the stream writer fails while streaming and succeeds silently under `invoke`.
+- **Server additions** (`server.py`): `GET /config` (`live_available`, `snapshot_date`), `/ask?live=on|off`, a `meta` event at the start, `slow` notices (120 s / 300 s, once each, only before answer text appears), and a `sources` event sent after the graph ends, so a `self_eval` retry cannot leave a stale list. The status side channel now says only what the action blocks cannot (question type, narrowed site, what a page mentioned).
+- **Frontend** (`CourseLangChain-frontend`, `useChat.ts`, `ProgressList.vue`, `SourcesModal.vue`, `LiveSwitch.vue`): a collapsible timeline of notes and action blocks, a sources pill and modal grouped by site, the "查現場" switch, the waiting notice.
+- **Parent units** (`rag/agentic/logic/parent_offices.py`): a unit whose index page is a site's home page (教務處, 學生事務處) has no staff there, so `contact_node` reads its sibling staff pages instead, in `docs/contact.csv` order, three at a time (`PARENT_BATCH_SIZE`, the user's choice), stopping at the first batch with parsed contacts; the parent's own page and then `KNOWN_CONTACTS` come last. This happens only when the parent is named in the user's question: on the direct CONTACT route the question is scanned on every turn, and a parent that appears only in page text is skipped. Stray spaces inside a unit name are removed (between Chinese characters only) before the detector's substring checks. Checked against the real site for 教務處 and 學生事務處 (single sample); multi-turn, compound questions and other hosts are not verified.
+- **Not done**: a "waiting" row state for pages queued behind the same host's rate limit (they show "讀取中…"), a marker for `extract_links` (it goes through `apply_page` but writes no ledger line), model-written narration of the steps (the lines are assembled by code).
+
+### Politeness toward the university servers
+
+- **Where requests may go.** Only `nccu.edu.tw` and its subdomains. Anything else is refused before a request is made.
+- **Identity.** The httpx requests send the same User-Agent string as the earlier crawler that built the corpus, an "academic research bot". The URL inside it points at the university home page, so the string does not say how to reach this project. Playwright keeps Chromium's own default user agent.
+- **Pace.** Each host allows one new request per second and two in flight, and the whole process allows four in flight. `osa.nccu.edu.tw` is limited to one request every 10 seconds, one at a time, because its robots.txt asks for `Crawl-delay: 10`. `moltke` and `cpbae` have their own settings. All of it is in `rag/live/config.py` and can be changed with environment variables.
+- **Failures.** A request that times out, or a host that fails several times in a row, only affects its own pages. Those pages fall back to the snapshot and are marked as a fallback in the answer.
+- **Certificates.** Verification is turned off for one host only, `cashier.nccu.edu.tw`, and every such page is flagged so the answer can say it.
+
+### Known limitations
+
+- `aff.nccu.edu.tw` and `mend.nccu.edu.tw` do not send an intermediate certificate, like `cashier`, but they are not on the exception list. Their pages show as unreachable.
+- robots.txt is not read while running. The 10-second pace for `osa` is written into the settings by hand, and other hosts' robots.txt files have not been checked.
+- A page that is fetched but yields no people is not reported as such to the user.
+- The failure message "未能連上官網" is shown for every failed fetch, including a 404 or an empty page.
+- Contact lists are limited to a few people per office in the final answer, even when the page lists many more.
+
 ## Key modules
 
 | Module | Role |
@@ -153,6 +199,7 @@ section is the distilled current-state summary.
 | `rag/llm_client.py` | Ollama cloud / OpenRouter client |
 | `rag/eval.py` | 13-criteria / 26-point scoring used in regression testing |
 | `rag/skills/office_lookup_skill.py` | Office-contact lookup against `output/office_contacts_index.jsonl`; regex-parses labeled/tabular page layouts first, falls back to an LLM extraction pass (`_llm_extract_contacts()`) over the whole page when the regex layer can't find an explicit name label (2026-09-03 fix — see `debug.md`) |
+| `rag/live/` | Live check against nccu.edu.tw: `hook.py` (`apply_page`/`apply_form`), `fetcher.py`, `browser.py` (Chromium owner thread), `contacts.py`, `forms.py`, `compare.py`, `resolve.py`, `ledger.py` (markers, footer), `sources.py`, `events.py`, `site_names.py`, `config.py` |
 | `rag/classic_rag.py` | Separate, stable classic (embedding-based) RAG system — not part of this pipeline, see README |
 
 ## Project structure
@@ -171,7 +218,6 @@ rag/
 ├── preprocess.py             # HTML/PDF -> extracted_texts.jsonl (single record)
 ├── preprocess_all.py         # Batch extraction driver (all/one subdomain)
 ├── keyword_store.py          # SQLite-FTS5 + jieba BM25 (shared by search_texts and Classic RAG)
-├── agentic_main.py           # Research/prototype pipeline predating the migration -- not production
 ├── proto1_direct.py          # Older baseline agent loop (Mode 1/2/3), reference only
 │
 ├── analyze_links.py          # One-off: discover supplementary link sources in a crawled subdomain
@@ -202,6 +248,8 @@ rag/
 │       ├── grep.py                   grep_texts_tool
 │       ├── page.py                   get_page_tool, extract_links_tool
 │       └── form.py                   get_form_tool
+│
+├── live/                     # Phase J: live check against nccu.edu.tw (see the section above)
 │
 ├── skills/
 │   ├── office_lookup_skill.py    # Dynamic office-contact lookup (output/office_contacts_index.jsonl)
@@ -262,7 +310,7 @@ The 23 subdomains named above (20 by volume + these 3 core offices) are the ones
 
 Supplementary PDFs (official forms from moltke.nccu.edu.tw and newdoc.nccu.edu.tw) are indexed separately per subdomain in `supplementary_map.json` — `get_form()` reads these, not `extracted_texts.jsonl`.
 
-> Some subdomains under `nccuga` and similar administrative groups render content via JavaScript and were largely unextractable via static crawling; this was investigated in `docs/phase_f_planning_report.md` and found to affect only a small number of true positives (`x`/`cpbae`/`gcit`), not the broader `nccuga` group as originally suspected.
+> Some subdomains under `nccuga` and similar administrative groups render content via JavaScript and were largely unextractable via static crawling; this was investigated and found to affect only a small number of true positives (`x`/`cpbae`/`gcit`), not the broader `nccuga` group as originally suspected.
 
 ## Current status
 
@@ -275,7 +323,7 @@ Supplementary PDFs (official forms from moltke.nccu.edu.tw and newdoc.nccu.edu.t
 
 ## Future work
 
-Items with a clear direction but not yet started. Full context for each is in `docs/phase_h_agentic_rag_migration_plan.md` and `docs/phase_g_clean_pipeline_design.md`.
+Items with a clear direction but not yet started.
 
 - **Split `rag/agentic/` out of the `rag/` package.** Right now `agentic_rag.py` sits at repo root but still imports from `rag.agentic.*`, and `rag/` also holds shared utilities (`agent_tools.py`, `router.py`, `llm_client.py`, `eval.py`, etc.) that both the agentic and classic systems depend on. A cleaner split — agentic-specific code fully out of `rag/`, shared utilities in their own package — is deferred until there's enough shared-code growth to justify the ~15-file import rewrite.
 - **Parallelize compound-query handling.** `multi_sub_query_node` currently processes sub-queries sequentially (v1); a `Send`-based parallel version is a known, scoped upgrade, not yet done.
