@@ -120,7 +120,11 @@ Chromium. Pages and forms are kept in a side cache (`rag/live/_cache/`, gitignor
 10 minutes, forms for 1 hour), so asking about the same page again soon is faster and the source
 is shown as "checked about N minutes ago". **Staff pages are never read from the cache**: they
 are re-fetched on every question (the cache still records them, but nothing reads that copy).
-Chromium needs Playwright's browser (`playwright install chromium`).
+Chromium needs Playwright's browser (`playwright install chromium`). A page is read in the
+browser, once, only when the plain fetch is not enough: it came back empty, as a Cloudflare
+challenge or as a 403, or (for an ordinary page) its text is under half the snapshot's length,
+or (for a staff page) it differs a lot from the snapshot or yields no contact. Details are in
+[architecture.md](architecture.md). `LIVE_BROWSER=off` stops the browser from ever starting.
 
 **Settings** (environment variables, all optional):
 
@@ -133,6 +137,8 @@ Chromium needs Playwright's browser (`playwright install chromium`).
 | `FORM_GATE` | `off` | `on` asks the LLM which detected forms are relevant before fetching them (fewer requests; experimental, see the plan's P3.5) |
 | `LIVE_SNAPSHOT_ASOF` | `2026-08-19` | the date shown for database pages |
 | `LIVE_STATIC_SIMILARITY_MIN` | `0.5` | a staff page whose plain-HTTP text is less similar than this to the snapshot is re-read with Chromium |
+| `LIVE_ESCALATE_BELOW_RATIO` | `0.5` | any other page whose plain-HTTP text is shorter than this fraction of the snapshot's is re-read with Chromium (an estimate, not a measurement) |
+| `LIVE_BROWSER` | unset | `off` keeps Chromium from ever starting, so a page that would be re-read falls back to the snapshot. Set it when running tests |
 | `LIVE_HOST_INTERVAL`, `LIVE_GLOBAL_CONCURRENCY`, `LIVE_TTL_*` | see `rag/live/config.py` | politeness toward the university's servers and cache lifetimes |
 
 Only `*.nccu.edu.tw` is ever fetched (allowlist, redirects included).
