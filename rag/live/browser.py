@@ -293,10 +293,17 @@ def _shared_limiter_slot(url: str):
     return get_fetcher().limiter.slot(host_of(url))
 
 
+def _disabled_backend() -> Backend:
+    raise RuntimeError("the browser is turned off (LIVE_BROWSER=off)")
+
+
 def get_owner() -> BrowserOwner:
+    """The process-wide browser owner. With LIVE_BROWSER=off its backend refuses to start, so every render comes back as a
+    start_failed result and no browser is ever launched. The choice is made when the owner is first created."""
     global _owner
     with _owner_lock:
         if _owner is None or _owner._closed:
-            _owner = BrowserOwner(around=_shared_limiter_slot)
+            factory = PlaywrightBackend if config.browser_enabled() else _disabled_backend
+            _owner = BrowserOwner(backend_factory=factory, around=_shared_limiter_slot)
             atexit.register(_owner.shutdown)
         return _owner

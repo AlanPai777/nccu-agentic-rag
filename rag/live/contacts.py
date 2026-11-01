@@ -29,21 +29,20 @@ from typing import Any, Callable
 from rag.live import config, events, ledger, resolve as R
 from rag.live.clock import taipei_minute
 from rag.live.compare import Comparison
-from rag.live.extract import html_to_text
-from rag.live.escalate import fetch_with_escalation, post_parse_reason, pre_parse_reason, static_similarity
+from rag.live.escalate import fetch_with_escalation, live_from_render, post_parse_reason, pre_parse_reason, static_similarity
 from rag.live.fetcher import LiveResult
 
 log = logging.getLogger("rag.live")
 
 _STATE = {R.LIVE_SAME: ledger.LIVE_SAME, R.LIVE_CHANGED: ledger.LIVE_CHANGED, R.LIVE_ONLY: ledger.LIVE_NEW,
-          R.LIVE_INCOMPLETE: ledger.LIVE_INCOMPLETE, R.SNAPSHOT_FALLBACK: ledger.SNAPSHOT_FALLBACK}
+          R.SNAPSHOT_FALLBACK: ledger.SNAPSHOT_FALLBACK}
 
 
 @dataclass
 class PageOutcome:
     url: str
     offices: list[str]
-    state: str                       # a ledger status: live_same|live_changed|live_new|live_incomplete|snapshot_fallback
+    state: str                       # a ledger status: live_same|live_changed|live_new|snapshot_fallback
     text: str                        # the text to use (live when it changed, otherwise the snapshot's)
     snapshot_text: str
     snapshot_at: str                 # when the index record was fetched (ISO)
@@ -111,11 +110,8 @@ def _decide_static(url: str, info: dict, live: LiveResult) -> PageOutcome:
 
 
 def _decide_rendered(url: str, info: dict, rendered) -> PageOutcome:
-    if rendered.ok:
-        text, err = html_to_text(rendered.html, url)
-    else:
-        text, err = "", rendered.error
-    live = LiveResult(url, ok=(err == ""), text=text, error=err, detail=rendered.detail, fetched_at=time.time())
+    live = live_from_render(url, rendered)
+    err = live.error
     res = R.resolve(info["snapshot_text"], live)
     return PageOutcome(
         url=url, offices=info["offices"], state=_STATE[res.state], text=res.text, snapshot_text=info["snapshot_text"],

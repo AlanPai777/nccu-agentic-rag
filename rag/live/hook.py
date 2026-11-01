@@ -19,8 +19,9 @@ from rag.live.allowlist import is_allowed
 from rag.live.cache import LiveCache
 from rag.live.clock import taipei_minute
 from rag.live.config import live_enabled
+from rag.live.escalate import fetch_with_escalation, live_from_render, page_pre_reason
 from rag.live.fetcher import Fetcher
-from rag.live.ledger import (DISCONTINUED, LIVE_CHANGED, LIVE_INCOMPLETE, LIVE_NEW, LIVE_SAME, SNAPSHOT, SNAPSHOT_FALLBACK, make_marker,
+from rag.live.ledger import (DISCONTINUED, LIVE_CHANGED, LIVE_NEW, LIVE_SAME, SNAPSHOT, SNAPSHOT_FALLBACK, make_marker,
                              sanitize)
 from rag.live import resolve as R
 
@@ -30,7 +31,7 @@ _fetcher: Fetcher | None = None
 _fetcher_lock = threading.Lock()
 
 _STATE_MAP = {R.LIVE_SAME: LIVE_SAME, R.LIVE_CHANGED: LIVE_CHANGED, R.LIVE_ONLY: LIVE_NEW,
-              R.LIVE_INCOMPLETE: LIVE_INCOMPLETE, R.SNAPSHOT_FALLBACK: SNAPSHOT_FALLBACK}
+              R.SNAPSHOT_FALLBACK: SNAPSHOT_FALLBACK}
 
 
 def _cache_info(from_cache: bool, fetched_at: float) -> tuple[bool, int | None]:
@@ -61,33 +62,50 @@ def get_fetcher() -> Fetcher:
         return _fetcher
 
 
-def apply_page(url: str, snapshot_page: dict, live: bool | None = None) -> dict:
+def _browser_render(url: str):
+    """The process-wide browser, started on first use. Imported here so a question that never needs a browser never loads it."""
+    from rag.live.browser import get_owner
+    return get_owner().render(url)
+
+
+def apply_page(url: str, snapshot_page: dict, live: bool | None = None, render=None) -> dict:
     """`snapshot_page` is get_page()'s result: a page dict, or {"error": ...} when the URL is not in the corpus.
-    `live` is this question's choice (AgentState["live"]); None = decided by LIVE_FETCH alone (config.live_enabled)."""
+    `live` is this question's choice (AgentState["live"]), None = decided by LIVE_FETCH alone (config.live_enabled).
+    `render(url) -> Future[RenderResult]` renders a page in a browser when the static fetch is not enough (see
+    rag/live/escalate.py). Left out, the process-wide browser is used. A test passes its own."""
     if not live_enabled(live):
         return _snapshot_marked(snapshot_page, url, "title", "page") if live is False else snapshot_page
     snap_found = "error" not in snapshot_page
     target = snapshot_page.get("url") or url          # the stored URL when get_page matched by prefix
     if not is_allowed(target):
         return snapshot_page
-    live = get_fetcher().fetch(target, kind="page")
-    log.info("live fetch %s -> %s in %.2fs (attempts=%d, cache=%s)", target, "ok" if live.ok else live.error, live.elapsed, live.attempts, live.from_cache)
-    res = R.resolve(snapshot_page.get("text") if snap_found else None, live)
+    snap_text = snapshot_page.get("text") if snap_found else None
+    fetcher = get_fetcher()
+    outcome = fetch_with_escalation(target, lambda u: fetcher.fetch(u, kind="page"), render or _browser_render,
+                                    lambda static: page_pre_reason(static, snap_text))
+    static = outcome.static
+    log.info("live fetch %s -> %s in %.2fs (attempts=%d, cache=%s)", target, "ok" if static.ok else static.error, static.elapsed, static.attempts, static.from_cache)
+    lv = static
+    if outcome.rendered is not None:
+        lv = live_from_render(target, outcome.rendered)
+        log.info("live render %s (%s) -> %s in %.2fs (%d requests)", target, outcome.reason, "ok" if lv.ok else lv.error,
+                 outcome.rendered.elapsed, outcome.rendered.requests)
+    res = R.resolve(snap_text, lv)
 
     if not snap_found and res.state == R.SNAPSHOT_FALLBACK:
         return snapshot_page                           # not in the corpus and not reachable live: plain "not found"
-    page = dict(snapshot_page) if snap_found else {"url": live.final_url or target, "title": "", "subdomain": ""}
+    page = dict(snapshot_page) if snap_found else {"url": lv.final_url or target, "title": "", "subdomain": ""}
     page["text"] = sanitize(res.text)
     state = _STATE_MAP[res.state]
-    checked = taipei_minute(live.fetched_at or None) if live.ok else taipei_minute()
-    cached, age = _cache_info(live.from_cache, live.fetched_at)
+    checked = taipei_minute(lv.fetched_at or None) if lv.ok else taipei_minute()
+    cached, age = _cache_info(lv.from_cache, lv.fetched_at)
     page["live_marker"] = make_marker(target, state, checked, config.SNAPSHOT_ASOF, res.tls_unverified, cached=cached, age_min=age,
                                       title=page.get("title") or "")
     page["live_state"] = state
     if res.comparison and not res.comparison.same:
         log.info("live diff %s: %s", target, res.comparison.summary())
-    if not live.ok:
-        log.warning("live fetch failed %s: %s %s", target, live.error, live.detail)
+    if not lv.ok:
+        log.warning("live fetch failed %s: %s %s", target, lv.error, lv.detail)
     return page
 
 
@@ -129,7 +147,7 @@ def apply_form(form_id: str, snapshot_form: dict, live: bool | None = None) -> d
         return snapshot_form                              # unknown form, unreachable: plain "not found"
     page = dict(snapshot_form) if snap_found else {"form_id": form_id, "url": link, "form_description": ""}
     page["text"] = sanitize(res.text)
-    if live.ok and res.state != R.LIVE_INCOMPLETE:
+    if live.ok:
         page["form_title"] = live.title or page.get("form_title", "")
         page["form_unit"] = live.unit or page.get("form_unit", "")
     if res.comparison and not res.comparison.same:

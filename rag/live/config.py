@@ -88,6 +88,13 @@ MAX_BODY_BYTES = 20_000_000
 
 # --- browser rendering (the browser-owner thread, rag/live/browser.py) -------------------------------------
 BROWSER_IDLE_SECONDS = _env_float("LIVE_BROWSER_IDLE", 600.0)     # close Chromium after this long unused (an estimate)
+
+
+def browser_enabled() -> bool:
+    """LIVE_BROWSER=off keeps the browser from ever starting in this process. A page that would have been rendered is then treated as
+    if the browser had failed to start, so the answer falls back to the snapshot. Any other value, or none, leaves the browser on.
+    It is read when the browser is first needed, so a test can set it before anything runs."""
+    return os.environ.get("LIVE_BROWSER", "").strip().lower() != "off"
 RENDER_SETTLE_MS = _env_int("LIVE_RENDER_SETTLE_MS", 2000)        # wait after `load` for late JS, the same wait as the script that built the staff-page index
 RENDER_NAV_TIMEOUT_MS = int(REQUEST_TIMEOUT * 1000)               # one page, the same limit as one request
 # Starting guess for how long one render takes. The scheduler uses it until it has seen real renders, then it uses their running mean.
@@ -131,10 +138,12 @@ def host_policy(host: str) -> HostPolicy:
 PARENT_BATCH_SIZE = _env_int("LIVE_PARENT_BATCH_SIZE", 3)
 
 
-# A live page whose normalized text is shorter than this fraction of the snapshot's is treated as an incomplete static
-# render, such as a page built by JavaScript, and not as an edit. This is an estimate.
-# One JavaScript-built page (oic) came back with 37 characters against 4956 in the snapshot.
-INCOMPLETE_RATIO = _env_float("LIVE_INCOMPLETE_RATIO", 0.5)
+# A page read through get_page is rendered in a browser when its static text is shorter than this fraction of the snapshot's.
+# The case it is for: the page was complete when the snapshot was taken and has since turned into one that needs JavaScript, so
+# the static fetch now returns a fragment. It fires only when the page got shorter, because a page that grew or was rewritten
+# at the same length has not lost anything. 0.5 is an estimate, not a measurement. The one example behind it is a staff page
+# (oic) that came back with 37 characters against 4956 in the snapshot, and no general page is known to have done the same.
+ESCALATE_BELOW_RATIO = _env_float("LIVE_ESCALATE_BELOW_RATIO", 0.5)
 
 # --- prefetch -----------------------------------------------------------------------------------------------
 PREFETCH_TTL_SECONDS = _env_float("LIVE_PREFETCH_TTL", 120.0)   # a prefetched result is reused for this long (freshness, not a budget)

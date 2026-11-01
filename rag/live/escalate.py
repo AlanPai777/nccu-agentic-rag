@@ -23,11 +23,13 @@ condition C while any other page uses only the checks that look at the fetch its
 from __future__ import annotations
 
 import logging
+import time
 from dataclasses import dataclass
 from typing import Any, Callable
 
 from rag.live import config
-from rag.live.compare import Comparison, compare
+from rag.live.compare import Comparison, compare, normalize
+from rag.live.extract import html_to_text
 from rag.live.fetcher import LiveResult
 
 log = logging.getLogger("rag.live")
@@ -77,18 +79,54 @@ def static_similarity(snapshot_text: str, live: LiveResult) -> float | None:
     return c.similarity
 
 
-def pre_parse_reason(live: LiveResult, similarity: float | None, minimum: float | None = None) -> str | None:
-    """Conditions A and B."""
-    if not live.ok:
-        if live.error in ESCALATING_ERRORS:
-            return f"A:{live.error}"
-        if live.error == "http_4xx" and live.status == 403:
-            return "A:http_403"
+def fetch_reason(live: LiveResult) -> str | None:
+    """Condition A, which only looks at the fetch itself and so applies to any kind of page."""
+    if live.ok:
         return None
+    if live.error in ESCALATING_ERRORS:
+        return f"A:{live.error}"
+    if live.error == "http_4xx" and live.status == 403:
+        return "A:http_403"
+    return None
+
+
+def pre_parse_reason(live: LiveResult, similarity: float | None, minimum: float | None = None) -> str | None:
+    """Conditions A and B for a staff page. B compares with the snapshot by similarity, which is meaningful there because the
+    staff snapshot was rendered in a browser, so a static page that differs a lot is missing what the browser showed."""
+    reason = fetch_reason(live)
+    if reason is not None or not live.ok:
+        return reason
     minimum = config.STATIC_SIMILARITY_MIN if minimum is None else minimum
     if similarity is not None and similarity < minimum:
         return f"B:similarity={similarity:.3f}<{minimum:g}"
     return None
+
+
+def shorter_reason(live: LiveResult, snapshot_text: str | None, ratio: float | None = None) -> str | None:
+    """Condition B for any other page: the static text is much shorter than the snapshot's. Similarity is not used here because the
+    snapshot of such a page was fetched statically too, so it cannot contain what only a browser shows. A drop in length is what a
+    page that has turned into one needing JavaScript looks like, and it does not fire on a page that grew or was rewritten."""
+    if not live.ok or not snapshot_text:
+        return None
+    ratio = config.ESCALATE_BELOW_RATIO if ratio is None else ratio
+    live_len, snap_len = len(normalize(live.text)), len(normalize(snapshot_text))
+    if snap_len and live_len < ratio * snap_len:
+        return f"B:shorter={live_len}/{snap_len}<{ratio:g}"
+    return None
+
+
+def page_pre_reason(live: LiveResult, snapshot_text: str | None) -> str | None:
+    """A, then B by length, for a page that is not a staff page."""
+    return fetch_reason(live) or shorter_reason(live, snapshot_text)
+
+
+def live_from_render(url: str, rendered: Any) -> LiveResult:
+    """The browser's RenderResult as the LiveResult the rest of the code compares with the snapshot."""
+    if rendered.ok:
+        text, err = html_to_text(rendered.html, url)
+    else:
+        text, err = "", rendered.error
+    return LiveResult(url, ok=(err == ""), text=text, error=err, detail=rendered.detail, fetched_at=time.time())
 
 
 def post_parse_reason(contacts) -> str | None:
