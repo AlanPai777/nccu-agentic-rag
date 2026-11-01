@@ -30,7 +30,7 @@ from rag.live import config, events, ledger, resolve as R
 from rag.live.clock import taipei_minute
 from rag.live.compare import Comparison
 from rag.live.extract import html_to_text
-from rag.live.escalate import post_parse_reason, pre_parse_reason, static_similarity
+from rag.live.escalate import fetch_with_escalation, post_parse_reason, pre_parse_reason, static_similarity
 from rag.live.fetcher import LiveResult
 
 log = logging.getLogger("rag.live")
@@ -144,30 +144,29 @@ def _run_handler(outcome: PageOutcome, handler) -> None:
 def process_page(url: str, info: dict, fetch_static: Callable[[str], LiveResult], render: Callable[[str], "Future"],
                  handler: Callable[[PageOutcome], Any] | None = None) -> PageOutcome:
     """One staff page, start to finish: static fetch -> compare -> A/B -> parse -> C -> (maybe) Chromium. Used by
-    fetch_contact_pages and by the prefetch (which runs it before contact_node asks)."""
+    fetch_contact_pages and by the prefetch (which runs it before contact_node asks).
+
+    The fetch, the browser render and the order of the checks are in escalate.fetch_with_escalation. What is specific to a
+    staff page is only what it passes in: A and B before the parse, and the parse followed by C."""
     handler = handler or _default_handler
-    try:
-        live = fetch_static(url)
-    except Exception as e:                              # noqa: BLE001 -- failure is data
-        live = LiveResult(url, error="network", detail=f"{type(e).__name__}: {e}"[:200])
-    similarity = static_similarity(info["snapshot_text"], live)
-    reason = pre_parse_reason(live, similarity)         # A, B: decided without parsing
-    outcome = _decide_static(url, info, live)
-    if reason is None:
+    parsed_static: dict[str, PageOutcome] = {}          # the static outcome, kept when the parse step already built it
+
+    def pre_parse(live: LiveResult) -> str | None:      # A, B: decided without parsing
+        return pre_parse_reason(live, static_similarity(info["snapshot_text"], live))
+
+    def parse_then_c(live: LiveResult) -> str | None:   # the parse, then C
+        outcome = _decide_static(url, info, live)
+        parsed_static["outcome"] = outcome
         _run_handler(outcome, handler)
-        reason = post_parse_reason(outcome.handled) if live.ok and not outcome.handler_error else None   # C
-    if reason is None:
-        return outcome
-    # the static result is not enough: let Chromium read the page
-    static_requests = outcome.requests
-    log.info("escalating %s to Chromium (%s)", url, reason)
-    try:
-        rendered = render(url).result()
-    except Exception as e:                              # noqa: BLE001
-        from rag.live.browser import RenderResult
-        rendered = RenderResult(url, error="render_error", detail=f"{type(e).__name__}: {e}"[:200])
-    final = _decide_rendered(url, info, rendered)
-    final.escalated, final.static_requests = reason, static_requests
+        return post_parse_reason(outcome.handled) if live.ok and not outcome.handler_error else None
+
+    result = fetch_with_escalation(url, fetch_static, render, pre_parse, parse_then_c)
+    static_outcome = parsed_static.get("outcome") or _decide_static(url, info, result.static)
+    if result.rendered is None:
+        return static_outcome
+    # the static result is not enough: the browser's result stands
+    final = _decide_rendered(url, info, result.rendered)
+    final.escalated, final.static_requests = result.reason, static_outcome.requests
     _run_handler(final, handler)
     return final
 
