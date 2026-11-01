@@ -124,7 +124,8 @@ Chromium needs Playwright's browser (`playwright install chromium`). A page is r
 browser, once, only when the plain fetch is not enough: it came back empty, as a Cloudflare
 challenge or as a 403, or (for an ordinary page) its text is under half the snapshot's length,
 or (for a staff page) it differs a lot from the snapshot or yields no contact. Details are in
-[architecture.md](architecture.md). `LIVE_BROWSER=off` stops the browser from ever starting.
+[architecture.md](architecture.md). The rendered text of an ordinary page replaces its cached copy, so asking
+again within 10 minutes does not render again. `LIVE_BROWSER=off` stops the browser from ever starting.
 
 **Settings** (environment variables, all optional):
 

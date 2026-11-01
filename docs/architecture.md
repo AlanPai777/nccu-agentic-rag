@@ -186,7 +186,7 @@ contact_node ──▶ contacts.fetch_contact_pages ┤          side cache rag/
 - Contact lists are limited to a few people per office in the final answer, even when the page lists many more.
 - A page that was already a JavaScript shell when the corpus was crawled (found in `x`, `cpbae` and `gcit`, and probably most of what `oic` lists) has an empty snapshot and an empty static fetch, so nothing triggers a render. The plan records why no reliable signal was found.
 - Forms are not rendered, and since `resolve` lost its length guard a form that comes back as a fragment replaces the snapshot.
-- Whether a rendered result is cached, and how many renders one question may spend, are undecided.
+- A page read in the browser is cached as the rendered text, so reading it again inside the cache lifetime does not render again. A staff page is not cached that way, because staff pages are never read from the cache, and one question has no limit on how many pages it may render.
 
 ## Key modules
 

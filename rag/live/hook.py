@@ -10,13 +10,14 @@ The single place get_page_tool asks "should this page be confirmed live?"
 
 from __future__ import annotations
 
+import hashlib
 import logging
 import threading
 import time
 
 from rag.live import config
 from rag.live.allowlist import is_allowed
-from rag.live.cache import LiveCache
+from rag.live.cache import CacheRow, LiveCache
 from rag.live.clock import taipei_minute
 from rag.live.config import live_enabled
 from rag.live.escalate import fetch_with_escalation, live_from_render, page_pre_reason
@@ -68,6 +69,21 @@ def _browser_render(url: str):
     return get_owner().render(url)
 
 
+def _cache_rendered(fetcher: Fetcher, url: str, static, rendered_live, rendered) -> None:
+    """Keep what the browser returned as the page's cached result, in place of the static fragment that made the page render.
+    Without this, a second read inside the cache lifetime would find that fragment, decide again that the page is incomplete and
+    spend another browser load. Only a render that produced text is kept. After a failed one the fragment stays where it is, so
+    the next read tries the browser again, because a failure should not be remembered."""
+    if fetcher.cache is None or not rendered_live.ok:
+        return
+
+    def sha(data: bytes) -> str:
+        return hashlib.sha256(data).hexdigest()[:16]
+
+    fetcher.cache.put(CacheRow(url, "page", static.final_url or url, rendered_live.fetched_at, 200, sha(rendered.html),
+                               sha(rendered_live.text.encode("utf-8")), rendered_live.text, None, False))
+
+
 def apply_page(url: str, snapshot_page: dict, live: bool | None = None, render=None) -> dict:
     """`snapshot_page` is get_page()'s result: a page dict, or {"error": ...} when the URL is not in the corpus.
     `live` is this question's choice (AgentState["live"]), None = decided by LIVE_FETCH alone (config.live_enabled).
@@ -90,6 +106,7 @@ def apply_page(url: str, snapshot_page: dict, live: bool | None = None, render=N
         lv = live_from_render(target, outcome.rendered)
         log.info("live render %s (%s) -> %s in %.2fs (%d requests)", target, outcome.reason, "ok" if lv.ok else lv.error,
                  outcome.rendered.elapsed, outcome.rendered.requests)
+        _cache_rendered(fetcher, target, static, lv, outcome.rendered)
     res = R.resolve(snap_text, lv)
 
     if not snap_found and res.state == R.SNAPSHOT_FALLBACK:
