@@ -90,6 +90,11 @@ PEOPLE = [
     ("63071", "王(禾+翟)媗", "行政組員", "行政組員 校內分機 63071"),
     ("62124", "林瓊蓮", "兼任助理", "林瓊蓮 兼任助理 校內分機 62124"),
 ]
+# 總機號碼的原文依據（K1）。頁尾把總機與分機寫在同一句，所以快照那條與 REFS_K1 的第一條相同
+REFS_MAIN = [
+    {"text": "總務處出納組 (02)2939-3091分機62120", "src": "S1", "kind": "snapshot"},
+    {"text": "(02)2939-3091", "src": "L1", "kind": "live"},
+]
 # 每個允許分機的補充依據（頁尾、註冊通知單、學務處 FAQ），逐字驗證
 EXTRA_QUOTES = {
     ("62120", "S1"): "(02)2939-3091分機62120",
@@ -137,8 +142,10 @@ def main():
         if norm(text) not in norm(src_text[src]):
             raise SystemExit(f"找不到原文，中止：[{what}] {text!r} 不在 {src}（{src_url[src]}）")
 
-    for r in REFS_K1:
+    for r in REFS_MAIN:
         check(r["text"], r["src"], "K1.references")
+    for r in REFS_K1:
+        check(r["text"], r["src"], "K2.references")
     for ext, name, title, quote in PEOPLE:
         check(quote, "S2", f"person {name} {ext}")
     for (val, src), q in EXTRA_QUOTES.items():
@@ -180,11 +187,20 @@ def main():
             "snapshot": SNAP_AS_OF,
             "live": LIVE_AS_OF + "；只確認分機 62120，其餘分機現場無法確認",
         },
-        "content": "出納組電話為 (02)2939-3091，分機 62120。",
+        "content": "出納組電話為 (02)2939-3091，分機 62120。",  # K1 = 總機，K2 = 分機（2026-11-09 拆開）
         "keypoints": [
             {
                 "id": "K1",
-                "text": "給出出納組的電話分機（允許集合內任一個皆可）；官網頁尾標示為 (02)2939-3091 分機 62120",
+                "text": "出納組總機為 (02)2939-3091",
+                "required": True,
+                "kind": "hard",
+                "references": [ref(r) for r in REFS_MAIN],
+                # 常見寫法：(02)2939-3091、02-2939-3091、886-2-2939-3091、0229393091 都含下列任一字串
+                "acceptable_expressions": ["2939-3091", "29393091"],
+            },
+            {
+                "id": "K2",
+                "text": "給出出納組的電話分機（允許集合內任一個皆可）；官網頁尾標示為分機 62120",
                 "required": True,
                 "kind": "hard",
                 # 規則版 Accuracy 對這個 keypoint 另做值檢查：答案中的分機必須在 allowed_values.extension，
@@ -193,7 +209,7 @@ def main():
                 "references": [ref(r) for r in REFS_K1],
                 # 設計決定（2026-11-09）：答案寫允許集合內任一分機都算對，不限 62120
                 "acceptable_expressions": EXT_ORDER,
-            }
+            },
         ],
         "allowed_values": {
             "extension": [ext_entry(v) for v in EXT_ORDER],
@@ -227,7 +243,7 @@ def main():
     out.write_text(json.dumps(gold, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"已寫入 {out.relative_to(ROOT)}")
     print(f"快照原文複本：{len(SNAP)} 份（{SNAP_DIR.relative_to(ROOT)}）")
-    print(f"驗證通過：K1 references {len(REFS_K1)} 條、人員分機 {len(PEOPLE)} 筆、"
+    print(f"驗證通過：K1 references {len(REFS_MAIN)} 條、K2 references {len(REFS_K1)} 條、人員分機 {len(PEOPLE)} 筆、"
           f"補充依據 {len(EXTRA_QUOTES)} 條、禁止值 {len(DISALLOWED)} 條")
 
 

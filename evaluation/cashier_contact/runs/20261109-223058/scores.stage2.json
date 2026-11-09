@@ -12,9 +12,9 @@
     "f": 0.125
   },
   "accuracy": {
-    "hard_keypoints": 1,
+    "hard_keypoints": 2,
     "hit": 1,
-    "accuracy": 1.0,
+    "accuracy": 0.5,
     "rule": "答案命中任一 acceptable_expressions，且沒有錯誤值或錯誤配對，才算 hit"
   },
   "context": {
@@ -23,9 +23,9 @@
     ],
     "context_chars": 2386,
     "sentence": {
-      "p": 0.0109,
+      "p": 0.0218,
       "r": 1.0,
-      "f": 0.0216
+      "f": 0.0427
     },
     "words": {
       "p": 0.0278,
@@ -38,6 +38,12 @@
     "accuracy_rule": [
       {
         "id": "K1",
+        "kind": "hard",
+        "verdict": "miss",
+        "matched_expressions": []
+      },
+      {
+        "id": "K2",
         "kind": "hard",
         "extensions_in_answer": [
           "62120",
@@ -60,16 +66,34 @@
         "id": "K1",
         "in_context": true,
         "matched_reference": "總務處出納組 (02)2939-3091分機62120",
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K2",
+        "in_context": true,
+        "matched_reference": "總務處出納組 (02)2939-3091分機62120",
         "rule_verdict": "hit"
       }
     ],
     "contact_funnel": [
       {
         "keypoint": "K1",
-        "page_has_allowed_extension": true,
-        "list_has_allowed_extension": true,
-        "answer_has_allowed_extension": true,
-        "extensions_in_page": [
+        "page_has_value": true,
+        "list_has_value": false,
+        "answer_has_value": false,
+        "values_in_page": [
+          "2939-3091"
+        ],
+        "values_in_list": [],
+        "values_in_answer": [],
+        "stage": "解析丟失"
+      },
+      {
+        "keypoint": "K2",
+        "page_has_value": true,
+        "list_has_value": true,
+        "answer_has_value": true,
+        "values_in_page": [
           "62120",
           "62121",
           "62122",
@@ -82,7 +106,7 @@
           "62173",
           "63071"
         ],
-        "extensions_in_list": [
+        "values_in_list": [
           "62120",
           "62121",
           "62122",
@@ -95,10 +119,11 @@
           "62173",
           "63071"
         ],
-        "extensions_in_answer": [
+        "values_in_answer": [
           "62120",
           "62123"
-        ]
+        ],
+        "stage": "答案有"
       }
     ]
   }

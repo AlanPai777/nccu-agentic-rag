@@ -191,25 +191,32 @@ def accuracy(gold: dict, answer: str, context: list[dict]) -> tuple[dict, list[d
 
 # --- 聯絡人題的漏斗：頁面 → 清單 → 答案 ---------------------------------------
 def contact_funnel(gold: dict, answer: str, context: list[dict]) -> list[dict]:
-    allowed = [e["value"] for e in gold.get("allowed_values", {}).get("extension", [])]
-    page_txt = "\n".join(c["text"] for c in context if c.get("kind") == "contact_page")
-    list_txt = "\n".join(c["text"] for c in context if c.get("kind") == "contact_list")
-    ans_exts = set(extract_extensions(answer))
+    """聯絡人題每個 hard keypoint 的三步：人員頁原文 → contact_node 整理的清單 → 最終答案。
+    用 acceptable_expressions 判斷這個值有沒有出現在各步，所以「頁面有、清單沒有」代表卡在解析
+    （例如總機 (02)2939-3091 在頁尾，清單的格式沒有放它的位置），不是檢索或綜合的問題。"""
+    if gold.get("query_type") != "contact":
+        return []
+    page_txt = norm("\n".join(c["text"] for c in context if c.get("kind") == "contact_page"))
+    list_txt = norm("\n".join(c["text"] for c in context if c.get("kind") == "contact_list"))
+    ans_txt = norm(answer)
     rows = []
     for kp in gold["keypoints"]:
-        if kp.get("value_check") != "extension":
+        if kp.get("kind", "hard") != "hard":
             continue
-        in_page = sorted(e for e in allowed if e in page_txt)
-        in_list = sorted(e for e in allowed if e in list_txt)
-        in_ans = sorted(e for e in allowed if e in ans_exts)
+        expr = [(e, norm(e)) for e in kp.get("acceptable_expressions", []) if norm(e)]
+        in_page = [e for e, n in expr if n in page_txt]
+        in_list = [e for e, n in expr if n in list_txt]
+        in_ans = [e for e, n in expr if n in ans_txt]
+        stage = ("頁面沒有" if not in_page else "解析丟失" if not in_list else "綜合沒寫" if not in_ans else "答案有")
         rows.append({
             "keypoint": kp["id"],
-            "page_has_allowed_extension": bool(in_page),
-            "list_has_allowed_extension": bool(in_list),
-            "answer_has_allowed_extension": bool(in_ans),
-            "extensions_in_page": in_page,
-            "extensions_in_list": in_list,
-            "extensions_in_answer": in_ans,
+            "page_has_value": bool(in_page),
+            "list_has_value": bool(in_list),
+            "answer_has_value": bool(in_ans),
+            "values_in_page": in_page,
+            "values_in_list": in_list,
+            "values_in_answer": in_ans,
+            "stage": stage,
         })
     return rows
 
@@ -263,8 +270,8 @@ def main():
     print(f"Context 句子    P={ctx['sentence']['p']:.3f}  R={ctx['sentence']['r']:.2f}  F={ctx['sentence']['f']:.3f}   （P、F 只供比較）")
     print(f"Context 詞      P={ctx['words']['p']:.3f}  R={ctx['words']['r']:.2f}  F={ctx['words']['f']:.3f}")
     for f in funnel_contact:
-        print(f"聯絡人漏斗 {f['keypoint']}：頁面 {'✔' if f['page_has_allowed_extension'] else '✘'} → "
-              f"清單 {'✔' if f['list_has_allowed_extension'] else '✘'} → 答案 {'✔' if f['answer_has_allowed_extension'] else '✘'}")
+        print(f"聯絡人漏斗 {f['keypoint']}：頁面 {'✔' if f['page_has_value'] else '✘'} → "
+              f"清單 {'✔' if f['list_has_value'] else '✘'} → 答案 {'✔' if f['answer_has_value'] else '✘'}   【{f['stage']}】")
     print(f"\n已寫入 {out_path.relative_to(ROOT)}")
 
 

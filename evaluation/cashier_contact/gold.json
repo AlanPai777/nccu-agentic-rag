@@ -13,7 +13,31 @@
   "keypoints": [
     {
       "id": "K1",
-      "text": "給出出納組的電話分機（允許集合內任一個皆可）；官網頁尾標示為 (02)2939-3091 分機 62120",
+      "text": "出納組總機為 (02)2939-3091",
+      "required": true,
+      "kind": "hard",
+      "references": [
+        {
+          "text": "總務處出納組 (02)2939-3091分機62120",
+          "source_url": "https://cashier.nccu.edu.tw/",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；校務頁面 2026-08-19）"
+        },
+        {
+          "text": "(02)2939-3091",
+          "source_url": "https://nccuga.nccu.edu.tw/zh/",
+          "source_kind": "live",
+          "as_of": "2026-11-09（現場）"
+        }
+      ],
+      "acceptable_expressions": [
+        "2939-3091",
+        "29393091"
+      ]
+    },
+    {
+      "id": "K2",
+      "text": "給出出納組的電話分機（允許集合內任一個皆可）；官網頁尾標示為分機 62120",
       "required": true,
       "kind": "hard",
       "value_check": "extension",
