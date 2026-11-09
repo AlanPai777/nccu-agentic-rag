@@ -1,0 +1,82 @@
+{
+  "query_id": "cashier_contact",
+  "query": "出納組電話幾號",
+  "run_id": "20261109-223058",
+  "started_at": "2026-11-09T22:30:58+08:00",
+  "finished_at": "2026-11-09T22:31:09+08:00",
+  "system_version": "b3960ad",
+  "model": "gemma4:31b-cloud",
+  "live": false,
+  "live_fetch_env": null,
+  "answer_raw": "出納組位於行政大樓 5 樓，辦公室分機為 62123。\n\n相關聯絡人如下：\n* 劉桂芬（組長）分機 62120 ——選擇原因：該單位的最高主管。\n* 余淑娟（一級行政組員）分機 62123 ——選擇原因：分機與出納組辦公室總機一致，為第一線聯絡窗口。\n\n來源：https://cashier.nccu.edu.tw/PageStaffing?fid=7994\n\n---\n【資料狀態】（由系統依實際抓取結果產生）\n- 使用資料庫（8/25）：1 頁\n  - https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+  "answer_body": "出納組位於行政大樓 5 樓，辦公室分機為 62123。\n\n相關聯絡人如下：\n* 劉桂芬（組長）分機 62120 ——選擇原因：該單位的最高主管。\n* 余淑娟（一級行政組員）分機 62123 ——選擇原因：分機與出納組辦公室總機一致，為第一線聯絡窗口。",
+  "stripped": {
+    "disclosure": "【資料狀態】（由系統依實際抓取結果產生）\n- 使用資料庫（8/25）：1 頁\n  - https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+    "sources": "來源：https://cashier.nccu.edu.tw/PageStaffing?fid=7994"
+  },
+  "context": [
+    {
+      "message_index": 0,
+      "role": "HumanMessage",
+      "tool": null,
+      "text": "[辦公室聯絡資訊，以下是內容中提及的全部 1 個辦公室（出納組），未經相關性篩選——這是完整清單，不代表每一個都跟這題直接相關。是否每個都要寫進最終答案由你根據問題判斷，不要假設清單已經先篩過。]\n\n【各辦公室聯絡資訊】\n  出納組　行政大樓 5 樓　分機 62123\n    • 劉桂芬（組長）分機 62120  vicky928@nccu.edu.tw\n    • 徐士雲（編審）分機 62172  hsu1215@nccu.edu.tw\n    • 張錦虹（組員）分機 62125  ghchang@nccu.edu.tw\n    • 江幸霓（組員）分機 62122  131042@nccu.edu.tw\n    • 張佩雯（行政專員）分機 62126  peiwen@nccu.edu.tw\n    • 蕭毓璇（行政專員）分機 62127  beru@nccu.edu.tw\n    • 鄭雅玲（一級行政組員）分機 62173  jaling@nccu.edu.tw\n    • 吳慧玲（一級行政組員）分機 62121  hlwu@nccu.edu.tw\n    • 余淑娟（一級行政組員）分機 62123  ivyyu@nccu.edu.tw\n    • 王 (禾+翟 )媗（行政組員）分機 63071  vick126@nccu.edu.tw\n    • 林瓊蓮（兼任助理）分機 62124  lin33456@nccu.edu.tw\n    來源：https://cashier.nccu.edu.tw/PageStaffing?fid=7994\n    補充來源（樓層、電話）：https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準\n    補充來源（樓層、電話）：https://aca.nccu.edu.tw/zh/常用連結/教務處qa/學生證業務\n\n[live:src status=snapshot kind=contact checked= snap=2026-08-25 tls=0 t=%E5%87%BA%E7%B4%8D%E7%B5%84%20%E4%BA%BA%E5%93%A1%E9%A0%81 url=https://cashier.nccu.edu.tw/PageStaffing?fid=7994]",
+      "kind": "contact_list"
+    },
+    {
+      "message_index": 0,
+      "role": "ContactPage",
+      "tool": "contact_node(page)",
+      "kind": "contact_page",
+      "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+      "snapshot_at": "2026-08-25",
+      "text": "[:::](http:cashier.nccu.edu.tw/PageStaffing?fid=7994#accesskey-l)\n\n[:::](http:cashier.nccu.edu.tw/PageStaffing?fid=7994#accesskey-c)\n\n[單位主管](javascript:void(0);)\n\n劉桂芬 組長\n\n校內分機\n\n62120\n\n電子信箱\n\n[vicky928@nccu.edu.tw](mailto:vicky928@nccu.edu.tw)\n\n工作職掌\n\n1.綜理督導出納組業務\n\n2.臨時交辦事項\n\n代理人\n\n徐士雲\n\n[行政人員](javascript:void(0);)\n\n徐士雲 編審\n\n校內分機\n\n62172\n\n電子信箱\n\n[hsu1215@nccu.edu.tw](mailto:hsu1215@nccu.edu.tw)\n\n工作職掌\n\n1.國立政治大學401專戶各類款項收帳作業\n\n2.國立政治大學401專戶、406Z專戶管理\n\n3.國立政治大學401專戶收據管理、年度收據銷毀作業\n\n4.國立政治大學401專戶預開收據之開立作業\n\n5.電子公文業務\n\n6.工讀生管理\n\n7.各項臨櫃作業\n\n8.臨時交辦事項\n\n代理人\n\n江幸霓\n\n張錦虹 組員\n\n校內分機\n\n62125\n\n電子信箱\n\n[ghchang@nccu.edu.tw](mailto:ghchang@nccu.edu.tw)\n\n工作職掌\n\n1.各類款項支票開立作業\n\n2.廠商貨款匯款作業\n\n3.傳票登錄、編製現金收支備查簿、日結表之作業\n\n4.編製銀行存款收支結餘調節表等及對帳作業\n\n5.各項臨櫃作業\n\n6.臨時交辦事項\n\n代理人\n\n徐士雲\n\n江幸霓 組員\n\n校內分機\n\n62122\n\n電子信箱\n\n[131042@nccu.edu.tw](mailto:131042@nccu.edu.tw)\n\n工作職掌\n\n1.約用人員薪資、考核獎金、年終獎金、導師費等造冊及發放作業\n\n2.國科會計畫主持人、計畫人員之薪資、年終獎金、等造冊及發放作業\n\n3.高教深耕計畫人員薪資、年終獎金、等造冊及發放作業\n\n4學生學雜費、學分費等繳費單資料轉檔及收帳等作業\n\n5.國立政治大學405專戶管理、第一銀行16750118088學雜費專戶\n\n6.政大學術發展基金會撥付作業\n\n7.綜合業務之各類資料彙整\n\n8.各項臨櫃作業\n\n9.臨時交辦事項\n\n代理人\n\n蕭毓璇\n\n張佩雯 行政專員\n\n校內分機\n\n62126\n\n電子信箱\n\n[peiwen@nccu.edu.tw](mailto:peiwen@nccu.edu.tw)\n\n工作職掌\n\n1.教職員工薪資、年終獎金、考績獎金、考績晉級差額、調薪等造冊及發放作業\n\n2.教師鐘點費、導師費、代課費、超支鐘點費造冊及發放作業\n\n3.教職員工薪資止付、代扣、繳回及改敘或晉升補發作業\n\n4.教師各類獎補助費或薪資造冊及發放作業(含講座教授、客座教授、特聘教授、玉山學者、交換教授等)\n\n5.保管品登錄、收存、退還及對帳作業\n\n6.全校人工收據受理申請、發放及管理\n\n7.各項臨櫃作業\n\n8.臨時交辦事項\n\n代理人\n\n張錦虹\n\n蕭毓璇 行政專員\n\n校內分機\n\n62127\n\n電子信箱\n\n[beru@nccu.edu.tw](mailto:beru@nccu.edu.tw)\n\n工作職掌\n\n1.各類所得與所得稅業務\n\n2.校外人士二代健保補充保費扣繳業務\n\n3.校務基金專戶定期存款作業\n\n4.校務基金各專戶開戶、銷戶及印鑑變更作業\n\n5.經管校內獎學金存簿及定存單作業\n\n6.出納業務資訊化專案及系統需求單統整規劃\n\n7.各項臨櫃作業\n\n8.臨時交辦事項\n\n代理人\n\n張佩雯\n\n鄭雅玲 一級行政組員\n\n校內分機\n\n62173\n\n電子信箱\n\n[jaling@nccu.edu.tw](mailto:jaling@nccu.edu.tw)\n\n工作職掌\n\n1.臨櫃收款業務\n\n2.國立政治大學附設實驗小學401專戶管理\n\n3.行政管理費收據之開立作業(非國科會)\n\n4.單位記名支票發放作業\n\n5.學生金融帳戶維護及審核\n\n6.臨時交辦事項\n\n代理人\n\n余淑娟\n\n吳慧玲 一級行政組員\n\n校內分機\n\n62121\n\n電子信箱\n\n[hlwu@nccu.edu.tw](mailto:hlwu@nccu.edu.tw)\n\n工作職掌\n\n1.各類款項轉帳作業\n\n2.國立政治大學國際金融學院401專戶管理\n\n3.各項臨櫃作業\n\n4.臨時交辦事項\n\n代理人\n\n鄭雅玲\n\n余淑娟 一級行政組員\n\n校內分機\n\n62123\n\n電子信箱\n\n[ivyyu@nccu.edu.tw](mailto:ivyyu@nccu.edu.tw)\n\n工作職掌\n\n1.本校第一銀行16710103900報名費帳戶管理\n\n2.行動支付收款、對帳、推廣、簽約作業\n\n3.全校小額支付暨零用金報銷案彙整及發放作業\n\n4.各項臨櫃作業\n\n5.臨時交辦事項\n\n代理人\n\n吳慧玲\n\n王 (禾+翟 )媗 行政組員\n\n校內分機\n\n63071\n\n電子信箱\n\n[vick126@nccu.edu.tw](mailto:vick126@nccu.edu.tw)\n\n工作職掌\n\n1.郵政劃撥帳戶管理(00034362、14903704、00148908、01099381)\n\n2.行政管理費收據之開立作業(國科會)\n\n3.公自提離職儲金提撥及提領作業\n\n4.收據使用情形紀錄\n\n5.出納組小額採購結報及財產物品盤點業務\n\n6.公文、信件、傳票、付款支票及清冊之遞送及點收(支援收傳票)\n\n7.轉帳資料、定存單遞送郵局及其他往來銀行。\n\n8.各項臨櫃作業\n\n9.臨時交辦事項\n\n代理人\n\n林瓊蓮\n\n林瓊蓮 兼任助理\n\n校內分機\n\n62124\n\n電子信箱\n\n[lin33456@nccu.edu.tw](mailto:lin33456@nccu.edu.tw)\n\n工作職掌\n\n1.傳票收、退及整理業務\n\n2.協助櫃台收款業務\n\n3.臨時交辦事項\n\n代理人\n\n王 (禾+翟) 媗\n\n[回上頁](javascript:history.back())\n[回首頁](https://cashier.nccu.edu.tw/)\n\n116臺北市文山區指南路二段64號 (行政大樓五樓160512室) 電話：總務處出納組 (02)2939-3091分機62120 傳真：(02)2939-4784 EMail：nccuga@nccu.edu.tw 國立政治大學總務處 版權所有│使用規則 瀏覽人次: 351780 人"
+    },
+    {
+      "message_index": 1,
+      "role": "HumanMessage",
+      "tool": null,
+      "text": "這一輪系統建議的搜尋方向：出納組 電話\n\n原始問題：出納組電話幾號\n\n請判斷下一步該做什麼。"
+    },
+    {
+      "message_index": 2,
+      "role": "HumanMessage",
+      "tool": null,
+      "text": "候選subdomain（依「出納組 電話」查詢得出）：\n1. cashier（出納組：負責繳費/退費）— 關鍵字精確比對命中，非FTS5票數"
+    }
+  ],
+  "checks": {
+    "contact_pages": [
+      {
+        "url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+        "source": "index_snapshot",
+        "found_in_index": true
+      }
+    ],
+    "contact_consistency": [
+      {
+        "listed_extensions": [
+          "62120",
+          "62121",
+          "62122",
+          "62123",
+          "62124",
+          "62125",
+          "62126",
+          "62127",
+          "62172",
+          "62173",
+          "63071"
+        ],
+        "not_in_cited_pages": [],
+        "ok": true
+      }
+    ]
+  },
+  "trace": {
+    "query_type": "contact",
+    "turn": 1,
+    "self_eval_note": null,
+    "subdomain_hint": "cashier",
+    "tool_calls": []
+  }
+}

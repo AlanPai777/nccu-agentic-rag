@@ -86,6 +86,76 @@ def serialize_context(messages) -> tuple[list[dict], list[dict]]:
     return context, calls
 
 
+_MARKER_RE = re.compile(r"\[live:src ([^\]]*?) url=([^\]]+)\]")   # same shape as rag/live/ledger.py
+_KV_RE = re.compile(r"(\w+)=(\S*)")
+_EXT_IN_LIST_RE = re.compile(r"分機\s*(\d{4,5})")
+_INDEX_PATH = ROOT / "output" / "office_contacts_index.jsonl"
+
+
+def _index_by_url() -> dict[str, dict]:
+    by_url: dict[str, dict] = {}
+    if _INDEX_PATH.exists():
+        for line in _INDEX_PATH.open(encoding="utf-8"):
+            rec = json.loads(line)
+            if rec.get("url"):
+                by_url.setdefault(rec["url"], rec)
+    return by_url
+
+
+def enrich_contact_context(context: list[dict]) -> tuple[list[dict], dict]:
+    """聯絡人題的 context。contact_node 注入的是「整理過的清單」（LLM 實際看到的內容），不是頁面原文，
+    所以 gold 的原文依據無法對它逐字比對。清單末尾的 ledger 標記（kind=contact）記錄了名單讀自哪些頁面
+    （D24 修正後這個網址才可信），這裡用網址從 office_contacts_index.jsonl 查出頁面原文，另存成
+    role=ContactPage 的 context 項目；清單本身標成 contact_list 保留（用來判斷「解析後保留了嗎」）。
+
+    一致性檢查：清單列出的每個分機，都應出現在它所讀頁面的原文裡。不一致代表紀錄的網址不可信，
+    或解析憑空產生了分機，評測結果要小心。"""
+    index = _index_by_url()
+    out, pages_added, checks = [], {}, {"contact_pages": [], "contact_consistency": []}
+    context = [c for c in context if c.get("kind") != "contact_page"]     # 可重複執行：先拿掉上一次加的頁面
+    for item in context:
+        item = dict(item)
+        text = item["text"]
+        markers = [(dict(_KV_RE.findall(kv)), url) for kv, url in _MARKER_RE.findall(text)]
+        contact_markers = [(kv, url) for kv, url in markers if kv.get("kind") == "contact"]
+        if item["role"] != "HumanMessage" or "【各辦公室聯絡資訊】" not in text:
+            out.append(item)
+            continue
+        item["kind"] = "contact_list"
+        out.append(item)
+        listed = set(_EXT_IN_LIST_RE.findall(text.split("[live:src")[0]))
+        page_texts = []
+        for kv, url in contact_markers:
+            if url.startswith("fixed://"):
+                checks["contact_pages"].append({"url": url, "source": "fixed_data", "found_in_index": False})
+                continue
+            rec = index.get(url)
+            checks["contact_pages"].append({"url": url, "source": "index_snapshot", "found_in_index": bool(rec)})
+            if not rec:
+                continue
+            page_texts.append(rec.get("text", ""))
+            if url not in pages_added:
+                pages_added[url] = True
+                out.append({
+                    "message_index": item["message_index"],
+                    "role": "ContactPage",
+                    "tool": "contact_node(page)",
+                    "kind": "contact_page",
+                    "source_url": url,
+                    "snapshot_at": (rec.get("fetched_at") or "")[:10],
+                    "text": rec.get("text", ""),
+                })
+        joined = re.sub(r"\s+", "", "".join(page_texts))
+        missing = sorted(e for e in listed if e not in joined)
+        # 清單裡的辦公室總機（來自 OFFICE_SOURCES 的舊頁面）不一定在人員頁裡，單獨列出、不算不一致
+        checks["contact_consistency"].append({
+            "listed_extensions": sorted(listed),
+            "not_in_cited_pages": missing,
+            "ok": (not missing) if page_texts else None,
+        })
+    return out, checks
+
+
 def git_rev() -> str:
     try:
         out = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT, capture_output=True, text=True, timeout=10)
@@ -96,11 +166,41 @@ def git_rev() -> str:
         return "unknown"
 
 
+def _print_checks(context: list[dict], checks: dict) -> None:
+    pages = [c for c in context if c.get("kind") == "contact_page"]
+    for p in pages:
+        print(f"[contact 頁面] {p['source_url']}（快照 {p['snapshot_at']}，{len(p['text'])} 字）")
+    for p in checks["contact_pages"]:
+        if p["source"] == "fixed_data":
+            print(f"[contact 內建固定資料] {p['url']}（不是頁面）")
+        elif not p["found_in_index"]:
+            # 紀錄的網址不在聯絡人索引裡 = 它不是名單讀自的人員頁（D24 修正前的紀錄就是這樣），查不到原文
+            print(f"[警告] contact 紀錄的網址不在 office_contacts_index.jsonl：{p['url']}（查不到頁面原文，context 缺名單來源）",
+                  file=sys.stderr)
+    for c in checks["contact_consistency"]:
+        if c["ok"] is False:
+            print(f"[警告] 清單的分機不在所引頁面裡：{c['not_in_cited_pages']}（紀錄的網址可能不可信）", file=sys.stderr)
+        elif c["ok"] is True:
+            print(f"[一致性檢查] 清單 {len(c['listed_extensions'])} 個分機都在所引頁面裡")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("gold", help="gold.json 路徑（題目取自其中的 query）")
     ap.add_argument("--query", default=None, help="改用這個問法（預設用 gold 的 query）")
+    ap.add_argument("--reprocess", default=None, metavar="PREDICTION_JSON",
+                    help="不重跑系統：把既有的 prediction.json 的 context 重新整理（不呼叫 LLM、不上網），結果另存 prediction.reprocessed.json")
     args = ap.parse_args()
+
+    if args.reprocess:
+        src = Path(args.reprocess).resolve()
+        pred = json.loads(src.read_text(encoding="utf-8"))
+        pred["context"], pred["checks"] = enrich_contact_context(pred["context"])
+        out = src.with_name("prediction.reprocessed.json")
+        out.write_text(json.dumps(pred, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        _print_checks(pred["context"], pred["checks"])
+        print(f"已寫入 {out.relative_to(ROOT)}")
+        return
 
     gold_path = Path(args.gold).resolve()
     gold = json.loads(gold_path.read_text(encoding="utf-8"))
@@ -119,6 +219,7 @@ def main():
     answer_raw = final_state.get("answer") or ""
     body, stripped = split_answer(answer_raw)
     context, tool_calls = serialize_context(final_state.get("messages", []))
+    context, checks = enrich_contact_context(context)
 
     run_id = started.strftime("%Y%m%d-%H%M%S")
     prediction = {
@@ -135,6 +236,7 @@ def main():
         "answer_body": body,
         "stripped": stripped,
         "context": context,
+        "checks": checks,
         "trace": {
             "query_type": final_state.get("query_type"),
             "turn": final_state.get("turn"),
@@ -151,6 +253,7 @@ def main():
     print(f"已寫入 {out.relative_to(ROOT)}")
     print(f"答案 {len(answer_raw)} 字（正文 {len(body)} 字）；context {len(context)} 筆、"
           f"{sum(len(c['text']) for c in context)} 字；工具呼叫 {len(tool_calls)} 次")
+    _print_checks(context, checks)
     print("\n--- 答案正文 ---")
     print(body)
 
