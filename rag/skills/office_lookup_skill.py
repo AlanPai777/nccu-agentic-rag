@@ -19,6 +19,7 @@ Data sources (in priority order):
   4. KNOWN_FLOORS fallback for floors absent from crawled data (moltke-verified)
 """
 
+import hashlib
 import json
 import re
 from concurrent.futures import ThreadPoolExecutor
@@ -661,33 +662,131 @@ def _extract_phones_near(text: str, office: str) -> list[str]:
     return list(dict.fromkeys(phones))
 
 
-_FOOTER_STOPS = ("傳真", "Fax", "FAX", "fax", "E-Mail", "E-mail", "Email", "EMail", "信箱", "地址")
-# (02)2939-3091 / 02-2939-3091 / 886-2-29393091 / +886-2-2938-7123 / (02)29393091. The lookbehind keeps it from starting
-# inside a longer number (a mobile 0919099119, an extension 62120).
-_LINE_RE = re.compile(r'(?<!\d)(?:\+?886-?2|\(?0?2\)?)[-\s]?(\d{4})-?(\d{4})(?!\d)')
+# 2026-11-09 (phase K, plan/phase_k_contact_footer_survey.md): the unit's own telephone line(s) -- the number to dial, the
+# switchboard, a direct line, the fax, a hotline -- used to be lost: contact_node's list only carried per-person extensions. A
+# rule that reads "the last 電話： label" was tried first and was wrong in both directions (it took the 駐警隊 number out of the
+# 學務處 footer for 生僑組, and on a roster page it took the LAST PERSON's extension). The survey of all 434 staff pages found
+# ten-plus label styles (總機 / 總機電話 / 政大總機 / 聯絡電話： / 電話 without a colon / 直撥 / 專線 / 客服專線 / Tel: / tel: links /
+# "總機 63016" with only an extension), the lines anywhere on the page (footer, header block, a paragraph before the roster),
+# conditions ("學士班 …、研究所 …", "撥打分機將自動轉接值班手機") and numbers that are not NCCU's switchboard. Whose number it is
+# is written only in the words next to it, so the page text is read by an LLM, like _llm_extract_contacts() does for the roster.
+_UNIT_CONTACT_PROMPT = """以下是政大某個單位網頁文字中，可能含有電話的片段（片段之間用「｜｜」隔開）。
+請找出這個單位或網站「本身」的聯絡電話，並交代每個號碼屬於誰。
+
+規則：
+- 只列單位或網站層級的電話：總機、電話、直撥、專線、客服專線、傳真、校內分機（單位分機）等。
+- 個人名單上的欄位（某位老師、某位職員的姓名、職稱、信箱旁邊的電話）不要列，那些由別的程式處理。
+- 郵遞區號（例如 11605、116011）、年份、樓層、室號、瀏覽人次都不是電話或分機，不要列。
+- 號碼與分機必須逐字照抄原文，不可以自己補區碼、改格式、猜測或推算；原文沒有的就留空字串。
+- 「屬於誰」一定要根據號碼前後的文字寫：例如「總務處出納組」「學務處（頁尾，整個網站）」「駐警隊」「研究部」「大學部」「生僑組」「學士班事務」。同一段文字裡出現別的單位的號碼（例如緊急通聯的駐警隊），也要列，並寫出它自己的單位，不可以算在這個單位頭上。
+- 傳真也要列，label 寫「傳真」。
+- 原文附帶的條件、說明、轉接規則、辦公時間，逐字放進 note；沒有就留空字串。
+- 只有分機、沒有完整號碼（例如「總機 63016」「分機：77060」）也要列，number 留空字串，ext 填分機。
+- 如果片段裡沒有任何單位層級的電話，回傳空陣列 []。
+
+片段：
+{text}
+
+只回傳一個JSON陣列，不要有其他文字，格式如下：
+[{{"applies_to": "...", "label": "...", "number": "...", "ext": "...", "note": "..."}}, ...]"""
+
+_PHONE_HINT_RE = re.compile(
+    r"電\s*話|總機|TEL|Tel\b|tel:|Phone|分機|ext\.?|Ext\.?|直撥|專線|客服|傳真|Fax|FAX|聯絡"
+    r"|(?<!\d)(?:\+?886[-\s]?0?2|\(?0?2\)?)[-\s]*\d{4}\s?-?\s?\d{4}|(?<!\d)2939\s?-?\s?3091|(?<!\d)29393091")
+_STRONG_HINT_RE = re.compile(r"總機|傳真|Fax|FAX|直撥|專線|客服|Tel\b|TEL|tel:|Phone|聯絡電話|電話")
+_MAX_SNIPPET = 700
+_unit_contacts_cache: dict[str, list[dict]] = {}
 
 
-def office_main_lines(text: str, limit: int = 3) -> list[str]:
-    """The unit's own telephone line(s), read from the page footer's "電話：" segment, as "(02)XXXX-XXXX".
+def _phone_snippets(text: str, ctx: int = 140, cap: int = 4500) -> str:
+    """Narrow a (sometimes 100k-character) page to the stretches that could hold a telephone line, so the LLM prompt stays
+    short. Deliberately wide: it decides nothing about WHICH numbers belong to the unit, it only drops text with no phone
+    wording or number in it. Stretches with strong unit wording (總機/傳真/直撥/專線/Tel…) come first when the cap bites,
+    because a roster of 22 personal 聯絡電話 fields must not push the one footer block out."""
+    spans: list[list[int]] = []
+    for m in _PHONE_HINT_RE.finditer(text):
+        lo, hi = max(0, m.start() - ctx), min(len(text), m.end() + ctx)
+        # merge neighbours, but never into a stretch longer than _MAX_SNIPPET: a roster has a phone word every ~100
+        # characters and would chain into one block longer than the cap, which then gets skipped whole (found 2026-11-09:
+        # 住宿輔導組 and 中國文學系 came back with no snippet at all)
+        if spans and lo <= spans[-1][1] and hi - spans[-1][0] <= _MAX_SNIPPET:
+            spans[-1][1] = max(spans[-1][1], hi)
+        else:
+            spans.append([lo, hi])
+    chunks = [(lo, re.sub(r"\s+", " ", text[lo:hi]).strip()) for lo, hi in spans]
+    chunks = [(lo, c, bool(_STRONG_HINT_RE.search(c))) for lo, c in chunks]
+    chosen, used = [], 0
+    for lo, c, strong in sorted(chunks, key=lambda x: (not x[2], x[0])):
+        if used + len(c) > cap:
+            continue
+        chosen.append((lo, c)); used += len(c)
+    return "｜｜".join(c for _, c in sorted(chosen))
 
-    2026-11-09 (phase K): contact_node's list only carried per-person extensions, so a staff page's footer line
-    ("電話：總務處出納組 (02)2939-3091分機62120") was read, parsed and then dropped -- the answer to "出納組電話幾號"
-    had an extension and no number to dial. Which number it is differs by unit (NCCU's switchboard 2939-3091 for
-    most, a department's own 2938-xxxx for others), so it is read per page, never assumed. The LAST "電話：" label is
-    used (the footer comes last; the body may mention 電話 earlier), and the segment ends at 傳真 / E-Mail / 地址 so a
-    fax number is never taken for the telephone. No "電話：" label -> nothing is guessed."""
-    labels = list(re.finditer(r'電話\s*[:：]', text or ""))
-    if not labels:
+
+def _digits(s: str) -> str:
+    return re.sub(r"\D", "", s or "")
+
+
+def _is_postal_code(text: str, ext: str) -> bool:
+    """A digit string the page writes as a postal code ("11605 臺北市文山區…", "地址：116011 …"), not as an extension. A first
+    version required an extension marker (分機/#/轉) in front of every extension; that threw away the real lists
+    ("院辦公室： 67076 ｜新聞系：67431", the 圖書館 table "(02)2938-7878 63222") and was dropped."""
+    e = re.escape(ext)
+    return bool(re.search(e + r"\s*(?:台|臺)?(?:北市|北縣|灣)", text) or re.search(r"(?:地址|郵遞區號|聯絡地址)\s*[:：]?\s*\(?" + e, text))
+
+
+def _json_objects(raw: str) -> list:
+    """The JSON array in an LLM reply. The reply may be wrapped in a ```json fence, or cut off by the token limit (a page with
+    thirty lines: 圖書館各組聯絡資訊); then the objects that are complete are still taken, one by one."""
+    try:
+        v = json.loads(raw[raw.index("["): raw.rindex("]") + 1])
+        if isinstance(v, list):
+            return v
+    except Exception:                                     # noqa: BLE001
+        pass
+    out = []
+    for m in re.finditer(r"\{[^{}]*\}", raw):
+        try:
+            out.append(json.loads(m.group()))
+        except json.JSONDecodeError:
+            pass
+    return out
+
+
+def llm_unit_contacts(text: str) -> list[dict]:
+    """[{applies_to, label, number, ext, note}] -- the unit's own telephone lines, read from the page text by an LLM.
+    Every number and extension it returns must appear in the page text (digits only); one that does not is dropped, so
+    an invented number cannot reach the answer. A failed call or an unparsable reply returns [] (the roster list is
+    unaffected). Cached per page text for the life of the process."""
+    snippets = _phone_snippets(text or "")
+    if not snippets:
         return []
-    seg = text[labels[-1].end(): labels[-1].end() + 120]
-    cuts = [i for i in (seg.find(s) for s in _FOOTER_STOPS) if i != -1]
-    seg = seg[: min(cuts)] if cuts else seg
-    lines: list[str] = []
-    for m in _LINE_RE.finditer(seg):
-        n = f"(02){m.group(1)}-{m.group(2)}"
-        if n not in lines:
-            lines.append(n)
-    return lines[:limit]
+    key = hashlib.sha1(snippets.encode("utf-8")).hexdigest()
+    if key in _unit_contacts_cache:
+        return _unit_contacts_cache[key]
+    try:
+        raw = simple_chat(messages=[{"role": "user", "content": _UNIT_CONTACT_PROMPT.format(text=snippets)}], max_tokens=4000)
+    except Exception:                                     # noqa: BLE001 -- an addition, never a dependency
+        return []
+    items = _json_objects(raw)
+    page_digits = _digits(text)
+    out: list[dict] = []
+    for item in items if isinstance(items, list) else []:
+        if not isinstance(item, dict):
+            continue
+        d = {k: str(item.get(k) or "").strip() for k in ("applies_to", "label", "number", "ext", "note")}
+        if not (d["number"] or d["ext"]):
+            continue
+        if any(v and _digits(v) not in page_digits for v in (d["number"], d["ext"])):
+            continue                                       # not in the page: dropped
+        if d["ext"] and any(_is_postal_code(text, e) for e in re.findall(r"\d{3,6}", d["ext"])):
+            d["ext"] = ""                                  # a postal code taken for an extension; the rest of the entry stays
+            if not d["number"]:
+                continue
+        if d not in out:
+            out.append(d)
+    _unit_contacts_cache[key] = out
+    return out
 
 
 def _page_mentions_office(text: str, office: str) -> bool:
@@ -749,19 +848,19 @@ class OfficeLookupSkill:
         if not contacts:
             contacts = KNOWN_CONTACTS.get(office, [])
             from_known = bool(contacts)
-        # 2026-11-09: the unit's own line(s) from the staff page footer (see office_main_lines). Same text the contacts were
-        # parsed from (the live text when the live check supplied one), so a changed footer is followed too.
-        main_lines: list[str] = []
+        # 2026-11-09: the unit's own telephone lines read from the same page text the contacts were parsed from (the live
+        # text when the live check supplied one), so a changed page is followed too. See llm_unit_contacts().
+        unit_contacts: list[dict] = []
         if not from_known:
             live_texts = live.texts if live else None
             for rec in index_records_for_office(office):
                 url = rec.get("url")
                 text = live_texts[url] if live_texts is not None and url in live_texts else rec.get("text", "")
-                for n in office_main_lines(text):
-                    if n not in main_lines:
-                        main_lines.append(n)
+                for d in llm_unit_contacts(text):
+                    if d not in unit_contacts:
+                        unit_contacts.append(d)
         entry: dict = {
-            "main_lines": main_lines,
+            "unit_contacts": unit_contacts,
             "contacts_source": "known_contacts" if from_known else "page",   # Phase J: lets the answer say it is fixed data
             "office":    office,
             "floor":     KNOWN_FLOORS.get(office),
@@ -857,14 +956,21 @@ class OfficeLookupSkill:
             parts = [office]
             if info["floor"]:
                 parts.append(info["floor"])
-            if info.get("main_lines"):          # 2026-11-09: the number to dial; the extensions below are 轉 this line
-                parts.append("電話 " + "、".join(info["main_lines"]))
             if info["phones"]:
                 parts.append("分機 " + "／".join(info["phones"][:3]))
             if info["note"]:
                 parts.append(f"（{info['note']}）")
             lines.append("  " + "　".join(parts))
             # Per-contact details (name + ext + email)
+            # 2026-11-09: the unit's own lines (switchboard, direct line, fax, hotline), each with whose it is and any
+            # condition the page states. They are the pages' own words, not guesses: llm_unit_contacts() drops numbers
+            # that are not on the page.
+            for d in info.get("unit_contacts") or []:
+                bits = [x for x in (d["label"], d["number"], ("分機 " + d["ext"]) if d["ext"] else "") if x]
+                line = f"    ☎ {d['applies_to'] or '（頁面未註明屬於誰）'}：{' '.join(bits)}"
+                if d["note"]:
+                    line += f"（{d['note']}）"
+                lines.append(line)
             for c in info.get("contacts", []):
                 detail = f"    • {c['name']}（{c['duty']}）分機 {c['ext']}"
                 if c.get("email"):
