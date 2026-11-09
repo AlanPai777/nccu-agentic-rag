@@ -670,7 +670,7 @@ def _extract_phones_near(text: str, office: str) -> list[str]:
 # "總機 63016" with only an extension), the lines anywhere on the page (footer, header block, a paragraph before the roster),
 # conditions ("學士班 …、研究所 …", "撥打分機將自動轉接值班手機") and numbers that are not NCCU's switchboard. Whose number it is
 # is written only in the words next to it, so the page text is read by an LLM, like _llm_extract_contacts() does for the roster.
-_UNIT_CONTACT_PROMPT = """以下是政大某個單位網頁文字中，可能含有電話的片段（片段之間用「｜｜」隔開）。
+_UNIT_CONTACT_PROMPT = """以下是政大某個單位的網頁文字（超長的頁面只附上可能含電話的片段，片段之間用「｜｜」隔開）。
 請找出這個單位或網站「本身」的聯絡電話，並交代每個號碼屬於誰。
 
 規則：
@@ -684,7 +684,7 @@ _UNIT_CONTACT_PROMPT = """以下是政大某個單位網頁文字中，可能含
 - 只有分機、沒有完整號碼（例如「總機 63016」「分機：77060」）也要列，number 留空字串，ext 填分機。
 - 如果片段裡沒有任何單位層級的電話，回傳空陣列 []。
 
-片段：
+網頁文字：
 {text}
 
 只回傳一個JSON陣列，不要有其他文字，格式如下：
@@ -695,11 +695,13 @@ _PHONE_HINT_RE = re.compile(
     r"|(?<!\d)(?:\+?886[-\s]?0?2|\(?0?2\)?)[-\s]*\d{4}\s?-?\s?\d{4}|(?<!\d)2939\s?-?\s?3091|(?<!\d)29393091")
 _STRONG_HINT_RE = re.compile(r"總機|傳真|Fax|FAX|直撥|專線|客服|Tel\b|TEL|tel:|Phone|聯絡電話|電話")
 _MAX_SNIPPET = 700
+_WHOLE_PAGE_MAX = 15000          # same ceiling _llm_extract_contacts() uses; only 2 of 434 staff pages are longer
 _unit_contacts_cache: dict[str, list[dict]] = {}
 
 
 def _phone_snippets(text: str, ctx: int = 140, cap: int = 4500) -> str:
-    """Narrow a (sometimes 100k-character) page to the stretches that could hold a telephone line, so the LLM prompt stays
+    """Used only for a page longer than _WHOLE_PAGE_MAX (2 of 434; every other page goes to the LLM whole, see llm_unit_contacts).
+    Narrow a (sometimes 100k-character) page to the stretches that could hold a telephone line, so the LLM prompt stays
     short. Deliberately wide: it decides nothing about WHICH numbers belong to the unit, it only drops text with no phone
     wording or number in it. Stretches with strong unit wording (總機/傳真/直撥/專線/Tel…) come first when the cap bites,
     because a roster of 22 personal 聯絡電話 fields must not push the one footer block out."""
@@ -758,14 +760,20 @@ def llm_unit_contacts(text: str) -> list[dict]:
     Every number and extension it returns must appear in the page text (digits only); one that does not is dropped, so
     an invented number cannot reach the answer. A failed call or an unparsable reply returns [] (the roster list is
     unaffected). Cached per page text for the life of the process."""
-    snippets = _phone_snippets(text or "")
-    if not snippets:
+    text = text or ""
+    # 2026-11-09: the whole page goes to the LLM. A first version narrowed every page to "stretches that could hold a
+    # phone" with regexes first; checked against all 434 staff pages, that dropped phone data on 50 of them (the 4,500-character
+    # cap on 4,000-6,000 character rosters, and a hint rule that never saw a bare "#62062" or "＃3452"), and on 圖書館典藏閱覽組 the
+    # fragments, cut loose from the names around them, were read as unit lines (12 personal extensions) where the whole page
+    # gives none. Only a page longer than _WHOLE_PAGE_MAX (2 of 434) is still narrowed that way.
+    payload = text if len(text) <= _WHOLE_PAGE_MAX else _phone_snippets(text)
+    if not payload.strip():
         return []
-    key = hashlib.sha1(snippets.encode("utf-8")).hexdigest()
+    key = hashlib.sha1(payload.encode("utf-8")).hexdigest()
     if key in _unit_contacts_cache:
         return _unit_contacts_cache[key]
     try:
-        raw = simple_chat(messages=[{"role": "user", "content": _UNIT_CONTACT_PROMPT.format(text=snippets)}], max_tokens=4000)
+        raw = simple_chat(messages=[{"role": "user", "content": _UNIT_CONTACT_PROMPT.format(text=payload)}], max_tokens=4000)
     except Exception:                                     # noqa: BLE001 -- an addition, never a dependency
         return []
     items = _json_objects(raw)
