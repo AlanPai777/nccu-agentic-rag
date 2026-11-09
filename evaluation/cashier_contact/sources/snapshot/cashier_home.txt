@@ -1,0 +1,14 @@
+# 來源：https://cashier.nccu.edu.tw/
+# 檔案：output/cashier/extracted_texts.jsonl
+# 資料日期：2026-08（output/ 快照；校務頁面 2026-08-19）
+# 以下為該筆記錄的 text 欄位全文（逐字複本）
+
+[:::](http:cashier.nccu.edu.tw/#accesskey-c)
+
+活動花絮
+
+活動花絮相簿名稱3
+
+[More](https://cashier.nccu.edu.tw/PageAlbum?fid=8227)
+
+116臺北市文山區指南路二段64號 (行政大樓五樓160512室) 電話：總務處出納組 (02)2939-3091分機62120 傳真：(02)2939-4784 EMail：nccuga@nccu.edu.tw 國立政治大學總務處 版權所有│使用規則 瀏覽人次: 346340 人

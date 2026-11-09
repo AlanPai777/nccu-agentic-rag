@@ -1,0 +1,12 @@
+HTTP/1.1 404 Not Found
+Date: Mon, 09 Nov 2026 13:12:02 GMT
+Server: Apache/2.4.66 (Ubuntu)
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+Set-Cookie: 9a44b1839280ff1c5be8dc4a391fe1cf=558ca49f8890d20213352d1bdc1cb225; path=/; HttpOnly
+Expires: Wed, 17 Aug 2005 00:00:00 GMT
+Last-Modified: Mon, 09 Nov 2026 13:12:02 GMT
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+Pragma: no-cache
+Transfer-Encoding: chunked
+Content-Type: text/html; charset=utf-8
+

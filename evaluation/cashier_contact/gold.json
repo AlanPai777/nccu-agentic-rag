@@ -1,0 +1,189 @@
+{
+  "query_id": "cashier_contact",
+  "query": "出納組電話幾號",
+  "query_variants": [
+    "出納組的電話是幾號"
+  ],
+  "query_type": "contact",
+  "data_as_of": {
+    "snapshot": "2026-08（output/ 快照；校務頁面 2026-08-19）",
+    "live": "2026-11-09（現場）；只確認分機 62120，其餘分機現場無法確認"
+  },
+  "content": "出納組電話為 (02)2939-3091，分機 62120。",
+  "keypoints": [
+    {
+      "id": "K1",
+      "text": "電話為 (02)2939-3091 分機 62120",
+      "required": true,
+      "kind": "hard",
+      "references": [
+        {
+          "text": "總務處出納組 (02)2939-3091分機62120",
+          "source_url": "https://cashier.nccu.edu.tw/",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；校務頁面 2026-08-19）"
+        },
+        {
+          "text": "出納組分機 62120",
+          "source_url": "https://nccuga.nccu.edu.tw/zh/",
+          "source_kind": "live",
+          "as_of": "2026-11-09（現場）"
+        },
+        {
+          "text": "出納組分機 62120",
+          "source_url": "https://nccuga.nccu.edu.tw/zh/各組服務項目/出納組?view=default",
+          "source_kind": "live",
+          "as_of": "2026-11-09（現場）"
+        }
+      ],
+      "acceptable_expressions": [
+        "62120"
+      ]
+    }
+  ],
+  "allowed_values": {
+    "extension": [
+      {
+        "value": "62120",
+        "status": "live_confirmed",
+        "note": "頁尾標示的出納組分機；快照人員頁為組長劉桂芬分機",
+        "sources": [
+          {
+            "source_url": "https://cashier.nccu.edu.tw/",
+            "quote": "(02)2939-3091分機62120"
+          },
+          {
+            "source_url": "https://nccuga.nccu.edu.tw/zh/",
+            "quote": "出納組分機 62120"
+          }
+        ]
+      },
+      {
+        "value": "62119",
+        "status": "snapshot_only",
+        "note": "註冊通知單「出納組聯絡電話」範圍的起點",
+        "sources": [
+          {
+            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
+            "quote": "62119-62123、62125-62127、62172、62173"
+          }
+        ]
+      },
+      {
+        "value": "62121",
+        "status": "snapshot_only_inferred_from_range",
+        "note": "由範圍記號「62119-62123」推得，非個別列出",
+        "sources": [
+          {
+            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
+            "quote": "62119-62123"
+          }
+        ]
+      },
+      {
+        "value": "62122",
+        "status": "snapshot_only_inferred_from_range",
+        "note": "由範圍記號「62119-62123」推得；另見其他舊註冊通知單單獨出現",
+        "sources": [
+          {
+            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
+            "quote": "62119-62123"
+          }
+        ]
+      },
+      {
+        "value": "62123",
+        "status": "snapshot_only",
+        "note": "帳號登錄、退費、助學金入帳等問題的出納組代表分機（註冊通知單、學務處 FAQ）；快照人員頁為一級行政組員余淑娟（排版有歧義）",
+        "sources": [
+          {
+            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
+            "quote": "出納組代表分機 62123"
+          },
+          {
+            "source_url": "https://osa.nccu.edu.tw/tw/faq",
+            "quote": "出納組，校內分機62123"
+          },
+          {
+            "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+            "quote": "62123"
+          }
+        ]
+      },
+      {
+        "value": "62125",
+        "status": "snapshot_only",
+        "note": "註冊通知單範圍「62125-62127」的起點",
+        "sources": [
+          {
+            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
+            "quote": "62125-62127"
+          }
+        ]
+      },
+      {
+        "value": "62126",
+        "status": "snapshot_only_inferred_from_range",
+        "note": "由範圍記號「62125-62127」推得，非個別列出",
+        "sources": [
+          {
+            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
+            "quote": "62125-62127"
+          }
+        ]
+      },
+      {
+        "value": "62127",
+        "status": "snapshot_only",
+        "note": "註冊通知單範圍「62125-62127」的終點",
+        "sources": [
+          {
+            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
+            "quote": "62125-62127"
+          }
+        ]
+      },
+      {
+        "value": "62172",
+        "status": "snapshot_only",
+        "note": "註冊通知單列出的出納組聯絡分機",
+        "sources": [
+          {
+            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
+            "quote": "62172"
+          }
+        ]
+      },
+      {
+        "value": "62173",
+        "status": "snapshot_only",
+        "note": "註冊通知單列出的出納組聯絡分機",
+        "sources": [
+          {
+            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
+            "quote": "62173"
+          }
+        ]
+      }
+    ],
+    "disallowed": [
+      {
+        "value": "62095",
+        "reason": "總務處（整個單位）的分機，不是出納組；2026-11-09 現場「聯絡資訊」頁本文所寫",
+        "reference": {
+          "text": "總務處 (02)2939-3091 分機62095",
+          "source_url": "https://nccuga.nccu.edu.tw/zh/關於我們/聯絡資訊",
+          "source_kind": "live",
+          "as_of": "2026-11-09（現場）"
+        }
+      }
+    ]
+  },
+  "source_conflicts": "無實質矛盾：62120 是頁尾標示的出納組電話（快照與 2026-11-09 現場皆確認），其餘為議題性代表分機或承辦分機。CLAUDE.md 先前記載的「62123 與 62120 語料不一致」依來源原文判讀是用途不同，不是同一問題的兩個答案。",
+  "notes": [
+    "出納組網站 cashier.nccu.edu.tw 於 2026-11-09 已 301 轉到 nccuga.nccu.edu.tw；舊人員頁 fid=7994 在新站為 404，詳見 sources/live/redirects.md",
+    "62121、62122、62126 由範圍記號推得（status 標 inferred_from_range），非來源個別列出",
+    "快照人員頁中 62123 屬於余淑娟或代理人欄位的排版有歧義，未據此認定人員",
+    "題目只問電話，不涉及個人；人員不列入 gold"
+  ]
+}
