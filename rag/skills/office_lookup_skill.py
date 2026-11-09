@@ -729,11 +729,14 @@ class OfficeLookupSkill:
             # 2026-09-01: seed page_url from the dynamic index's own URL
             # (always present per-record, confirmed) so a catalog-full-name
             # office _find_pages() below has no entry for (e.g. "教務長室")
-            # still gets a citable source. _find_pages() below overrides
-            # this with its own (curated, OFFICE_SOURCES-verified) URL when
-            # it does cover the office -- that path takes priority, this is
-            # only the fallback for what it doesn't reach.
+            # still gets a citable source.
             "page_url":  dynamic_urls[0] if dynamic_urls else None,
+            # 2026-11-09: every index page the contacts were READ from (a staff page can be one of several per office).
+            # Empty when the contacts are KNOWN_CONTACTS (no page). contact.py's ledger markers and format_context's
+            # 來源 line cite these -- the pages the names/extensions actually came from.
+            "contact_urls": [] if from_known else list(dynamic_urls),
+            # 2026-11-09: pages _find_pages() found that only supplied the floor/phones/note, not the contacts
+            "extra_urls": [],
             "note":      "",
         }
 
@@ -741,7 +744,16 @@ class OfficeLookupSkill:
         if not pages:
             return entry
 
-        entry["page_url"] = pages[0]["url"]
+        # 2026-11-09 fix (P11 D24): _find_pages() used to overwrite page_url unconditionally ("that path takes
+        # priority"). For 出納組 that replaced the staff page the 11 names came from with the first OFFICE_SOURCES
+        # page (osa's refund page, which only supplies the floor/phone), so the 來源 line, the 【資料狀態】 and the
+        # sources panel all named a page the contacts were not read from. The pages the contacts came from keep
+        # their place; _find_pages() pages are listed separately as extra sources. When no contact came from an index
+        # page (KNOWN_CONTACTS, or no index record), _find_pages() is still the only source there is, as before.
+        if entry["contact_urls"]:
+            entry["extra_urls"] = [p["url"] for p in pages if p["url"] not in entry["contact_urls"]]
+        else:
+            entry["page_url"] = pages[0]["url"]
 
         # Merge phones from all found pages (extensions first, then direct lines)
         all_phones: list[str] = []
@@ -822,8 +834,12 @@ class OfficeLookupSkill:
             # extensions but no citable source. synthesis_node's own prompt
             # rule ("回答最後附上來源URL") can only follow through on this if
             # the URL is somewhere in the text it reads.
-            if info.get("page_url"):
-                lines.append(f"    來源：{info['page_url']}")
+            # 2026-11-09 (D24): cite the pages the contacts were read from; the pages that only gave the
+            # floor/phone are listed apart so the answer does not credit them for the names.
+            for url in (info.get("contact_urls") or ([info["page_url"]] if info.get("page_url") else [])):
+                lines.append(f"    來源：{url}")
+            for url in info.get("extra_urls") or []:
+                lines.append(f"    補充來源（樓層、電話）：{url}")
         return "\n".join(lines)
 
 

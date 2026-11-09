@@ -117,9 +117,14 @@ def _snapshot_pages(offices: list[str], result: dict) -> tuple[dict[str, list[st
         dates = {}
     by_url: dict[str, list[str]] = {}
     for office, entry in result.items():
-        url = entry.get("page_url")
-        if entry.get("contacts_source") == "page" and url:
-            by_url.setdefault(url, []).append(office)
+        if entry.get("contacts_source") != "page":
+            continue
+        # every index page the contacts were read from (2026-11-09, D24: was the single page_url, which
+        # _find_pages() could overwrite with a page the contacts did not come from)
+        for url in entry.get("contact_urls") or ([entry["page_url"]] if entry.get("page_url") else []):
+            offs = by_url.setdefault(url, [])
+            if office not in offs:
+                offs.append(office)
     return by_url, dates
 
 
