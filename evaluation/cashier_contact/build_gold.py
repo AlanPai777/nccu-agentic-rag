@@ -187,6 +187,9 @@ def main():
                 "text": "給出出納組的電話分機（允許集合內任一個皆可）；官網頁尾標示為 (02)2939-3091 分機 62120",
                 "required": True,
                 "kind": "hard",
+                # 規則版 Accuracy 對這個 keypoint 另做值檢查：答案中的分機必須在 allowed_values.extension，
+                # 人名與分機要成對（extension_by_person），出現不在集合的分機算 Wrong
+                "value_check": "extension",
                 "references": [ref(r) for r in REFS_K1],
                 # 設計決定（2026-11-09）：答案寫允許集合內任一分機都算對，不限 62120
                 "acceptable_expressions": EXT_ORDER,

@@ -16,6 +16,7 @@
       "text": "給出出納組的電話分機（允許集合內任一個皆可）；官網頁尾標示為 (02)2939-3091 分機 62120",
       "required": true,
       "kind": "hard",
+      "value_check": "extension",
       "references": [
         {
           "text": "總務處出納組 (02)2939-3091分機62120",
