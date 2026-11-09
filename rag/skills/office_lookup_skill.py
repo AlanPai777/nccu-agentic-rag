@@ -661,6 +661,35 @@ def _extract_phones_near(text: str, office: str) -> list[str]:
     return list(dict.fromkeys(phones))
 
 
+_FOOTER_STOPS = ("傳真", "Fax", "FAX", "fax", "E-Mail", "E-mail", "Email", "EMail", "信箱", "地址")
+# (02)2939-3091 / 02-2939-3091 / 886-2-29393091 / +886-2-2938-7123 / (02)29393091. The lookbehind keeps it from starting
+# inside a longer number (a mobile 0919099119, an extension 62120).
+_LINE_RE = re.compile(r'(?<!\d)(?:\+?886-?2|\(?0?2\)?)[-\s]?(\d{4})-?(\d{4})(?!\d)')
+
+
+def office_main_lines(text: str, limit: int = 3) -> list[str]:
+    """The unit's own telephone line(s), read from the page footer's "電話：" segment, as "(02)XXXX-XXXX".
+
+    2026-11-09 (phase K): contact_node's list only carried per-person extensions, so a staff page's footer line
+    ("電話：總務處出納組 (02)2939-3091分機62120") was read, parsed and then dropped -- the answer to "出納組電話幾號"
+    had an extension and no number to dial. Which number it is differs by unit (NCCU's switchboard 2939-3091 for
+    most, a department's own 2938-xxxx for others), so it is read per page, never assumed. The LAST "電話：" label is
+    used (the footer comes last; the body may mention 電話 earlier), and the segment ends at 傳真 / E-Mail / 地址 so a
+    fax number is never taken for the telephone. No "電話：" label -> nothing is guessed."""
+    labels = list(re.finditer(r'電話\s*[:：]', text or ""))
+    if not labels:
+        return []
+    seg = text[labels[-1].end(): labels[-1].end() + 120]
+    cuts = [i for i in (seg.find(s) for s in _FOOTER_STOPS) if i != -1]
+    seg = seg[: min(cuts)] if cuts else seg
+    lines: list[str] = []
+    for m in _LINE_RE.finditer(seg):
+        n = f"(02){m.group(1)}-{m.group(2)}"
+        if n not in lines:
+            lines.append(n)
+    return lines[:limit]
+
+
 def _page_mentions_office(text: str, office: str) -> bool:
     """Check if page text mentions the office by name or any alias."""
     return office in text or any(a in text for a in OFFICE_ALIASES.get(office, []))
@@ -720,7 +749,19 @@ class OfficeLookupSkill:
         if not contacts:
             contacts = KNOWN_CONTACTS.get(office, [])
             from_known = bool(contacts)
+        # 2026-11-09: the unit's own line(s) from the staff page footer (see office_main_lines). Same text the contacts were
+        # parsed from (the live text when the live check supplied one), so a changed footer is followed too.
+        main_lines: list[str] = []
+        if not from_known:
+            live_texts = live.texts if live else None
+            for rec in index_records_for_office(office):
+                url = rec.get("url")
+                text = live_texts[url] if live_texts is not None and url in live_texts else rec.get("text", "")
+                for n in office_main_lines(text):
+                    if n not in main_lines:
+                        main_lines.append(n)
         entry: dict = {
+            "main_lines": main_lines,
             "contacts_source": "known_contacts" if from_known else "page",   # Phase J: lets the answer say it is fixed data
             "office":    office,
             "floor":     KNOWN_FLOORS.get(office),
@@ -816,6 +857,8 @@ class OfficeLookupSkill:
             parts = [office]
             if info["floor"]:
                 parts.append(info["floor"])
+            if info.get("main_lines"):          # 2026-11-09: the number to dial; the extensions below are 轉 this line
+                parts.append("電話 " + "、".join(info["main_lines"]))
             if info["phones"]:
                 parts.append("分機 " + "／".join(info["phones"][:3]))
             if info["note"]:
