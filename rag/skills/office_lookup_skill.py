@@ -670,7 +670,7 @@ def _extract_phones_near(text: str, office: str) -> list[str]:
 # "總機 63016" with only an extension), the lines anywhere on the page (footer, header block, a paragraph before the roster),
 # conditions ("學士班 …、研究所 …", "撥打分機將自動轉接值班手機") and numbers that are not NCCU's switchboard. Whose number it is
 # is written only in the words next to it, so the page text is read by an LLM, like _llm_extract_contacts() does for the roster.
-_UNIT_CONTACT_PROMPT = """以下是政大某個單位的網頁文字（超長的頁面只附上可能含電話的片段，片段之間用「｜｜」隔開）。
+_UNIT_CONTACT_PROMPT = """以下是政大某個單位的網頁文字（超長的頁面只附上開頭與結尾，兩段之間用「｜｜」隔開）。
 請找出這個單位或網站「本身」的聯絡電話，並交代每個號碼屬於誰。
 
 規則：
@@ -690,39 +690,29 @@ _UNIT_CONTACT_PROMPT = """以下是政大某個單位的網頁文字（超長的
 只回傳一個JSON陣列，不要有其他文字，格式如下：
 [{{"applies_to": "...", "label": "...", "number": "...", "ext": "...", "note": "..."}}, ...]"""
 
-_PHONE_HINT_RE = re.compile(
-    r"電\s*話|總機|TEL|Tel\b|tel:|Phone|分機|ext\.?|Ext\.?|直撥|專線|客服|傳真|Fax|FAX|聯絡"
-    r"|(?<!\d)(?:\+?886[-\s]?0?2|\(?0?2\)?)[-\s]*\d{4}\s?-?\s?\d{4}|(?<!\d)2939\s?-?\s?3091|(?<!\d)29393091")
-_STRONG_HINT_RE = re.compile(r"總機|傳真|Fax|FAX|直撥|專線|客服|Tel\b|TEL|tel:|Phone|聯絡電話|電話")
-_MAX_SNIPPET = 700
+# 2026-11-09: does this page say anything about a telephone? Only the answer decides whether the LLM is called at all (53-64 of
+# the 434 staff pages say nothing: a faculty profile, a news front page); the page itself is never cut by it. A miss costs a
+# phone line, a false alarm costs one call, so it is wide: any phone wording or an extension marker followed by digits, or
+# a number shaped like a telephone number once URLs are taken out (a project id inside a link such as ".../x-2-91355761" looks
+# like "區碼 2 + 8 位數" and is not one).
+_PHONE_CUE_RE = re.compile(
+    r"電\s*話|總機|TEL|Tel\b|tel:|Phone|分機|ext\.?|Ext\.?|EXT|直撥|專線|客服|傳真|Fax|FAX|(?:#|＃|轉)\s*\d{3,6}")
+_URL_RE = re.compile(r"\]\(https?://[^)]*\)|https?://\S+|mailto:\S+")
+_PHONE_SHAPE_RE = re.compile(
+    r"(?<!\d)(?:\+?886[-\s]?0?2|\(?0?2\)?)[-\s]*\d{4}\s?-?\s?\d{4}(?!\d)|(?<!\d)2939\s?-?\s?3091(?!\d)|(?<!\d)29393091(?!\d)")
 _WHOLE_PAGE_MAX = 15000          # same ceiling _llm_extract_contacts() uses; only 2 of 434 staff pages are longer
+_HEAD_TAIL = _WHOLE_PAGE_MAX // 2
 _unit_contacts_cache: dict[str, list[dict]] = {}
 
 
-def _phone_snippets(text: str, ctx: int = 140, cap: int = 4500) -> str:
-    """Used only for a page longer than _WHOLE_PAGE_MAX (2 of 434; every other page goes to the LLM whole, see llm_unit_contacts).
-    Narrow a (sometimes 100k-character) page to the stretches that could hold a telephone line, so the LLM prompt stays
-    short. Deliberately wide: it decides nothing about WHICH numbers belong to the unit, it only drops text with no phone
-    wording or number in it. Stretches with strong unit wording (總機/傳真/直撥/專線/Tel…) come first when the cap bites,
-    because a roster of 22 personal 聯絡電話 fields must not push the one footer block out."""
-    spans: list[list[int]] = []
-    for m in _PHONE_HINT_RE.finditer(text):
-        lo, hi = max(0, m.start() - ctx), min(len(text), m.end() + ctx)
-        # merge neighbours, but never into a stretch longer than _MAX_SNIPPET: a roster has a phone word every ~100
-        # characters and would chain into one block longer than the cap, which then gets skipped whole (found 2026-11-09:
-        # 住宿輔導組 and 中國文學系 came back with no snippet at all)
-        if spans and lo <= spans[-1][1] and hi - spans[-1][0] <= _MAX_SNIPPET:
-            spans[-1][1] = max(spans[-1][1], hi)
-        else:
-            spans.append([lo, hi])
-    chunks = [(lo, re.sub(r"\s+", " ", text[lo:hi]).strip()) for lo, hi in spans]
-    chunks = [(lo, c, bool(_STRONG_HINT_RE.search(c))) for lo, c in chunks]
-    chosen, used = [], 0
-    for lo, c, strong in sorted(chunks, key=lambda x: (not x[2], x[0])):
-        if used + len(c) > cap:
-            continue
-        chosen.append((lo, c)); used += len(c)
-    return "｜｜".join(c for _, c in sorted(chosen))
+def _has_phone_cue(text: str) -> bool:
+    return bool(_PHONE_CUE_RE.search(text) or _PHONE_SHAPE_RE.search(_URL_RE.sub(" ", text)))
+
+
+def _head_tail(text: str) -> str:
+    """A page longer than _WHOLE_PAGE_MAX: its first and last _HEAD_TAIL characters (a unit's contact block sits at the top
+    or the bottom of a page, not in the middle of a publication list), joined by "｜｜"."""
+    return text[:_HEAD_TAIL] + "｜｜" + text[-_HEAD_TAIL:]
 
 
 def _digits(s: str) -> str:
@@ -761,14 +751,14 @@ def llm_unit_contacts(text: str) -> list[dict]:
     an invented number cannot reach the answer. A failed call or an unparsable reply returns [] (the roster list is
     unaffected). Cached per page text for the life of the process."""
     text = text or ""
-    # 2026-11-09: the whole page goes to the LLM. A first version narrowed every page to "stretches that could hold a
-    # phone" with regexes first; checked against all 434 staff pages, that dropped phone data on 50 of them (the 4,500-character
-    # cap on 4,000-6,000 character rosters, and a hint rule that never saw a bare "#62062" or "＃3452"), and on 圖書館典藏閱覽組 the
-    # fragments, cut loose from the names around them, were read as unit lines (12 personal extensions) where the whole page
-    # gives none. Only a page longer than _WHOLE_PAGE_MAX (2 of 434) is still narrowed that way.
-    payload = text if len(text) <= _WHOLE_PAGE_MAX else _phone_snippets(text)
-    if not payload.strip():
+    # 2026-11-09: the page goes to the LLM whole (up to _WHOLE_PAGE_MAX), and only when it says something about a telephone.
+    # An earlier version narrowed every page to regex-picked "stretches that could hold a phone"; checked against all 434
+    # staff pages that dropped phone data on 50 of them (a 4,500-character cap on 4,000-6,000 character rosters, and a hint rule
+    # that never saw a bare "#62062"), and on 圖書館典藏閱覽組 the fragments, cut loose from the names around them, were read as
+    # unit lines (12 personal extensions) where the whole page gives none. A longer page keeps its head and tail.
+    if not _has_phone_cue(text):
         return []
+    payload = text if len(text) <= _WHOLE_PAGE_MAX else _head_tail(text)
     key = hashlib.sha1(payload.encode("utf-8")).hexdigest()
     if key in _unit_contacts_cache:
         return _unit_contacts_cache[key]
