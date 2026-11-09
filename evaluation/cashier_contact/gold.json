@@ -13,7 +13,7 @@
   "keypoints": [
     {
       "id": "K1",
-      "text": "電話為 (02)2939-3091 分機 62120",
+      "text": "給出出納組的電話分機（允許集合內任一個皆可）；官網頁尾標示為 (02)2939-3091 分機 62120",
       "required": true,
       "kind": "hard",
       "references": [
@@ -37,17 +37,44 @@
         }
       ],
       "acceptable_expressions": [
-        "62120"
+        "62119",
+        "62120",
+        "62121",
+        "62122",
+        "62123",
+        "62124",
+        "62125",
+        "62126",
+        "62127",
+        "62172",
+        "62173",
+        "63071"
       ]
     }
   ],
   "allowed_values": {
     "extension": [
       {
+        "value": "62119",
+        "status": "snapshot_only",
+        "note": "註冊通知單「出納組聯絡電話」範圍「62119-62123」的起點；人員頁未列此號碼，不屬於任何一位人員",
+        "sources": [
+          {
+            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
+            "quote": "62119-62123、62125-62127、62172、62173"
+          }
+        ]
+      },
+      {
         "value": "62120",
         "status": "live_confirmed",
-        "note": "頁尾標示的出納組分機；快照人員頁為組長劉桂芬分機",
+        "note": "頁尾標示的出納組分機（快照與 2026-11-09 現場皆確認）；人員頁為組長劉桂芬",
         "sources": [
+          {
+            "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+            "quote": "劉桂芬 組長 校內分機 62120",
+            "person": "劉桂芬（組長）"
+          },
           {
             "source_url": "https://cashier.nccu.edu.tw/",
             "quote": "(02)2939-3091分機62120"
@@ -59,43 +86,39 @@
         ]
       },
       {
-        "value": "62119",
-        "status": "snapshot_only",
-        "note": "註冊通知單「出納組聯絡電話」範圍的起點",
-        "sources": [
-          {
-            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
-            "quote": "62119-62123、62125-62127、62172、62173"
-          }
-        ]
-      },
-      {
         "value": "62121",
-        "status": "snapshot_only_inferred_from_range",
-        "note": "由範圍記號「62119-62123」推得，非個別列出",
+        "status": "snapshot_only",
+        "note": "",
         "sources": [
           {
-            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
-            "quote": "62119-62123"
+            "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+            "quote": "吳慧玲 一級行政組員 校內分機 62121",
+            "person": "吳慧玲（一級行政組員）"
           }
         ]
       },
       {
         "value": "62122",
-        "status": "snapshot_only_inferred_from_range",
-        "note": "由範圍記號「62119-62123」推得；另見其他舊註冊通知單單獨出現",
+        "status": "snapshot_only",
+        "note": "",
         "sources": [
           {
-            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
-            "quote": "62119-62123"
+            "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+            "quote": "江幸霓 組員 校內分機 62122",
+            "person": "江幸霓（組員）"
           }
         ]
       },
       {
         "value": "62123",
         "status": "snapshot_only",
-        "note": "帳號登錄、退費、助學金入帳等問題的出納組代表分機（註冊通知單、學務處 FAQ）；快照人員頁為一級行政組員余淑娟（排版有歧義）",
+        "note": "人員頁為一級行政組員余淑娟；另為帳號登錄、退費、助學金入帳等問題的出納組代表分機（註冊通知單、學務處 FAQ）",
         "sources": [
+          {
+            "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+            "quote": "余淑娟 一級行政組員 校內分機 62123",
+            "person": "余淑娟（一級行政組員）"
+          },
           {
             "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
             "quote": "出納組代表分機 62123"
@@ -103,67 +126,171 @@
           {
             "source_url": "https://osa.nccu.edu.tw/tw/faq",
             "quote": "出納組，校內分機62123"
-          },
+          }
+        ]
+      },
+      {
+        "value": "62124",
+        "status": "snapshot_only",
+        "note": "",
+        "sources": [
           {
             "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
-            "quote": "62123"
+            "quote": "林瓊蓮 兼任助理 校內分機 62124",
+            "person": "林瓊蓮（兼任助理）"
           }
         ]
       },
       {
         "value": "62125",
         "status": "snapshot_only",
-        "note": "註冊通知單範圍「62125-62127」的起點",
+        "note": "",
         "sources": [
           {
-            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
-            "quote": "62125-62127"
+            "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+            "quote": "張錦虹 組員 校內分機 62125",
+            "person": "張錦虹（組員）"
           }
         ]
       },
       {
         "value": "62126",
-        "status": "snapshot_only_inferred_from_range",
-        "note": "由範圍記號「62125-62127」推得，非個別列出",
+        "status": "snapshot_only",
+        "note": "",
         "sources": [
           {
-            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
-            "quote": "62125-62127"
+            "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+            "quote": "張佩雯 行政專員 校內分機 62126",
+            "person": "張佩雯（行政專員）"
           }
         ]
       },
       {
         "value": "62127",
         "status": "snapshot_only",
-        "note": "註冊通知單範圍「62125-62127」的終點",
+        "note": "",
         "sources": [
           {
-            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
-            "quote": "62125-62127"
+            "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+            "quote": "蕭毓璇 行政專員 校內分機 62127",
+            "person": "蕭毓璇（行政專員）"
           }
         ]
       },
       {
         "value": "62172",
         "status": "snapshot_only",
-        "note": "註冊通知單列出的出納組聯絡分機",
+        "note": "",
         "sources": [
           {
-            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
-            "quote": "62172"
+            "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+            "quote": "徐士雲 編審 校內分機 62172",
+            "person": "徐士雲（編審）"
           }
         ]
       },
       {
         "value": "62173",
         "status": "snapshot_only",
-        "note": "註冊通知單列出的出納組聯絡分機",
+        "note": "",
         "sources": [
           {
-            "source_url": "https://aca.nccu.edu.tw/db/upload/1142註冊通知單中文版.pdf",
-            "quote": "62173"
+            "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+            "quote": "鄭雅玲 一級行政組員 校內分機 62173",
+            "person": "鄭雅玲（一級行政組員）"
           }
         ]
+      },
+      {
+        "value": "63071",
+        "status": "snapshot_only",
+        "note": "",
+        "sources": [
+          {
+            "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+            "quote": "行政組員 校內分機 63071",
+            "person": "王(禾+翟)媗（行政組員）"
+          }
+        ]
+      }
+    ],
+    "extension_by_person": [
+      {
+        "name": "劉桂芬",
+        "title": "組長",
+        "extension": "62120",
+        "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+        "quote": "劉桂芬 組長 校內分機 62120"
+      },
+      {
+        "name": "徐士雲",
+        "title": "編審",
+        "extension": "62172",
+        "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+        "quote": "徐士雲 編審 校內分機 62172"
+      },
+      {
+        "name": "張錦虹",
+        "title": "組員",
+        "extension": "62125",
+        "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+        "quote": "張錦虹 組員 校內分機 62125"
+      },
+      {
+        "name": "江幸霓",
+        "title": "組員",
+        "extension": "62122",
+        "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+        "quote": "江幸霓 組員 校內分機 62122"
+      },
+      {
+        "name": "張佩雯",
+        "title": "行政專員",
+        "extension": "62126",
+        "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+        "quote": "張佩雯 行政專員 校內分機 62126"
+      },
+      {
+        "name": "蕭毓璇",
+        "title": "行政專員",
+        "extension": "62127",
+        "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+        "quote": "蕭毓璇 行政專員 校內分機 62127"
+      },
+      {
+        "name": "鄭雅玲",
+        "title": "一級行政組員",
+        "extension": "62173",
+        "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+        "quote": "鄭雅玲 一級行政組員 校內分機 62173"
+      },
+      {
+        "name": "吳慧玲",
+        "title": "一級行政組員",
+        "extension": "62121",
+        "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+        "quote": "吳慧玲 一級行政組員 校內分機 62121"
+      },
+      {
+        "name": "余淑娟",
+        "title": "一級行政組員",
+        "extension": "62123",
+        "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+        "quote": "余淑娟 一級行政組員 校內分機 62123"
+      },
+      {
+        "name": "王(禾+翟)媗",
+        "title": "行政組員",
+        "extension": "63071",
+        "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+        "quote": "行政組員 校內分機 63071"
+      },
+      {
+        "name": "林瓊蓮",
+        "title": "兼任助理",
+        "extension": "62124",
+        "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+        "quote": "林瓊蓮 兼任助理 校內分機 62124"
       }
     ],
     "disallowed": [
@@ -182,8 +309,9 @@
   "source_conflicts": "無實質矛盾：62120 是頁尾標示的出納組電話（快照與 2026-11-09 現場皆確認），其餘為議題性代表分機或承辦分機。CLAUDE.md 先前記載的「62123 與 62120 語料不一致」依來源原文判讀是用途不同，不是同一問題的兩個答案。",
   "notes": [
     "出納組網站 cashier.nccu.edu.tw 於 2026-11-09 已 301 轉到 nccuga.nccu.edu.tw；舊人員頁 fid=7994 在新站為 404，詳見 sources/live/redirects.md",
-    "62121、62122、62126 由範圍記號推得（status 標 inferred_from_range），非來源個別列出",
-    "快照人員頁中 62123 屬於余淑娟或代理人欄位的排版有歧義，未據此認定人員",
-    "題目只問電話，不涉及個人；人員不列入 gold"
+    "人員頁排版為「代理人 X Y 職稱 校內分機 N」，Y 是本人、N 是 Y 的分機（與 contact_node 解析結果一致）；11 個人員分機全部在快照人員頁個別列出，現場只確認 62120",
+    "62119 只出現在註冊通知單的範圍記號，人員頁沒有這個號碼",
+    "題目只問電話，不涉及個人；extension_by_person 只在答案同時寫人名與分機時用來檢查成對",
+    "K1 採「允許集合內任一分機皆可」（設計決定 2026-11-09）；頁尾標示的 62120 是官網的出納組電話，其餘為承辦人或議題性代表分機"
   ]
 }

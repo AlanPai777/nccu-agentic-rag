@@ -75,34 +75,38 @@ REFS_K1 = [
     {"text": "出納組分機 62120", "src": "L2", "kind": "live"},
 ]
 
-# 每個允許分機的依據（只列有逐字原文的；從範圍記號推得者另註）
-EXT = [
-    ("62120", "live_confirmed", "頁尾標示的出納組分機；快照人員頁為組長劉桂芬分機", ["S1", "L1"]),
-    ("62119", "snapshot_only", "註冊通知單「出納組聯絡電話」範圍的起點", ["S3"]),
-    ("62121", "snapshot_only_inferred_from_range", "由範圍記號「62119-62123」推得，非個別列出", ["S3"]),
-    ("62122", "snapshot_only_inferred_from_range", "由範圍記號「62119-62123」推得；另見其他舊註冊通知單單獨出現", ["S3"]),
-    ("62123", "snapshot_only", "帳號登錄、退費、助學金入帳等問題的出納組代表分機（註冊通知單、學務處 FAQ）；快照人員頁為一級行政組員余淑娟（排版有歧義）", ["S3", "S4", "S2"]),
-    ("62125", "snapshot_only", "註冊通知單範圍「62125-62127」的起點", ["S3"]),
-    ("62126", "snapshot_only_inferred_from_range", "由範圍記號「62125-62127」推得，非個別列出", ["S3"]),
-    ("62127", "snapshot_only", "註冊通知單範圍「62125-62127」的終點", ["S3"]),
-    ("62172", "snapshot_only", "註冊通知單列出的出納組聯絡分機", ["S3"]),
-    ("62173", "snapshot_only", "註冊通知單列出的出納組聯絡分機", ["S3"]),
+# 出納組人員頁（快照）排版：「代理人 X Y 職稱 校內分機 N」，Y 是本人、N 是 Y 的分機
+# （與 contact_node 解析出的名單一致）。(分機, 姓名, 職稱, 人員頁引句)
+PEOPLE = [
+    ("62120", "劉桂芬", "組長", "劉桂芬 組長 校內分機 62120"),
+    ("62172", "徐士雲", "編審", "徐士雲 編審 校內分機 62172"),
+    ("62125", "張錦虹", "組員", "張錦虹 組員 校內分機 62125"),
+    ("62122", "江幸霓", "組員", "江幸霓 組員 校內分機 62122"),
+    ("62126", "張佩雯", "行政專員", "張佩雯 行政專員 校內分機 62126"),
+    ("62127", "蕭毓璇", "行政專員", "蕭毓璇 行政專員 校內分機 62127"),
+    ("62173", "鄭雅玲", "一級行政組員", "鄭雅玲 一級行政組員 校內分機 62173"),
+    ("62121", "吳慧玲", "一級行政組員", "吳慧玲 一級行政組員 校內分機 62121"),
+    ("62123", "余淑娟", "一級行政組員", "余淑娟 一級行政組員 校內分機 62123"),
+    ("63071", "王(禾+翟)媗", "行政組員", "行政組員 校內分機 63071"),
+    ("62124", "林瓊蓮", "兼任助理", "林瓊蓮 兼任助理 校內分機 62124"),
 ]
-EXT_QUOTES = {  # 用來驗證「依據」確實存在的原文片段（逐字）
+# 每個允許分機的補充依據（頁尾、註冊通知單、學務處 FAQ），逐字驗證
+EXTRA_QUOTES = {
     ("62120", "S1"): "(02)2939-3091分機62120",
     ("62120", "L1"): "出納組分機 62120",
     ("62119", "S3"): "62119-62123、62125-62127、62172、62173",
-    ("62121", "S3"): "62119-62123",
-    ("62122", "S3"): "62119-62123",
     ("62123", "S3"): "出納組代表分機 62123",
     ("62123", "S4"): "出納組，校內分機62123",
-    ("62123", "S2"): "62123",
-    ("62125", "S3"): "62125-62127",
-    ("62126", "S3"): "62125-62127",
-    ("62127", "S3"): "62125-62127",
-    ("62172", "S3"): "62172",
-    ("62173", "S3"): "62173",
 }
+EXT_NOTES = {
+    "62120": "頁尾標示的出納組分機（快照與 2026-11-09 現場皆確認）；人員頁為組長劉桂芬",
+    "62123": "人員頁為一級行政組員余淑娟；另為帳號登錄、退費、助學金入帳等問題的出納組代表分機（註冊通知單、學務處 FAQ）",
+    "62119": "註冊通知單「出納組聯絡電話」範圍「62119-62123」的起點；人員頁未列此號碼，不屬於任何一位人員",
+}
+EXT_ORDER = ["62119", "62120", "62121", "62122", "62123", "62124", "62125", "62126", "62127", "62172", "62173", "63071"]
+EXT_QUOTES = {}
+
+
 DISALLOWED = [
     {
         "value": "62095",
@@ -128,17 +132,36 @@ def main():
     src_text = {**snap_texts, **live_texts}
     src_url = {**{k: v[1] for k, v in SNAP.items()}, **{k: v[0] for k, v in LIVE.items()}}
 
-    # 2. 驗證 L3 的「62095」引句也要在 live 文字裡（空白正規化）
+    # 2. 驗證所有引句都逐字在來源裡（空白正規化）
     def check(text, src, what):
         if norm(text) not in norm(src_text[src]):
             raise SystemExit(f"找不到原文，中止：[{what}] {text!r} 不在 {src}（{src_url[src]}）")
 
     for r in REFS_K1:
         check(r["text"], r["src"], "K1.references")
-    for (val, src), q in EXT_QUOTES.items():
+    for ext, name, title, quote in PEOPLE:
+        check(quote, "S2", f"person {name} {ext}")
+    for (val, src), q in EXTRA_QUOTES.items():
         check(q, src, f"allowed {val}")
     for d in DISALLOWED:
         check(d["reference"]["text"], d["reference"]["src"], f"disallowed {d['value']}")
+
+    person_by_ext = {e: (n, t, q) for e, n, t, q in PEOPLE}
+
+    def ext_entry(v):
+        sources, status = [], "snapshot_only"
+        if v in person_by_ext:
+            n, t, q = person_by_ext[v]
+            sources.append({"source_url": src_url["S2"], "quote": q, "person": f"{n}（{t}）"})
+        for (val, s_), q in EXTRA_QUOTES.items():
+            if val == v:
+                sources.append({"source_url": src_url[s_], "quote": q})
+                if s_.startswith("L"):
+                    status = "live_confirmed"
+        return {"value": v, "status": status, "note": EXT_NOTES.get(v, ""), "sources": sources}
+
+    # 62119 只有範圍記號、人員頁沒有；其餘 11 個分機都在人員頁個別列出
+    assert set(person_by_ext) | {"62119"} == set(EXT_ORDER), "EXT_ORDER 與 PEOPLE 不一致"
 
     def ref(r):
         return {
@@ -161,26 +184,21 @@ def main():
         "keypoints": [
             {
                 "id": "K1",
-                "text": "電話為 (02)2939-3091 分機 62120",
+                "text": "給出出納組的電話分機（允許集合內任一個皆可）；官網頁尾標示為 (02)2939-3091 分機 62120",
                 "required": True,
                 "kind": "hard",
                 "references": [ref(r) for r in REFS_K1],
-                "acceptable_expressions": ["62120"],
+                # 設計決定（2026-11-09）：答案寫允許集合內任一分機都算對，不限 62120
+                "acceptable_expressions": EXT_ORDER,
             }
         ],
         "allowed_values": {
-            "extension": [
-                {
-                    "value": v,
-                    "status": st,
-                    "note": note,
-                    "sources": [
-                        {"source_url": src_url[s], "quote": EXT_QUOTES[(v, s)]}
-                        for s in srcs
-                        if (v, s) in EXT_QUOTES
-                    ],
-                }
-                for v, st, note, srcs in EXT
+            "extension": [ext_entry(v) for v in EXT_ORDER],
+            # 人名與分機成對：答案若同時寫人名與分機，這一對必須對得上
+            "extension_by_person": [
+                {"name": n, "title": t, "extension": e,
+                 "source_url": src_url["S2"], "quote": q}
+                for e, n, t, q in PEOPLE
             ],
             "disallowed": [
                 {"value": d["value"], "reason": d["reason"], "reference": ref(d["reference"])}
@@ -195,16 +213,19 @@ def main():
         "notes": [
             "出納組網站 cashier.nccu.edu.tw 於 2026-11-09 已 301 轉到 nccuga.nccu.edu.tw；"
             "舊人員頁 fid=7994 在新站為 404，詳見 sources/live/redirects.md",
-            "62121、62122、62126 由範圍記號推得（status 標 inferred_from_range），非來源個別列出",
-            "快照人員頁中 62123 屬於余淑娟或代理人欄位的排版有歧義，未據此認定人員",
-            "題目只問電話，不涉及個人；人員不列入 gold",
+            "人員頁排版為「代理人 X Y 職稱 校內分機 N」，Y 是本人、N 是 Y 的分機（與 contact_node 解析結果一致）；"
+            "11 個人員分機全部在快照人員頁個別列出，現場只確認 62120",
+            "62119 只出現在註冊通知單的範圍記號，人員頁沒有這個號碼",
+            "題目只問電話，不涉及個人；extension_by_person 只在答案同時寫人名與分機時用來檢查成對",
+            "K1 採「允許集合內任一分機皆可」（設計決定 2026-11-09）；頁尾標示的 62120 是官網的出納組電話，其餘為承辦人或議題性代表分機",
         ],
     }
     out = HERE / "gold.json"
     out.write_text(json.dumps(gold, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"已寫入 {out.relative_to(ROOT)}")
     print(f"快照原文複本：{len(SNAP)} 份（{SNAP_DIR.relative_to(ROOT)}）")
-    print(f"驗證通過：K1 references {len(REFS_K1)} 條、允許分機依據 {len(EXT_QUOTES)} 條、禁止值 {len(DISALLOWED)} 條")
+    print(f"驗證通過：K1 references {len(REFS_K1)} 條、人員分機 {len(PEOPLE)} 筆、"
+          f"補充依據 {len(EXTRA_QUOTES)} 條、禁止值 {len(DISALLOWED)} 條")
 
 
 if __name__ == "__main__":
