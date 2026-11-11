@@ -35,6 +35,9 @@ langgraph
 # Agentic RAG tracing (agentic_rag.py — LangFuse, optional)
 langfuse
 
+# Evaluation (evaluation/score_programmatic.py — ROUGE-L on jieba-segmented text, jieba is listed above)
+rouge-chinese
+
 # Assistant API server (Phase I — server.py, exposes agentic_rag.py over SSE
 # to CourseLangChain-frontend's AssistantChat.vue)
 fastapi
