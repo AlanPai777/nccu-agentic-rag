@@ -17,6 +17,7 @@ import helpers
 
 SKILLS = helpers.ROOT / ".claude" / "skills"
 ISOLATED = SKILLS / "run-eval-question" / "scripts" / "prepare_isolated_dir.py"
+AUDIT = SKILLS / "run-eval-question" / "scripts" / "audit_subagent_tools.py"
 VERIFY_RUN = SKILLS / "run-eval-question" / "scripts" / "verify_run.py"
 VERIFY_GOLD = SKILLS / "build-eval-gold" / "scripts" / "verify_gold.py"
 TAMPERED = SKILLS / "isolated-trace-check" / "scripts" / "make_tampered_version.py"
@@ -45,7 +46,7 @@ def prepared_run(test) -> Path:
 
 class AllScriptsHaveHelpAndSampleTest(unittest.TestCase):
     def test_help_and_sample(self):
-        for script in (ISOLATED, VERIFY_RUN, VERIFY_GOLD, TAMPERED):
+        for script in (ISOLATED, VERIFY_RUN, VERIFY_GOLD, TAMPERED, AUDIT):
             for flag in ("--help", "--sample"):
                 r = run(script, flag)
                 self.assertEqual(r.returncode, 0, f"{script.name} {flag}\n{r.stderr}")
@@ -82,6 +83,73 @@ class PrepareIsolatedDirTest(unittest.TestCase):
 
     def test_a_missing_input_exits_2(self):
         self.assertEqual(run(ISOLATED, tmpdir(self)).returncode, 2)
+
+
+def transcript(d: Path, calls) -> Path:
+    """造一份子代理對話記錄（每行一個 JSON；另外混一行非 JSON 與一行沒有工具呼叫的訊息）。calls: [(tool, input dict)]"""
+    lines = ["not json at all", json.dumps({"message": {"content": "plain text, no tool"}})]
+    for name, inp in calls:
+        lines.append(json.dumps({"message": {"content": [{"type": "text", "text": "thinking about the answer"},
+                                                         {"type": "tool_use", "name": name, "input": inp}]}}, ensure_ascii=False))
+    p = d / "t.output"
+    p.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return p
+
+
+class AuditSubagentToolsTest(unittest.TestCase):
+    def setUp(self):
+        self.d = tmpdir(self)
+        self.inp, self.out = str(self.d / "iso" / "trace_input.json"), str(self.d / "iso" / "trace.json")
+        self.clean = [("Read", {"file_path": self.inp}), ("Write", {"file_path": self.out, "content": "{}"}), ("SubagentHandback", {"message": "done"})]
+
+    def audit(self, calls, *extra):
+        return run(AUDIT, transcript(self.d, calls), "--input", self.inp, "--output", self.out, *extra)
+
+    def test_read_input_write_output_handback_passes(self):
+        r = self.audit(self.clean)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("PASS (3 calls, 0 violations)", r.stdout)
+
+    def test_the_transcript_text_and_tool_content_are_never_printed(self):
+        r = self.audit(self.clean)
+        self.assertNotIn("thinking about the answer", r.stdout)
+        self.assertNotIn('"content"', r.stdout)
+
+    def test_reading_another_file_is_a_violation(self):
+        r = self.audit([("Read", {"file_path": self.inp}), ("Read", {"file_path": "/etc/hosts"})] + self.clean[1:])
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("read a file other than the input file", r.stdout)
+
+    def test_writing_another_file_is_a_violation(self):
+        r = self.audit([self.clean[0], ("Write", {"file_path": str(self.d / "other.json")})])
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("wrote a file other than the output file", r.stdout)
+
+    def test_a_shell_command_a_search_and_a_listing_are_violations(self):
+        for tool, inp in (("Bash", {"command": "ls /"}), ("Grep", {"pattern": "gold"}), ("Glob", {"pattern": "**/*"})):
+            r = self.audit(self.clean + [(tool, inp)])
+            self.assertEqual(r.returncode, 1, tool)
+            self.assertIn("is not allowed", r.stdout)
+
+    def test_a_path_spelled_differently_but_pointing_to_the_same_file_passes(self):
+        r = self.audit([("Read", {"file_path": str(self.d / "iso" / "sub" / ".." / "trace_input.json")}), self.clean[1], self.clean[2]])
+        self.assertEqual(r.returncode, 0, r.stdout)
+
+    def test_a_read_without_a_path_is_a_violation(self):
+        self.assertEqual(self.audit([("Read", {})] + self.clean[1:]).returncode, 1)
+
+    def test_no_tool_calls_or_a_missing_file_is_exit_2_not_a_pass(self):
+        r = self.audit([])
+        self.assertEqual(r.returncode, 2)
+        self.assertIn("not a pass", r.stderr)
+        self.assertEqual(run(AUDIT, self.d / "nope.output", "--input", self.inp, "--output", self.out).returncode, 2)
+
+    def test_json_output(self):
+        r = self.audit(self.clean + [("Bash", {"command": "ls"})], "--json")
+        data = json.loads(r.stdout)
+        self.assertFalse(data["ok"])
+        self.assertEqual((data["n_calls"], data["n_violations"]), (4, 1))
+        self.assertEqual(data["calls"][3]["verdict"], "violation")
 
 
 class VerifyRunTest(unittest.TestCase):
