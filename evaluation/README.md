@@ -54,7 +54,7 @@
 | 1 跑系統 | `python evaluation/run_system.py evaluation/cashier_contact/gold.json --label "…"` | 跑一次 `agentic_rag`（`live=False`），存 `runs/<run_id>/prediction.json`（答案與系統讀到的內容）；`--label` 選填 | **會呼叫 ollama-cloud，要使用者指示才跑** |
 | 2 程式計算 | `python evaluation/score_programmatic.py <gold> <run_dir>/prediction.json` | ROUGE-L、規則版 Accuracy、Context 的 Sentence／Words P／R／F1、漏斗前半 | 無，離線 |
 | 3 準備 | `python evaluation/stage3.py prepare <gold> <run_dir>` | 產生 `trace_input.json`（答案正文＋答案模型實際看到的證據，**不含 gold**）與 `judge_input.json` | 無，離線 |
-| 3 回推（盲） | 只把 `trace_input.json` 複製到全新的空資料夾，交給新的子代理，寫出 `trace.json` | 答案拆成原子主張，為每個主張找證據；做法見 `cashier_contact/tests/README.md` | 開子代理要使用者同意 |
+| 3 回推（隔離） | 只把 `trace_input.json` 複製到全新的空資料夾，交給新的子代理，寫出 `trace.json` | 答案拆成原子主張，為每個主張找證據；做法見 `cashier_contact/tests/README.md` | 開子代理要使用者同意 |
 | 3 Keypoint 判斷 | 讀 `judge_input.json` 與 `trace.json`，寫 `judge.json` | 每個 keypoint 判 relevant／irrelevant／wrong／not_applicable，並連到直接陳述它的主張 | 由 Claude Code 做，不呼叫 ollama |
 | 3 驗證 | `python evaluation/stage3.py check <run_dir>` | `answer_span` 與每段證據 `quote` 必須是原文的子字串；被包含的短主張不重複計入 | 無，離線 |
 | 3 算分 | `python evaluation/stage3.py score <gold> <run_dir>` | 合併成 `scores.json` | 無，離線 |
@@ -65,7 +65,7 @@
 
 ```bash
 python -m unittest discover -s evaluation/tests -v     # 40 個測試，約 35 秒，離線，不呼叫任何 LLM（2026-11-11 驗證）
-python evaluation/compare_tests.py evaluation/cashier_contact/tests/tampered_v1    # 盲回推記錄與鑰匙的比對
+python evaluation/compare_tests.py evaluation/cashier_contact/tests/tampered_v1    # 隔離回推記錄與鑰匙的比對
 ```
 
 | 測試檔 | 檢查什麼 |
@@ -80,7 +80,7 @@ python evaluation/compare_tests.py evaluation/cashier_contact/tests/tampered_v1 
 
 `test_stage3_score.py` 的數字是與使用者確認過的指標定義。這個測試失敗，代表有人改了指標的算法：那是定義變更，要註明版本，舊分數不能與新分數直接比較。
 
-固定資料在 `evaluation/tests/fixtures/`（出納組乾淨 run 的 prediction、盲回推、判斷，以及改壞答案的判斷）；改壞答案本身與盲回推記錄在 `cashier_contact/tests/tampered_v1/`，測試直接讀它，不複製。
+固定資料在 `evaluation/tests/fixtures/`（出納組乾淨 run 的 prediction、隔離回推、判斷，以及改壞答案的判斷）；改壞答案本身與隔離回推記錄在 `cashier_contact/tests/tampered_v1/`，測試直接讀它，不複製。
 
 ## 檔案
 
@@ -89,7 +89,7 @@ python evaluation/compare_tests.py evaluation/cashier_contact/tests/tampered_v1 
 | `run_system.py` | 階段 1：跑系統並存 prediction；`split_answer` 也在這裡 |
 | `score_programmatic.py` | 階段 2 |
 | `stage3.py` | 階段 3：`prepare`、`check`、`score`；`OUTPUT_FORMAT` 是給判斷者的格式與規則 |
-| `compare_tests.py` | 盲回推結果與鑰匙的比對 |
+| `compare_tests.py` | 隔離回推結果與鑰匙的比對 |
 | `list_runs.py` | 列出一題所有 run 的標籤、時間、模型、版本、分數（唯讀、離線） |
-| `cashier_contact/` | 出納組：`gold.json`、`build_gold.py`、`sources/`（來源原文複本與官網查證記錄）、`runs/`（每次 run）、`tests/`（盲回推材料） |
+| `cashier_contact/` | 出納組：`gold.json`、`build_gold.py`、`sources/`（來源原文複本與官網查證記錄）、`runs/`（每次 run）、`tests/`（隔離回推材料） |
 | `tests/` | 評測程式的單元測試與 fixtures |

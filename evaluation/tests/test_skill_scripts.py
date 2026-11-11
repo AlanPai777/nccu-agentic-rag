@@ -1,9 +1,9 @@
 """
 .claude/skills/ 底下三個評測 skill 的薄腳本（離線，不呼叫 LLM）：
-  run-eval-question/scripts/prepare_blind_dir.py   盲回推的空資料夾：只放 trace_input.json，含 gold 字眼或資料夾非空就拒絕
+  run-eval-question/scripts/prepare_isolated_dir.py   隔離回推的空資料夾：只放 trace_input.json，含 gold 字眼或資料夾非空就拒絕
   run-eval-question/scripts/verify_run.py          算分前的檔案與格式關卡
   build-eval-gold/scripts/verify_gold.py           gold 的驗證關卡
-  blind-trace-check/scripts/make_tampered_version.py   由既有版本建立改壞答案測試的新版本
+  isolated-trace-check/scripts/make_tampered_version.py   由既有版本建立改壞答案測試的新版本
 """
 import json
 import shutil
@@ -16,10 +16,10 @@ from pathlib import Path
 import helpers
 
 SKILLS = helpers.ROOT / ".claude" / "skills"
-BLIND = SKILLS / "run-eval-question" / "scripts" / "prepare_blind_dir.py"
+ISOLATED = SKILLS / "run-eval-question" / "scripts" / "prepare_isolated_dir.py"
 VERIFY_RUN = SKILLS / "run-eval-question" / "scripts" / "verify_run.py"
 VERIFY_GOLD = SKILLS / "build-eval-gold" / "scripts" / "verify_gold.py"
-TAMPERED = SKILLS / "blind-trace-check" / "scripts" / "make_tampered_version.py"
+TAMPERED = SKILLS / "isolated-trace-check" / "scripts" / "make_tampered_version.py"
 
 
 def run(script, *args):
@@ -45,17 +45,17 @@ def prepared_run(test) -> Path:
 
 class AllScriptsHaveHelpAndSampleTest(unittest.TestCase):
     def test_help_and_sample(self):
-        for script in (BLIND, VERIFY_RUN, VERIFY_GOLD, TAMPERED):
+        for script in (ISOLATED, VERIFY_RUN, VERIFY_GOLD, TAMPERED):
             for flag in ("--help", "--sample"):
                 r = run(script, flag)
                 self.assertEqual(r.returncode, 0, f"{script.name} {flag}\n{r.stderr}")
         json.loads(run(VERIFY_RUN, "--sample").stdout)
 
 
-class PrepareBlindDirTest(unittest.TestCase):
+class PrepareIsolatedDirTest(unittest.TestCase):
     def test_a_real_trace_input_is_copied_alone_and_the_prompt_has_both_paths(self):
-        run_dir, out = prepared_run(self), tmpdir(self) / "blind"
-        r = run(BLIND, run_dir, "--out", out, "--print-prompt")
+        run_dir, out = prepared_run(self), tmpdir(self) / "isolated"
+        r = run(ISOLATED, run_dir, "--out", out, "--print-prompt")
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertEqual([p.name for p in out.iterdir()], ["trace_input.json"])            # 只有這一個檔
         self.assertEqual((out / "trace_input.json").read_bytes(), (run_dir / "trace_input.json").read_bytes())
@@ -68,20 +68,20 @@ class PrepareBlindDirTest(unittest.TestCase):
     def test_an_input_that_mentions_gold_is_refused(self):
         d = tmpdir(self)
         (d / "trace_input.json").write_text(json.dumps({"answer_text": "x", "keypoints": ["K1"]}), encoding="utf-8")
-        r = run(BLIND, d, "--out", d / "blind")
+        r = run(ISOLATED, d, "--out", d / "isolated")
         self.assertEqual(r.returncode, 1)
         self.assertIn("REFUSED", r.stderr)
-        self.assertFalse((d / "blind").exists())
+        self.assertFalse((d / "isolated").exists())
 
     def test_a_directory_that_is_not_empty_is_refused(self):
         run_dir, out = prepared_run(self), tmpdir(self)
         (out / "something_else.txt").write_text("x", encoding="utf-8")
-        r = run(BLIND, run_dir, "--out", out)
+        r = run(ISOLATED, run_dir, "--out", out)
         self.assertEqual(r.returncode, 1)
         self.assertEqual([p.name for p in out.iterdir()], ["something_else.txt"])
 
     def test_a_missing_input_exits_2(self):
-        self.assertEqual(run(BLIND, tmpdir(self)).returncode, 2)
+        self.assertEqual(run(ISOLATED, tmpdir(self)).returncode, 2)
 
 
 class VerifyRunTest(unittest.TestCase):
@@ -91,7 +91,7 @@ class VerifyRunTest(unittest.TestCase):
         (d / "trace.manual.json").write_text("{}", encoding="utf-8")
         r = run(VERIFY_RUN, d)
         self.assertEqual(r.returncode, 2, r.stdout)
-        self.assertIn("non-blind leftovers", r.stdout)
+        self.assertIn("non-isolated leftovers", r.stdout)
 
     def test_a_run_id_that_differs_from_the_folder_name_is_only_a_warning(self):
         d = prepared_run(self)

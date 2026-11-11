@@ -1,5 +1,5 @@
 """
-compare_tests.py：盲回推結果與預期鑰匙的比對（tampered_v1 的記錄）。
+compare_tests.py：隔離回推結果與預期鑰匙的比對（tampered_v1 的記錄）。
 子代理每次輸出不同，所以這裡只用「記錄下來的那一次」當固定資料，測比對邏輯本身；不是斷言子代理一定抓得到。
 """
 import json
