@@ -15,7 +15,13 @@
       ],
       "why": "Evidence gives the same phone number (spacing differs only).",
       "span_verified": true,
-      "status_checked": "supported"
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        24,
+        38
+      ],
+      "overlaps_with": []
     },
     {
       "id": "c2",
@@ -32,7 +38,13 @@
       ],
       "why": "Evidence lists extension 62120 on the unit's phone line.",
       "span_verified": true,
-      "status_checked": "supported"
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        39,
+        47
+      ],
+      "overlaps_with": []
     },
     {
       "id": "c3",
@@ -49,7 +61,13 @@
       ],
       "why": "Evidence gives the same fax number.",
       "span_verified": true,
-      "status_checked": "supported"
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        56,
+        70
+      ],
+      "overlaps_with": []
     },
     {
       "id": "c4",
@@ -66,7 +84,13 @@
       ],
       "why": "Evidence places 出納組 at 行政大樓 5 樓.",
       "span_verified": true,
-      "status_checked": "supported"
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        79,
+        87
+      ],
+      "overlaps_with": []
     },
     {
       "id": "c5",
@@ -83,7 +107,13 @@
       ],
       "why": "Evidence lists this person, title and extension exactly.",
       "span_verified": true,
-      "status_checked": "supported"
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        107,
+        122
+      ],
+      "overlaps_with": []
     },
     {
       "id": "c6",
@@ -100,7 +130,13 @@
       ],
       "why": "Evidence lists this person, title and extension exactly.",
       "span_verified": true,
-      "status_checked": "supported"
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        131,
+        150
+      ],
+      "overlaps_with": []
     }
   ],
   "judge": {

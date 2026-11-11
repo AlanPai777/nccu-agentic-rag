@@ -123,11 +123,11 @@ def extract_extensions(text: str) -> list[str]:
     return _EXT_RE.findall(unicodedata.normalize("NFKC", text or ""))
 
 
-def pair_mismatches(answer: str, people: list[dict]) -> list[dict]:
-    """答案中「人名 後面緊接的分機」若與 extension_by_person 不符，就是配對錯誤。
-    只在答案同時寫了人名與分機時檢查；人名後 _PAIR_WINDOW 字內沒有分機就略過。"""
+def check_pairs(answer: str, people: list[dict]) -> list[dict]:
+    """答案中「人名 後面緊接的分機」與 extension_by_person 比對，回傳每一對：{name, said, expected, ok}。
+    只在答案同時寫了人名與分機時才有結果；人名後 _PAIR_WINDOW 字內沒有分機的略過。"""
     text = unicodedata.normalize("NFKC", answer or "")
-    bad = []
+    out = []
     for p in people:
         name = p["name"]
         if not re.fullmatch(r"[一-鿿]{2,5}", name):      # 含罕用字拆寫（如 王(禾+翟)媗）的略過
@@ -135,9 +135,13 @@ def pair_mismatches(answer: str, people: list[dict]) -> list[dict]:
         for m in re.finditer(re.escape(name), text):
             tail = text[m.end(): m.end() + _PAIR_WINDOW + 20]
             ext = _EXT_RE.search(tail)
-            if ext and ext.start() <= _PAIR_WINDOW + 8 and ext.group() != p["extension"]:
-                bad.append({"name": name, "said": ext.group(), "expected": p["extension"]})
-    return bad
+            if ext and ext.start() <= _PAIR_WINDOW + 8:
+                out.append({"name": name, "said": ext.group(), "expected": p["extension"], "ok": ext.group() == p["extension"]})
+    return out
+
+
+def pair_mismatches(answer: str, people: list[dict]) -> list[dict]:
+    return [{k: v for k, v in c.items() if k != "ok"} for c in check_pairs(answer, people) if not c["ok"]]
 
 
 def accuracy(gold: dict, answer: str, context: list[dict]) -> tuple[dict, list[dict]]:
@@ -154,6 +158,24 @@ def accuracy(gold: dict, answer: str, context: list[dict]) -> tuple[dict, list[d
             row.update(verdict="needs_llm", note="語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷")
             per_kp.append(row)
             continue
+        if kp.get("value_check") == "extension_pairs":
+            # 條件式 keypoint（2026-11-11）：答案列出承辦人的姓名與分機時才適用，每一對都要與人員頁相符
+            row["applies_if"] = kp.get("applies_if")
+            pairs = check_pairs(answer, people)
+            row["pairs_checked"] = pairs
+            if not pairs:
+                row.update(verdict="not_applicable", note="答案沒有列出承辦人的姓名與分機，這個 keypoint 不適用，不計入")
+                per_kp.append(row)
+                continue
+            hard_total += 1
+            bad = [{k: v for k, v in c.items() if k != "ok"} for c in pairs if not c["ok"]]
+            if bad:
+                row.update(verdict="wrong", wrong={"pair_mismatches": bad})
+            else:
+                row["verdict"] = "hit"
+                hard_hit += 1
+            per_kp.append(row)
+            continue
         hard_total += 1
         expr = [norm(e) for e in kp.get("acceptable_expressions", [])]
         said = [e for e in expr if e and e in ans_norm]
@@ -164,8 +186,7 @@ def accuracy(gold: dict, answer: str, context: list[dict]) -> tuple[dict, list[d
             unknown = sorted({e for e in exts if e not in allowed})
             wrong["disallowed"] = [{"value": e, "reason": disallowed[e]} for e in sorted(set(exts)) if e in disallowed]
             # 不在允許集合就算 Wrong；禁止值是其中已知會被誤用的特例。另列待人工確認（gold 可能漏了合法分機）
-            wrong["unknown_values"] = unknown
-            wrong["pair_mismatches"] = pair_mismatches(answer, people)
+            wrong["unknown_values"] = unknown      # 人名與分機的配對另由 K3（extension_pairs）檢查，不再算在這個 keypoint
         has_wrong = any(wrong.values())
         if said and not has_wrong:
             row["verdict"] = "hit"
@@ -185,7 +206,7 @@ def accuracy(gold: dict, answer: str, context: list[dict]) -> tuple[dict, list[d
         "hard_keypoints": hard_total,
         "hit": hard_hit,
         "accuracy": round(hard_hit / hard_total, 4) if hard_total else None,
-        "rule": "答案命中任一 acceptable_expressions，且沒有錯誤值或錯誤配對，才算 hit",
+        "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入",
     }, per_kp
 
 
@@ -201,7 +222,7 @@ def contact_funnel(gold: dict, answer: str, context: list[dict]) -> list[dict]:
     ans_txt = norm(answer)
     rows = []
     for kp in gold["keypoints"]:
-        if kp.get("kind", "hard") != "hard":
+        if kp.get("kind", "hard") != "hard" or not kp.get("acceptable_expressions"):
             continue
         expr = [(e, norm(e)) for e in kp.get("acceptable_expressions", []) if norm(e)]
         in_page = [e for e, n in expr if n in page_txt]

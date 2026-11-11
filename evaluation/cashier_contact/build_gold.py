@@ -204,11 +204,26 @@ def main():
                 "required": True,
                 "kind": "hard",
                 # 規則版 Accuracy 對這個 keypoint 另做值檢查：答案中的分機必須在 allowed_values.extension，
-                # 人名與分機要成對（extension_by_person），出現不在集合的分機算 Wrong
+                # 出現不在集合的分機算 Wrong（人名與分機的配對由 K3 檢查）
                 "value_check": "extension",
                 "references": [ref(r) for r in REFS_K1],
                 # 設計決定（2026-11-09）：答案寫允許集合內任一分機都算對，不限 62120
                 "acceptable_expressions": EXT_ORDER,
+            },
+            {
+                # 條件式 keypoint（2026-11-11 與使用者確認）：把「承辦人與分機的配對」從 K2 拆出來。
+                # 答案沒有列出任何承辦人的姓名與分機時，這一條不適用，不計入 keypoint 總數。
+                "id": "K3",
+                "text": "答案若列出出納組承辦人的姓名與分機，每一對都必須與人員頁相符（任何一對配錯就是錯）",
+                "required": True,
+                "kind": "hard",
+                "applies_if": "answer_names_contact_person",
+                "value_check": "extension_pairs",
+                "references": [
+                    {"text": q, "source_url": src_url["S2"], "source_kind": "snapshot", "as_of": SNAP_AS_OF}
+                    for _, _, _, q in PEOPLE
+                ],
+                "acceptable_expressions": [],
             },
         ],
         "allowed_values": {

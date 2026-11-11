@@ -14,7 +14,7 @@
     },
     "keypoint": {
       "model": "claude-sonnet-5-5",
-      "prompt_version": "judge-v0",
+      "prompt_version": "judge-v1",
       "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json"
     }
   },
@@ -24,10 +24,10 @@
     "f": 0.2319
   },
   "accuracy_rule": {
-    "hard_keypoints": 2,
-    "hit": 2,
+    "hard_keypoints": 3,
+    "hit": 3,
     "accuracy": 1.0,
-    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤值或錯誤配對，才算 hit"
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
   },
   "context": {
     "counted_context_indices": [
@@ -35,22 +35,23 @@
     ],
     "context_chars": 2386,
     "sentence": {
-      "p": 0.0218,
+      "p": 0.0293,
       "r": 1.0,
-      "f": 0.0427
+      "f": 0.057
     },
     "words": {
-      "p": 0.0278,
+      "p": 0.0444,
       "r": 1.0,
-      "f": 0.0541
+      "f": 0.0851
     },
     "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）"
   },
   "keypoint": {
-    "relevant": 2,
+    "relevant": 3,
     "wrong": 0,
     "irrelevant": 0,
-    "total": 2,
+    "total": 3,
+    "not_applicable": 0,
     "completeness": 1.0,
     "hallucination": 0.0,
     "irrelevance": 0.0
@@ -86,6 +87,13 @@
     },
     {
       "id": "K2",
+      "in_context": true,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K3",
       "in_context": true,
       "stated_correctly": true,
       "grounded": true,

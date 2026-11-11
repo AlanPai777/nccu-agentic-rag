@@ -75,6 +75,83 @@
         "62173",
         "63071"
       ]
+    },
+    {
+      "id": "K3",
+      "text": "答案若列出出納組承辦人的姓名與分機，每一對都必須與人員頁相符（任何一對配錯就是錯）",
+      "required": true,
+      "kind": "hard",
+      "applies_if": "answer_names_contact_person",
+      "value_check": "extension_pairs",
+      "references": [
+        {
+          "text": "劉桂芬 組長 校內分機 62120",
+          "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；校務頁面 2026-08-19）"
+        },
+        {
+          "text": "徐士雲 編審 校內分機 62172",
+          "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；校務頁面 2026-08-19）"
+        },
+        {
+          "text": "張錦虹 組員 校內分機 62125",
+          "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；校務頁面 2026-08-19）"
+        },
+        {
+          "text": "江幸霓 組員 校內分機 62122",
+          "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；校務頁面 2026-08-19）"
+        },
+        {
+          "text": "張佩雯 行政專員 校內分機 62126",
+          "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；校務頁面 2026-08-19）"
+        },
+        {
+          "text": "蕭毓璇 行政專員 校內分機 62127",
+          "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；校務頁面 2026-08-19）"
+        },
+        {
+          "text": "鄭雅玲 一級行政組員 校內分機 62173",
+          "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；校務頁面 2026-08-19）"
+        },
+        {
+          "text": "吳慧玲 一級行政組員 校內分機 62121",
+          "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；校務頁面 2026-08-19）"
+        },
+        {
+          "text": "余淑娟 一級行政組員 校內分機 62123",
+          "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；校務頁面 2026-08-19）"
+        },
+        {
+          "text": "行政組員 校內分機 63071",
+          "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；校務頁面 2026-08-19）"
+        },
+        {
+          "text": "林瓊蓮 兼任助理 校內分機 62124",
+          "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；校務頁面 2026-08-19）"
+        }
+      ],
+      "acceptable_expressions": []
     }
   ],
   "allowed_values": {
