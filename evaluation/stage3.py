@@ -95,17 +95,28 @@ def _read(path: Path):
 
 
 # --- prepare ------------------------------------------------------------------
-def build_evidence(context: list[dict]) -> list[dict]:
+# 系統自己加在聯絡人清單裡的來源行（format_context 產生）：整行只有「來源：」或「補充來源（…）：」加一個網址。
+# 與答案的「來源：」行同樣不評分（不做引用來源指標），所以從證據裡也剝掉；否則網址路徑裡的字（例如「退費」）
+# 會讓一個關於職掌的主張被誤判為有依據。窄規則：整行都是網址才剝，不碰網頁內文裡的連結。
+# 只剝給判斷者看的 trace_input.json；prediction.json 的 context 原樣保留。
+_SRC_LINE_RE = re.compile(r"^[ \t]*(?:補充)?來源(?:（[^）]*）)?[：:][ \t]*https?://\S+[ \t]*$", re.M)
+
+
+def build_evidence(context: list[dict]) -> tuple[list[dict], list[str]]:
     """答案模型實際看到的內容：工具輸出、聯絡人清單（contact_list）、節點注入的資料（表單全文等）。
-    排除 contact_page（人員頁原文，答案模型沒看過，只用於 Context 層）與節點給 LLM 的指示文字。"""
-    items = []
+    排除 contact_page（人員頁原文，答案模型沒看過，只用於 Context 層）與節點給 LLM 的指示文字；
+    剝掉 [live:src …] 標記行與純網址的來源行。回傳 (證據項目, 被剝掉的來源行)。"""
+    items, removed = [], []
     for c in context:
         if c.get("kind") == "contact_page":
             continue
         if c["role"] == "HumanMessage" and c["text"].startswith(_NODE_PROMPT_PREFIXES):
             continue
         m = _MARKER_RE.search(c["text"])
-        text = _MARKER_RE.sub("", c["text"]).strip()
+        text = _MARKER_RE.sub("", c["text"])
+        removed += [ln.strip() for ln in text.splitlines() if _SRC_LINE_RE.match(ln)]
+        text = _SRC_LINE_RE.sub("", text)
+        text = re.sub(r"\n{3,}", "\n\n", text).strip()
         items.append({
             "id": f"E{len(items) + 1}",
             "kind": c.get("kind") or c["role"],
@@ -113,7 +124,7 @@ def build_evidence(context: list[dict]) -> list[dict]:
             "source_url": m.group(2) if m else None,
             "text": text,
         })
-    return items
+    return items, removed
 
 
 def cmd_prepare(gold_path: Path, run_dir: Path) -> None:
@@ -121,6 +132,7 @@ def cmd_prepare(gold_path: Path, run_dir: Path) -> None:
     pred = _read(run_dir / "prediction.json")
     body, stripped = split_answer(pred["answer_raw"])      # 舊的 prediction 也能用：從 answer_raw 重算
     answer_text = body.replace("**", "")
+    evidence, removed_src = build_evidence(pred["context"])
     av = gold.get("allowed_values") or {}
     notes = {}
     if av.get("extension"):
@@ -132,8 +144,9 @@ def cmd_prepare(gold_path: Path, run_dir: Path) -> None:
         "query_id": gold["query_id"], "run_id": pred["run_id"],
         "task": "回推：把 answer_text 拆成原子主張，為每個主張在 evidence_items 找出支持它的逐字原文；找不到就標 unsupported。",
         "answer_text": answer_text,
-        "stripped_not_scored": {"rationale": stripped["rationale"], "sources": stripped["sources"], "disclosure": stripped["disclosure"]},
-        "evidence_items": build_evidence(pred["context"]),
+        "stripped_not_scored": {"rationale": stripped["rationale"], "sources": stripped["sources"], "disclosure": stripped["disclosure"],
+                                "evidence_source_lines": removed_src},
+        "evidence_items": evidence,
         "output_file": "trace.json",
         "output_format": OUTPUT_FORMAT["trace.json"],
     })
@@ -150,9 +163,8 @@ def cmd_prepare(gold_path: Path, run_dir: Path) -> None:
         "output_file": "judge.json",
         "output_format": OUTPUT_FORMAT["judge.json"],
     })
-    n_e = len(build_evidence(pred["context"]))
-    print(f"已寫入 {run_dir}/trace_input.json（答案 {len(answer_text)} 字、證據項目 {n_e} 個）與 judge_input.json（{len(gold['keypoints'])} 個 keypoint）")
-    print(f"剝掉未評分的：選擇原因 {len(stripped['rationale'])} 句；來源行 {'有' if stripped['sources'] else '無'}；資料狀態 {'有' if stripped['disclosure'] else '無'}")
+    print(f"已寫入 {run_dir}/trace_input.json（答案 {len(answer_text)} 字、證據項目 {len(evidence)} 個）與 judge_input.json（{len(gold['keypoints'])} 個 keypoint）")
+    print(f"剝掉未評分的：選擇原因 {len(stripped['rationale'])} 句；來源行 {'有' if stripped['sources'] else '無'}；資料狀態 {'有' if stripped['disclosure'] else '無'}；證據裡的來源行 {len(removed_src)} 行")
 
 
 # --- check --------------------------------------------------------------------
@@ -176,8 +188,19 @@ def _occurrences(text: str, needle: str) -> list[tuple[int, int]]:
 
 
 def cmd_check(run_dir: Path) -> dict:
-    ti = _read(run_dir / "trace_input.json")
-    tr = _read(run_dir / "trace.json")
+    out = check_trace(_read(run_dir / "trace_input.json"), _read(run_dir / "trace.json"))
+    _write(run_dir / "trace.checked.json", out)
+    claims, warnings = out["claims"], out["warnings"]
+    ok = sum(1 for c in claims if c["span_verified"])
+    dropped = [c["id"] for c in claims if not c["counted"]]
+    print(f"主張 {len(claims)} 個；answer_span 通過 {ok} 個" + (f"；因被包含不計入 {len(dropped)} 個（{', '.join(dropped)}）" if dropped else "") + f"；證據 quote 通過 {sum(e['verified'] for c in claims for e in c['evidence'])}/{sum(len(c['evidence']) for c in claims)}")
+    for w in warnings:
+        print("  警告：", w)
+    return out
+
+
+def check_trace(ti: dict, tr: dict) -> dict:
+    """純函式：驗證 trace（不讀寫檔案）。回傳 {claims, judge, warnings}，claims 帶 span_verified、counted、span_pos 等欄位。"""
     items = {e["id"]: e for e in ti["evidence_items"]}
     answer = ti["answer_text"]
     warnings, claims = [], []
@@ -236,14 +259,7 @@ def cmd_check(run_dir: Path) -> dict:
                 warnings.append(f"{oid} 的片段被 {c['id']} 包含，不重複計入（以較長的 {c['id']} 為準）")
             else:
                 warnings.append(f"{c['id']} 與 {oid} 的片段部分重疊，兩者都計入")
-    out = {"claims": claims, "judge": tr.get("judge"), "warnings": warnings}
-    _write(run_dir / "trace.checked.json", out)
-    ok = sum(1 for c in claims if c["span_verified"])
-    dropped = [c["id"] for c in claims if not c["counted"]]
-    print(f"主張 {len(claims)} 個；answer_span 通過 {ok} 個" + (f"；因被包含不計入 {len(dropped)} 個（{', '.join(dropped)}）" if dropped else "") + f"；證據 quote 通過 {sum(e['verified'] for c in claims for e in c['evidence'])}/{sum(len(c['evidence']) for c in claims)}")
-    for w in warnings:
-        print("  警告：", w)
-    return out
+    return {"claims": claims, "judge": tr.get("judge"), "warnings": warnings}
 
 
 # --- score --------------------------------------------------------------------

@@ -25,6 +25,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
+
+def _shown(p) -> str:
+    """給人看的路徑：在專案裡印相對路徑，在專案外（例如測試的暫存資料夾）印完整路徑。"""
+    try:
+        return str(Path(p).resolve().relative_to(ROOT))
+    except ValueError:
+        return str(p)
+
 # 這些 HumanMessage 是節點給 LLM 的指示，不是檢索到的資料，不算進 Context
 _NODE_PROMPT_PREFIXES = ("這一輪系統建議的搜尋方向", "候選subdomain")
 _EXT_RE = re.compile(r"(?<!\d)\d{5}(?!\d)")          # 分機：獨立的 5 位數（前後不是數字）
@@ -296,7 +304,7 @@ def main():
     for f in funnel_contact:
         print(f"聯絡人漏斗 {f['keypoint']}：頁面 {'✔' if f['page_has_value'] else '✘'} → "
               f"清單 {'✔' if f['list_has_value'] else '✘'} → 答案 {'✔' if f['answer_has_value'] else '✘'}   【{f['stage']}】")
-    print(f"\n已寫入 {out_path.relative_to(ROOT)}")
+    print(f"\n已寫入 {_shown(out_path)}")
 
 
 if __name__ == "__main__":

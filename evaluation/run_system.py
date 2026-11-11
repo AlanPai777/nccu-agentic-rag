@@ -13,8 +13,11 @@ LANGFUSE_TRACING_ENABLED=false 在 import 系統之前設好。
 
 用法（在專案根目錄）：
   python evaluation/run_system.py evaluation/cashier_contact/gold.json
+  python evaluation/run_system.py evaluation/cashier_contact/gold.json --label "修正前，試做"
 輸出：
   <gold 所在資料夾>/runs/<run_id>/prediction.json
+run_id 是資料夾名，同時寫在 prediction.json 裡；時間、模型、版本、標籤也都在檔案裡，不放進路徑。
+每次跑都是新資料夾，不覆蓋舊的；不要的 run 自己刪資料夾；用 evaluation/list_runs.py 看有哪幾次。
 """
 import argparse
 import datetime as dt
@@ -32,6 +35,14 @@ os.environ.setdefault("LANGFUSE_TRACING_ENABLED", "false")
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+
+
+def _shown(p) -> str:
+    """給人看的路徑：在專案裡印相對路徑，在專案外（例如測試的暫存資料夾）印完整路徑。"""
+    try:
+        return str(Path(p).resolve().relative_to(ROOT))
+    except ValueError:
+        return str(p)
 
 # synthesis_node 的提示詞要求每位承辦人後面加「——選擇原因：…」，那是系統自己寫的說明，不是使用者問的事實，
 # 評分前剝掉（使用者決定，2026-11-11），剝掉的文字另存，需要時能回頭看。
@@ -161,6 +172,17 @@ def enrich_contact_context(context: list[dict]) -> tuple[list[dict], dict]:
     return out, checks
 
 
+_RUN_ID_RE = re.compile(r"^run(\d+)$")
+
+
+def new_run_id(runs_dir: Path) -> str:
+    """下一個 run 的 id。目前是流水號（現有最大編號加 1，不是資料夾數量加 1，刪掉中間的不會亂）；
+    之後要改成隨機碼只改這個函式：其他程式（verify_run、list_runs）都不依賴 id 的格式。
+    注意：刪掉最後一個之後，下一個 run 會重用那個編號，所以不要在文件裡永久引用某個編號。"""
+    nums = [int(m.group(1)) for p in runs_dir.glob("run*") if p.is_dir() and (m := _RUN_ID_RE.match(p.name))]
+    return f"run{max(nums, default=0) + 1:02d}"
+
+
 def git_rev() -> str:
     try:
         out = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT, capture_output=True, text=True, timeout=10)
@@ -193,6 +215,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("gold", help="gold.json 路徑（題目取自其中的 query）")
     ap.add_argument("--query", default=None, help="改用這個問法（預設用 gold 的 query）")
+    ap.add_argument("--label", default="", help="這次 run 的人看得懂的名字（例如「修正前，試做」）；選填，寫進 prediction.json")
     ap.add_argument("--reprocess", default=None, metavar="PREDICTION_JSON",
                     help="不重跑系統：把既有的 prediction.json 的 context 重新整理（不呼叫 LLM、不上網），結果另存 prediction.reprocessed.json")
     args = ap.parse_args()
@@ -204,7 +227,7 @@ def main():
         out = src.with_name("prediction.reprocessed.json")
         out.write_text(json.dumps(pred, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         _print_checks(pred["context"], pred["checks"])
-        print(f"已寫入 {out.relative_to(ROOT)}")
+        print(f"已寫入 {_shown(out)}")
         return
 
     gold_path = Path(args.gold).resolve()
@@ -226,11 +249,13 @@ def main():
     context, tool_calls = serialize_context(final_state.get("messages", []))
     context, checks = enrich_contact_context(context)
 
-    run_id = started.strftime("%Y%m%d-%H%M%S")
+    runs_dir = gold_path.parent / "runs"
+    run_id = new_run_id(runs_dir)
     prediction = {
         "query_id": gold["query_id"],
         "query": query,
         "run_id": run_id,
+        "label": args.label,
         "started_at": started.isoformat(timespec="seconds"),
         "finished_at": finished.isoformat(timespec="seconds"),
         "system_version": git_rev(),
@@ -250,12 +275,12 @@ def main():
             "tool_calls": tool_calls,
         },
     }
-    out_dir = gold_path.parent / "runs" / run_id
-    out_dir.mkdir(parents=True, exist_ok=True)
+    out_dir = runs_dir / run_id
+    out_dir.mkdir(parents=True, exist_ok=False)          # 已存在就報錯，不覆蓋舊 run
     out = out_dir / "prediction.json"
     out.write_text(json.dumps(prediction, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
-    print(f"已寫入 {out.relative_to(ROOT)}")
+    print(f"已寫入 {_shown(out)}")
     print(f"答案 {len(answer_raw)} 字（正文 {len(body)} 字）；context {len(context)} 筆、"
           f"{sum(len(c['text']) for c in context)} 字；工具呼叫 {len(tool_calls)} 次")
     _print_checks(context, checks)

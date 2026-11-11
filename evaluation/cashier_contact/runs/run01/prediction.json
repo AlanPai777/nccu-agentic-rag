@@ -1,7 +1,8 @@
 {
   "query_id": "cashier_contact",
   "query": "出納組電話幾號",
-  "run_id": "20261109-234225",
+  "run_id": "run01",
+  "label": "修正前，試做（未含 D24 修正與單位電話改動；原資料夾名 20261109-234225）",
   "started_at": "2026-11-09T23:42:25+08:00",
   "finished_at": "2026-11-09T23:42:39+08:00",
   "system_version": "0d0b431+uncommitted",

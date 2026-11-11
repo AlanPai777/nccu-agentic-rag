@@ -1,6 +1,6 @@
 {
   "query_id": "cashier_contact",
-  "run_id": "20261109-234225",
+  "run_id": "run01",
   "query": "出納組電話幾號",
   "task": "對每個 keypoint 判斷答案：relevant / irrelevant / wrong，並指出直接陳述它的主張編號（見 trace.json）。",
   "answer_text": "總務處出納組的聯絡資訊如下：\n\n*   電話： (02) 2939-3091 分機 62120\n*   傳真： (02) 2939-4784\n*   地點： 行政大樓 5 樓\n*   相關承辦人：\n    *   劉桂芬（組長）分機 62120\n    *   余淑娟（一級行政組員）分機 62123",
