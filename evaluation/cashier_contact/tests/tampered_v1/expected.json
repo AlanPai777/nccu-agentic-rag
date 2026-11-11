@@ -1,0 +1,82 @@
+{
+  "version": "tampered_v1",
+  "query_id": "cashier_contact",
+  "answer_file": "answer.txt",
+  "base": "出納組 run 20261109-234225 的證據（evidence_items E1，聯絡清單）不變，只改答案",
+  "how_to_read": "每個 item 的 line 是 answer.txt 裡的一整行。比對時，落在這一行裡的所有主張都屬於這個 item。expected=unsupported：只要這一行裡至少有一個主張被標 unsupported 就算抓到（錯誤有被標出來）；expected=supported：這一行至少要有一個主張，而且全部都是 supported。ambiguous=true 的項目，結果與預期不同時列為「需人工確認」，不算失敗。",
+  "items": [
+    {
+      "id": "T1",
+      "kind": "control",
+      "expected": "supported",
+      "line": "*   電話： (02) 2939-3091 分機 62120",
+      "tests": "對照組：電話與分機都有依據；答案寫 (02) 2939，證據寫 (02)2939（只差一個空白）",
+      "ambiguous": false
+    },
+    {
+      "id": "T2",
+      "kind": "near_miss",
+      "expected": "unsupported",
+      "line": "*   傳真： (02) 2939-4785",
+      "tests": "差一個數字：證據的傳真是 (02)2939-4784",
+      "ambiguous": false
+    },
+    {
+      "id": "T3",
+      "kind": "near_miss",
+      "expected": "unsupported",
+      "line": "*   地點： 行政大樓 3 樓",
+      "tests": "差一個數字：證據寫行政大樓 5 樓",
+      "ambiguous": false
+    },
+    {
+      "id": "T4",
+      "kind": "fabricated",
+      "expected": "unsupported",
+      "line": "*   辦公時間： 週一至週五上午 8 時 30 分至下午 5 時",
+      "tests": "憑空編造：證據裡沒有任何辦公時間",
+      "ambiguous": false
+    },
+    {
+      "id": "T5",
+      "kind": "trap",
+      "expected": "unsupported",
+      "line": "*   業務： 負責學雜費退費業務",
+      "tests": "證據沒有任何一句陳述出納組的職掌（真實世界出納組確實處理退費，但這題問的是證據有沒有支持，不是答案是不是事實）",
+      "ambiguous": true,
+      "note": "v1 當時的證據含兩行「補充來源（樓層、電話）：https://osa.nccu.edu.tw/…/休退學暨研究生畢業退費/休-退-學退費標準」，網址路徑含「退費」；只比對字面的回推會誤判為有依據。判斷者若判 supported，不直接算錯，列出來給人看。v2 起 prepare 已把這類來源行從證據剝掉，陷阱不再存在，這項在 v2 變成單純的憑空職掌。"
+    },
+    {
+      "id": "T6",
+      "kind": "cross_pair",
+      "expected": "unsupported",
+      "line": "    *   劉桂芬（組長）分機 62123",
+      "tests": "交叉配對：劉桂芬、組長、62123 各自都在證據裡，但 62123 是余淑娟的；劉桂芬是 62120",
+      "ambiguous": false
+    },
+    {
+      "id": "T7",
+      "kind": "control",
+      "expected": "supported",
+      "line": "    *   余淑娟（一級行政組員）分機 62123",
+      "tests": "對照組：姓名、職稱、分機同時出現在證據",
+      "ambiguous": false
+    },
+    {
+      "id": "T8",
+      "kind": "control",
+      "expected": "supported",
+      "line": "    *   徐士雲（編審）分機 62172",
+      "tests": "對照組：姓名、職稱、分機同時出現在證據",
+      "ambiguous": false
+    },
+    {
+      "id": "T9",
+      "kind": "altered_title",
+      "expected": "unsupported",
+      "line": "    *   林瓊蓮（組長）分機 62124",
+      "tests": "職稱被改：證據是林瓊蓮（兼任助理）；姓名與分機都對",
+      "ambiguous": false
+    }
+  ]
+}

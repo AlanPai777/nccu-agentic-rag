@@ -1,0 +1,23 @@
+{
+  "claims": [
+    {"id": "c1", "answer_span": "(02) 2939-3091", "status": "supported",
+     "evidence": [{"item": "E1", "quote": "總務處出納組：電話 (02)2939-3091 分機 62120"}],
+     "why": "Evidence gives the same phone number (spacing differs only)."},
+    {"id": "c2", "answer_span": "分機 62120", "status": "supported",
+     "evidence": [{"item": "E1", "quote": "總務處出納組：電話 (02)2939-3091 分機 62120"}],
+     "why": "Evidence lists extension 62120 on the unit's phone line."},
+    {"id": "c3", "answer_span": "(02) 2939-4784", "status": "supported",
+     "evidence": [{"item": "E1", "quote": "總務處出納組：傳真 (02)2939-4784"}],
+     "why": "Evidence gives the same fax number."},
+    {"id": "c4", "answer_span": "行政大樓 5 樓", "status": "supported",
+     "evidence": [{"item": "E1", "quote": "出納組　行政大樓 5 樓"}],
+     "why": "Evidence places 出納組 at 行政大樓 5 樓."},
+    {"id": "c5", "answer_span": "劉桂芬（組長）分機 62120", "status": "supported",
+     "evidence": [{"item": "E1", "quote": "劉桂芬（組長）分機 62120"}],
+     "why": "Evidence lists this person, title and extension exactly."},
+    {"id": "c6", "answer_span": "余淑娟（一級行政組員）分機 62123", "status": "supported",
+     "evidence": [{"item": "E1", "quote": "余淑娟（一級行政組員）分機 62123"}],
+     "why": "Evidence lists this person, title and extension exactly."}
+  ],
+  "judge": {"model": "claude-sonnet-5-5", "prompt_version": "blind-v1", "note": "blind trace by a subagent that read only trace_input.json"}
+}

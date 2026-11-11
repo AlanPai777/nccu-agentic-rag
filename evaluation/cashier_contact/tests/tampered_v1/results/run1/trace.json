@@ -1,0 +1,19 @@
+{
+  "claims": [
+    {"id": "c1", "answer_span": "(02) 2939-3091", "status": "supported", "evidence": [{"item": "E1", "quote": "總務處出納組：電話 (02)2939-3091 分機 62120"}], "why": "Switchboard number matches the evidence."},
+    {"id": "c2", "answer_span": "分機 62120", "status": "supported", "evidence": [{"item": "E1", "quote": "總務處出納組：電話 (02)2939-3091 分機 62120"}], "why": "Office extension 62120 is given with that phone line."},
+    {"id": "c3", "answer_span": "(02) 2939-4785", "status": "unsupported", "evidence": [], "why": "Evidence gives the fax as (02)2939-4784, not 4785."},
+    {"id": "c4", "answer_span": "行政大樓 3 樓", "status": "unsupported", "evidence": [], "why": "Evidence says 行政大樓 5 樓, not 3 樓."},
+    {"id": "c5", "answer_span": "週一至週五上午 8 時 30 分至下午 5 時", "status": "unsupported", "evidence": [], "why": "No office hours appear in the evidence."},
+    {"id": "c6", "answer_span": "負責學雜費退費業務", "status": "unsupported", "evidence": [], "why": "Refund appears only inside a URL, which is not evidence of the office's duties."},
+    {"id": "c7", "answer_span": "劉桂芬（組長）", "status": "supported", "evidence": [{"item": "E1", "quote": "劉桂芬（組長）分機 62120"}], "why": "Name and title 組長 match."},
+    {"id": "c8", "answer_span": "劉桂芬（組長）分機 62123", "status": "unsupported", "evidence": [], "why": "Evidence gives 劉桂芬 extension 62120, not 62123."},
+    {"id": "c9", "answer_span": "余淑娟（一級行政組員）", "status": "supported", "evidence": [{"item": "E1", "quote": "余淑娟（一級行政組員）分機 62123"}], "why": "Name and title match."},
+    {"id": "c10", "answer_span": "余淑娟（一級行政組員）分機 62123", "status": "supported", "evidence": [{"item": "E1", "quote": "余淑娟（一級行政組員）分機 62123"}], "why": "Same person, title and extension appear together."},
+    {"id": "c11", "answer_span": "徐士雲（編審）", "status": "supported", "evidence": [{"item": "E1", "quote": "徐士雲（編審）分機 62172"}], "why": "Name and title match."},
+    {"id": "c12", "answer_span": "徐士雲（編審）分機 62172", "status": "supported", "evidence": [{"item": "E1", "quote": "徐士雲（編審）分機 62172"}], "why": "Person, title and extension all match."},
+    {"id": "c13", "answer_span": "林瓊蓮（組長）", "status": "unsupported", "evidence": [], "why": "Evidence lists 林瓊蓮 as 兼任助理, not 組長."},
+    {"id": "c14", "answer_span": "分機 62124", "status": "supported", "evidence": [{"item": "E1", "quote": "林瓊蓮（兼任助理）分機 62124"}], "why": "Extension 62124 belongs to 林瓊蓮 in the evidence (title is judged separately in c13)."}
+  ],
+  "judge": {"model": "claude-sonnet-5-5", "prompt_version": "blind-v1", "note": "blind trace by a subagent that read only trace_input.json"}
+}

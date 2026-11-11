@@ -1,0 +1,37 @@
+{
+  "keypoints": [
+    {
+      "id": "K1",
+      "verdict": "relevant",
+      "claims": [
+        "c1"
+      ],
+      "reason": "總機一致"
+    },
+    {
+      "id": "K2",
+      "verdict": "relevant",
+      "claims": [
+        "c2",
+        "c10",
+        "c12",
+        "c14"
+      ],
+      "reason": "答案給出的分機 62120、62123、62172、62124 都在允許集合內，沒有出現禁止值"
+    },
+    {
+      "id": "K3",
+      "verdict": "wrong",
+      "claims": [
+        "c8",
+        "c13"
+      ],
+      "reason": "劉桂芬配成 62123（人員頁是 62120）；林瓊蓮的職稱寫成組長（人員頁是兼任助理）"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "judge-v1",
+    "note": "tampered_v1 的 judge；評測程式的測試用（K3 判 wrong），不是盲判斷"
+  }
+}
