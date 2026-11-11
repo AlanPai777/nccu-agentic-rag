@@ -30,9 +30,13 @@ python evaluation/compare_tests.py evaluation/cashier_contact/tests/tampered_v1 
 
 v1 的記錄結果：植入的 6 個錯誤全部抓到、3 個對照組沒有誤判（`evaluation/tests/test_compare_tests.py` 把這個結果當固定資料測比對邏輯）。**這只是一個子代理、一次執行、一份答案**，不能說下次也會抓到；LLM 每次輸出會不同。
 
-## 重做一次隔離回推（例如 v2：用新規則與剝掉來源行的證據）
+## v2 的記錄結果（2026-11-11）
 
-要用子代理，需要使用者同意。
+用新規則（9 條）與剝掉來源行的證據，重做同一份改壞答案：6/6 抓到、3/3 沒誤判，10 個主張、被包含不計入 0 個，逐字驗證 0 警告。主張比 v1 粗（每個人一行一個主張，是規則 7、9 的結果）。T5 在 v2 是 `fabricated`，與 v1 的 `trap` **不可比**。完整記錄在 `tampered_v2/report.md`（一個子代理、一次執行、一份答案）。
+
+## 重做一次隔離回推（做法；v2 已照此做過）
+
+要用子代理，需要使用者同意。腳本 `.claude/skills/isolated-trace-check/scripts/make_tampered_version.py` 做步驟 1。
 
 1. 用 `stage3.py prepare` 為改壞的答案重新產生 `trace_input.json`（這樣才有新規則與剝掉來源行的證據）：把 `answer.txt` 的內容放進一份 `prediction.json` 的 `answer_raw`，其餘沿用乾淨 run 的 `prediction.json`，放在暫存資料夾裡跑 `prepare`；產出的 `trace_input.json` 存到新資料夾 `tampered_v2/`。`answer.txt` 與 `expected.json` 直接複製 v1（v2 的 T5 不再是網址陷阱，`ambiguous` 標記與說明要改）。
 2. **只把 `trace_input.json` 單獨複製到一個全新的空資料夾**（絕對不要給子代理 run 資料夾或這個資料夾：裡面有鑰匙、手寫判斷與 gold）。
@@ -44,7 +48,7 @@ v1 的記錄結果：植入的 6 個錯誤全部抓到、3 個對照組沒有誤
 
 - 子代理有沒有看別的檔案，無法證明；只能從工具呼叫次數與耗時推測它照指示只讀一個檔、寫一個檔。
 - v1 的提示詞比第一次多了兩句規則（人與職稱分機要成對、網址裡的字不算證據），所以交叉配對與網址陷阱抓得到，有一部分是規則寫明的功勞。
-- v1 的 T5（「負責學雜費退費業務」）在當時的證據裡有來源行網址含「退費」，所以標 `ambiguous`；v2 起這類來源行已從證據剝掉。
+- v1 的 T5（「負責學雜費退費業務」）在當時的證據裡有來源行網址含「退費」，所以標 `ambiguous`；v2 起這類來源行已從證據剝掉，v2 的 T5 改為 `fabricated`、不再 `ambiguous`，與 v1 不可比。
 
 ## 名稱說明
 

@@ -1,0 +1,15 @@
+{
+  "claims": [
+    {"id": "c1", "answer_span": "(02) 2939-3091", "status": "supported", "evidence": [{"item": "E1", "quote": "總務處出納組：電話 (02)2939-3091"}], "why": "證據列出出納組電話 (02)2939-3091，號碼相同。"},
+    {"id": "c2", "answer_span": "分機 62120", "status": "supported", "evidence": [{"item": "E1", "quote": "電話 (02)2939-3091 分機 62120"}], "why": "證據中出納組電話的分機為 62120。"},
+    {"id": "c3", "answer_span": "(02) 2939-4785", "status": "unsupported", "evidence": [], "why": "證據的傳真為 (02)2939-4784，與答案的 4785 不同。"},
+    {"id": "c4", "answer_span": "行政大樓 3 樓", "status": "unsupported", "evidence": [], "why": "證據寫的是行政大樓 5 樓，不是 3 樓。"},
+    {"id": "c5", "answer_span": "週一至週五上午 8 時 30 分至下午 5 時", "status": "unsupported", "evidence": [], "why": "證據文字中沒有辦公時間。"},
+    {"id": "c6", "answer_span": "負責學雜費退費業務", "status": "unsupported", "evidence": [], "why": "證據文字中沒有出納組職掌的敘述。"},
+    {"id": "c7", "answer_span": "劉桂芬（組長）分機 62123", "status": "unsupported", "evidence": [], "why": "證據中劉桂芬（組長）的分機是 62120，62123 屬於另一人。"},
+    {"id": "c8", "answer_span": "余淑娟（一級行政組員）分機 62123", "status": "supported", "evidence": [{"item": "E1", "quote": "余淑娟（一級行政組員）分機 62123"}], "why": "姓名、職稱、分機與證據一致。"},
+    {"id": "c9", "answer_span": "徐士雲（編審）分機 62172", "status": "supported", "evidence": [{"item": "E1", "quote": "徐士雲（編審）分機 62172"}], "why": "姓名、職稱、分機與證據一致。"},
+    {"id": "c10", "answer_span": "林瓊蓮（組長）分機 62124", "status": "unsupported", "evidence": [], "why": "證據中林瓊蓮的職稱是兼任助理，不是組長。"}
+  ],
+  "judge": {"model": "claude-sonnet-5-5", "prompt_version": "isolated-v2", "note": "isolated trace by a subagent that read only trace_input.json"}
+}
