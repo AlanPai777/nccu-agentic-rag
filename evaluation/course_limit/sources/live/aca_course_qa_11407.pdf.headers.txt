@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+Date: Wed, 11 Nov 2026 12:02:28 GMT
+Server: Apache
+Last-Modified: Mon, 21 Jul 2025 01:21:00 GMT
+ETag: "5fc59-63a6649e03476"
+Accept-Ranges: bytes
+Content-Length: 392281
+X-Content-Type-Options: nosniff
+Content-Type: application/pdf
+

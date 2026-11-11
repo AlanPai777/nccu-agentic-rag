@@ -1,0 +1,53 @@
+{
+ "keypoints": [
+  {
+   "id": "K1",
+   "verdict": "wrong",
+   "claims": [
+    "c1"
+   ],
+   "reason": "答案寫上限為 24 學分，標準是 25 學分，具體但不同"
+  },
+  {
+   "id": "K2",
+   "verdict": "wrong",
+   "claims": [
+    "c4",
+    "c5"
+   ],
+   "reason": "答案寫雙主修 31（一致）但輔系 30（標準 28），其中一半具體但不同；判 wrong（灰區：一半對一半錯）"
+  },
+  {
+   "id": "K3",
+   "verdict": "relevant",
+   "claims": [
+    "c6",
+    "c7"
+   ],
+   "reason": "答案寫經系主任核可可超修或減修，最多以 6 學分為限"
+  },
+  {
+   "id": "K4",
+   "verdict": "relevant",
+   "claims": [
+    "c8",
+    "c9"
+   ],
+   "reason": "答案寫碩、博士班由各系（所）自行訂定，沒有全校統一的上限"
+  },
+  {
+   "id": "K5",
+   "verdict": "relevant",
+   "claims": [
+    "c2",
+    "c3"
+   ],
+   "reason": "答案寫第一至第三學年不得少於 12 學分、第四學年不得少於 10 學分"
+  }
+ ],
+ "judge": {
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "judge-v1",
+  "note": "Claude Code 本 session 判斷（流程測試：答案也是 Claude Code 寫的，判斷不獨立；Keypoint 判斷依設計會看 gold）。主張編號取自子代理的隔離回推 trace.json"
+ }
+}

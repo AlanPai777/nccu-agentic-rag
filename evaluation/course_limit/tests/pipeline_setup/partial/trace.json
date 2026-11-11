@@ -1,0 +1,27 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "學士班學生每學期的選課學分上限是 25 學分",
+      "status": "supported",
+      "evidence": [
+        {"item": "E1", "quote": "本校學士班學生每學期上限為25學分"}
+      ],
+      "why": "E1 明載學士班學生每學期上限為25學分。"
+    },
+    {
+      "id": "c2",
+      "answer_span": "具雙主修身分者可以提高到 31 學分",
+      "status": "supported",
+      "evidence": [
+        {"item": "E3", "quote": "具雙主修身分者學分修習上限提高為31學分"}
+      ],
+      "why": "E3 明載具雙主修身分者學分修習上限提高為31學分。"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v2",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  }
+}

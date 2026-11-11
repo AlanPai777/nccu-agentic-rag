@@ -1,0 +1,294 @@
+{
+  "query_id": "course_limit",
+  "query": "選課上限幾學分",
+  "query_variants": [],
+  "query_type": "knowledge",
+  "data_as_of": {
+    "snapshot": "2026-08（output/ 快照）",
+    "live": "2026-11-11（現場）；學則、教務處 QA、選課須知（114.07）、選課 Q&A（114.07）四份與快照逐字一致；超減修申請流程（register18.pdf）只有快照，沒有現場請求"
+  },
+  "content": "學士班學生每學期選課學分上限為 25 學分（第一至第三學年每學期不得少於 12 學分，第四學年不得少於 10 學分）。具雙主修身分者上限提高為 31 學分，具輔系身分者為 28 學分。經系主任核可，學士班學生可超修或減修學分，至多 6 學分。碩、博士班每學期修習學分由各系（所）自定。",
+  "keypoints": [
+    {
+      "id": "K1",
+      "text": "學士班學生每學期修習學分上限為 25 學分",
+      "required": true,
+      "kind": "hard",
+      "references": [
+        {
+          "text": "學士班學生第一至第三學年每學期修習學分，不得少於十二學分，不得多於二十五學分",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "本校學士班學生每學期上限為25學分",
+          "source_url": "https://aca.nccu.edu.tw/zh/常用連結/教務處qa/選課業務",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "無加修學系者為25學分",
+          "source_url": "https://aca.nccu.edu.tw/download/course/選課須知11407.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學士班學生第一至第三學年每學期修習學分，不得少於十二學分，不得多於二十五學分",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-11（現場）"
+        },
+        {
+          "text": "本校學士班學生每學期上限為25學分",
+          "source_url": "https://aca.nccu.edu.tw/zh/常用連結/教務處qa/選課業務",
+          "source_kind": "live",
+          "as_of": "2026-11-11（現場）"
+        },
+        {
+          "text": "無加修學系者為25學分",
+          "source_url": "https://aca.nccu.edu.tw/download/course/選課須知11407.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-11（現場）"
+        }
+      ],
+      "acceptable_expressions": [
+        "25學分",
+        "25 學分",
+        "二十五學分"
+      ]
+    },
+    {
+      "id": "K2",
+      "text": "具雙主修身分者每學期學分上限提高為 31 學分，具輔系身分者提高為 28 學分（無加修學系者為 25 學分）",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "具雙主修身分者學分修習上限提高為31學分，具輔系身分者學分修習上限提高為28學分",
+          "source_url": "https://aca.nccu.edu.tw/download/course/選課須知11407.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "具雙主修身分者為31學分，具輔系身分者為28學分，無加修學系或未申請超修者為25學分",
+          "source_url": "https://aca.nccu.edu.tw/download/course/選課Q&A_11407.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "具雙主修身分者學分修習上限提高為31學分，具輔系身分者學分修習上限提高為28學分",
+          "source_url": "https://aca.nccu.edu.tw/download/course/選課須知11407.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-11（現場）"
+        },
+        {
+          "text": "具雙主修身分者為31學分，具輔系身分者為28學分，無加修學系或未申請超修者為25學分",
+          "source_url": "https://aca.nccu.edu.tw/download/course/選課Q&A_11407.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-11（現場）"
+        }
+      ],
+      "acceptable_expressions": [
+        "31學分",
+        "31 學分",
+        "三十一學分",
+        "28學分",
+        "28 學分",
+        "二十八學分"
+      ]
+    },
+    {
+      "id": "K3",
+      "text": "經系主任核可，學士班學生可於當學期超修或減修學分，超減修至多 6 學分",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "學生若因情況特殊，經系主任核可者，得於當學期超修或減修學分。超減修至多以六學分為限",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學士班學生若因特殊需要得申請超修至多6學分，亦得減修學分至多6學分",
+          "source_url": "https://aca.nccu.edu.tw/zh/常用連結/教務處qa/選課業務",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學士班學生如因課程規劃及選課需要，預計於本學期修習學分數超過或低於學則規定之學分上下限者，應於規定期限內上網提出「超減修習學分數」申請",
+          "source_url": "https://aca.nccu.edu.tw/download/course/選課須知11407.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學士班學生學期超減修習學分數申請作業流程",
+          "source_url": "https://aca.nccu.edu.tw/download/flowProcess/file/register/register18.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "超減修至多以六學分為限",
+          "source_url": "https://aca.nccu.edu.tw/download/flowProcess/file/register/register18.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學生若因情況特殊，經系主任核可者，得於當學期超修或減修學分。超減修至多以六學分為限",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-11（現場）"
+        },
+        {
+          "text": "學士班學生若因特殊需要得申請超修至多6學分，亦得減修學分至多6學分",
+          "source_url": "https://aca.nccu.edu.tw/zh/常用連結/教務處qa/選課業務",
+          "source_kind": "live",
+          "as_of": "2026-11-11（現場）"
+        },
+        {
+          "text": "學士班學生如因課程規劃及選課需要，預計於本學期修習學分數超過或低於學則規定之學分上下限者，應於規定期限內上網提出「超減修習學分數」申請",
+          "source_url": "https://aca.nccu.edu.tw/download/course/選課須知11407.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-11（現場）"
+        }
+      ],
+      "acceptable_expressions": [
+        "超修",
+        "減修",
+        "超減修",
+        "6學分",
+        "六學分"
+      ]
+    },
+    {
+      "id": "K4",
+      "text": "碩、博士班學生每學期修習學分由各系（所）自定，沒有全校統一的上限",
+      "required": true,
+      "kind": "hard",
+      "references": [
+        {
+          "text": "碩、博士班學生每學期修習學分由各系(所)自定",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "碩、博士班學生學分數則從各所修業規定",
+          "source_url": "https://aca.nccu.edu.tw/zh/常用連結/教務處qa/選課業務",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "碩博士班學生依各系所修業規定",
+          "source_url": "https://aca.nccu.edu.tw/download/course/選課Q&A_11407.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "碩、博士班學生每學期修習學分由各系(所)自定",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-11（現場）"
+        },
+        {
+          "text": "碩、博士班學生學分數則從各所修業規定",
+          "source_url": "https://aca.nccu.edu.tw/zh/常用連結/教務處qa/選課業務",
+          "source_kind": "live",
+          "as_of": "2026-11-11（現場）"
+        },
+        {
+          "text": "碩博士班學生依各系所修業規定",
+          "source_url": "https://aca.nccu.edu.tw/download/course/選課Q&A_11407.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-11（現場）"
+        }
+      ],
+      "acceptable_expressions": [
+        "各系(所)自定",
+        "各系（所）自定",
+        "各系所自定",
+        "由各系所",
+        "各所修業規定",
+        "各系所修業規定",
+        "依各系所",
+        "各系所規定",
+        "各系所的規定"
+      ]
+    },
+    {
+      "id": "K5",
+      "text": "學士班學生每學期修習學分的下限：第一至第三學年 12 學分，第四學年 10 學分",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "第一至第三學年每學期修習學分，不得少於十二學分",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "第四學年每學期不得少於十學分",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "大一至大三下限為12學分，大四為10學分",
+          "source_url": "https://aca.nccu.edu.tw/zh/常用連結/教務處qa/選課業務",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學士班學生第一至第三學年每學期修習學分，不得少於12學分，第四學年每學期不得少於10學分",
+          "source_url": "https://aca.nccu.edu.tw/download/course/選課須知11407.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "第一至第三學年每學期修習學分，不得少於十二學分",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-11（現場）"
+        },
+        {
+          "text": "第四學年每學期不得少於十學分",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-11（現場）"
+        },
+        {
+          "text": "大一至大三下限為12學分，大四為10學分",
+          "source_url": "https://aca.nccu.edu.tw/zh/常用連結/教務處qa/選課業務",
+          "source_kind": "live",
+          "as_of": "2026-11-11（現場）"
+        },
+        {
+          "text": "學士班學生第一至第三學年每學期修習學分，不得少於12學分，第四學年每學期不得少於10學分",
+          "source_url": "https://aca.nccu.edu.tw/download/course/選課須知11407.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-11（現場）"
+        }
+      ],
+      "acceptable_expressions": [
+        "12學分",
+        "12 學分",
+        "十二學分",
+        "10學分",
+        "10 學分",
+        "十學分"
+      ]
+    }
+  ],
+  "source_conflicts": "無矛盾。有一處來源沒有解釋：學則與 FAQ 說超減修「至多 6 學分」（25＋6＝31），選課須知與選課 Q&A 說輔系上限是 28、雙主修是 31；輔系的 28 與超減修至多 6 的關係，來源沒有說明。兩者各自照來源記錄，不自行推論。",
+  "notes": [
+    "「超修後每學期最高 31 學分」沒有列為 keypoint：使用者的說明是超減修不分有無輔系或雙主修皆可申請、最高 31，但現場查證 7 個頁面與本地快照（學則、FAQ、選課須知、選課 Q&A、超減修流程、選課辦法）都沒有一句明說，31 只出現在「具雙主修身分者…提高為31學分」。依使用者的決定，沒找到原文就不列入；若之後找到明文，再補一個 keypoint。",
+    "K2、K3、K5 設為 semantic（不是 hard）：它們各要同時講到兩個以上的數值或條件，規則版 Accuracy 是「命中任一 acceptable_expressions 就算 hit」，只講一半也會被判 hit。多值型 keypoint 要不要在規則版支援「全部都要出現」（例如 all_of），等更多題目都跑出答案後再設計。",
+    "超減修流程（register18.pdf，113.09 修訂）只有快照，沒有現場請求，標 source_kind=snapshot；它說明超減修是學士班學生通用的申請流程，由學系主任審核。",
+    "延畢生：FAQ 寫「延畢生則僅規定至少應修一門課程」，超減修流程寫「延後畢業學生不須減修申請，但每學期需修至少1門課」；題目問上限，延畢生不列為 keypoint。",
+    "碩、博士班各系所有自己的規定（例如快照裡有的系所寫上限 12、14、18 學分不等），gold 只記「由各系所自定」，不列個別系所，因為題目沒有指定系所。",
+    "選課須知與選課 Q&A 現場仍是 11407（114.07）版；教務處首頁的連結也仍指向這個檔案。",
+    "查證記錄見 sources/live/live_check.md；沒有 query_variants。"
+  ]
+}

@@ -25,9 +25,11 @@ def norm(s: str) -> str:
 
 
 def source_text(question_dir: Path) -> str:
-    """該題 sources/ 底下所有來源原文：snapshot 的 .txt、live 的 .html（去掉標籤）。"""
+    """該題 sources/ 底下所有來源原文：snapshot 的 .txt、live 的 .html（去掉標籤）、live 的 PDF 轉出的 .pdf.txt。"""
     parts = []
     for p in sorted((question_dir / "sources" / "snapshot").glob("*.txt")):
+        parts.append(p.read_text(encoding="utf-8", errors="ignore"))
+    for p in sorted((question_dir / "sources" / "live").glob("*.pdf.txt")):
         parts.append(p.read_text(encoding="utf-8", errors="ignore"))
     for p in sorted((question_dir / "sources" / "live").glob("*.html")):
         raw = p.read_text(encoding="utf-8", errors="ignore")

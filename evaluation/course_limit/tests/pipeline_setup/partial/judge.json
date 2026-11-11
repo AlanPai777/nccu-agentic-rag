@@ -1,0 +1,43 @@
+{
+ "keypoints": [
+  {
+   "id": "K1",
+   "verdict": "relevant",
+   "claims": [
+    "c1"
+   ],
+   "reason": "答案寫「上限是 25 學分」，與標準一致"
+  },
+  {
+   "id": "K2",
+   "verdict": "relevant",
+   "claims": [
+    "c2"
+   ],
+   "reason": "答案只寫雙主修 31 學分（一致），沒有提輔系 28；依規則「最重要的資訊一致即可」判 relevant，但只涵蓋一半（灰區）"
+  },
+  {
+   "id": "K3",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有提超修或減修"
+  },
+  {
+   "id": "K4",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有提碩、博士班"
+  },
+  {
+   "id": "K5",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有提下限"
+  }
+ ],
+ "judge": {
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "judge-v1",
+  "note": "Claude Code 本 session 判斷（流程測試：答案也是 Claude Code 寫的，判斷不獨立；Keypoint 判斷依設計會看 gold）。主張編號取自子代理的隔離回推 trace.json"
+ }
+}

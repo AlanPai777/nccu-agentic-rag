@@ -91,5 +91,6 @@ python evaluation/compare_tests.py evaluation/cashier_contact/tests/tampered_v1 
 | `stage3.py` | 階段 3：`prepare`、`check`、`score`；`OUTPUT_FORMAT` 是給判斷者的格式與規則 |
 | `compare_tests.py` | 隔離回推結果與鑰匙的比對 |
 | `list_runs.py` | 列出一題所有 run 的標籤、時間、模型、版本、分數（唯讀、離線） |
+| `course_limit/` | 選課上限題：`gold.json`、`build_gold.py`、`sources/`（快照複本、現場 PDF／HTML 與 `live_check.md` 查證記錄）。第一題非聯絡人題，K2、K3、K5 為 `semantic`；`tests/pipeline_setup/` 是用假設答案讓管線跑一次的流程測試（`report.md`，不是評測結果） |
 | `cashier_contact/` | 出納組：`gold.json`、`build_gold.py`、`sources/`（來源原文複本與官網查證記錄）、`runs/`（每次 run）、`tests/`（隔離回推材料） |
 | `tests/` | 評測程式的單元測試與 fixtures |

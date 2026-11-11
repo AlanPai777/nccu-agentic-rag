@@ -25,6 +25,27 @@ class GoldFilesTest(unittest.TestCase):
                 self.assertEqual(validate_gold(path), [])
 
 
+class LivePdfTextIsReadTest(unittest.TestCase):
+    """現場 PDF 轉出的 <檔名>.pdf.txt 也算來源原文（course_limit 的現場依據是 PDF）；檔案不在就驗證不過。"""
+
+    def minimal_gold(self, quote):
+        return {"query_id": "x", "query": "q", "content": "c", "data_as_of": {},
+                "keypoints": [{"id": "K1", "text": "t", "kind": "hard",
+                               "references": [{"text": quote, "source_url": "u", "source_kind": "live", "as_of": "d"}]}]}
+
+    def test_a_quote_found_only_in_a_live_pdf_text(self):
+        d = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, d, True)
+        live = d / "sources" / "live"
+        live.mkdir(parents=True)
+        (live / "doc.pdf.txt").write_text("學士班學生每學期上限\n為25學分", encoding="utf-8")
+        (d / "gold.json").write_text(json.dumps(self.minimal_gold("每學期上限為25學分"), ensure_ascii=False), encoding="utf-8")
+        self.assertEqual(validate_gold(d / "gold.json"), [])
+        (live / "doc.pdf.txt").unlink()
+        (live / "other.pdf.txt").write_text("完全不相干的內容", encoding="utf-8")
+        self.assertTrue(any("引文不在來源原文裡" in p for p in validate_gold(d / "gold.json")))
+
+
 class GoldCheckCatchesProblemsTest(unittest.TestCase):
     """複製出納組的 gold 與來源到暫存資料夾，各弄壞一處，確認 validate_gold 抓得到。"""
 

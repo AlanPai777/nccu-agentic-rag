@@ -1,0 +1,109 @@
+{
+  "query_id": "course_limit",
+  "run_id": "partial",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照）",
+    "live": "2026-11-11（現場）；學則、教務處 QA、選課須知（114.07）、選課 Q&A（114.07）四份與快照逐字一致；超減修申請流程（register18.pdf）只有快照，沒有現場請求"
+  },
+  "system_version": "hypothetical",
+  "rouge_l": {
+    "p": 0.8,
+    "r": 0.2133,
+    "f": 0.3368
+  },
+  "accuracy": {
+    "hard_keypoints": 2,
+    "hit": 1,
+    "accuracy": 0.5,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      0,
+      1,
+      2
+    ],
+    "context_chars": 20515,
+    "sentence": {
+      "p": 0.0103,
+      "r": 1.0,
+      "f": 0.0204
+    },
+    "words": {
+      "p": 0.0283,
+      "r": 0.9851,
+      "f": 0.055
+    },
+    "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）"
+  },
+  "keypoints": {
+    "accuracy_rule": [
+      {
+        "id": "K1",
+        "kind": "hard",
+        "verdict": "hit",
+        "matched_expressions": [
+          "25學分",
+          "25學分"
+        ]
+      },
+      {
+        "id": "K2",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K3",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K4",
+        "kind": "hard",
+        "verdict": "miss",
+        "matched_expressions": []
+      },
+      {
+        "id": "K5",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      }
+    ],
+    "funnel_stage2": [
+      {
+        "id": "K1",
+        "in_context": true,
+        "matched_reference": "學士班學生第一至第三學年每學期修習學分，不得少於十二學分，不得多於二十五學分",
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K2",
+        "in_context": true,
+        "matched_reference": "具雙主修身分者學分修習上限提高為31學分，具輔系身分者學分修習上限提高為28學分",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K3",
+        "in_context": true,
+        "matched_reference": "學士班學生如因課程規劃及選課需要，預計於本學期修習學分數超過或低於學則規定之學分上下限者，應於規定期限內上網提出「超減修習學分數」申請",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K4",
+        "in_context": true,
+        "matched_reference": "碩、博士班學生每學期修習學分由各系(所)自定",
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K5",
+        "in_context": true,
+        "matched_reference": "學士班學生第一至第三學年每學期修習學分，不得少於12學分，第四學年每學期不得少於10學分",
+        "rule_verdict": "needs_llm"
+      }
+    ],
+    "contact_funnel": []
+  }
+}

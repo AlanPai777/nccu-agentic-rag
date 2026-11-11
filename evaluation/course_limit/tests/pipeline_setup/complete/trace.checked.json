@@ -1,0 +1,217 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "政大學士班學生每學期的選課學分上限為 25 學分",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "本校學士班學生每學期上限為25學分",
+          "verified": true,
+          "start": 290,
+          "end": 307
+        }
+      ],
+      "why": "證據明載學士班學生每學期上限為25學分。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        0,
+        24
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "第一至第三學年每學期不得少於 12 學分",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "第一至第三學年每學期修習學分，不得少於12學分",
+          "verified": true,
+          "start": 639,
+          "end": 662
+        }
+      ],
+      "why": "選課須知明載第一至第三學年下限12學分。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        40,
+        60
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "第四學年每學期不得少於 10 學分",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "第四學年每學期不得少於十學分",
+          "verified": true,
+          "start": 3138,
+          "end": 3152
+        }
+      ],
+      "why": "學則第十五條明載第四學年每學期不得少於十學分。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        65,
+        82
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "具有雙主修身分的學生，上限提高為 31 學分",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "具雙主修身分者學分修習上限提高為31學分",
+          "verified": true,
+          "start": 689,
+          "end": 709
+        }
+      ],
+      "why": "證據明載雙主修身分者上限提高為31學分。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        84,
+        106
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "具有輔系身分的學生，上限提高為 28 學分",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "具輔系身分者為28學分",
+          "verified": true,
+          "start": 1787,
+          "end": 1798
+        }
+      ],
+      "why": "證據明載具輔系身分者上限為28學分（較25提高）。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        107,
+        128
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c6",
+      "answer_span": "學士班學生如因特殊需要，經系主任核可，可在當學期申請超修或減修學分",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "經系主任核可者，得於當學期超修或減修學分",
+          "verified": true,
+          "start": 3190,
+          "end": 3210
+        }
+      ],
+      "why": "學則第十五條規定經系主任核可得於當學期超修或減修。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        131,
+        164
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c7",
+      "answer_span": "超減修最多以 6 學分為限",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "得申請超修至多6學分，亦得減修學分至多6學分",
+          "verified": true,
+          "start": 370,
+          "end": 392
+        }
+      ],
+      "why": "證據載超修、減修各至多6學分。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        165,
+        178
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c8",
+      "answer_span": "碩、博士班學生每學期修習的學分數，則由各系（所）自行訂定",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "碩、博士班學生每學期修習學分由各系(所)自定",
+          "verified": true,
+          "start": 3224,
+          "end": 3246
+        }
+      ],
+      "why": "學則明載碩博士班每學期修習學分由各系所自定。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        181,
+        209
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c9",
+      "answer_span": "沒有全校統一的上限",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "碩、博士班學生每學期修習學分由各系(所)自定",
+          "verified": true,
+          "start": 3224,
+          "end": 3246
+        }
+      ],
+      "why": "由各系所自定隱含無全校統一上限，屬直接推論，證據未逐字說明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        210,
+        219
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v2",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

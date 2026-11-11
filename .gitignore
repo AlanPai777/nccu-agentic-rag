@@ -49,3 +49,8 @@ plan/
 experiments/
 worklog/
 rag/agentic_main.py
+
+# Evaluation: live-check pages kept only locally (navigation pages with no credit-limit text; evidence is recorded in live_check.md)
+evaluation/course_limit/sources/live/aca_home.html*
+evaluation/course_limit/sources/live/aca_student_undergrad_course_selection.html*
+evaluation/course_limit/sources/live/aca_course_selection_integrated.html*
