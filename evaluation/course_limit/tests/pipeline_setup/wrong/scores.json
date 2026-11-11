@@ -24,9 +24,9 @@
     "f": 0.6138
   },
   "accuracy_rule": {
-    "hard_keypoints": 2,
-    "hit": 0,
-    "accuracy": 0.0,
+    "hard_keypoints": 5,
+    "hit": 3,
+    "accuracy": 0.6,
     "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
   },
   "context": {
@@ -37,9 +37,9 @@
     ],
     "context_chars": 20515,
     "sentence": {
-      "p": 0.0103,
+      "p": 0.0144,
       "r": 1.0,
-      "f": 0.0204
+      "f": 0.0284
     },
     "words": {
       "p": 0.0283,
@@ -49,27 +49,27 @@
     "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）"
   },
   "keypoint": {
-    "relevant": 3,
+    "relevant": 5,
     "wrong": 2,
     "irrelevant": 0,
-    "total": 5,
+    "total": 7,
     "not_applicable": 0,
-    "completeness": 0.6,
-    "hallucination": 0.4,
+    "completeness": 0.7143,
+    "hallucination": 0.2857,
     "irrelevance": 0.0
   },
   "fact_unit": {
-    "precision": 0.6,
-    "recall": 0.6,
-    "f1": 0.6,
+    "precision": 0.7143,
+    "recall": 0.7143,
+    "f1": 0.7143,
     "note": "P = Relevant ÷ (Relevant + Wrong)；R = Relevant ÷ keypoint 總數"
   },
   "claim_unit": {
     "claims": 9,
     "correct_claims": 6,
     "precision": 0.6667,
-    "recall": 0.6,
-    "f1": 0.6316,
+    "recall": 0.7143,
+    "f1": 0.6897,
     "note": "P = 正確陳述某個 keypoint 的主張 ÷ 全部主張；額外但正確的資訊會讓 P 下降，量的是聚焦程度"
   },
   "evidence_support": {
@@ -93,16 +93,16 @@
     {
       "id": "K2",
       "in_context": true,
-      "stated_correctly": false,
-      "grounded": false,
-      "verdict": "wrong"
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
     },
     {
       "id": "K3",
       "in_context": true,
-      "stated_correctly": true,
-      "grounded": true,
-      "verdict": "relevant"
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "wrong"
     },
     {
       "id": "K4",
@@ -117,17 +117,23 @@
       "stated_correctly": true,
       "grounded": true,
       "verdict": "relevant"
+    },
+    {
+      "id": "K6",
+      "in_context": true,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K7",
+      "in_context": true,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
     }
   ],
   "contact_funnel": [],
-  "disagreements": [
-    {
-      "keypoint": "K4",
-      "rule": "miss",
-      "claude": "relevant",
-      "claude_reason": "答案寫碩、博士班由各系（所）自行訂定，沒有全校統一的上限",
-      "rule_detail": {}
-    }
-  ],
+  "disagreements": [],
   "warnings": []
 }

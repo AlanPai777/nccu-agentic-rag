@@ -12,9 +12,9 @@
     "f": 0.3368
   },
   "accuracy": {
-    "hard_keypoints": 2,
-    "hit": 1,
-    "accuracy": 0.5,
+    "hard_keypoints": 5,
+    "hit": 2,
+    "accuracy": 0.4,
     "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
   },
   "context": {
@@ -25,9 +25,9 @@
     ],
     "context_chars": 20515,
     "sentence": {
-      "p": 0.0103,
+      "p": 0.0144,
       "r": 1.0,
-      "f": 0.0204
+      "f": 0.0284
     },
     "words": {
       "p": 0.0283,
@@ -43,33 +43,46 @@
         "kind": "hard",
         "verdict": "hit",
         "matched_expressions": [
-          "25學分",
           "25學分"
         ]
       },
       {
         "id": "K2",
-        "kind": "semantic",
-        "verdict": "needs_llm",
-        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+        "kind": "hard",
+        "verdict": "hit",
+        "matched_expressions": [
+          "31學分"
+        ]
       },
       {
         "id": "K3",
-        "kind": "semantic",
-        "verdict": "needs_llm",
-        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
-      },
-      {
-        "id": "K4",
         "kind": "hard",
         "verdict": "miss",
         "matched_expressions": []
+      },
+      {
+        "id": "K4",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
       },
       {
         "id": "K5",
         "kind": "semantic",
         "verdict": "needs_llm",
         "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K6",
+        "kind": "hard",
+        "verdict": "miss",
+        "matched_expressions": []
+      },
+      {
+        "id": "K7",
+        "kind": "hard",
+        "verdict": "miss",
+        "matched_expressions": []
       }
     ],
     "funnel_stage2": [
@@ -83,25 +96,37 @@
         "id": "K2",
         "in_context": true,
         "matched_reference": "具雙主修身分者學分修習上限提高為31學分，具輔系身分者學分修習上限提高為28學分",
-        "rule_verdict": "needs_llm"
+        "rule_verdict": "hit"
       },
       {
         "id": "K3",
+        "in_context": true,
+        "matched_reference": "具雙主修身分者學分修習上限提高為31學分，具輔系身分者學分修習上限提高為28學分",
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K4",
         "in_context": true,
         "matched_reference": "學士班學生如因課程規劃及選課需要，預計於本學期修習學分數超過或低於學則規定之學分上下限者，應於規定期限內上網提出「超減修習學分數」申請",
         "rule_verdict": "needs_llm"
       },
       {
-        "id": "K4",
+        "id": "K5",
         "in_context": true,
         "matched_reference": "碩、博士班學生每學期修習學分由各系(所)自定",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K6",
+        "in_context": true,
+        "matched_reference": "學士班學生第一至第三學年每學期修習學分，不得少於12學分，第四學年每學期不得少於10學分",
         "rule_verdict": "miss"
       },
       {
-        "id": "K5",
+        "id": "K7",
         "in_context": true,
         "matched_reference": "學士班學生第一至第三學年每學期修習學分，不得少於12學分，第四學年每學期不得少於10學分",
-        "rule_verdict": "needs_llm"
+        "rule_verdict": "miss"
       }
     ],
     "contact_funnel": []
