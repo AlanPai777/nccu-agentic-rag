@@ -15,7 +15,8 @@ evaluation/stage3.py
 
   python evaluation/stage3.py check <run_dir>
       驗證 trace.json：每個主張的 answer_span 必須是答案正文的子字串，每段證據 quote 必須是該證據項目的
-      子字串（空白正規化後）。結果寫進 trace.checked.json，不改動判斷者寫的 trace.json。
+      子字串（空白正規化後）；主張的片段若被另一個主張包含，不重複計入（以較長的為準）。結果寫進
+      trace.checked.json，不改動判斷者寫的 trace.json。
 
   python evaluation/stage3.py score <gold.json> <run_dir>
       讀 scores.stage2.json、trace.checked.json、judge.json，算出階段 3 的分數並合併成 scores.json。
@@ -59,12 +60,16 @@ OUTPUT_FORMAT = {
             "answer_span 必須逐字取自 answer_text；quote 必須逐字取自該證據項目的 text；程式會驗證，找不到會被退回。",
             "status=supported 要附至少一段 evidence；找不到依據就寫 unsupported，evidence 留空陣列。",
             "判斷『有沒有依據』只看 evidence_items 裡的文字，不用你自己知道的事。",
+            "把人與職稱、分機配成一對的主張，要證據把「同一個人」配「同樣的職稱與分機」才算 supported；姓名、職稱、分機任一項與證據不同（包含分機是證據裡另一個人的），就是 unsupported。",
+            "一個人的姓名、職稱、分機寫成同一個主張，不要把分機拆出去（拆出去的分機會失去它屬於誰的資訊）。",
+            "只出現在網址或連結位址裡的字，不算該單位職掌等內容的證據。",
+            "各主張的 answer_span 不得互相重疊（一個字最多屬於一個主張）；不要同時列出整句與其中一部分。",
         ],
     },
     "judge.json": {
         "keypoints": [{
             "id": "K1",
-            "verdict": "relevant | irrelevant | wrong",
+            "verdict": "relevant | irrelevant | wrong | not_applicable",
             "claims": ["c1"],
             "reason": "一句話說明",
         }],
@@ -73,7 +78,8 @@ OUTPUT_FORMAT = {
             "relevant：答案裡有與這個 keypoint 相關且一致的陳述（不必每個細節都一樣，最重要的資訊一致即可）。",
             "irrelevant：答案沒有提到，或只說資訊不足。",
             "wrong：答案對這個 keypoint 給了具體但不同的內容。",
-            "claims 列出 trace.json 裡直接陳述這個 keypoint 的主張編號；沒提到就留空陣列。",
+            "not_applicable：只用在有適用條件的 keypoint（text 寫「答案若…」）。答案沒有滿足條件（例如根本沒列承辦人）時判 not_applicable，不計入分母；滿足條件才判 relevant 或 wrong。",
+            "claims 列出 trace.json 裡直接陳述這個 keypoint 的主張編號；沒提到就留空陣列。同一個主張可以同時連到多個 keypoint。",
             "每個 keypoint 都要有一筆。",
         ],
     },
@@ -131,12 +137,15 @@ def cmd_prepare(gold_path: Path, run_dir: Path) -> None:
         "output_file": "trace.json",
         "output_format": OUTPUT_FORMAT["trace.json"],
     })
+    if av.get("extension_by_person"):
+        notes["承辦人與分機的正確配對（人員頁）"] = [f"{p['name']}（{p['title']}）：{p['extension']}" for p in av["extension_by_person"]]
     _write(run_dir / "judge_input.json", {
         "query_id": gold["query_id"], "run_id": pred["run_id"], "query": pred["query"],
         "task": "對每個 keypoint 判斷答案：relevant / irrelevant / wrong，並指出直接陳述它的主張編號（見 trace.json）。",
         "answer_text": answer_text,
         "gold_content": gold["content"],
-        "keypoints": [{"id": k["id"], "text": k["text"]} for k in gold["keypoints"]],
+        "keypoints": [{"id": k["id"], "text": k["text"], **({"applies_if": k["applies_if"]} if k.get("applies_if") else {})}
+                      for k in gold["keypoints"]],
         "notes": notes,
         "output_file": "judge.json",
         "output_format": OUTPUT_FORMAT["judge.json"],
@@ -156,6 +165,14 @@ def _locate(haystack: str, needle: str):
     if not n or n not in norm(haystack):
         return None
     return -1, -1     # 在正規化後找得到，但原文位置無法精確回報
+
+
+def _occurrences(text: str, needle: str) -> list[tuple[int, int]]:
+    out, i = [], text.find(needle) if needle else -1
+    while i != -1:
+        out.append((i, i + len(needle)))
+        i = text.find(needle, i + 1)
+    return out
 
 
 def cmd_check(run_dir: Path) -> dict:
@@ -190,10 +207,40 @@ def cmd_check(run_dir: Path) -> dict:
         else:
             c["status_checked"] = status
         claims.append(c)
+    # 主張的片段不得互相重疊：被另一個主張包含的短主張會被算兩次（整句與其中一部分各算一個），
+    # 讓「有依據的主張比例」偏高。被包含的不計入，以較長的為準；只部分重疊的只警告。
+    assigned: list[tuple[str, tuple[int, int]]] = []
+    for c in claims:
+        c["counted"] = True
+        if not c["span_verified"]:
+            continue
+        occ = _occurrences(answer, c.get("answer_span", ""))
+        if not occ:
+            c["span_pos"] = None          # 只有正規化後才找得到，無法判斷位置
+            continue
+        free = [o for o in occ if all(o[1] <= a[0] or o[0] >= a[1] for _, a in assigned)]
+        pos = free[0] if free else occ[0]  # 同一段文字出現多次時，取第一個還沒被別的主張用掉的位置
+        c["span_pos"] = list(pos)
+        c["overlaps_with"] = [cid for cid, a in assigned if not (pos[1] <= a[0] or pos[0] >= a[1])]
+        assigned.append((c["id"], pos))
+    by_id = {c["id"]: c for c in claims}
+    for c in claims:
+        for oid in c.get("overlaps_with", []):
+            o = by_id[oid]
+            (cs, ce), (os_, oe) = c["span_pos"], o["span_pos"]
+            if cs >= os_ and ce <= oe:
+                c["counted"], c["contained_in"] = False, oid
+                warnings.append(f"{c['id']} 的片段被 {oid} 包含，不重複計入（以較長的 {oid} 為準）")
+            elif os_ >= cs and oe <= ce:
+                o["counted"], o["contained_in"] = False, c["id"]
+                warnings.append(f"{oid} 的片段被 {c['id']} 包含，不重複計入（以較長的 {c['id']} 為準）")
+            else:
+                warnings.append(f"{c['id']} 與 {oid} 的片段部分重疊，兩者都計入")
     out = {"claims": claims, "judge": tr.get("judge"), "warnings": warnings}
     _write(run_dir / "trace.checked.json", out)
     ok = sum(1 for c in claims if c["span_verified"])
-    print(f"主張 {len(claims)} 個；answer_span 通過 {ok} 個；證據 quote 通過 {sum(e['verified'] for c in claims for e in c['evidence'])}/{sum(len(c['evidence']) for c in claims)}")
+    dropped = [c["id"] for c in claims if not c["counted"]]
+    print(f"主張 {len(claims)} 個；answer_span 通過 {ok} 個" + (f"；因被包含不計入 {len(dropped)} 個（{', '.join(dropped)}）" if dropped else "") + f"；證據 quote 通過 {sum(e['verified'] for c in claims for e in c['evidence'])}/{sum(len(c['evidence']) for c in claims)}")
     for w in warnings:
         print("  警告：", w)
     return out
@@ -215,20 +262,23 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
     jd = _read(run_dir / "judge.json")
     warnings = list(tr["warnings"])
 
-    claims = [c for c in tr["claims"] if c["span_verified"]]
+    claims = [c for c in tr["claims"] if c["span_verified"] and c.get("counted", True)]
     by_claim = {c["id"]: c for c in claims}
+    alias = {c["id"]: c["contained_in"] for c in tr["claims"] if c.get("contained_in")}   # 被包含的主張改算它的容器
     verdicts = {k["id"]: k for k in jd["keypoints"]}
-    K = len(gold["keypoints"])
+    K_all = len(gold["keypoints"])
     for k in gold["keypoints"]:
         if k["id"] not in verdicts:
             warnings.append(f"judge.json 缺少 {k['id']}，視為 irrelevant")
             verdicts[k["id"]] = {"id": k["id"], "verdict": "irrelevant", "claims": [], "reason": "（缺漏）"}
     for kid, v in verdicts.items():
-        if v["verdict"] not in ("relevant", "irrelevant", "wrong"):
+        if v["verdict"] not in ("relevant", "irrelevant", "wrong", "not_applicable"):
             warnings.append(f"{kid}：verdict {v['verdict']!r} 不合法，視為 irrelevant")
             v["verdict"] = "irrelevant"
     rel = sum(v["verdict"] == "relevant" for v in verdicts.values())
     wrong = sum(v["verdict"] == "wrong" for v in verdicts.values())
+    na = sum(v["verdict"] == "not_applicable" for v in verdicts.values())
+    K = K_all - na                       # 不適用的條件式 keypoint 不計入分母
     irr = K - rel - wrong
 
     # 事實為單位
@@ -239,7 +289,7 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
     linked_ok = set()
     for v in verdicts.values():
         if v["verdict"] == "relevant":
-            linked_ok |= {cid for cid in v.get("claims", []) if cid in by_claim}
+            linked_ok |= {alias.get(cid, cid) for cid in v.get("claims", []) if alias.get(cid, cid) in by_claim}
     C = len(claims)
     p_claim = len(linked_ok) / C if C else None
 
@@ -250,7 +300,7 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
 
     # 答對但沒有依據的 keypoint
     ungrounded = [kid for kid, v in verdicts.items() if v["verdict"] == "relevant"
-                  and not any(by_claim.get(cid, {}).get("status_checked") == "supported" for cid in v.get("claims", []))]
+                  and not any(by_claim.get(alias.get(cid, cid), {}).get("status_checked") == "supported" for cid in v.get("claims", []))]
 
     # 規則版 Accuracy 與 Claude 判斷不一致的 keypoint
     rule = {r["id"]: r for r in st2["keypoints"]["accuracy_rule"]}
@@ -260,7 +310,8 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
         if rv in (None, "needs_llm"):
             continue
         ok = (rv == "hit" and v["verdict"] == "relevant") or (rv == "wrong" and v["verdict"] == "wrong") \
-            or (rv == "miss" and v["verdict"] in ("irrelevant", "wrong"))
+            or (rv == "miss" and v["verdict"] in ("irrelevant", "wrong")) \
+            or (rv == "not_applicable" and v["verdict"] == "not_applicable")
         if not ok:
             disagreements.append({"keypoint": kid, "rule": rv, "claude": v["verdict"], "claude_reason": v.get("reason", ""),
                                   "rule_detail": {k: rule[kid].get(k) for k in ("matched_expressions", "wrong") if rule[kid].get(k)}})
@@ -269,6 +320,9 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
     ctx = {f["id"]: f for f in st2["keypoints"]["funnel_stage2"]}
     for k in gold["keypoints"]:
         v = verdicts[k["id"]]
+        if v["verdict"] == "not_applicable":
+            funnel.append({"id": k["id"], "verdict": "not_applicable", "in_context": None, "stated_correctly": None, "grounded": None})
+            continue
         funnel.append({
             "id": k["id"],
             "in_context": ctx.get(k["id"], {}).get("in_context"),
@@ -284,7 +338,7 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
         "rouge_l": st2["rouge_l"],
         "accuracy_rule": st2["accuracy"],
         "context": st2["context"],
-        "keypoint": {"relevant": rel, "wrong": wrong, "irrelevant": irr, "total": K,
+        "keypoint": {"relevant": rel, "wrong": wrong, "irrelevant": irr, "total": K, "not_applicable": na,
                      "completeness": _r(rel / K) if K else None, "hallucination": _r(wrong / K) if K else None,
                      "irrelevance": _r(irr / K) if K else None},
         "fact_unit": {"precision": _r(p_fact), "recall": _r(r_fact), "f1": _f1(p_fact, r_fact),
@@ -304,7 +358,7 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
     def fmt(x):
         return "—" if x is None else f"{x:.2f}"
     print(f"\n題目：{gold['query']}   run：{st2['run_id']}")
-    print(f"Keypoint            Completeness {fmt(scores['keypoint']['completeness'])}  Hallucination {fmt(scores['keypoint']['hallucination'])}  Irrelevance {fmt(scores['keypoint']['irrelevance'])}   (relevant {rel} / wrong {wrong} / irrelevant {irr})")
+    print(f"Keypoint            Completeness {fmt(scores['keypoint']['completeness'])}  Hallucination {fmt(scores['keypoint']['hallucination'])}  Irrelevance {fmt(scores['keypoint']['irrelevance'])}   (relevant {rel} / wrong {wrong} / irrelevant {irr}" + (f" / 不適用 {na}" if na else "") + ")")
     print(f"事實為單位 P／R／F1   {fmt(p_fact)} / {fmt(r_fact)} / {fmt(scores['fact_unit']['f1'])}")
     print(f"答案為單位 P／R／F1   {fmt(p_claim)} / {fmt(r_fact)} / {fmt(scores['claim_unit']['f1'])}   (主張 {C}，正確 {len(linked_ok)})")
     print(f"有依據的主張比例      {fmt(support_rate)}   ({len(supported)}/{C})" + (f"  沒依據：{unsupported}" if unsupported else ""))
