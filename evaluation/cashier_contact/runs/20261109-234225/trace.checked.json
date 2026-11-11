@@ -1,0 +1,112 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "(02) 2939-3091",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "電話 (02)2939-3091 分機 62120",
+          "verified": true,
+          "start": 148,
+          "end": 173
+        }
+      ],
+      "why": "清單的 ☎ 行寫出納組電話 (02)2939-3091",
+      "span_verified": true,
+      "status_checked": "supported"
+    },
+    {
+      "id": "c2",
+      "answer_span": "分機 62120",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "電話 (02)2939-3091 分機 62120",
+          "verified": true,
+          "start": 148,
+          "end": 173
+        }
+      ],
+      "why": "同一行的分機",
+      "span_verified": true,
+      "status_checked": "supported"
+    },
+    {
+      "id": "c3",
+      "answer_span": "(02) 2939-4784",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "傳真 (02)2939-4784",
+          "verified": true,
+          "start": 187,
+          "end": 203
+        }
+      ],
+      "why": "清單的 ☎ 傳真行",
+      "span_verified": true,
+      "status_checked": "supported"
+    },
+    {
+      "id": "c4",
+      "answer_span": "行政大樓 5 樓",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "行政大樓 5 樓",
+          "verified": true,
+          "start": 117,
+          "end": 125
+        }
+      ],
+      "why": "辦公室那一行寫樓層",
+      "span_verified": true,
+      "status_checked": "supported"
+    },
+    {
+      "id": "c5",
+      "answer_span": "劉桂芬（組長）分機 62120",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "劉桂芬（組長）分機 62120",
+          "verified": true,
+          "start": 210,
+          "end": 225
+        }
+      ],
+      "why": "承辦人名單",
+      "span_verified": true,
+      "status_checked": "supported"
+    },
+    {
+      "id": "c6",
+      "answer_span": "余淑娟（一級行政組員）分機 62123",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "余淑娟（一級行政組員）分機 62123",
+          "verified": true,
+          "start": 558,
+          "end": 577
+        }
+      ],
+      "why": "承辦人名單",
+      "span_verified": true,
+      "status_checked": "supported"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "manual-v0",
+    "note": "Claude Code 這個 session 手寫，用來驗證流程；判斷者已知 gold，不是盲回推，不當正式結果"
+  },
+  "warnings": []
+}

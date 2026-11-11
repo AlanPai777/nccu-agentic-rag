@@ -1,0 +1,52 @@
+{
+  "query_id": "cashier_contact",
+  "run_id": "20261109-234225",
+  "task": "回推：把 answer_text 拆成原子主張，為每個主張在 evidence_items 找出支持它的逐字原文；找不到就標 unsupported。",
+  "answer_text": "總務處出納組的聯絡資訊如下：\n\n*   電話： (02) 2939-3091 分機 62120\n*   傳真： (02) 2939-4784\n*   地點： 行政大樓 5 樓\n*   相關承辦人：\n    *   劉桂芬（組長）分機 62120\n    *   余淑娟（一級行政組員）分機 62123",
+  "stripped_not_scored": {
+    "rationale": [
+      "——選擇原因：為該單位主管且對應總務處出納組對外聯絡分機。",
+      "——選擇原因：為提供分機資訊之承辦人員。"
+    ],
+    "sources": "來源：https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+    "disclosure": "【資料狀態】（由系統依實際抓取結果產生）\n- 使用資料庫（8/25）：1 頁\n  - https://cashier.nccu.edu.tw/PageStaffing?fid=7994"
+  },
+  "evidence_items": [
+    {
+      "id": "E1",
+      "kind": "contact_list",
+      "tool": null,
+      "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+      "text": "[辦公室聯絡資訊，以下是內容中提及的全部 1 個辦公室（出納組），未經相關性篩選——這是完整清單，不代表每一個都跟這題直接相關。是否每個都要寫進最終答案由你根據問題判斷，不要假設清單已經先篩過。]\n\n【各辦公室聯絡資訊】\n  出納組　行政大樓 5 樓　分機 62123\n    ☎ 總務處出納組：電話 (02)2939-3091 分機 62120\n    ☎ 總務處出納組：傳真 (02)2939-4784\n    • 劉桂芬（組長）分機 62120  vicky928@nccu.edu.tw\n    • 徐士雲（編審）分機 62172  hsu1215@nccu.edu.tw\n    • 張錦虹（組員）分機 62125  ghchang@nccu.edu.tw\n    • 江幸霓（組員）分機 62122  131042@nccu.edu.tw\n    • 張佩雯（行政專員）分機 62126  peiwen@nccu.edu.tw\n    • 蕭毓璇（行政專員）分機 62127  beru@nccu.edu.tw\n    • 鄭雅玲（一級行政組員）分機 62173  jaling@nccu.edu.tw\n    • 吳慧玲（一級行政組員）分機 62121  hlwu@nccu.edu.tw\n    • 余淑娟（一級行政組員）分機 62123  ivyyu@nccu.edu.tw\n    • 王 (禾+翟 )媗（行政組員）分機 63071  vick126@nccu.edu.tw\n    • 林瓊蓮（兼任助理）分機 62124  lin33456@nccu.edu.tw\n    來源：https://cashier.nccu.edu.tw/PageStaffing?fid=7994\n    補充來源（樓層、電話）：https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準\n    補充來源（樓層、電話）：https://aca.nccu.edu.tw/zh/常用連結/教務處qa/學生證業務"
+    }
+  ],
+  "output_file": "trace.json",
+  "output_format": {
+    "claims": [
+      {
+        "id": "c1",
+        "answer_span": "答案正文裡的一段逐字原文（這個主張對應的那一小段）",
+        "status": "supported | unsupported",
+        "evidence": [
+          {
+            "item": "E1",
+            "quote": "該證據項目裡的一段逐字原文"
+          }
+        ],
+        "why": "一句話說明"
+      }
+    ],
+    "judge": {
+      "model": "",
+      "prompt_version": "",
+      "note": ""
+    },
+    "rules": [
+      "把答案拆成原子主張：一個主張只講一件事（總機與分機是兩件事、傳真是另一件）。",
+      "引言、標題、「如下」這類沒有事實內容的字句不要列成主張。",
+      "answer_span 必須逐字取自 answer_text；quote 必須逐字取自該證據項目的 text；程式會驗證，找不到會被退回。",
+      "status=supported 要附至少一段 evidence；找不到依據就寫 unsupported，evidence 留空陣列。",
+      "判斷『有沒有依據』只看 evidence_items 裡的文字，不用你自己知道的事。"
+    ]
+  }
+}

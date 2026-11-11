@@ -230,7 +230,10 @@ def main():
     gold = json.loads(Path(args.gold).read_text(encoding="utf-8"))
     pred_path = Path(args.prediction).resolve()
     pred = json.loads(pred_path.read_text(encoding="utf-8"))
-    answer = pred["answer_body"]
+    # 答案正文一律從 answer_raw 重算（與階段 3 相同）：剝掉來源行、資料狀態、「——選擇原因：…」與粗體符號，
+    # 舊的 prediction.json（還沒剝選擇原因）也能用
+    from run_system import split_answer
+    answer = split_answer(pred["answer_raw"])[0].replace("**", "")
 
     rouge = rouge_l(answer, gold["content"])
     acc, acc_kp = accuracy(gold, answer, pred["context"])

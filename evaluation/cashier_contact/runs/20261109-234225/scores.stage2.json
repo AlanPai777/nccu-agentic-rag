@@ -7,9 +7,9 @@
   },
   "system_version": "0d0b431+uncommitted",
   "rouge_l": {
-    "p": 0.0874,
-    "r": 0.6923,
-    "f": 0.1552
+    "p": 0.1429,
+    "r": 0.6154,
+    "f": 0.2319
   },
   "accuracy": {
     "hard_keypoints": 2,

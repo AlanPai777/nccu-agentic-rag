@@ -1,0 +1,152 @@
+{
+  "query_id": "cashier_contact",
+  "run_id": "20261109-234225",
+  "system_version": "0d0b431+uncommitted",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照；校務頁面 2026-08-19）",
+    "live": "2026-11-09（現場）；只確認分機 62120，其餘分機現場無法確認"
+  },
+  "judges": {
+    "trace": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "manual-v0",
+      "note": "Claude Code 這個 session 手寫，用來驗證流程；判斷者已知 gold，不是盲回推，不當正式結果"
+    },
+    "keypoint": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "manual-v0",
+      "note": "Claude Code 這個 session 手寫，用來驗證流程；不當正式結果"
+    }
+  },
+  "rouge_l": {
+    "p": 0.1429,
+    "r": 0.6154,
+    "f": 0.2319
+  },
+  "accuracy_rule": {
+    "hard_keypoints": 2,
+    "hit": 2,
+    "accuracy": 1.0,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤值或錯誤配對，才算 hit"
+  },
+  "context": {
+    "counted_context_indices": [
+      1
+    ],
+    "context_chars": 2386,
+    "sentence": {
+      "p": 0.0218,
+      "r": 1.0,
+      "f": 0.0427
+    },
+    "words": {
+      "p": 0.0278,
+      "r": 1.0,
+      "f": 0.0541
+    },
+    "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）"
+  },
+  "keypoint": {
+    "relevant": 2,
+    "wrong": 0,
+    "irrelevant": 0,
+    "total": 2,
+    "completeness": 1.0,
+    "hallucination": 0.0,
+    "irrelevance": 0.0
+  },
+  "fact_unit": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "note": "P = Relevant ÷ (Relevant + Wrong)；R = Relevant ÷ keypoint 總數"
+  },
+  "claim_unit": {
+    "claims": 6,
+    "correct_claims": 4,
+    "precision": 0.6667,
+    "recall": 1.0,
+    "f1": 0.8,
+    "note": "P = 正確陳述某個 keypoint 的主張 ÷ 全部主張；額外但正確的資訊會讓 P 下降，量的是聚焦程度"
+  },
+  "evidence_support": {
+    "rate": 1.0,
+    "supported": 6,
+    "claims": 6,
+    "unsupported_claims": []
+  },
+  "ungrounded_correct_keypoints": [],
+  "funnel": [
+    {
+      "id": "K1",
+      "in_context": true,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K2",
+      "in_context": true,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    }
+  ],
+  "contact_funnel": [
+    {
+      "keypoint": "K1",
+      "page_has_value": true,
+      "list_has_value": true,
+      "answer_has_value": true,
+      "values_in_page": [
+        "2939-3091"
+      ],
+      "values_in_list": [
+        "2939-3091"
+      ],
+      "values_in_answer": [
+        "2939-3091"
+      ],
+      "stage": "答案有"
+    },
+    {
+      "keypoint": "K2",
+      "page_has_value": true,
+      "list_has_value": true,
+      "answer_has_value": true,
+      "values_in_page": [
+        "62120",
+        "62121",
+        "62122",
+        "62123",
+        "62124",
+        "62125",
+        "62126",
+        "62127",
+        "62172",
+        "62173",
+        "63071"
+      ],
+      "values_in_list": [
+        "62120",
+        "62121",
+        "62122",
+        "62123",
+        "62124",
+        "62125",
+        "62126",
+        "62127",
+        "62172",
+        "62173",
+        "63071"
+      ],
+      "values_in_answer": [
+        "62120",
+        "62123"
+      ],
+      "stage": "答案有"
+    }
+  ],
+  "disagreements": [],
+  "warnings": []
+}

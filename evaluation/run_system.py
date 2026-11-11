@@ -33,15 +33,18 @@ os.environ.setdefault("LANGFUSE_TRACING_ENABLED", "false")
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+# synthesis_node 的提示詞要求每位承辦人後面加「——選擇原因：…」，那是系統自己寫的說明，不是使用者問的事實，
+# 評分前剝掉（使用者決定，2026-11-11），剝掉的文字另存，需要時能回頭看。
+_RATIONALE_RE = re.compile(r"[ \t]*[—–\-]{1,2}[ \t]*選擇原因[:：][^\n]*")
 _SOURCE_LINE_RE = re.compile(r"\n[ \t>#*\-]*[【\[]?(?:引用來源|參考來源|資料來源|來源)[】\]]?\s*[:：]")
 
 
 def split_answer(answer: str) -> tuple[str, dict]:
     """答案 → 正文（評分用）。剝掉 synthesis_node 附加的【資料狀態】段，
-    以及答案最後的「來源：」行。回傳 (正文, 被剝掉的部分)。"""
+    答案最後的「來源：」行，以及每位承辦人後面的「——選擇原因：…」。回傳 (正文, 被剝掉的部分)。"""
     from rag.live.ledger import DISCLOSURE_HEADER
 
-    stripped = {"disclosure": "", "sources": ""}
+    stripped = {"disclosure": "", "sources": "", "rationale": []}
     body = answer or ""
     i = body.find(DISCLOSURE_HEADER)
     if i != -1:
@@ -58,6 +61,8 @@ def split_answer(answer: str) -> tuple[str, dict]:
         if all(re.match(r"^\s*([-*>]\s*)?(<?https?://\S+>?|\[.*?\]\(https?://\S+\))?\s*$", ln) for ln in rest.splitlines()):
             stripped["sources"] = tail.strip()
             body = ("\n" + body)[: m.start()].lstrip("\n")
+    stripped["rationale"] = [m.group().strip() for m in _RATIONALE_RE.finditer(body)]
+    body = _RATIONALE_RE.sub("", body)
     return body.strip(), stripped
 
 

@@ -1,0 +1,338 @@
+"""
+evaluation/stage3.py
+
+評測階段 3（plan/phase_k_evaluation_design.md 第 4 節）：由 Claude Code 判斷的部分，以及把判斷合併成分數。
+本檔不呼叫任何 LLM；判斷由 Claude Code 讀 trace_input.json / judge_input.json 後寫出 trace.json / judge.json。
+
+三個子命令（在專案根目錄執行）：
+
+  python evaluation/stage3.py prepare <gold.json> <run_dir>
+      由 <run_dir>/prediction.json 產生
+        trace_input.json  回推用的輸入：答案正文 + 答案模型實際看到的證據項目。**不含 gold**，
+                          判斷者回推時看不到標準答案。
+        judge_input.json  Keypoint 判斷用的輸入：答案正文 + keypoint 文字 + gold 的 content
+                          （不含 references，也不含規則版 Accuracy 的結果）。
+
+  python evaluation/stage3.py check <run_dir>
+      驗證 trace.json：每個主張的 answer_span 必須是答案正文的子字串，每段證據 quote 必須是該證據項目的
+      子字串（空白正規化後）。結果寫進 trace.checked.json，不改動判斷者寫的 trace.json。
+
+  python evaluation/stage3.py score <gold.json> <run_dir>
+      讀 scores.stage2.json、trace.checked.json、judge.json，算出階段 3 的分數並合併成 scores.json。
+
+命名：K = gold 的 keypoint，c = 答案的主張（claim），E = 證據項目（evidence item）。
+
+定義（2026-11-11 與使用者確認）：
+  Keypoint        Completeness / Hallucination / Irrelevance = Relevant / Wrong / Irrelevant 的 keypoint ÷ keypoint 總數
+  事實為單位      P = Relevant ÷ (Relevant + Wrong)   R = Relevant ÷ keypoint 總數   F1 = 調和平均
+  答案為單位      P = 正確陳述某個 keypoint 的主張 ÷ 全部主張   R = Relevant ÷ keypoint 總數   F1
+                  （額外但正確的資訊在這一組會讓 P 下降，這組量的是答案聚焦程度，不是對錯）
+  有依據的主張比例  有證據支持的主張 ÷ 全部主張（單獨一個數，沒有 R 與 F1；唯一管 gold 沒列的敘述）
+"""
+import argparse
+import json
+import re
+import sys
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+from score_programmatic import _NODE_PROMPT_PREFIXES, norm  # noqa: E402
+from run_system import split_answer  # noqa: E402
+
+ROOT = HERE.parent
+_MARKER_RE = re.compile(r"\[live:src ([^\]]*?) url=([^\]]+)\]")
+
+OUTPUT_FORMAT = {
+    "trace.json": {
+        "claims": [{
+            "id": "c1",
+            "answer_span": "答案正文裡的一段逐字原文（這個主張對應的那一小段）",
+            "status": "supported | unsupported",
+            "evidence": [{"item": "E1", "quote": "該證據項目裡的一段逐字原文"}],
+            "why": "一句話說明",
+        }],
+        "judge": {"model": "", "prompt_version": "", "note": ""},
+        "rules": [
+            "把答案拆成原子主張：一個主張只講一件事（總機與分機是兩件事、傳真是另一件）。",
+            "引言、標題、「如下」這類沒有事實內容的字句不要列成主張。",
+            "answer_span 必須逐字取自 answer_text；quote 必須逐字取自該證據項目的 text；程式會驗證，找不到會被退回。",
+            "status=supported 要附至少一段 evidence；找不到依據就寫 unsupported，evidence 留空陣列。",
+            "判斷『有沒有依據』只看 evidence_items 裡的文字，不用你自己知道的事。",
+        ],
+    },
+    "judge.json": {
+        "keypoints": [{
+            "id": "K1",
+            "verdict": "relevant | irrelevant | wrong",
+            "claims": ["c1"],
+            "reason": "一句話說明",
+        }],
+        "judge": {"model": "", "prompt_version": "", "note": ""},
+        "rules": [
+            "relevant：答案裡有與這個 keypoint 相關且一致的陳述（不必每個細節都一樣，最重要的資訊一致即可）。",
+            "irrelevant：答案沒有提到，或只說資訊不足。",
+            "wrong：答案對這個 keypoint 給了具體但不同的內容。",
+            "claims 列出 trace.json 裡直接陳述這個 keypoint 的主張編號；沒提到就留空陣列。",
+            "每個 keypoint 都要有一筆。",
+        ],
+    },
+}
+
+
+def _write(path: Path, obj) -> None:
+    path.write_text(json.dumps(obj, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def _read(path: Path):
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+# --- prepare ------------------------------------------------------------------
+def build_evidence(context: list[dict]) -> list[dict]:
+    """答案模型實際看到的內容：工具輸出、聯絡人清單（contact_list）、節點注入的資料（表單全文等）。
+    排除 contact_page（人員頁原文，答案模型沒看過，只用於 Context 層）與節點給 LLM 的指示文字。"""
+    items = []
+    for c in context:
+        if c.get("kind") == "contact_page":
+            continue
+        if c["role"] == "HumanMessage" and c["text"].startswith(_NODE_PROMPT_PREFIXES):
+            continue
+        m = _MARKER_RE.search(c["text"])
+        text = _MARKER_RE.sub("", c["text"]).strip()
+        items.append({
+            "id": f"E{len(items) + 1}",
+            "kind": c.get("kind") or c["role"],
+            "tool": c.get("tool"),
+            "source_url": m.group(2) if m else None,
+            "text": text,
+        })
+    return items
+
+
+def cmd_prepare(gold_path: Path, run_dir: Path) -> None:
+    gold = _read(gold_path)
+    pred = _read(run_dir / "prediction.json")
+    body, stripped = split_answer(pred["answer_raw"])      # 舊的 prediction 也能用：從 answer_raw 重算
+    answer_text = body.replace("**", "")
+    av = gold.get("allowed_values") or {}
+    notes = {}
+    if av.get("extension"):
+        notes["允許的出納組分機"] = [e["value"] for e in av["extension"]]
+    if av.get("disallowed"):
+        notes["不屬於這個單位的號碼（答案寫了就是錯）"] = [f"{d['value']}：{d['reason']}" for d in av["disallowed"]]
+
+    _write(run_dir / "trace_input.json", {
+        "query_id": gold["query_id"], "run_id": pred["run_id"],
+        "task": "回推：把 answer_text 拆成原子主張，為每個主張在 evidence_items 找出支持它的逐字原文；找不到就標 unsupported。",
+        "answer_text": answer_text,
+        "stripped_not_scored": {"rationale": stripped["rationale"], "sources": stripped["sources"], "disclosure": stripped["disclosure"]},
+        "evidence_items": build_evidence(pred["context"]),
+        "output_file": "trace.json",
+        "output_format": OUTPUT_FORMAT["trace.json"],
+    })
+    _write(run_dir / "judge_input.json", {
+        "query_id": gold["query_id"], "run_id": pred["run_id"], "query": pred["query"],
+        "task": "對每個 keypoint 判斷答案：relevant / irrelevant / wrong，並指出直接陳述它的主張編號（見 trace.json）。",
+        "answer_text": answer_text,
+        "gold_content": gold["content"],
+        "keypoints": [{"id": k["id"], "text": k["text"]} for k in gold["keypoints"]],
+        "notes": notes,
+        "output_file": "judge.json",
+        "output_format": OUTPUT_FORMAT["judge.json"],
+    })
+    n_e = len(build_evidence(pred["context"]))
+    print(f"已寫入 {run_dir}/trace_input.json（答案 {len(answer_text)} 字、證據項目 {n_e} 個）與 judge_input.json（{len(gold['keypoints'])} 個 keypoint）")
+    print(f"剝掉未評分的：選擇原因 {len(stripped['rationale'])} 句；來源行 {'有' if stripped['sources'] else '無'}；資料狀態 {'有' if stripped['disclosure'] else '無'}")
+
+
+# --- check --------------------------------------------------------------------
+def _locate(haystack: str, needle: str):
+    """needle 在 haystack 中的位置（空白正規化後找，位置回報原文位置；找不到回 None）。"""
+    i = haystack.find(needle)
+    if i != -1:
+        return i, i + len(needle)
+    n = norm(needle)
+    if not n or n not in norm(haystack):
+        return None
+    return -1, -1     # 在正規化後找得到，但原文位置無法精確回報
+
+
+def cmd_check(run_dir: Path) -> dict:
+    ti = _read(run_dir / "trace_input.json")
+    tr = _read(run_dir / "trace.json")
+    items = {e["id"]: e for e in ti["evidence_items"]}
+    answer = ti["answer_text"]
+    warnings, claims = [], []
+    for c in tr["claims"]:
+        c = dict(c)
+        loc = _locate(answer, c.get("answer_span", ""))
+        c["span_verified"] = loc is not None
+        if loc is None:
+            warnings.append(f"{c['id']}：answer_span 不在答案正文裡，這個主張不計入")
+        ev = []
+        for e in c.get("evidence", []):
+            e = dict(e)
+            it = items.get(e.get("item"))
+            pos = _locate(it["text"], e.get("quote", "")) if it else None
+            e["verified"] = pos is not None
+            if pos and pos[0] >= 0:
+                e["start"], e["end"] = pos
+            if pos is None:
+                warnings.append(f"{c['id']}：證據 {e.get('item')} 的 quote 不是該項目的原文，不算有效證據")
+            ev.append(e)
+        c["evidence"] = ev
+        valid_evidence = [e for e in ev if e["verified"]]
+        status = c.get("status")
+        if status == "supported" and not valid_evidence:
+            c["status_checked"] = "unsupported"
+            warnings.append(f"{c['id']}：標為 supported 但沒有任何通過驗證的證據，降為 unsupported")
+        else:
+            c["status_checked"] = status
+        claims.append(c)
+    out = {"claims": claims, "judge": tr.get("judge"), "warnings": warnings}
+    _write(run_dir / "trace.checked.json", out)
+    ok = sum(1 for c in claims if c["span_verified"])
+    print(f"主張 {len(claims)} 個；answer_span 通過 {ok} 個；證據 quote 通過 {sum(e['verified'] for c in claims for e in c['evidence'])}/{sum(len(c['evidence']) for c in claims)}")
+    for w in warnings:
+        print("  警告：", w)
+    return out
+
+
+# --- score --------------------------------------------------------------------
+def _f1(p, r):
+    return None if p is None or r is None or (p + r) == 0 else round(2 * p * r / (p + r), 4)
+
+
+def _r(x):
+    return None if x is None else round(x, 4)
+
+
+def cmd_score(gold_path: Path, run_dir: Path) -> dict:
+    gold = _read(gold_path)
+    st2 = _read(run_dir / "scores.stage2.json")
+    tr = cmd_check(run_dir)
+    jd = _read(run_dir / "judge.json")
+    warnings = list(tr["warnings"])
+
+    claims = [c for c in tr["claims"] if c["span_verified"]]
+    by_claim = {c["id"]: c for c in claims}
+    verdicts = {k["id"]: k for k in jd["keypoints"]}
+    K = len(gold["keypoints"])
+    for k in gold["keypoints"]:
+        if k["id"] not in verdicts:
+            warnings.append(f"judge.json 缺少 {k['id']}，視為 irrelevant")
+            verdicts[k["id"]] = {"id": k["id"], "verdict": "irrelevant", "claims": [], "reason": "（缺漏）"}
+    for kid, v in verdicts.items():
+        if v["verdict"] not in ("relevant", "irrelevant", "wrong"):
+            warnings.append(f"{kid}：verdict {v['verdict']!r} 不合法，視為 irrelevant")
+            v["verdict"] = "irrelevant"
+    rel = sum(v["verdict"] == "relevant" for v in verdicts.values())
+    wrong = sum(v["verdict"] == "wrong" for v in verdicts.values())
+    irr = K - rel - wrong
+
+    # 事實為單位
+    p_fact = rel / (rel + wrong) if (rel + wrong) else None
+    r_fact = rel / K if K else None
+
+    # 答案為單位：正確陳述某個 keypoint 的主張
+    linked_ok = set()
+    for v in verdicts.values():
+        if v["verdict"] == "relevant":
+            linked_ok |= {cid for cid in v.get("claims", []) if cid in by_claim}
+    C = len(claims)
+    p_claim = len(linked_ok) / C if C else None
+
+    # 有依據的主張比例
+    supported = [c for c in claims if c["status_checked"] == "supported"]
+    unsupported = [c["id"] for c in claims if c["status_checked"] != "supported"]
+    support_rate = len(supported) / C if C else None
+
+    # 答對但沒有依據的 keypoint
+    ungrounded = [kid for kid, v in verdicts.items() if v["verdict"] == "relevant"
+                  and not any(by_claim.get(cid, {}).get("status_checked") == "supported" for cid in v.get("claims", []))]
+
+    # 規則版 Accuracy 與 Claude 判斷不一致的 keypoint
+    rule = {r["id"]: r for r in st2["keypoints"]["accuracy_rule"]}
+    disagreements = []
+    for kid, v in verdicts.items():
+        rv = rule.get(kid, {}).get("verdict")
+        if rv in (None, "needs_llm"):
+            continue
+        ok = (rv == "hit" and v["verdict"] == "relevant") or (rv == "wrong" and v["verdict"] == "wrong") \
+            or (rv == "miss" and v["verdict"] in ("irrelevant", "wrong"))
+        if not ok:
+            disagreements.append({"keypoint": kid, "rule": rv, "claude": v["verdict"], "claude_reason": v.get("reason", ""),
+                                  "rule_detail": {k: rule[kid].get(k) for k in ("matched_expressions", "wrong") if rule[kid].get(k)}})
+
+    funnel = []
+    ctx = {f["id"]: f for f in st2["keypoints"]["funnel_stage2"]}
+    for k in gold["keypoints"]:
+        v = verdicts[k["id"]]
+        funnel.append({
+            "id": k["id"],
+            "in_context": ctx.get(k["id"], {}).get("in_context"),
+            "stated_correctly": v["verdict"] == "relevant",
+            "grounded": k["id"] not in ungrounded and v["verdict"] == "relevant",
+            "verdict": v["verdict"],
+        })
+
+    scores = {
+        "query_id": st2["query_id"], "run_id": st2["run_id"], "system_version": st2.get("system_version"),
+        "gold_data_as_of": st2.get("gold_data_as_of"),
+        "judges": {"trace": (tr.get("judge") or {}), "keypoint": jd.get("judge")},
+        "rouge_l": st2["rouge_l"],
+        "accuracy_rule": st2["accuracy"],
+        "context": st2["context"],
+        "keypoint": {"relevant": rel, "wrong": wrong, "irrelevant": irr, "total": K,
+                     "completeness": _r(rel / K) if K else None, "hallucination": _r(wrong / K) if K else None,
+                     "irrelevance": _r(irr / K) if K else None},
+        "fact_unit": {"precision": _r(p_fact), "recall": _r(r_fact), "f1": _f1(p_fact, r_fact),
+                      "note": "P = Relevant ÷ (Relevant + Wrong)；R = Relevant ÷ keypoint 總數"},
+        "claim_unit": {"claims": C, "correct_claims": len(linked_ok), "precision": _r(p_claim), "recall": _r(r_fact),
+                       "f1": _f1(p_claim, r_fact),
+                       "note": "P = 正確陳述某個 keypoint 的主張 ÷ 全部主張；額外但正確的資訊會讓 P 下降，量的是聚焦程度"},
+        "evidence_support": {"rate": _r(support_rate), "supported": len(supported), "claims": C, "unsupported_claims": unsupported},
+        "ungrounded_correct_keypoints": ungrounded,
+        "funnel": funnel,
+        "contact_funnel": st2["keypoints"].get("contact_funnel", []),
+        "disagreements": disagreements,
+        "warnings": warnings,
+    }
+    _write(run_dir / "scores.json", scores)
+
+    def fmt(x):
+        return "—" if x is None else f"{x:.2f}"
+    print(f"\n題目：{gold['query']}   run：{st2['run_id']}")
+    print(f"Keypoint            Completeness {fmt(scores['keypoint']['completeness'])}  Hallucination {fmt(scores['keypoint']['hallucination'])}  Irrelevance {fmt(scores['keypoint']['irrelevance'])}   (relevant {rel} / wrong {wrong} / irrelevant {irr})")
+    print(f"事實為單位 P／R／F1   {fmt(p_fact)} / {fmt(r_fact)} / {fmt(scores['fact_unit']['f1'])}")
+    print(f"答案為單位 P／R／F1   {fmt(p_claim)} / {fmt(r_fact)} / {fmt(scores['claim_unit']['f1'])}   (主張 {C}，正確 {len(linked_ok)})")
+    print(f"有依據的主張比例      {fmt(support_rate)}   ({len(supported)}/{C})" + (f"  沒依據：{unsupported}" if unsupported else ""))
+    print(f"Accuracy（規則）      {st2['accuracy']['hit']}/{st2['accuracy']['hard_keypoints']}   ROUGE-L P／R／F {st2['rouge_l']['p']:.2f}/{st2['rouge_l']['r']:.2f}/{st2['rouge_l']['f']:.2f}")
+    print(f"Context 句子 R {fmt(st2['context']['sentence']['r'])}  詞 R {fmt(st2['context']['words']['r'])}")
+    if ungrounded:
+        print("答對但沒依據的 keypoint：", ungrounded)
+    print("規則與 Claude 不一致：", disagreements or "無")
+    for w in warnings:
+        print("警告：", w)
+    print(f"\n已寫入 {run_dir}/scores.json")
+    return scores
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    sub = ap.add_subparsers(dest="cmd", required=True)
+    a = sub.add_parser("prepare"); a.add_argument("gold"); a.add_argument("run_dir")
+    b = sub.add_parser("check"); b.add_argument("run_dir")
+    c = sub.add_parser("score"); c.add_argument("gold"); c.add_argument("run_dir")
+    args = ap.parse_args()
+    if args.cmd == "prepare":
+        cmd_prepare(Path(args.gold).resolve(), Path(args.run_dir).resolve())
+    elif args.cmd == "check":
+        cmd_check(Path(args.run_dir).resolve())
+    else:
+        cmd_score(Path(args.gold).resolve(), Path(args.run_dir).resolve())
+
+
+if __name__ == "__main__":
+    main()
