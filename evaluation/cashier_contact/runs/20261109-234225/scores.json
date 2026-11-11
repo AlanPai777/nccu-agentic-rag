@@ -9,13 +9,13 @@
   "judges": {
     "trace": {
       "model": "claude-sonnet-5-5",
-      "prompt_version": "manual-v0",
-      "note": "Claude Code 這個 session 手寫，用來驗證流程；判斷者已知 gold，不是盲回推，不當正式結果"
+      "prompt_version": "blind-v1",
+      "note": "blind trace by a subagent that read only trace_input.json"
     },
     "keypoint": {
       "model": "claude-sonnet-5-5",
-      "prompt_version": "manual-v0",
-      "note": "Claude Code 這個 session 手寫，用來驗證流程；不當正式結果"
+      "prompt_version": "judge-v0",
+      "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json"
     }
   },
   "rouge_l": {

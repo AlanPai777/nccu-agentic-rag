@@ -5,6 +5,6 @@
     {"id": "K2", "verdict": "relevant", "claims": ["c2", "c5", "c6"],
      "reason": "答案給出的分機 62120、62123 都在允許集合內，沒有出現禁止值；人名與分機成對正確"}
   ],
-  "judge": {"model": "claude-sonnet-5-5", "prompt_version": "manual-v0",
-            "note": "Claude Code 這個 session 手寫，用來驗證流程；不當正式結果"}
+  "judge": {"model": "claude-sonnet-5-5", "prompt_version": "judge-v0",
+            "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json"}
 }

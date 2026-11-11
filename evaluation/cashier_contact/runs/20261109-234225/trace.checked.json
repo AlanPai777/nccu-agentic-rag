@@ -7,13 +7,13 @@
       "evidence": [
         {
           "item": "E1",
-          "quote": "電話 (02)2939-3091 分機 62120",
+          "quote": "總務處出納組：電話 (02)2939-3091 分機 62120",
           "verified": true,
-          "start": 148,
+          "start": 141,
           "end": 173
         }
       ],
-      "why": "清單的 ☎ 行寫出納組電話 (02)2939-3091",
+      "why": "Evidence gives the same phone number (spacing differs only).",
       "span_verified": true,
       "status_checked": "supported"
     },
@@ -24,13 +24,13 @@
       "evidence": [
         {
           "item": "E1",
-          "quote": "電話 (02)2939-3091 分機 62120",
+          "quote": "總務處出納組：電話 (02)2939-3091 分機 62120",
           "verified": true,
-          "start": 148,
+          "start": 141,
           "end": 173
         }
       ],
-      "why": "同一行的分機",
+      "why": "Evidence lists extension 62120 on the unit's phone line.",
       "span_verified": true,
       "status_checked": "supported"
     },
@@ -41,13 +41,13 @@
       "evidence": [
         {
           "item": "E1",
-          "quote": "傳真 (02)2939-4784",
+          "quote": "總務處出納組：傳真 (02)2939-4784",
           "verified": true,
-          "start": 187,
+          "start": 180,
           "end": 203
         }
       ],
-      "why": "清單的 ☎ 傳真行",
+      "why": "Evidence gives the same fax number.",
       "span_verified": true,
       "status_checked": "supported"
     },
@@ -58,13 +58,13 @@
       "evidence": [
         {
           "item": "E1",
-          "quote": "行政大樓 5 樓",
+          "quote": "出納組　行政大樓 5 樓",
           "verified": true,
-          "start": 117,
+          "start": 113,
           "end": 125
         }
       ],
-      "why": "辦公室那一行寫樓層",
+      "why": "Evidence places 出納組 at 行政大樓 5 樓.",
       "span_verified": true,
       "status_checked": "supported"
     },
@@ -81,7 +81,7 @@
           "end": 225
         }
       ],
-      "why": "承辦人名單",
+      "why": "Evidence lists this person, title and extension exactly.",
       "span_verified": true,
       "status_checked": "supported"
     },
@@ -98,15 +98,15 @@
           "end": 577
         }
       ],
-      "why": "承辦人名單",
+      "why": "Evidence lists this person, title and extension exactly.",
       "span_verified": true,
       "status_checked": "supported"
     }
   ],
   "judge": {
     "model": "claude-sonnet-5-5",
-    "prompt_version": "manual-v0",
-    "note": "Claude Code 這個 session 手寫，用來驗證流程；判斷者已知 gold，不是盲回推，不當正式結果"
+    "prompt_version": "blind-v1",
+    "note": "blind trace by a subagent that read only trace_input.json"
   },
   "warnings": []
 }
