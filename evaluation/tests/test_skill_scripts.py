@@ -227,8 +227,49 @@ class VerifyGoldTest(unittest.TestCase):
         self.assertEqual(r.returncode, 1)
         self.assertIn("引文不在來源原文裡", r.stdout)
 
-    def test_a_missing_gold_exits_2(self):
-        self.assertEqual(run(VERIFY_GOLD, tmpdir(self) / "nope.json").returncode, 2)
+    def test_a_missing_gold_exits_1(self):
+        self.assertEqual(run(VERIFY_GOLD, tmpdir(self) / "nope.json").returncode, 1)
+
+    def test_every_real_gold_passes_without_advisories(self):
+        for gold in sorted(helpers.EVAL.glob("*/gold.json")):
+            r = run(VERIFY_GOLD, gold)
+            self.assertEqual(r.returncode, 0, f"{gold}\n{r.stdout}")   # 電話號碼、編號沒有單位，不會被誤報
+
+    def gold_with(self, edit):
+        d = tmpdir(self)
+        shutil.copytree(helpers.GOLD.parent / "sources", d / "sources")
+        gold = helpers.read(helpers.GOLD)
+        edit(gold)
+        helpers.write(d / "gold.json", gold)
+        return run(VERIFY_GOLD, d / "gold.json")
+
+    def test_a_keypoint_with_two_numbers_and_units_gets_an_advisory(self):
+        r = self.gold_with(lambda g: g["keypoints"][0].update(text="雙主修上限 31 學分、輔系上限 28 學分"))
+        self.assertEqual(r.returncode, 2, r.stdout)
+        self.assertIn("ADVISORY", r.stdout)
+        self.assertIn("more than one fact", r.stdout)
+
+    def test_the_same_number_twice_or_a_phone_number_is_not_flagged(self):
+        r = self.gold_with(lambda g: g["keypoints"][0].update(text="上限 25 學分，也就是 25 學分（電話 (02)2939-3091 分機 62120）"))
+        self.assertEqual(r.returncode, 0, r.stdout)
+
+    def test_a_hard_keypoint_nobody_can_hit_gets_an_advisory(self):
+        def edit(g):
+            kp = g["keypoints"][0]
+            kp["acceptable_expressions"] = []
+            kp.pop("value_check", None)
+        r = self.gold_with(edit)
+        self.assertEqual(r.returncode, 2, r.stdout)
+        self.assertIn("can never hit it", r.stdout)
+
+    def test_advisories_do_not_hide_real_problems(self):
+        def edit(g):
+            g["keypoints"][0]["text"] = "上限 31 學分、下限 12 學分"
+            g["keypoints"][0]["references"][0]["text"] = "編造的引文 62999"
+        r = self.gold_with(edit)
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn("引文不在來源原文裡", r.stdout)
+        self.assertIn("ADVISORY", r.stdout)
 
 
 class MakeTamperedVersionTest(unittest.TestCase):
