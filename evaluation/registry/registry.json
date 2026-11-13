@@ -6958,8 +6958,267 @@
           "status": "both"
         },
         {
-          "ext": "67725",
+          "ext": "472013",
           "row": 17,
+          "names": [
+            {
+              "form": "full",
+              "value": "林永輝",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_mend.txt",
+                  "quote": "林永輝"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/ga_mend.rendered.html",
+                  "quote": "林永輝"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "技術組員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_mend.txt",
+                  "quote": "技術組員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/ga_mend.rendered.html",
+                  "quote": "技術組員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/ga_old_mend.txt",
+              "quote": "472013"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/ga_mend.rendered.html",
+              "quote": "472013"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "472007",
+          "row": 18,
+          "names": [
+            {
+              "form": "full",
+              "value": "池双焜",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_mend.txt",
+                  "quote": "池双焜"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "技術組員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_mend.txt",
+                  "quote": "技術組員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/ga_old_mend.txt",
+              "quote": "472007"
+            }
+          ],
+          "status": "snapshot-only"
+        },
+        {
+          "ext": "472014",
+          "row": 19,
+          "names": [
+            {
+              "form": "full",
+              "value": "許玉樹",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_mend.txt",
+                  "quote": "許玉樹"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "技術組員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_mend.txt",
+                  "quote": "技術組員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/ga_old_mend.txt",
+              "quote": "472014"
+            }
+          ],
+          "status": "snapshot-only"
+        },
+        {
+          "ext": "472005",
+          "row": 20,
+          "names": [
+            {
+              "form": "full",
+              "value": "陳嘉祥",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_mend.txt",
+                  "quote": "陳嘉祥"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/ga_mend.rendered.html",
+                  "quote": "陳嘉祥"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "技術組員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_mend.txt",
+                  "quote": "技術組員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/ga_mend.rendered.html",
+                  "quote": "技術組員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/ga_old_mend.txt",
+              "quote": "472005"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/ga_mend.rendered.html",
+              "quote": "472005"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "472003",
+          "row": 21,
+          "names": [
+            {
+              "form": "full",
+              "value": "王騰文",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_mend.txt",
+                  "quote": "王騰文"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/ga_mend.rendered.html",
+                  "quote": "王騰文"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "技術組員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_mend.txt",
+                  "quote": "技術組員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/ga_mend.rendered.html",
+                  "quote": "技術組員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/ga_old_mend.txt",
+              "quote": "472003"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/ga_mend.rendered.html",
+              "quote": "472003"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "67725",
+          "row": 22,
           "names": [
             {
               "form": "full",
@@ -7045,6 +7304,106 @@
             }
           ],
           "status": "both"
+        },
+        {
+          "ext": "472004",
+          "row": 23,
+          "names": [
+            {
+              "form": "full",
+              "value": "高銘堂",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_mend.txt",
+                  "quote": "高銘堂"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "技工",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_mend.txt",
+                  "quote": "技工"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/ga_old_mend.txt",
+              "quote": "472004"
+            }
+          ],
+          "status": "snapshot-only"
+        },
+        {
+          "ext": "472002",
+          "row": 24,
+          "names": [
+            {
+              "form": "full",
+              "value": "江政勳",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_mend.txt",
+                  "quote": "江政勳"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/ga_mend.rendered.html",
+                  "quote": "江政勳"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "技工",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_mend.txt",
+                  "quote": "技工"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/ga_mend.rendered.html",
+                  "quote": "技工"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/ga_old_mend.txt",
+              "quote": "472002"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/ga_mend.rendered.html",
+              "quote": "472002"
+            }
+          ],
+          "status": "both"
         }
       ],
       "where_to_find": [
@@ -7052,7 +7411,7 @@
           "role": "現在的官網頁面（現場來源）",
           "url": "https://nccuga.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C%E9%81%B8%E5%96%AE/%E7%87%9F%E7%B9%95%E7%B5%84_",
           "checked": "2026-11-13",
-          "status": "200，解析出 18 筆人員",
+          "status": "200，解析出 22 筆人員",
           "file": "sources/live/ga_mend.rendered.html"
         },
         {
@@ -7834,6 +8193,7 @@
     "safety": {
       "name": "環安組",
       "aliases": [
+        "環境保護與職業安全衛生組",
         "總務處環安組",
         "環安組"
       ],
@@ -7870,6 +8230,12 @@
               "value": "張仕勳",
               "sources": [
                 {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_safety.txt",
+                  "quote": "張仕勳"
+                },
+                {
                   "source": "live",
                   "asof": "2026-11-13",
                   "file": "sources/live/ga_safety.rendered.html",
@@ -7884,6 +8250,12 @@
               "value": "組長",
               "sources": [
                 {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_safety.txt",
+                  "quote": "組長"
+                },
+                {
                   "source": "live",
                   "asof": "2026-11-13",
                   "file": "sources/live/ga_safety.rendered.html",
@@ -7894,13 +8266,19 @@
           ],
           "ext_sources": [
             {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/ga_old_safety.txt",
+              "quote": "62820"
+            },
+            {
               "source": "live",
               "asof": "2026-11-13",
               "file": "sources/live/ga_safety.rendered.html",
               "quote": "62820"
             }
           ],
-          "status": "live-only"
+          "status": "both"
         },
         {
           "ext": "62413",
@@ -7910,6 +8288,12 @@
               "form": "full",
               "value": "蘇木鴻",
               "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_safety.txt",
+                  "quote": "蘇木鴻"
+                },
                 {
                   "source": "live",
                   "asof": "2026-11-13",
@@ -7925,6 +8309,12 @@
               "value": "專員",
               "sources": [
                 {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_safety.txt",
+                  "quote": "專員"
+                },
+                {
                   "source": "live",
                   "asof": "2026-11-13",
                   "file": "sources/live/ga_safety.rendered.html",
@@ -7935,13 +8325,19 @@
           ],
           "ext_sources": [
             {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/ga_old_safety.txt",
+              "quote": "62413"
+            },
+            {
               "source": "live",
               "asof": "2026-11-13",
               "file": "sources/live/ga_safety.rendered.html",
               "quote": "62413"
             }
           ],
-          "status": "live-only"
+          "status": "both"
         },
         {
           "ext": "62822",
@@ -7951,6 +8347,12 @@
               "form": "full",
               "value": "吳承鍾",
               "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_safety.txt",
+                  "quote": "吳承鍾"
+                },
                 {
                   "source": "live",
                   "asof": "2026-11-13",
@@ -7966,6 +8368,12 @@
               "value": "技士",
               "sources": [
                 {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_safety.txt",
+                  "quote": "技士"
+                },
+                {
                   "source": "live",
                   "asof": "2026-11-13",
                   "file": "sources/live/ga_safety.rendered.html",
@@ -7976,22 +8384,62 @@
           ],
           "ext_sources": [
             {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/ga_old_safety.txt",
+              "quote": "62822"
+            },
+            {
               "source": "live",
               "asof": "2026-11-13",
               "file": "sources/live/ga_safety.rendered.html",
               "quote": "62822"
             }
           ],
-          "status": "live-only"
+          "status": "both"
+        },
+        {
+          "ext": "62823",
+          "row": 4,
+          "names": [],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "約用護理師",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_safety.txt",
+                  "quote": "約用護理師"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/ga_old_safety.txt",
+              "quote": "62823"
+            }
+          ],
+          "status": "title-only"
         },
         {
           "ext": "62897",
-          "row": 4,
+          "row": 5,
           "names": [
             {
               "form": "full",
               "value": "潘宥芯",
               "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_safety.txt",
+                  "quote": "潘宥芯"
+                },
                 {
                   "source": "live",
                   "asof": "2026-11-13",
@@ -8007,6 +8455,12 @@
               "value": "約用護理師",
               "sources": [
                 {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_safety.txt",
+                  "quote": "約用護理師"
+                },
+                {
                   "source": "live",
                   "asof": "2026-11-13",
                   "file": "sources/live/ga_safety.rendered.html",
@@ -8017,22 +8471,34 @@
           ],
           "ext_sources": [
             {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/ga_old_safety.txt",
+              "quote": "62897"
+            },
+            {
               "source": "live",
               "asof": "2026-11-13",
               "file": "sources/live/ga_safety.rendered.html",
               "quote": "62897"
             }
           ],
-          "status": "live-only"
+          "status": "both"
         },
         {
           "ext": "62824",
-          "row": 5,
+          "row": 6,
           "names": [
             {
               "form": "full",
               "value": "林姿君",
               "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_safety.txt",
+                  "quote": "林姿君"
+                },
                 {
                   "source": "live",
                   "asof": "2026-11-13",
@@ -8048,6 +8514,12 @@
               "value": "技術師",
               "sources": [
                 {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_safety.txt",
+                  "quote": "技術師"
+                },
+                {
                   "source": "live",
                   "asof": "2026-11-13",
                   "file": "sources/live/ga_safety.rendered.html",
@@ -8058,22 +8530,34 @@
           ],
           "ext_sources": [
             {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/ga_old_safety.txt",
+              "quote": "62824"
+            },
+            {
               "source": "live",
               "asof": "2026-11-13",
               "file": "sources/live/ga_safety.rendered.html",
               "quote": "62824"
             }
           ],
-          "status": "live-only"
+          "status": "both"
         },
         {
           "ext": "67743",
-          "row": 6,
+          "row": 7,
           "names": [
             {
               "form": "full",
               "value": "陳恩樂",
               "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_safety.txt",
+                  "quote": "陳恩樂"
+                },
                 {
                   "source": "live",
                   "asof": "2026-11-13",
@@ -8089,6 +8573,12 @@
               "value": "職安管理員",
               "sources": [
                 {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_safety.txt",
+                  "quote": "職安管理員"
+                },
+                {
                   "source": "live",
                   "asof": "2026-11-13",
                   "file": "sources/live/ga_safety.rendered.html",
@@ -8099,22 +8589,34 @@
           ],
           "ext_sources": [
             {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/ga_old_safety.txt",
+              "quote": "67743"
+            },
+            {
               "source": "live",
               "asof": "2026-11-13",
               "file": "sources/live/ga_safety.rendered.html",
               "quote": "67743"
             }
           ],
-          "status": "live-only"
+          "status": "both"
         },
         {
           "ext": "62821",
-          "row": 7,
+          "row": 8,
           "names": [
             {
               "form": "full",
               "value": "陳文靜",
               "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_safety.txt",
+                  "quote": "陳文靜"
+                },
                 {
                   "source": "live",
                   "asof": "2026-11-13",
@@ -8130,6 +8632,12 @@
               "value": "技術組員",
               "sources": [
                 {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_safety.txt",
+                  "quote": "技術組員"
+                },
+                {
                   "source": "live",
                   "asof": "2026-11-13",
                   "file": "sources/live/ga_safety.rendered.html",
@@ -8140,22 +8648,34 @@
           ],
           "ext_sources": [
             {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/ga_old_safety.txt",
+              "quote": "62821"
+            },
+            {
               "source": "live",
               "asof": "2026-11-13",
               "file": "sources/live/ga_safety.rendered.html",
               "quote": "62821"
             }
           ],
-          "status": "live-only"
+          "status": "both"
         },
         {
           "ext": "63070",
-          "row": 8,
+          "row": 9,
           "names": [
             {
               "form": "full",
               "value": "呂新靈",
               "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_safety.txt",
+                  "quote": "呂新靈"
+                },
                 {
                   "source": "live",
                   "asof": "2026-11-13",
@@ -8171,6 +8691,12 @@
               "value": "專任助理",
               "sources": [
                 {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/ga_old_safety.txt",
+                  "quote": "專任助理"
+                },
+                {
                   "source": "live",
                   "asof": "2026-11-13",
                   "file": "sources/live/ga_safety.rendered.html",
@@ -8181,13 +8707,19 @@
           ],
           "ext_sources": [
             {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/ga_old_safety.txt",
+              "quote": "63070"
+            },
+            {
               "source": "live",
               "asof": "2026-11-13",
               "file": "sources/live/ga_safety.rendered.html",
               "quote": "63070"
             }
           ],
-          "status": "live-only"
+          "status": "both"
         }
       ],
       "where_to_find": [
@@ -8199,8 +8731,15 @@
           "file": "sources/live/ga_safety.rendered.html"
         },
         {
+          "role": "舊網址（索引裡的人員頁）",
+          "url": "https://environ.nccu.edu.tw/PageStaffing?fid=8473",
+          "status": "未請求；索引網域與現站不同，推測已搬家，未驗證"
+        },
+        {
           "role": "快照（本機索引）",
-          "status": "索引沒有這個單位"
+          "file": "output/office_contacts_index.jsonl",
+          "line": 32,
+          "fetched": "2026-08-25"
         }
       ]
     },

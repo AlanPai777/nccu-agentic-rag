@@ -37,7 +37,7 @@ def _shown(p) -> str:
 
 # 這些 HumanMessage 是節點給 LLM 的指示，不是檢索到的資料，不算進 Context
 _NODE_PROMPT_PREFIXES = ("這一輪系統建議的搜尋方向", "候選subdomain")
-_EXT_RE = re.compile(r"(?<!\d)\d{5}(?!\d)")          # 分機：獨立的 5 位數（前後不是數字）
+_EXT_RE = re.compile(r"(?<!\d)\d{5,6}(?!\d)")        # 分機：獨立的 5 或 6 位數（前後不是數字；營繕組技術人員是 6 位數）
 _PAIR_WINDOW = 12                                    # 人名後多少字內的第一個分機視為這個人的
 
 

@@ -70,7 +70,9 @@ class SleepOfAbsenceOfficesTest(unittest.TestCase):
             w = REG["offices"][k]["where_to_find"]
             self.assertTrue(w[0]["url"].startswith("https://nccuga.nccu.edu.tw/zh/"), k)
             self.assertIn("200", w[0]["status"], k)
-        self.assertEqual(REG["offices"]["safety"]["where_to_find"][1]["status"], "索引沒有這個單位")
+        # 環安組的舊索引記錄叫「環境保護與職業安全衛生組」（environ.nccu.edu.tw），登記表要對上它
+        self.assertIn("environ.nccu.edu.tw", REG["offices"]["safety"]["where_to_find"][1]["url"])
+        self.assertIn("環境保護與職業安全衛生組", REG["offices"]["safety"]["aliases"])
         self.assertIn("evidence", REG["offices"]["cashier"]["where_to_find"][1])
 
     def test_same_extension_with_a_different_person_is_marked_changed_and_both_names_are_kept(self):
@@ -87,6 +89,12 @@ class SleepOfAbsenceOfficesTest(unittest.TestCase):
         lines = REG["offices"]["registrar"]["lines"]
         self.assertEqual([ln["value"] for ln in lines], ["63279"])
         self.assertEqual({s["source"] for s in lines[0]["sources"]}, {"snapshot", "live"})
+
+    def test_six_digit_extensions_of_the_repair_unit_are_recorded_as_extensions(self):
+        e = {x["ext"]: x for x in REG["offices"]["mend"]["staff"]}
+        self.assertEqual([n["value"] for n in e["472013"]["names"]], ["林永輝"])
+        self.assertEqual(R.check_who("營繕組林永輝（分機 472013）", REG, "mend")["verdict"], "hit")
+        self.assertEqual(R.check_who("營繕組林永輝（分機 47201）", REG, "mend")["verdict"], "wrong")      # 名字配錯分機（被截成 5 位數）
 
     def test_library_has_people_but_no_floor(self):
         self.assertTrue(REG["offices"]["library"]["staff"])

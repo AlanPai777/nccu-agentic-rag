@@ -38,7 +38,7 @@ LIVE_DIR = HERE / "sources" / "live"
 SNAP_DIR = HERE / "sources" / "snapshot"
 INDEX = ROOT / "output" / "office_contacts_index.jsonl"
 
-EXT_RE = re.compile(r"^\d{5}$")
+EXT_RE = re.compile(r"^\d{5,6}$")     # 分機 5 位數；營繕組的技術人員是 6 位數（472013）
 FIRST_ITEM = ("一、", "ㄧ、")  # 業務項目的第一項（有一份用的是注音符號 ㄧ）
 
 
@@ -471,7 +471,7 @@ GA_UNITS = [   # (登記表鍵, 名稱, 別名, 現場檔名, 索引舊網址（
     ("wealth", "財產組", ["總務處財產組", "財產組"], "ga_wealth", "https://wealth.nccu.edu.tw/PageStaffing?fid=8253", "財產組"),
     ("mend", "營繕組", ["總務處營繕組", "營繕組"], "ga_mend", "https://mend.nccu.edu.tw/PageStaffing?fid=8380", "營繕組"),
     ("cashier", "出納組", ["總務處出納組", "出納組"], "ga_cashier", "https://cashier.nccu.edu.tw/PageStaffing?fid=7994", "出納組"),
-    ("safety", "環安組", ["總務處環安組", "環安組"], "ga_safety", None, "環安組"),
+    ("safety", "環安組", ["環境保護與職業安全衛生組", "總務處環安組", "環安組"], "ga_safety", "https://environ.nccu.edu.tw/PageStaffing?fid=8473", "環安組"),
     ("planning", "校園規劃與發展組", ["校園規劃與發展組", "規劃組"], "ga_planning", "https://cpds.nccu.edu.tw/PageStaffing?fid=8465", "規劃組"),
 ]
 

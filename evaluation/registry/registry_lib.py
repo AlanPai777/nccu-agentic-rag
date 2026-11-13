@@ -27,7 +27,7 @@ HERE = Path(__file__).resolve().parent
 REGISTRY_JSON = HERE / "registry.json"
 PAIR_WINDOW = 20      # 姓名（或職稱）與分機之間最多隔幾個字
 FLOOR_WINDOW = 40     # 單位名稱與樓層之間最多隔幾個字
-_EXT_RE = re.compile(r"(?<!\d)\d{5}(?!\d)")
+_EXT_RE = re.compile(r"(?<!\d)\d{5,6}(?!\d)")      # 分機 5 位數；營繕組技術人員是 6 位數
 NEEDS = ("who", "floor", "form_link")
 
 

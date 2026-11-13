@@ -1,0 +1,122 @@
+{
+  "ga_dean": {
+    "name": "總務長室",
+    "registry_people": 7,
+    "registry_status": {
+      "both": 7
+    },
+    "live_text_chars": 1906,
+    "text_has_names": true,
+    "parsed_contacts": 7,
+    "parsed_correct": 7,
+    "parse_falls_back_to_llm": false,
+    "similarity_to_old_snapshot": 0.869,
+    "escalates_to_browser": false
+  },
+  "docu": {
+    "name": "文書組",
+    "registry_people": 9,
+    "registry_status": {
+      "both": 8,
+      "changed": 1
+    },
+    "live_text_chars": 3344,
+    "text_has_names": true,
+    "parsed_contacts": 9,
+    "parsed_correct": 9,
+    "parse_falls_back_to_llm": false,
+    "similarity_to_old_snapshot": 0.886,
+    "escalates_to_browser": false
+  },
+  "aff": {
+    "name": "事務組",
+    "registry_people": 14,
+    "registry_status": {
+      "both": 8,
+      "title-only": 1,
+      "live-only": 5
+    },
+    "live_text_chars": 5030,
+    "text_has_names": true,
+    "parsed_contacts": 13,
+    "parsed_correct": 13,
+    "parse_falls_back_to_llm": false,
+    "similarity_to_old_snapshot": 0.576,
+    "escalates_to_browser": false
+  },
+  "wealth": {
+    "name": "財產組",
+    "registry_people": 8,
+    "registry_status": {
+      "both": 7,
+      "snapshot-only": 1
+    },
+    "live_text_chars": 2033,
+    "text_has_names": true,
+    "parsed_contacts": 7,
+    "parsed_correct": 7,
+    "parse_falls_back_to_llm": false,
+    "similarity_to_old_snapshot": 0.885,
+    "escalates_to_browser": false
+  },
+  "mend": {
+    "name": "營繕組",
+    "registry_people": 24,
+    "registry_status": {
+      "both": 20,
+      "snapshot-only": 4
+    },
+    "live_text_chars": 3945,
+    "text_has_names": true,
+    "parsed_contacts": 20,
+    "parsed_correct": 20,
+    "parse_falls_back_to_llm": false,
+    "similarity_to_old_snapshot": 0.539,
+    "escalates_to_browser": false
+  },
+  "cashier": {
+    "name": "出納組",
+    "registry_people": 11,
+    "registry_status": {
+      "both": 10,
+      "snapshot-only": 1
+    },
+    "live_text_chars": 2302,
+    "text_has_names": true,
+    "parsed_contacts": 10,
+    "parsed_correct": 10,
+    "parse_falls_back_to_llm": false,
+    "similarity_to_old_snapshot": 0.818,
+    "escalates_to_browser": false
+  },
+  "safety": {
+    "name": "環安組",
+    "registry_people": 9,
+    "registry_status": {
+      "both": 8,
+      "title-only": 1
+    },
+    "live_text_chars": 2443,
+    "text_has_names": true,
+    "parsed_contacts": 7,
+    "parsed_correct": 7,
+    "parse_falls_back_to_llm": false,
+    "similarity_to_old_snapshot": 0.832,
+    "escalates_to_browser": false
+  },
+  "planning": {
+    "name": "校園規劃與發展組",
+    "registry_people": 5,
+    "registry_status": {
+      "both": 4,
+      "title-only": 1
+    },
+    "live_text_chars": 717,
+    "text_has_names": true,
+    "parsed_contacts": 4,
+    "parsed_correct": 4,
+    "parse_falls_back_to_llm": false,
+    "similarity_to_old_snapshot": 0.689,
+    "escalates_to_browser": false
+  }
+}
