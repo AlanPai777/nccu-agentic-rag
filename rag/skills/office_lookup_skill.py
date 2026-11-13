@@ -90,7 +90,7 @@ _TITLE_WORDS = {
 # 62221）"-style deputy REFERENCES embedded in someone else's own entry —
 # without it, the deputy mention (which appears earlier in the text) wins the
 # de-dup race against that person's own real, fuller entry.
-_EXT_LABELED_RE  = re.compile(r'(?<!（)(?:校內)?分機\s*[：:]?\s*\n*\s*(\d{4,6})(?!\d)(?!\s*）)')    # extensions are 4-6 digits (營繕組's technicians have six: 472013); without (?!\d) a six-digit one was cut to 47201
+_EXT_LABELED_RE  = re.compile(r'(?<!（)(?:校內)?分機\s*[：:]?\s*\n*\s*(\d{4,8})(?!\d)(?!\s*）)')    # the value as the page writes it: 營繕組's technicians have six digits (472013), 應物所 lists its 8-digit line (82377518); without (?!\d) both were cut to five digits
 _NAME_LABELED_RE  = re.compile(r'姓\s*名\s*\n*\s*([一-鿿\U00020000-\U0002FFFF]{2,6})')      # plane-2 hanzi too: 王𥣞媗 (cashier)
 _PLACEHOLDER_NAMES = ('待補', '待聘')      # a vacant post is not a person
 _TITLE_LABELED_RE = re.compile(r'職\s*稱\s*\n*\s*([^\n]{2,20})')

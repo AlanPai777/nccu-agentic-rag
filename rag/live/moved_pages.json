@@ -49,6 +49,13 @@
       "new": "https://nccuga.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C%E9%81%B8%E5%96%AE/%E8%A6%8F%E5%8A%83%E7%B5%84_",
       "since": "2026-11-13",
       "note": "總務處各單位的人員頁搬到 nccuga.nccu.edu.tw（F19）；舊網址連不上或 404"
+    },
+    {
+      "unit": "環境保護與職業安全衛生組",
+      "old": "https://environ.nccu.edu.tw/PageStaffing?fid=8473",
+      "new": "https://nccuga.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C%E9%81%B8%E5%96%AE/%E7%92%B0%E5%AE%89%E7%B5%84_",
+      "since": "2026-11-13",
+      "note": "總務處各單位的人員頁搬到 nccuga.nccu.edu.tw（F19）；舊網址連不上或 404"
     }
   ]
 }
