@@ -1,0 +1,735 @@
+{
+  "query_id": "master_transfer",
+  "query": "碩士班轉系所需要經過哪些單位同意",
+  "query_variants": [],
+  "query_type": "procedure",
+  "data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）",
+    "live": "2026-11-13（現場）（教務處頁面，curl；兩個 moltke 表單連結回 302 轉登入頁，沒有跟隨）；註冊組聯絡人與樓層的現場依據在 evaluation/registry/"
+  },
+  "content": "碩士班學生要在修業第二學年開始前申請轉所，以一次為限，並且要經過「原就讀系所主管」與「擬轉入系所主管」兩邊都同意（兩個系所並行同意，不是先後），申請書（表單編號 QP-T01-05-05，https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05）再送教務處複核：註冊組承辦人擬核准、註冊組組長、教務長。如果轉入所不同意，申請書逕送回原系所並通知學生。申請期間上學期是 12 月 1 日至 12 月 31 日，下學期是 6 月 1 日至 6 月 30 日；一般研究所與在職專班學生不得互轉；申請當學期不得休學，核准後辦理休學則轉所自始無效；核准後不得再申請更改或轉回原所；轉所於新學期生效，生效後二週內要填學分認定申請書並附成績單，送轉入系所審核。",
+  "keypoints": [
+    {
+      "id": "K1",
+      "text": "要經過原就讀（原肄業）系所主管同意轉出",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "□同意轉出本系所(組) □不同意轉出本系所(組)",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "原就讀系所主管審核意見",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "碩士班學生於修業第二學年開始前，得經原肄業所及擬轉入 所雙方主管同意後，申請轉所",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "經原肆業所及擬轉入所雙方主管同意，送教務處複核後",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "經原肆業所及擬轉入所雙方主管同意，送教務處複核後",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K2",
+      "text": "要經過擬轉入系所主管同意轉入（和原就讀系所是兩邊都要同意）",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "□同意轉入本系所(組) □不同意轉入本系所(組)",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "擬轉入就讀系所主管審核意見",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "碩士班學生於修業第二學年開始前，得經原肄業所及擬轉入 所雙方主管同意後，申請轉所",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "經原肆業所及擬轉入所雙方主管同意，送教務處複核後",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "經原肆業所及擬轉入所雙方主管同意，送教務處複核後",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K3",
+      "text": "原就讀系所與轉入系所雙方都同意後，要送教務處複核",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "申請案經學生原就讀系所及轉入所同意並送教務處複核後，註冊組據以處理學籍等後續事宜",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "經原肆業所及擬轉入所雙方主管同意，送教務處複核後",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "經原肆業所及擬轉入所雙方主管同意，送教務處複核後",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K4",
+      "text": "教務處審核：註冊組承辦人擬核准轉入",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "擬核准自 學年度第 學期 起轉入 系所(組)",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "註冊組承辦人",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K5",
+      "text": "教務處審核：註冊組組長",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "註冊組組長",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K6",
+      "text": "教務處審核：教務長",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "教務長",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K7",
+      "text": "轉入所不同意時，申請書逕送回原系所並通知學生",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "(如轉入所不同 意，請逕送回原系所並通知學生。)",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K8",
+      "text": "要在修業第二學年開始前申請",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "碩士班學生於修業第二學年開始前，得經原肄業所及擬轉入所雙方主管同意，申請轉所，並以一次為限",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "碩士班學生於修業第二學年開始前，得經原肄業所及擬轉入 所雙方主管同意後，申請轉所，並以一次為限",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "碩士班（含在職專班）學生於修業第二學年開始前",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "碩士班（含在職專班）學生於修業第二學年開始前",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K9",
+      "text": "轉所以一次為限",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "並以一次為限",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "並以一次為限",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "並以一次為限",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "並以一次為限",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K10",
+      "text": "上學期的申請期間是 12 月 1 日至 12 月 31 日",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "上學期為12月1日至12月31日止",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "每學年12月1日至12月31日及6月1日至6月30日",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "每學年12月1日至12月31日及6月1日至6月30日",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K11",
+      "text": "下學期的申請期間是 6 月 1 日至 6 月 30 日",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "下學期為6月1日至6月30日止",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "每學年12月1日至12月31日及6月1日至6月30日",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "每學年12月1日至12月31日及6月1日至6月30日",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K12",
+      "text": "一般研究所學生與在職專班學生不得互轉",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "一般研究所學生與在職專班學生不得互轉",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "一般研究所學生與在職專班學生不得互轉",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "一般研究所學生與在職專班學生不得互轉",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K13",
+      "text": "系所經報教育部核備有學籍分組者，得申請轉組",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "系所經報教育部核備有學籍分組者得申請轉組",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "系所經報教育部同意核備有學籍分組者得申請轉組",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "系所經報教育部同意核備有學籍分組者得申請轉組",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K14",
+      "text": "碩士班轉所的規定由各所自訂，並明列於修業規定中",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "碩士班辦理轉所之規定，由各所自訂並明列於修業規定中",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "碩士班辦理轉所之規定，由各所自訂並明列於修業規定中",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "碩士班辦理轉系所之規定，由各系所自訂並明列於修業規定中",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "碩士班辦理轉系所之規定，由各系所自訂並明列於修業規定中",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K15",
+      "text": "申請轉所的當學期不得休學",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "學生申請轉所當學期不得休學",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "學生申請轉所當學期不得休學",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學生申請轉所當學期不得休學",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K16",
+      "text": "申請核准後如果辦理休學，轉所自始無效",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "若於申請核准後，辦理休學者，其轉所自始無效",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "若於申請核准後，辦理休學者，其轉所自始無效",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "若於申請核准後，辦理休學者，其轉所自始無效",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K17",
+      "text": "轉所核准後，不得再申請更改或轉回原所",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "並不得再申請更改或轉回原所",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "並不得再申請更改或轉回原所",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "並不得再申請更改或轉回原所",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "並不得再申請更改或轉回原所",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K18",
+      "text": "轉所在新學期生效",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "轉所於新學期生效",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "轉所於新學期生效",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "轉所於新學期生效",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K19",
+      "text": "轉所生效後二週內，要填寫學分認定申請書並附成績單",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "學生應於轉所生效當學期開學日起二週內填寫學分認定申請書並附成績單",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "學生申請轉系經核准後，於轉系生效當學期開學日起二週內辦理學分認定，請將本表填寫完畢，並附成績單",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-06",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-06 為 108年1月版）"
+        },
+        {
+          "text": "學生應於轉所生效當學期開課日起二週內填寫「學分認定申請書」並附成績單",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學生應於轉所生效當學期開課日起二週內填寫「學分認定申請書」並附成績單",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K20",
+      "text": "學分認定申請書送轉入系所審核",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "送轉入系所辦理 學分認定審核",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "請將本表填寫完畢，並附成績單，送轉系系所審核",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-06",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-06 為 108年1月版）"
+        },
+        {
+          "text": "送轉入系所辦理學分認定審核",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "送轉入系所辦理學分認定審核",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K21",
+      "text": "各所錄取轉所的名額，以當學年度核定招生名額的一成為原則",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "各所錄取轉所之名額，以其當學年度經核定之招生名額一成為原則",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K22",
+      "text": "陸生轉所要在當學年度部定招收陸生的總名額及系所範圍內辦理流用",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "陸生轉系所應在當學年度部定招收陸生之總名額及系所範圍內辦理流用",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "陸生轉系所應在當學年度部定招收陸生之總名額及系所範圍內辦理流用",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K23",
+      "text": "碩士班甄試入學的學生、外國學生、僑生（含港澳生）是否能轉所，由各系所自行規範",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "碩士班甄試管道入學之學生、外國學生、僑生（含港澳生）是否得以轉系所，由各系所自行規範",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "碩士班甄試管道入學之學生、外國學生、僑生（含港澳生）是否得以轉系所，由各系所自行規範",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K24",
+      "text": "申請書的表單是「碩士班轉系所申請書」，表單編號 QP-T01-05-05",
+      "required": true,
+      "kind": "hard",
+      "references": [
+        {
+          "text": "表單編號：QP-T01-05-05",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）"
+        },
+        {
+          "text": "[碩士班轉系所申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05)",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "[碩士班轉系所申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05)",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [
+        "QP-T01-05-05"
+      ]
+    },
+    {
+      "id": "K25",
+      "text": "碩士班轉系所申請書的下載連結是 https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_form_link",
+      "registry": {
+        "need": "form_link",
+        "form": "QP-T01-05-05",
+        "mention": "always"
+      }
+    },
+    {
+      "id": "K26",
+      "text": "答案提到學分認定申請書時，要附它的連結（碩士班轉系所學分認定申請書，QP-T01-05-06）",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_form_link",
+      "registry": {
+        "need": "form_link",
+        "form": "QP-T01-05-06",
+        "mention": "conditional"
+      },
+      "applies_if": "答案提到學分認定申請書"
+    },
+    {
+      "id": "K27",
+      "text": "答案要寫出教務處註冊組的聯絡人：註冊組任何一位的姓名或職稱加分機",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_who",
+      "registry": {
+        "office": "registrar",
+        "need": "who"
+      }
+    },
+    {
+      "id": "K28",
+      "text": "註冊組在行政大樓四樓",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_floor",
+      "registry": {
+        "office": "registrar",
+        "need": "floor"
+      }
+    },
+    {
+      "id": "K29",
+      "text": "申請書經同意與複核後，學生原就讀系所要在每學期結束日前，把表單正本送教務處註冊組",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "學生原就讀系所應於每學期結束日前將表單正本送教務處註冊組",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學生原就讀系所應於每學期結束日前將表單正本送教務處註冊組",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    }
+  ],
+  "source_conflicts": "來源優先順序：表單 > 學則 > 教務處頁面；高的是金標準。沒有發現互相矛盾的事實，只有措辭差異：學分認定的起算日，表單與學則寫「開學日起二週內」，教務處頁面寫「開課日起二週內」（同樣是二週，起算日措辭不同，K19 的重點是「二週內」）；「原肄業所」（學則、表單）與「原肆業所」（教務處頁面）是同一個詞的不同寫法；申請期間在表單與頁面是 12/1–12/31 與 6/1–6/30，學期專屬的公告（114 學年度第 2 學期）只寫 6/1–6/30，因為那是那一學期要開放的期間，不收。",
+  "notes": [
+    "並行雙處室：K1 與 K2 是兩邊同意（兩個系所並行，不是先後），K3 是兩邊都同意後才送教務處；教務處審核的三道簽章（K4–K6）在兩邊同意之後。",
+    "系所沒有固定聯絡窗口（各系所自己處理），不收系所的聯絡人與樓層；教務長沒有人名，不收。教務處註冊組的聯絡人與樓層引用登記表（K27、K28，必要）。",
+    "日期（K10、K11）用 semantic（使用者決定 2026-11-13）：寫成「12/1~12/31」「十二月整個月」都由 Keypoint 判斷，不用規則比對寫法。",
+    "選擇性：K7、K13、K21、K22、K23、K29。轉入所不同意、轉組、名額一成、陸生名額、甄試入學外國生僑生由系所規範是補充；K29 是頁面「申請程序」寫的行政細節。「必要」目前不影響評分（議題 F8、F9）。",
+    "學分認定那一段拆成 K18（新學期生效）、K19（二週內填學分認定申請書並附成績單）、K20（送轉入系所審核），符合「一個 keypoint 一個事實」；K26（學分認定申請書連結）是條件式：答案提到才要附連結。",
+    "不收：114 學年度第 2 學期的公告（學期專屬的日期與名額表）、學士班轉系（不是這題）、轉校（跨校轉系所）、台聯大轉入者不得轉所（學則附注，不是流程）。",
+    "兩張表單的連結現場回 302 轉登入頁（2026-11-13，curl，沒有跟隨），連結本身有效、看不到表單內容；表單內容以快照為準。記錄見 sources/live/live_check.md 與登記表。"
+  ]
+}

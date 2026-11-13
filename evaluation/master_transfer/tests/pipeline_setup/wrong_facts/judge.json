@@ -1,0 +1,209 @@
+{
+  "keypoints": [
+    {
+      "id": "K1",
+      "verdict": "relevant",
+      "claims": [
+        "c1"
+      ],
+      "reason": "原就讀系所同意"
+    },
+    {
+      "id": "K2",
+      "verdict": "wrong",
+      "claims": [
+        "c1"
+      ],
+      "reason": "寫「不需要轉入系所同意」，標準是轉入系所主管也要同意"
+    },
+    {
+      "id": "K3",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K4",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K5",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K6",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K7",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K8",
+      "verdict": "wrong",
+      "claims": [
+        "c2"
+      ],
+      "reason": "寫第三學年開始前，標準是第二學年開始前"
+    },
+    {
+      "id": "K9",
+      "verdict": "wrong",
+      "claims": [
+        "c3"
+      ],
+      "reason": "寫可以多次轉所，標準是以一次為限"
+    },
+    {
+      "id": "K10",
+      "verdict": "wrong",
+      "claims": [
+        "c4"
+      ],
+      "reason": "上學期寫到 12 月 15 日，標準是 12 月 31 日"
+    },
+    {
+      "id": "K11",
+      "verdict": "wrong",
+      "claims": [
+        "c4"
+      ],
+      "reason": "下學期寫到 6 月 15 日，標準是 6 月 30 日"
+    },
+    {
+      "id": "K12",
+      "verdict": "wrong",
+      "claims": [
+        "c5"
+      ],
+      "reason": "寫可以互轉，標準是不得互轉"
+    },
+    {
+      "id": "K13",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K14",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K15",
+      "verdict": "wrong",
+      "claims": [
+        "c6"
+      ],
+      "reason": "寫當學期可以休學，標準是不得休學"
+    },
+    {
+      "id": "K16",
+      "verdict": "wrong",
+      "claims": [
+        "c6"
+      ],
+      "reason": "寫休學後轉所仍然有效，標準是自始無效"
+    },
+    {
+      "id": "K17",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K18",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K19",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K20",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K21",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K22",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K23",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K24",
+      "verdict": "relevant",
+      "claims": [
+        "c7"
+      ],
+      "reason": "表單編號 QP-T01-05-05"
+    },
+    {
+      "id": "K25",
+      "verdict": "relevant",
+      "claims": [
+        "c8"
+      ],
+      "reason": "完整下載連結"
+    },
+    {
+      "id": "K26",
+      "verdict": "not_applicable",
+      "claims": [],
+      "reason": "答案沒有提到學分認定申請書，不適用"
+    },
+    {
+      "id": "K27",
+      "verdict": "wrong",
+      "claims": [
+        "c10"
+      ],
+      "reason": "組長王揚忠寫成分機 63274，標準是 63273"
+    },
+    {
+      "id": "K28",
+      "verdict": "wrong",
+      "claims": [
+        "c9"
+      ],
+      "reason": "註冊組寫成五樓，標準是四樓"
+    },
+    {
+      "id": "K29",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "judge-v1",
+    "note": "Claude Code 本 session 判斷（流程測試：答案也是 Claude Code 寫的，判斷不獨立；Keypoint 判斷依設計會看 gold）。主張編號取自子代理的隔離回推 trace.json"
+  }
+}

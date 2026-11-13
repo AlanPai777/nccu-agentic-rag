@@ -97,5 +97,6 @@ python evaluation/compare_tests.py evaluation/cashier_contact/tests/tampered_v1 
 | `resumption/` | 如何辦理復學（第一題跨處室程序題）：`gold.json`（24 個 keypoint，蓋章一個單位一個 keypoint；人員、樓層、表單連結 8 個引用登記表）、`build_gold.py`、`sources/`、`tests/pipeline_setup/`（5 份假設答案的流程測試，`report.md`，不是評測結果） |
 | `leave_of_absence/` | 如何辦理休學（第二題跨處室程序題）：`gold.json`（60 個 keypoint，14 個引用登記表，14 個選擇性）、`build_gold.py`、`sources/`（含總務處 8 頁新人員頁）、`tests/pipeline_setup/`（5 份假設答案的流程測試，`report.md`，不是評測結果）。舊的 `old_leave_of_absence/` 只當參考，不是評測的一部分 |
 | `leave_and_library_phone/` | 如何辦理休學，圖書館的電話是多少（複合題）：`gold.json`（67 個 keypoint；A 部分 K1–K60 整份匯入第 5 題，B 部分 K61–K67 圖書館電話，全部引用登記表）、`build_gold.py`（建置時複製第 5 題的 gold 與 sources）、`part_scores.py`（A、B 兩部分各自的 Completeness）、`tests/pipeline_setup/`（5 份假設答案的流程測試，`report.md`，不是評測結果） |
+| `master_transfer/` | 碩士班轉系所需要經過哪些單位同意（並行雙處室）：`gold.json`（29 個 keypoint；原系所與轉入系所兩邊同意、教務處三道簽章、規定與日期，日期用 semantic，表單連結與註冊組聯絡人引用登記表）、`build_gold.py`、`sources/`（含現場 curl 與 `live_check.md`）、`tests/pipeline_setup/`（5 份假設答案的流程測試，`report.md`，不是評測結果） |
 | `cashier_contact/` | 出納組：`gold.json`、`build_gold.py`、`sources/`（來源原文複本與官網查證記錄）、`runs/`（每次 run）、`tests/`（隔離回推材料） |
 | `tests/` | 評測程式的單元測試與 fixtures |

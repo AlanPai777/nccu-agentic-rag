@@ -12063,7 +12063,7 @@
               "source": "snapshot",
               "asof": "corpus",
               "file": "sources/snapshot/aca_leave_page.txt",
-              "quote": "需附委託書"
+              "quote": "委託書"
             }
           ]
         }
@@ -12150,6 +12150,144 @@
         "asof": "2026-11-13",
         "file": "sources/live/moltke_QP-T01-03-02.headers.txt",
         "quote": "Location: login.formservice?viewdetail=QP-T01-03-02",
+        "result": "302 轉到同一站台的登入頁，沒有跟隨；看不到表單內容，連結本身仍然有效"
+      }
+    },
+    {
+      "id": "QP-T01-05-05",
+      "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+      "names": [
+        {
+          "kind": "name",
+          "value": "碩士班轉系所申請書",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/moltke_forms.txt",
+              "quote": "碩士班轉系所申請書"
+            }
+          ]
+        },
+        {
+          "kind": "name",
+          "value": "Master Student Application Form for Institute Transfer",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/moltke_forms.txt",
+              "quote": "Master Student Application Form for Institute Transfer"
+            }
+          ]
+        },
+        {
+          "kind": "name",
+          "value": "轉系所申請書",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/aca_transfer_page.txt",
+              "quote": "轉系所申請書"
+            }
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/moltke_forms.txt",
+          "quote": "url: https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05"
+        },
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/aca_transfer_page.txt",
+          "quote": "[碩士班轉系所申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05)"
+        },
+        {
+          "source": "live",
+          "asof": "2026-11-13",
+          "file": "sources/live/aca_transfer_page.html",
+          "quote": "[碩士班轉系所申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05)"
+        }
+      ],
+      "live_check": {
+        "source": "live",
+        "asof": "2026-11-13",
+        "file": "sources/live/moltke_QP-T01-05-05.headers.txt",
+        "quote": "Location: login.formservice?viewdetail=QP-T01-05-05",
+        "result": "302 轉到同一站台的登入頁，沒有跟隨；看不到表單內容，連結本身仍然有效"
+      }
+    },
+    {
+      "id": "QP-T01-05-06",
+      "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-06",
+      "names": [
+        {
+          "kind": "name",
+          "value": "碩士班轉系所學分認定申請書",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/moltke_forms.txt",
+              "quote": "碩士班轉系所學分認定申請書"
+            }
+          ]
+        },
+        {
+          "kind": "name",
+          "value": "Master’s Program Credit Recognition Form for Transfer to Another Department Institute Academic",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/moltke_forms.txt",
+              "quote": "Master’s Program Credit Recognition Form for Transfer to Another Department Institute Academic"
+            }
+          ]
+        },
+        {
+          "kind": "name",
+          "value": "學分認定申請書",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/aca_transfer_page.txt",
+              "quote": "學分認定申請書"
+            }
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/moltke_forms.txt",
+          "quote": "url: https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-06"
+        },
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/aca_transfer_page.txt",
+          "quote": "[碩士轉系所學分認定申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-06)"
+        },
+        {
+          "source": "live",
+          "asof": "2026-11-13",
+          "file": "sources/live/aca_transfer_page.html",
+          "quote": "[碩士轉系所學分認定申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-06)"
+        }
+      ],
+      "live_check": {
+        "source": "live",
+        "asof": "2026-11-13",
+        "file": "sources/live/moltke_QP-T01-05-06.headers.txt",
+        "quote": "Location: login.formservice?viewdetail=QP-T01-05-06",
         "result": "302 轉到同一站台的登入頁，沒有跟隨；看不到表單內容，連結本身仍然有效"
       }
     }

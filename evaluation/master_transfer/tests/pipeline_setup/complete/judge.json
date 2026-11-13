@@ -1,0 +1,244 @@
+{
+  "keypoints": [
+    {
+      "id": "K1",
+      "verdict": "relevant",
+      "claims": [
+        "c3",
+        "c1"
+      ],
+      "reason": "原就讀系所主管同意轉出"
+    },
+    {
+      "id": "K2",
+      "verdict": "relevant",
+      "claims": [
+        "c4",
+        "c1",
+        "c5"
+      ],
+      "reason": "擬轉入系所主管同意轉入，兩邊都要同意"
+    },
+    {
+      "id": "K3",
+      "verdict": "relevant",
+      "claims": [
+        "c7"
+      ],
+      "reason": "雙方同意後送教務處複核"
+    },
+    {
+      "id": "K4",
+      "verdict": "relevant",
+      "claims": [
+        "c8"
+      ],
+      "reason": "註冊組承辦人擬核准"
+    },
+    {
+      "id": "K5",
+      "verdict": "relevant",
+      "claims": [
+        "c8"
+      ],
+      "reason": "註冊組組長"
+    },
+    {
+      "id": "K6",
+      "verdict": "relevant",
+      "claims": [
+        "c8"
+      ],
+      "reason": "教務長審核"
+    },
+    {
+      "id": "K7",
+      "verdict": "relevant",
+      "claims": [
+        "c6"
+      ],
+      "reason": "轉入所不同意則逕送回原系所並通知學生"
+    },
+    {
+      "id": "K8",
+      "verdict": "relevant",
+      "claims": [
+        "c11"
+      ],
+      "reason": "修業第二學年開始前"
+    },
+    {
+      "id": "K9",
+      "verdict": "relevant",
+      "claims": [
+        "c12"
+      ],
+      "reason": "以一次為限"
+    },
+    {
+      "id": "K10",
+      "verdict": "relevant",
+      "claims": [
+        "c13"
+      ],
+      "reason": "上學期 12/1–12/31"
+    },
+    {
+      "id": "K11",
+      "verdict": "relevant",
+      "claims": [
+        "c14"
+      ],
+      "reason": "下學期 6/1–6/30"
+    },
+    {
+      "id": "K12",
+      "verdict": "relevant",
+      "claims": [
+        "c15"
+      ],
+      "reason": "一般研究所與在職專班不得互轉"
+    },
+    {
+      "id": "K13",
+      "verdict": "relevant",
+      "claims": [
+        "c16"
+      ],
+      "reason": "有學籍分組可轉組"
+    },
+    {
+      "id": "K14",
+      "verdict": "relevant",
+      "claims": [
+        "c17"
+      ],
+      "reason": "各所自訂並明列於修業規定"
+    },
+    {
+      "id": "K15",
+      "verdict": "relevant",
+      "claims": [
+        "c18"
+      ],
+      "reason": "當學期不得休學"
+    },
+    {
+      "id": "K16",
+      "verdict": "relevant",
+      "claims": [
+        "c19"
+      ],
+      "reason": "核准後辦理休學則轉所自始無效"
+    },
+    {
+      "id": "K17",
+      "verdict": "relevant",
+      "claims": [
+        "c20"
+      ],
+      "reason": "不得更改或轉回原所"
+    },
+    {
+      "id": "K18",
+      "verdict": "relevant",
+      "claims": [
+        "c21"
+      ],
+      "reason": "轉所於新學期生效"
+    },
+    {
+      "id": "K19",
+      "verdict": "relevant",
+      "claims": [
+        "c22",
+        "c24"
+      ],
+      "reason": "二週內填學分認定申請書並附成績單"
+    },
+    {
+      "id": "K20",
+      "verdict": "relevant",
+      "claims": [
+        "c24"
+      ],
+      "reason": "送轉入系所審核"
+    },
+    {
+      "id": "K21",
+      "verdict": "relevant",
+      "claims": [
+        "c28"
+      ],
+      "reason": "名額以招生名額一成為原則（c28 在假設證據裡沒有依據，因為證據沒有學則）"
+    },
+    {
+      "id": "K22",
+      "verdict": "relevant",
+      "claims": [
+        "c29"
+      ],
+      "reason": "陸生名額流用"
+    },
+    {
+      "id": "K23",
+      "verdict": "relevant",
+      "claims": [
+        "c30"
+      ],
+      "reason": "甄試入學、外國學生、僑生由各系所規範"
+    },
+    {
+      "id": "K24",
+      "verdict": "relevant",
+      "claims": [
+        "c26",
+        "c25"
+      ],
+      "reason": "表單編號 QP-T01-05-05"
+    },
+    {
+      "id": "K25",
+      "verdict": "relevant",
+      "claims": [
+        "c27"
+      ],
+      "reason": "完整下載連結"
+    },
+    {
+      "id": "K26",
+      "verdict": "relevant",
+      "claims": [
+        "c23"
+      ],
+      "reason": "提到學分認定申請書並附連結"
+    },
+    {
+      "id": "K27",
+      "verdict": "relevant",
+      "claims": [
+        "c9"
+      ],
+      "reason": "組長王揚忠（分機 63273）"
+    },
+    {
+      "id": "K28",
+      "verdict": "relevant",
+      "claims": [
+        "c10"
+      ],
+      "reason": "註冊組行政大樓四樓"
+    },
+    {
+      "id": "K29",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "judge-v1",
+    "note": "Claude Code 本 session 判斷（流程測試：答案也是 Claude Code 寫的，判斷不獨立；Keypoint 判斷依設計會看 gold）。主張編號取自子代理的隔離回推 trace.json"
+  }
+}

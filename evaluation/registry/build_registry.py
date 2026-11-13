@@ -342,17 +342,24 @@ def build_oic(problems: Problems) -> dict:
 # --- 表單 ------------------------------------------------------------------
 MOLTKE = "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail="
 LEAVE_PAGE = "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學"
-FORMS = [  # (編號, 在教務處頁面上的連結文字, 現場 302 標頭檔)
-    ("QP-T01-03-04", "提早復學申請書", None),
-    ("QP-T01-02-05", "各項證明文件申辦委託書", "moltke_qp_t01_02_05.headers.txt"),
-    ("QP-T01-03-02", "休學/保留學籍申請書", "moltke_QP-T01-03-02.headers.txt"),
+TRANSFER_PAGE = "https://aca.nccu.edu.tw/zh/服務項目/學籍/轉系"
+FORMS = [  # (編號, 在教務處頁面上的連結文字, 現場 302 標頭檔, 列出這份表單的頁面)
+    ("QP-T01-03-04", "提早復學申請書", None, "leave"),
+    ("QP-T01-02-05", "各項證明文件申辦委託書", "moltke_qp_t01_02_05.headers.txt", "leave"),
+    ("QP-T01-03-02", "休學/保留學籍申請書", "moltke_QP-T01-03-02.headers.txt", "leave"),
+    ("QP-T01-05-05", "碩士班轉系所申請書", "moltke_QP-T01-05-05.headers.txt", "transfer"),
+    ("QP-T01-05-06", "碩士轉系所學分認定申請書", "moltke_QP-T01-05-06.headers.txt", "transfer"),
 ]
-FORM_ALIASES = {"QP-T01-02-05": ["委託書"]}  # 教務處頁面正文寫「需附委託書」，指的是這份表單
+# 頁面正文用的簡稱（逐字出現在列出這份表單的頁面裡），指的就是這份表單
+FORM_ALIASES = {"QP-T01-02-05": ["委託書"], "QP-T01-05-05": ["轉系所申請書"], "QP-T01-05-06": ["學分認定申請書"]}
 
 
 def build_forms(problems: Problems) -> list[dict]:
     _, page_rel = snapshot_from_corpus("aca", LEAVE_PAGE, "aca_leave_page.txt")
     live_page = "sources/live/aca_leave_page.html"
+    _, tpage_rel = snapshot_from_corpus("aca", TRANSFER_PAGE, "aca_transfer_page.txt")
+    tlive_page = "sources/live/aca_transfer_page.html"
+    pages = {"leave": (page_rel, live_page), "transfer": (tpage_rel, tlive_page)}
     recs = {}
     for line in (ROOT / "output" / "aca" / "extracted_supplementary.jsonl").open(encoding="utf-8"):
         d = json.loads(line)
@@ -364,7 +371,8 @@ def build_forms(problems: Problems) -> list[dict]:
     (HERE / forms_rel).write_text("# 來源：output/aca/extracted_supplementary.jsonl（無抓取時間）；每筆：網址、標題、全文\n\n" + "\n\n".join(
         f"url: {d['url']}\ntitle: {d['title']}\n{d['text']}" for d in recs.values()) + "\n", encoding="utf-8")
     out = []
-    for fid, link_text, headers in FORMS:
+    for fid, link_text, headers, which in FORMS:
+        page_rel, live_page = pages[which]
         w = f"表單 {fid}"
         d = recs.get(fid)
         if d is None:
@@ -376,8 +384,7 @@ def build_forms(problems: Problems) -> list[dict]:
         e = {"id": fid, "url": MOLTKE + fid, "names": [], "sources": [], "live_check": None}
         for n in names:
             basis = forms_rel if n in (zh, en) else page_rel
-            q = n if n in (zh, en) else "需附委託書"
-            add_form(e["names"], "name", n, src("snapshot", basis, "corpus", q if n not in (zh, en) else n, problems, w), key="kind")
+            add_form(e["names"], "name", n, src("snapshot", basis, "corpus", n, problems, w), key="kind")
         e["sources"] = [x for x in (
             src("snapshot", forms_rel, "corpus", f"url: {MOLTKE}{fid}", problems, w),
             src("snapshot", page_rel, "corpus", link_quote, problems, w),

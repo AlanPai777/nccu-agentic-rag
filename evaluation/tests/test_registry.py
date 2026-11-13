@@ -139,6 +139,23 @@ class CheckWhoTest(unittest.TestCase):
         self.assertEqual(r["unknown_extensions"], ["12345"])
 
 
+class TransferFormsTest(unittest.TestCase):
+    """第 7 題（碩士班轉系所）新增的兩張表單。"""
+
+    def test_both_forms_are_registered_with_live_checks_and_the_short_names_the_page_uses(self):
+        forms = {f["id"]: f for f in REG["forms"]}
+        for fid, alias in (("QP-T01-05-05", "轉系所申請書"), ("QP-T01-05-06", "學分認定申請書")):
+            self.assertIn(alias, {n["value"] for n in forms[fid]["names"]}, fid)
+            self.assertIn("login.formservice", forms[fid]["live_check"]["quote"], fid)       # 現場：302 轉登入頁，沒有跟隨
+            self.assertTrue(forms[fid]["url"].endswith(fid))
+
+    def test_the_credit_recognition_form_needs_its_link_only_when_it_is_mentioned(self):
+        url = next(f["url"] for f in REG["forms"] if f["id"] == "QP-T01-05-06")
+        self.assertEqual(R.check_form_link("轉所後二週內填學分認定申請書", REG, "QP-T01-05-06", "conditional")["verdict"], "miss")
+        self.assertEqual(R.check_form_link(f"轉所後二週內填學分認定申請書 {url}", REG, "QP-T01-05-06", "conditional")["verdict"], "hit")
+        self.assertEqual(R.check_form_link("原系所與轉入系所主管都要同意", REG, "QP-T01-05-06", "conditional")["verdict"], "not_applicable")
+
+
 class CheckLineTest(unittest.TestCase):
     def hit(self, answer, key):
         return R.check_line(answer, REG, "library", key)["verdict"] == "hit"
