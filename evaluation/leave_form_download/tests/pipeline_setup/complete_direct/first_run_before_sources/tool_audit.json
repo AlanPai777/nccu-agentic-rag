@@ -1,0 +1,30 @@
+{
+  "input": "<session>/scratchpad/iso_lf_complete_direct/trace_input.json",
+  "output": "<session>/scratchpad/iso_lf_complete_direct/trace.json",
+  "n_calls": 3,
+  "n_violations": 1,
+  "ok": false,
+  "calls": [
+    {
+      "n": 1,
+      "tool": "Read",
+      "target": "<session>/scratchpad/iso_lf_complete_direct/trace_input.json",
+      "verdict": "ok",
+      "why": "read the input file"
+    },
+    {
+      "n": 2,
+      "tool": "Bash",
+      "target": "cat > <session>/scratchpad/iso_lf_complete_direct/trace.json <<'EOF'\n{\n  \"claims\": [\n    {\"id\":\"c1\",\"answer_span\":\"休學申請書的名稱是「休學/保留學籍申請書」\",\"status\":\"supported\",\"evidence\":[{\"item\":\"E1\",\"quote\":\"get_form 取得表單 休學/保留學籍申請書\"}],\"why\":\"證據表單標題即為休學/保留學籍申請書。\"},\n    {\"id\":\"c2\",\"answer_span\":\"表單編號 QP-T01-03-02\",\"status\":\"supported\",\"evidence\":[{\"item\":\"E1\",\"quote\":\"表單編號：QP-T01-03-02\"}],\"why\":\"證據明載表單編號為 QP-T01-03-02。\"},\n    {\"id\":\"c3\",\"answer_span\":\"下載連結：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02\",\"status\":\"unsupported\",\"evidence\":[],\"why\":\"證據文字內容沒有出現該下載連結，網址只在來源欄位而非文字裡。\"}\n  ],\n  \"judge\": {\"model\":\"claude-sonnet-5-5\",\"prompt_version\":\"isolated-v2\",\"note\":\"isolated trace by a subagent that read only trace_input.json\"}\n}\nEOF\npython3 -c \"import json;json.load(open('<session>/scratchpad/iso_lf_complete_direct/trace.json'))\"",
+      "verdict": "violation",
+      "why": "tool 'Bash' is not allowed (only Read of the input, Write of the output, the hand-back)"
+    },
+    {
+      "n": 3,
+      "tool": "SubagentHandback",
+      "target": "",
+      "verdict": "ok",
+      "why": "hand-back of the final report"
+    }
+  ]
+}

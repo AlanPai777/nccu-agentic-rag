@@ -1,0 +1,72 @@
+{
+  "query_id": "leave_form_download",
+  "run_id": "complete_direct",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照；moltke 表單 2026-08-21 抓取，版本 202512版）",
+    "live": "2026-11-13（現場）；兩個教務處頁面現場仍列有同一個連結；moltke 的表單連結本身現場回 302 轉到同一主機的登入頁，沒有跟隨，不知道登入後的內容"
+  },
+  "system_version": "hypothetical",
+  "rouge_l": {
+    "p": 1.0,
+    "r": 1.0,
+    "f": 1.0
+  },
+  "accuracy": {
+    "hard_keypoints": 2,
+    "hit": 2,
+    "accuracy": 1.0,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      0
+    ],
+    "context_chars": 1577,
+    "sentence": {
+      "p": 0.0108,
+      "r": 0.5,
+      "f": 0.0211
+    },
+    "words": {
+      "p": 0.0828,
+      "r": 0.9487,
+      "f": 0.1523
+    },
+    "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）"
+  },
+  "keypoints": {
+    "accuracy_rule": [
+      {
+        "id": "K1",
+        "kind": "hard",
+        "verdict": "hit",
+        "matched_expressions": [
+          "QP-T01-03-02"
+        ]
+      },
+      {
+        "id": "K2",
+        "kind": "hard",
+        "verdict": "hit",
+        "matched_expressions": [
+          "moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02"
+        ]
+      }
+    ],
+    "funnel_stage2": [
+      {
+        "id": "K1",
+        "in_context": true,
+        "matched_reference": "表單編號：QP-T01-03-02",
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K2",
+        "in_context": false,
+        "matched_reference": null,
+        "rule_verdict": "hit"
+      }
+    ],
+    "contact_funnel": []
+  }
+}

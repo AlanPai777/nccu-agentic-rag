@@ -71,16 +71,12 @@
     "note": "P = 正確陳述某個 keypoint 的主張 ÷ 全部主張；額外但正確的資訊會讓 P 下降，量的是聚焦程度"
   },
   "evidence_support": {
-    "rate": 0.6667,
-    "supported": 2,
+    "rate": 1.0,
+    "supported": 3,
     "claims": 3,
-    "unsupported_claims": [
-      "c3"
-    ]
+    "unsupported_claims": []
   },
-  "ungrounded_correct_keypoints": [
-    "K2"
-  ],
+  "ungrounded_correct_keypoints": [],
   "funnel": [
     {
       "id": "K1",
@@ -93,7 +89,7 @@
       "id": "K2",
       "in_context": false,
       "stated_correctly": true,
-      "grounded": false,
+      "grounded": true,
       "verdict": "relevant"
     }
   ],

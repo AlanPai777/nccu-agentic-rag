@@ -203,6 +203,15 @@ class VerifyRunTest(unittest.TestCase):
         r = self.edit("trace.json", lambda t: t["claims"][0]["evidence"][0].update(item="E9"))
         self.assertEqual(r.returncode, 1)
 
+    def test_an_evidence_from_value_other_than_sources_fails(self):
+        r = self.edit("trace.json", lambda t: t["claims"][0]["evidence"][0].update({"from": "header"}))
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("'from'", r.stdout)
+
+    def test_an_evidence_from_sources_is_accepted(self):
+        r = self.edit("trace.json", lambda t: t["claims"][0]["evidence"][0].update({"from": "sources"}))
+        self.assertEqual(r.returncode, 0, r.stdout)
+
     def test_a_keypoint_missing_from_the_judgement_fails(self):
         r = self.edit("judge.json", lambda j: j.update(keypoints=j["keypoints"][:2]))
         self.assertEqual(r.returncode, 1)

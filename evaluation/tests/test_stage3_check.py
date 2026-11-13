@@ -90,3 +90,69 @@ class CheckTraceTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+URL = "https://moltke.example/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02"
+TI_URL = {"answer_text": "下載連結：" + URL + "\n負責退費業務",
+          "evidence_items": [{"id": "E1", "kind": "HumanMessage", "text": "get_form 取得表單 休學/保留學籍申請書\n\n全文：\n表單編號：QP-T01-03-02",
+                              "sources": [{"url": URL, "label": "休學/保留學籍申請書"},
+                                          {"url": "https://osa.example/休退學退費/休-退-學退費標準", "label": "補充來源（樓層、電話）"}]}]}
+
+
+def url_claim(cid, span, quote, **kw):
+    return {"id": cid, "answer_span": span, "status": "supported",
+            "evidence": [dict({"item": "E1", "quote": quote, "from": "sources"}, **kw)]}
+
+
+class UrlClaimTest(unittest.TestCase):
+    """網址主張可以引用證據項目的 sources，但 quote 必須等於其中一個完整網址（不是子字串）。"""
+
+    def test_a_whole_source_url_is_a_valid_quote_and_its_label_is_kept(self):
+        out = check_trace(TI_URL, {"claims": [url_claim("c1", "下載連結：" + URL, URL)]})
+        c = by_id(out)["c1"]
+        e = c["evidence"][0]
+        self.assertTrue(e["verified"])
+        self.assertEqual((e["quote_in"], e["label"]), ("sources", "休學/保留學籍申請書"))
+        self.assertEqual(c["status_checked"], "supported")
+        self.assertEqual(out["warnings"], [])
+
+    def test_a_made_up_url_that_differs_by_one_character_is_not_valid(self):
+        out = check_trace(TI_URL, {"claims": [url_claim("c1", "下載連結：" + URL, URL.replace("QP-T01-03-02", "QP-T01-03-09"))]})
+        c = by_id(out)["c1"]
+        self.assertFalse(c["evidence"][0]["verified"])
+        self.assertEqual(c["status_checked"], "unsupported")           # 標了 supported 也降級
+        self.assertTrue(any("完整網址" in w for w in out["warnings"]))
+
+    def test_words_taken_from_the_path_cannot_support_another_claim(self):
+        # T5 的陷阱：網址路徑裡有「退費」，不能拿「退費」去支持「負責退費業務」
+        out = check_trace(TI_URL, {"claims": [url_claim("c1", "負責退費業務", "退費")]})
+        c = by_id(out)["c1"]
+        self.assertFalse(c["evidence"][0]["verified"])
+        self.assertEqual(c["status_checked"], "unsupported")
+
+    def test_a_part_of_a_url_is_not_a_whole_url(self):
+        out = check_trace(TI_URL, {"claims": [url_claim("c1", "下載連結：" + URL, "https://moltke.example/formservice_SSO")]})
+        self.assertFalse(by_id(out)["c1"]["evidence"][0]["verified"])
+
+    def test_the_spelling_of_the_url_is_normalised(self):
+        encoded = "HTTPS://MOLTKE.example/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02/"
+        out = check_trace(TI_URL, {"claims": [url_claim("c1", "下載連結：" + URL, encoded)]})
+        self.assertTrue(by_id(out)["c1"]["evidence"][0]["verified"])
+        osa = "https://osa.example/%E4%BC%91%E9%80%80%E5%AD%B8%E9%80%80%E8%B2%BB/%E4%BC%91-%E9%80%80-%E5%AD%B8%E9%80%80%E8%B2%BB%E6%A8%99%E6%BA%96"
+        out = check_trace(TI_URL, {"claims": [url_claim("c1", "負責退費業務", osa)]})
+        self.assertTrue(by_id(out)["c1"]["evidence"][0]["verified"])      # 百分比編碼與原字相同
+
+    def test_an_unknown_from_value_is_not_valid_and_an_item_without_sources_does_not_crash(self):
+        out = check_trace(TI_URL, {"claims": [url_claim("c1", "下載連結：" + URL, URL, **{"from": "header"})]})
+        self.assertFalse(by_id(out)["c1"]["evidence"][0]["verified"])
+        self.assertTrue(any("from 只能是 sources" in w for w in out["warnings"]))
+        old = {"answer_text": "x", "evidence_items": [{"id": "E1", "kind": "k", "text": "t"}]}        # 舊的 trace_input：沒有 sources 欄位
+        out = check_trace(old, {"claims": [url_claim("c1", "x", URL)]})
+        self.assertFalse(by_id(out)["c1"]["evidence"][0]["verified"])
+
+    def test_a_normal_text_quote_is_unchanged(self):
+        out = check_trace(TI_URL, {"claims": [{"id": "c1", "answer_span": "下載連結", "status": "supported",
+                                               "evidence": [{"item": "E1", "quote": "表單編號：QP-T01-03-02"}]}]})
+        e = by_id(out)["c1"]["evidence"][0]
+        self.assertTrue(e["verified"])
+        self.assertNotIn("quote_in", e)

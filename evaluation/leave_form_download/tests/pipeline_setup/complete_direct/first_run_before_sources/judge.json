@@ -1,0 +1,25 @@
+{
+ "keypoints": [
+  {
+   "id": "K1",
+   "verdict": "relevant",
+   "claims": [
+    "c2"
+   ],
+   "reason": "答案寫表單編號 QP-T01-03-02，與標準一致"
+  },
+  {
+   "id": "K2",
+   "verdict": "relevant",
+   "claims": [
+    "c3"
+   ],
+   "reason": "答案給 moltke 的完整下載連結，與標準一致（Keypoint 判斷對照 gold，不看證據；這個主張在回推被判沒依據，原因見 report.md 問題 1）"
+  }
+ ],
+ "judge": {
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "judge-v1",
+  "note": "Claude Code 本 session 判斷（流程測試：答案也是 Claude Code 寫的，判斷不獨立；Keypoint 判斷依設計會看 gold）。主張編號取自子代理的隔離回推 trace.json"
+ }
+}

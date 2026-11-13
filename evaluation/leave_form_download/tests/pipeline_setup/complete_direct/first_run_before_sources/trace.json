@@ -1,0 +1,8 @@
+{
+  "claims": [
+    {"id":"c1","answer_span":"休學申請書的名稱是「休學/保留學籍申請書」","status":"supported","evidence":[{"item":"E1","quote":"get_form 取得表單 休學/保留學籍申請書"}],"why":"證據表單標題即為休學/保留學籍申請書。"},
+    {"id":"c2","answer_span":"表單編號 QP-T01-03-02","status":"supported","evidence":[{"item":"E1","quote":"表單編號：QP-T01-03-02"}],"why":"證據明載表單編號為 QP-T01-03-02。"},
+    {"id":"c3","answer_span":"下載連結：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02","status":"unsupported","evidence":[],"why":"證據文字內容沒有出現該下載連結，網址只在來源欄位而非文字裡。"}
+  ],
+  "judge": {"model":"claude-sonnet-5-5","prompt_version":"isolated-v2","note":"isolated trace by a subagent that read only trace_input.json"}
+}

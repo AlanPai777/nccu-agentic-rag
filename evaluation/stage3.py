@@ -31,9 +31,11 @@ evaluation/stage3.py
   有依據的主張比例  有證據支持的主張 ÷ 全部主張（單獨一個數，沒有 R 與 F1；唯一管 gold 沒列的敘述）
 """
 import argparse
+import html
 import json
 import re
 import sys
+import urllib.parse
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -50,20 +52,22 @@ OUTPUT_FORMAT = {
             "id": "c1",
             "answer_span": "答案正文裡的一段逐字原文（這個主張對應的那一小段）",
             "status": "supported | unsupported",
-            "evidence": [{"item": "E1", "quote": "該證據項目裡的一段逐字原文"}],
+            "evidence": [{"item": "E1", "quote": "該證據項目裡的一段逐字原文"},
+                     {"item": "E2", "quote": "（網址主張才用）該項目 sources 裡的一個完整網址", "from": "sources"}],
             "why": "一句話說明",
         }],
         "judge": {"model": "", "prompt_version": "", "note": ""},
         "rules": [
             "把答案拆成原子主張：一個主張只講一件事（總機與分機是兩件事、傳真是另一件）。",
             "引言、標題、「如下」這類沒有事實內容的字句不要列成主張。",
-            "answer_span 必須逐字取自 answer_text；quote 必須逐字取自該證據項目的 text；程式會驗證，找不到會被退回。",
+            "answer_span 必須逐字取自 answer_text；quote 必須逐字取自該證據項目的 text（網址主張例外，見最後一條）；程式會驗證，找不到會被退回。",
             "status=supported 要附至少一段 evidence；找不到依據就寫 unsupported，evidence 留空陣列。",
             "判斷『有沒有依據』只看 evidence_items 裡的文字，不用你自己知道的事。",
             "把人與職稱、分機配成一對的主張，要證據把「同一個人」配「同樣的職稱與分機」才算 supported；姓名、職稱、分機任一項與證據不同（包含分機是證據裡另一個人的），就是 unsupported。",
             "一個人的姓名、職稱、分機寫成同一個主張，不要把分機拆出去（拆出去的分機會失去它屬於誰的資訊）。",
             "只出現在網址或連結位址裡的字，不算該單位職掌等內容的證據。",
             "各主張的 answer_span 不得互相重疊（一個字最多屬於一個主張）；不要同時列出整句與其中一部分。",
+            "答案裡的網址主張（網址本身就是要說的內容，例如「下載連結：https://…」）可以引用證據項目的 sources：evidence 寫 {\"item\": \"E2\", \"quote\": \"<sources 裡的一個完整網址，逐字>\", \"from\": \"sources\"}。quote 必須等於 sources 裡的一個完整網址（不是網址的一部分），程式會驗證；這個網址對不對得上答案說的東西（例如是不是休學申請書的連結），要看該網址在 sources 裡的 label；網址路徑裡的字仍然不算其他主張的證據（規則 8）；網址不在 sources 裡就是 unsupported。",
         ],
     },
     "judge.json": {
@@ -102,10 +106,53 @@ def _read(path: Path):
 _SRC_LINE_RE = re.compile(r"^[ \t]*(?:補充)?來源(?:（[^）]*）)?[：:][ \t]*https?://\S+[ \t]*$", re.M)
 
 
+_SRC_LINE_PARTS_RE = re.compile(r"^[ \t]*((?:補充)?來源(?:（[^）]*）)?)[：:][ \t]*(https?://\S+)[ \t]*$")
+
+
+def _norm_url(u: str) -> str:
+    """網址比對用的正規化：解開網址編碼與 &amp;、小寫的協定與主機、去掉 # 後面與結尾的斜線。路徑與查詢字串照原樣（大小寫有意義）。"""
+    u = urllib.parse.unquote(html.unescape((u or "").strip())).split("#", 1)[0].rstrip("/")
+    p = urllib.parse.urlsplit(u)
+    return urllib.parse.urlunsplit((p.scheme.lower(), p.netloc.lower(), p.path.rstrip("/"), p.query, ""))
+
+
+def _label_from_line(line: str) -> str:
+    """標記行前一行的名稱：get_form 取得表單 <標題> → 標題；get_page 取得 N 字，標題: <標題>，subdomain: … → 標題；其他原樣。"""
+    line = line.strip()
+    m = re.match(r"get_form 取得表單\s*(.*)$", line)
+    if m:
+        return re.sub(r"（官網顯示此表單已停用[^）]*）$", "", m.group(1)).strip()
+    m = re.search(r"標題:\s*(.*?)(?:，subdomain:.*)?$", line)
+    if line.startswith("get_page") and m:
+        return m.group(1).strip()
+    return line[:120]
+
+
+def _sources_of(text: str) -> list[dict]:
+    """這個證據項目裡系統看到的網址（標記行的 url=，以及被剝掉的純網址來源行），各附名稱（label）。
+    網址主張靠它判斷「系統有沒有看過這個網址」；label 讓判斷者確認這個網址對得上答案說的東西。"""
+    out, seen = [], set()
+
+    def add(url, label):
+        key = _norm_url(url)
+        if key and key not in seen:
+            seen.add(key)
+            out.append({"url": url, "label": label})
+
+    for m in _MARKER_RE.finditer(text):
+        before = text[:m.start()].rstrip().splitlines()
+        add(m.group(2), _label_from_line(before[-1]) if before else "")
+    for ln in text.splitlines():
+        m = _SRC_LINE_PARTS_RE.match(ln)
+        if m:
+            add(m.group(2), m.group(1))
+    return out
+
+
 def build_evidence(context: list[dict]) -> tuple[list[dict], list[str]]:
     """答案模型實際看到的內容：工具輸出、聯絡人清單（contact_list）、節點注入的資料（表單全文等）。
     排除 contact_page（人員頁原文，答案模型沒看過，只用於 Context 層）與節點給 LLM 的指示文字；
-    剝掉 [live:src …] 標記行與純網址的來源行。回傳 (證據項目, 被剝掉的來源行)。"""
+    剝掉 [live:src …] 標記行與純網址的來源行（網址與前一行的名稱另存在 sources，網址主張用）。回傳 (證據項目, 被剝掉的來源行)。"""
     items, removed = [], []
     for c in context:
         if c.get("kind") == "contact_page":
@@ -113,6 +160,7 @@ def build_evidence(context: list[dict]) -> tuple[list[dict], list[str]]:
         if c["role"] == "HumanMessage" and c["text"].startswith(_NODE_PROMPT_PREFIXES):
             continue
         m = _MARKER_RE.search(c["text"])
+        sources = _sources_of(c["text"])
         text = _MARKER_RE.sub("", c["text"])
         removed += [ln.strip() for ln in text.splitlines() if _SRC_LINE_RE.match(ln)]
         text = _SRC_LINE_RE.sub("", text)
@@ -121,7 +169,8 @@ def build_evidence(context: list[dict]) -> tuple[list[dict], list[str]]:
             "id": f"E{len(items) + 1}",
             "kind": c.get("kind") or c["role"],
             "tool": c.get("tool"),
-            "source_url": m.group(2) if m else None,
+            "source_url": m.group(2) if m else None,     # 第一個標記的網址（舊欄位）；全部的網址看 sources
+            "sources": sources,
             "text": text,
         })
     return items, removed
@@ -214,12 +263,25 @@ def check_trace(ti: dict, tr: dict) -> dict:
         for e in c.get("evidence", []):
             e = dict(e)
             it = items.get(e.get("item"))
-            pos = _locate(it["text"], e.get("quote", "")) if it else None
-            e["verified"] = pos is not None
-            if pos and pos[0] >= 0:
-                e["start"], e["end"] = pos
-            if pos is None:
-                warnings.append(f"{c['id']}：證據 {e.get('item')} 的 quote 不是該項目的原文，不算有效證據")
+            if e.get("from") == "sources":
+                # 網址主張：quote 必須等於該項目 sources 裡的一個完整網址（正規化後精確比對，不是子字串）
+                target = _norm_url(e.get("quote", ""))
+                hit = next((s_ for s_ in (it or {}).get("sources", []) if target and _norm_url(s_["url"]) == target), None)
+                e["verified"], e["quote_in"] = hit is not None, "sources"
+                if hit:
+                    e["label"] = hit.get("label", "")
+                else:
+                    warnings.append(f"{c['id']}：證據 {e.get('item')} 的 quote 不等於該項目 sources 裡任何一個完整網址，不算有效證據")
+            elif e.get("from") not in (None, ""):
+                e["verified"] = False
+                warnings.append(f"{c['id']}：證據 {e.get('item')} 的 from 只能是 sources，這筆不算有效證據")
+            else:
+                pos = _locate(it["text"], e.get("quote", "")) if it else None
+                e["verified"] = pos is not None
+                if pos and pos[0] >= 0:
+                    e["start"], e["end"] = pos
+                if pos is None:
+                    warnings.append(f"{c['id']}：證據 {e.get('item')} 的 quote 不是該項目的原文，不算有效證據")
             ev.append(e)
         c["evidence"] = ev
         valid_evidence = [e for e in ev if e["verified"]]
