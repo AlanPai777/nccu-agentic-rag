@@ -38,21 +38,21 @@
     "context_chars": 6558,
     "sentence": {
       "p": 0.0676,
-      "r": 1.0,
-      "f": 0.1266
+      "r": 0.9375,
+      "f": 0.126
     },
     "words": {
-      "p": 0.1441,
-      "r": 0.9804,
-      "f": 0.2513
+      "p": 0.147,
+      "r": 0.9684,
+      "f": 0.2552
     },
     "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）"
   },
   "keypoint": {
-    "relevant": 23,
+    "relevant": 24,
     "wrong": 0,
     "irrelevant": 0,
-    "total": 23,
+    "total": 24,
     "not_applicable": 0,
     "completeness": 1.0,
     "hallucination": 0.0,
@@ -80,7 +80,9 @@
       "c2"
     ]
   },
-  "ungrounded_correct_keypoints": [],
+  "ungrounded_correct_keypoints": [
+    "K24"
+  ],
   "funnel": [
     {
       "id": "K1",
@@ -241,6 +243,13 @@
       "in_context": true,
       "stated_correctly": true,
       "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K24",
+      "in_context": false,
+      "stated_correctly": true,
+      "grounded": false,
       "verdict": "relevant"
     }
   ],

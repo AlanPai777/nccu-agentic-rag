@@ -38,38 +38,38 @@
     "context_chars": 6558,
     "sentence": {
       "p": 0.0676,
-      "r": 1.0,
-      "f": 0.1266
+      "r": 0.9375,
+      "f": 0.126
     },
     "words": {
-      "p": 0.1441,
-      "r": 0.9804,
-      "f": 0.2513
+      "p": 0.147,
+      "r": 0.9684,
+      "f": 0.2552
     },
     "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）"
   },
   "keypoint": {
-    "relevant": 19,
+    "relevant": 20,
     "wrong": 0,
     "irrelevant": 3,
-    "total": 22,
+    "total": 23,
     "not_applicable": 1,
-    "completeness": 0.8636,
+    "completeness": 0.8696,
     "hallucination": 0.0,
-    "irrelevance": 0.1364
+    "irrelevance": 0.1304
   },
   "fact_unit": {
     "precision": 1.0,
-    "recall": 0.8636,
-    "f1": 0.9268,
+    "recall": 0.8696,
+    "f1": 0.9302,
     "note": "P = Relevant ÷ (Relevant + Wrong)；R = Relevant ÷ keypoint 總數"
   },
   "claim_unit": {
     "claims": 21,
     "correct_claims": 21,
     "precision": 1.0,
-    "recall": 0.8636,
-    "f1": 0.9268,
+    "recall": 0.8696,
+    "f1": 0.9302,
     "note": "P = 正確陳述某個 keypoint 的主張 ÷ 全部主張；額外但正確的資訊會讓 P 下降，量的是聚焦程度"
   },
   "evidence_support": {
@@ -82,7 +82,8 @@
     ]
   },
   "ungrounded_correct_keypoints": [
-    "K17"
+    "K17",
+    "K24"
   ],
   "funnel": [
     {
@@ -244,6 +245,13 @@
       "in_context": true,
       "stated_correctly": true,
       "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K24",
+      "in_context": false,
+      "stated_correctly": true,
+      "grounded": false,
       "verdict": "relevant"
     }
   ],

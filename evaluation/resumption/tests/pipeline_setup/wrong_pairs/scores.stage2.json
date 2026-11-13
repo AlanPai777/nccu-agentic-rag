@@ -26,13 +26,13 @@
     "context_chars": 6558,
     "sentence": {
       "p": 0.0676,
-      "r": 1.0,
-      "f": 0.1266
+      "r": 0.9375,
+      "f": 0.126
     },
     "words": {
-      "p": 0.1441,
-      "r": 0.9804,
-      "f": 0.2513
+      "p": 0.147,
+      "r": 0.9684,
+      "f": 0.2552
     },
     "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）"
   },
@@ -230,6 +230,12 @@
         "kind": "semantic",
         "verdict": "needs_llm",
         "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K24",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
       }
     ],
     "funnel_stage2": [
@@ -369,6 +375,12 @@
         "id": "K23",
         "in_context": true,
         "matched_reference": "本申請經核准後，即完成復學手續",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K24",
+        "in_context": false,
+        "matched_reference": null,
         "rule_verdict": "needs_llm"
       }
     ],
