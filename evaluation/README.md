@@ -96,5 +96,6 @@ python evaluation/compare_tests.py evaluation/cashier_contact/tests/tampered_v1 
 | `registry/` | 單位登記表（各題共用、只維護一份）：`registry.json`（註冊組、生僑組、國合處的人員、樓層、代表線，以及表單；每個名字同時記快照與現場兩種寫法，每條都附逐字引句與來源）、`build_registry.py`（建置並逐字驗證）、`registry_lib.py`（比對：姓名＋分機、樓層、表單連結；gold 用 `"registry": {...}` 欄位引用）、`f19_gap_report.py`（F19 差距報告：新舊頁面的狀態、系統原本的解析器能讀出幾個人；只讀、離線）、`fetch_live_page.py`（人員頁一律用動態抓取，預設只列網址，加 `--run` 才送）、`sources/`（快照複本與現場原始頁面、`live_check.md` 查證記錄） |
 | `resumption/` | 如何辦理復學（第一題跨處室程序題）：`gold.json`（24 個 keypoint，蓋章一個單位一個 keypoint；人員、樓層、表單連結 8 個引用登記表）、`build_gold.py`、`sources/`、`tests/pipeline_setup/`（5 份假設答案的流程測試，`report.md`，不是評測結果） |
 | `leave_of_absence/` | 如何辦理休學（第二題跨處室程序題）：`gold.json`（60 個 keypoint，14 個引用登記表，14 個選擇性）、`build_gold.py`、`sources/`（含總務處 8 頁新人員頁）、`tests/pipeline_setup/`（5 份假設答案的流程測試，`report.md`，不是評測結果）。舊的 `old_leave_of_absence/` 只當參考，不是評測的一部分 |
+| `leave_and_library_phone/` | 如何辦理休學，圖書館的電話是多少（複合題）：`gold.json`（67 個 keypoint；A 部分 K1–K60 整份匯入第 5 題，B 部分 K61–K67 圖書館電話，全部引用登記表）、`build_gold.py`（建置時複製第 5 題的 gold 與 sources）、`part_scores.py`（A、B 兩部分各自的 Completeness）、`tests/pipeline_setup/`（5 份假設答案的流程測試，`report.md`，不是評測結果） |
 | `cashier_contact/` | 出納組：`gold.json`、`build_gold.py`、`sources/`（來源原文複本與官網查證記錄）、`runs/`（每次 run）、`tests/`（隔離回推材料） |
 | `tests/` | 評測程式的單元測試與 fixtures |

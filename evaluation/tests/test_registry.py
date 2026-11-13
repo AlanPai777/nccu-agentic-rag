@@ -139,6 +139,63 @@ class CheckWhoTest(unittest.TestCase):
         self.assertEqual(r["unknown_extensions"], ["12345"])
 
 
+class CheckLineTest(unittest.TestCase):
+    def hit(self, answer, key):
+        return R.check_line(answer, REG, "library", key)["verdict"] == "hit"
+
+    def test_a_direct_line_is_matched_by_its_digits_however_it_is_written(self):
+        for a in ("(02)2938-7878", "02-2938-7878", "2938-7878", "29387878", "02 2938 7878", "電話：（02）2938－7878"):
+            with self.subTest(a=a):
+                self.assertTrue(self.hit("圖書館借還書：" + a, "direct"))
+
+    def test_another_number_is_not_the_line(self):
+        self.assertFalse(self.hit("(02)2938-7879", "direct"))
+        self.assertFalse(self.hit("(02)2938-78781", "direct"))      # one more digit: not this number
+
+    def test_an_extension_is_matched_as_a_standalone_number(self):
+        self.assertTrue(self.hit("總圖借還書請打 (02)2939-3091 轉分機 63222", "main_ext"))
+        self.assertFalse(self.hit("分機 632221", "main_ext"))
+        self.assertFalse(self.hit("分機 6322", "main_ext"))
+
+    def test_switchboard_plus_extension_scores_both_lines(self):
+        a = "(02)2939-3091轉分機63222"
+        self.assertTrue(self.hit(a, "switchboard"))
+        self.assertTrue(self.hit(a, "main_ext"))
+
+    def verdict(self, answer, key):
+        return R.check_line(answer, REG, "library", key)["verdict"]
+
+    def test_a_wrong_number_is_wrong_and_no_number_is_a_miss(self):
+        wrong = "總圖借還書：(02)2939-3091 轉分機 63223，直撥 (02)2938-7870"
+        self.assertEqual(self.verdict(wrong, "main_ext"), "wrong")         # 63223 is not 63222
+        self.assertEqual(self.verdict(wrong, "direct"), "wrong")           # 2938-7870 is not 2938-7878
+        self.assertEqual(self.verdict(wrong, "switchboard"), "hit")        # the switchboard in the same sentence is right
+        self.assertEqual(self.verdict("請洽圖書館借還書櫃檯", "main_ext"), "miss")   # nothing written
+
+    def test_the_wrong_number_counts_only_against_the_line_whose_label_is_on_the_same_line(self):
+        a = "總圖分機 63222\n綜圖分機 50108、商圖分機 84006"
+        self.assertEqual(self.verdict(a, "main_ext"), "hit")
+        self.assertEqual(self.verdict(a, "zonghe_ext"), "wrong")           # 50108 is not 50107
+        self.assertEqual(self.verdict(a, "shang_ext"), "hit")
+        self.assertEqual(self.verdict(a, "chuan_ext"), "miss")             # 傳圖 is not mentioned: a miss, not a wrong
+        self.assertEqual(self.verdict(a, "daxian"), "miss")
+
+    def test_numbers_that_the_registry_knows_are_not_wrong_numbers(self):
+        # 62123 is the cashier's line (in the registry): a library sentence that mentions it is not "a wrong library number"
+        self.assertEqual(self.verdict("圖書館遺失賠償請洽出納組分機 62123", "main_ext"), "miss")
+
+    def test_the_gold_reference_to_an_unknown_line_is_reported(self):
+        kp = {"id": "K1", "registry": {"office": "library", "need": "line", "line": "nope"}}
+        self.assertTrue(any("沒有 key" in p for p in R.validate_keypoint_refs(kp, REG)))
+        kp["registry"]["line"] = "direct"
+        self.assertEqual(R.validate_keypoint_refs(kp, REG), [])
+
+    def test_every_library_line_has_a_key_and_verified_sources(self):
+        lines = REG["offices"]["library"]["lines"]
+        self.assertEqual({ln["key"] for ln in lines}, {"main_ext", "direct", "switchboard", "zonghe_ext", "shang_ext", "chuan_ext", "daxian"})
+        self.assertTrue(all(ln["sources"] for ln in lines))
+
+
 class CheckFloorAndFormTest(unittest.TestCase):
     def test_floor_written_either_way_near_the_office_name(self):
         for a in ("國際合作事務處（行政大樓8樓）", "國合處在八樓"):

@@ -1,0 +1,14 @@
+{
+  "url": "https://www.lib.nccu.edu.tw/p/404-1000-312.php?Lang=zh-tw",
+  "ok": true,
+  "status": 200,
+  "error": "",
+  "detail": "",
+  "elapsed_seconds": 2.76,
+  "requests": 22,
+  "requests_nccu": 20,
+  "fetched_at": "2026-11-13T20:58:23+08:00",
+  "tool": "rag.live.browser.PlaywrightBackend",
+  "settle_ms": 2000,
+  "user_agent": "Chromium default (not set; no email)"
+}

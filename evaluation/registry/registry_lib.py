@@ -11,6 +11,8 @@ need：
   who        答案要有該單位任何一位的「姓名或職稱 + 分機」（姓名接受登記表記的任何寫法，姓氏＋小姐／先生也算），
              或該單位的代表線；姓名與分機對不上算 wrong
   floor      答案在該單位名稱同一行或前後 40 字內寫出樓層（"unit" 可指定組別，如國際教育組）；寫了別的樓層算 wrong
+  line       （hit／wrong／miss）答案要有登記表記的某一條電話；寫了號碼但不對（同一行有這條電話的標籤字眼，而號碼不在登記表）判 wrong，沒寫判 miss（"line" 是該條的 key，如 "main_ext"）；電話只比數字（8 碼的電話比後 8 碼，前面的區碼 0 或 02
+             有沒有寫都行，號碼中間的 - 或空白不影響；分機比 5 位數）
   form_link  答案要有登記表記的表單連結（"form"：表單編號）；"mention": "conditional" 時，答案沒提到這份表單就不適用
 conditional  true：答案沒有提到該單位（任何別名）時，這個 keypoint 不適用、不計入
 
@@ -28,7 +30,7 @@ REGISTRY_JSON = HERE / "registry.json"
 PAIR_WINDOW = 20      # 姓名（或職稱）與分機之間最多隔幾個字
 FLOOR_WINDOW = 40     # 單位名稱與樓層之間最多隔幾個字
 _EXT_RE = re.compile(r"(?<!\d)\d{5,6}(?!\d)")      # 分機 5 位數；營繕組技術人員是 6 位數
-NEEDS = ("who", "floor", "form_link")
+NEEDS = ("who", "floor", "form_link", "line")
 
 
 def norm(s: str) -> str:
@@ -252,6 +254,56 @@ def check_form_link(answer: str, reg: dict, form_id: str, mention: str) -> dict:
     return row
 
 
+def _line_core(ln: dict) -> list[str]:
+    """一條電話要在答案裡出現的數字：明寫的 accepted；沒有的話，8 碼以上的電話取後 8 碼，分機取 5～6 位數。"""
+    if ln.get("accepted"):
+        return list(ln["accepted"])
+    d = re.sub(r"\D", "", unicodedata.normalize("NFKC", ln["value"]))
+    return [d[-8:] if len(d) >= 8 else d]
+
+
+def _known_numbers(reg: dict) -> set[str]:
+    """登記表裡所有單位的分機與電話（數字）：答案裡這些以外、長得像電話的數字，才可能是「寫錯的號碼」。"""
+    known: set[str] = set()
+    for o in reg["offices"].values():
+        known |= {e["ext"] for e in o["staff"] if e["ext"]}
+        for ln in o["lines"]:
+            known |= set(_line_core(ln))
+            m = re.search(r"(?<!\d)(\d{5})$", norm(ln["value"]))
+            if m:
+                known.add(m.group(1))
+    return known
+
+
+def _phone_numbers(line: str) -> list[str]:
+    """一行文字裡長得像電話的數字：獨立的 5 位數（分機）或 8 位數（可帶區碼 0／02）；回傳核心數字。"""
+    text = re.sub(r"(?<=\d)[-\s](?=\d)", "", unicodedata.normalize("NFKC", line))
+    out = re.findall(r"(?<!\d)(?:0?2)?(\d{8})(?!\d)", text) + re.findall(r"(?<!\d)(\d{5})(?!\d)", text)
+    return list(dict.fromkeys(out))
+
+
+def check_line(answer: str, reg: dict, okey: str, key: str) -> dict:
+    """hit：答案有這條電話。wrong：沒有這條，但答案有「標籤字眼同一行」的、不在登記表的電話號碼（寫了號碼但不對）。miss：沒寫。
+    標籤（lines[].labels，如「綜圖」「直撥」）讓錯誤只算給它自己的那條電話：寫對 63222、寫錯「綜圖 50108」時，綜圖是 wrong，商圖、傳圖沒寫仍是 miss。"""
+    o = office(reg, okey)
+    ln = next(x for x in o["lines"] if x.get("key") == key)
+    text = unicodedata.normalize("NFKC", answer or "")
+    joined = re.sub(r"(?<=\d)[-\s](?=\d)", "", text)                # 2938-7878 → 29387878，02 2938 7878 → 0229387878
+    for core in _line_core(ln):
+        pattern = rf"(?<!\d)(?:0?2)?{core}(?!\d)" if len(core) >= 8 else rf"(?<!\d){core}(?!\d)"
+        if re.search(pattern, joined):
+            return {"office": okey, "line": key, "value": ln["value"], "matched": core, "verdict": "hit"}
+    known = _known_numbers(reg)
+    labels = ln.get("labels") or []
+    wrong_numbers = []
+    for line in text.split("\n"):
+        if labels and any(lb in line for lb in labels):
+            wrong_numbers += [n for n in _phone_numbers(line) if n not in known]
+    if wrong_numbers:
+        return {"office": okey, "line": key, "value": ln["value"], "wrong_numbers": sorted(set(wrong_numbers)), "verdict": "wrong"}
+    return {"office": okey, "line": key, "value": ln["value"], "verdict": "miss"}
+
+
 def check_keypoint(kp: dict, answer: str, reg: dict) -> dict:
     """gold keypoint（含 registry 欄位）對一份答案的規則檢查；回傳 row，verdict 是 hit／miss／wrong／not_applicable。"""
     r = kp["registry"]
@@ -262,6 +314,8 @@ def check_keypoint(kp: dict, answer: str, reg: dict) -> dict:
         return {"office": r["office"], "verdict": "not_applicable", "note": "答案沒有提到這個單位，不適用，不計入"}
     if r["need"] == "who":
         return check_who(answer, reg, r["office"])
+    if r["need"] == "line":
+        return check_line(answer, reg, r["office"], r["line"])
     return check_floor(answer, reg, r["office"], r.get("unit"))
 
 
@@ -286,4 +340,6 @@ def validate_keypoint_refs(kp: dict, reg: dict) -> list[str]:
             problems.append(f"{kid}：{r['office']} 沒有組別 {r['unit']} 的樓層")
     if r["need"] == "who" and not (o["staff"] or o["lines"]):
         problems.append(f"{kid}：{r['office']} 沒有人員或代表線")
+    if r["need"] == "line" and not any(ln.get("key") == r.get("line") for ln in o["lines"]):
+        problems.append(f"{kid}：{r['office']} 沒有 key 為 {r.get('line')} 的電話")
     return problems

@@ -1,0 +1,14 @@
+{
+  "url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+  "ok": false,
+  "status": 404,
+  "error": "http_4xx",
+  "detail": "HTTP 404",
+  "elapsed_seconds": 2.56,
+  "requests": 0,
+  "requests_nccu": 0,
+  "fetched_at": "2026-11-13T17:08:34+08:00",
+  "tool": "rag.live.browser.PlaywrightBackend",
+  "settle_ms": 2000,
+  "user_agent": "Chromium default (not set; no email)"
+}

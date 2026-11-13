@@ -1,0 +1,1309 @@
+{
+  "query_id": "leave_and_library_phone",
+  "query": "如何辦理休學，圖書館的電話是多少",
+  "query_variants": [],
+  "query_type": "compound",
+  "data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；表單版本 202512版）",
+    "live": "2026-11-13（現場）（教務處頁面、退費標準頁、各處室人員頁；人員、樓層、表單連結的現場依據在 evaluation/registry/）",
+    "library_phone": "圖書館各組聯絡資訊頁：快照 2026-08-25、現場 2026-11-13（動態）"
+  },
+  "content": "辦理休學要本人攜帶學生證或身分證件正本（非本人親辦需附委託書及被委託人身分證件正本；未成年學生須經法定代理人簽章同意），填妥「休學/保留學籍申請書」（表單編號 QP-T01-03-02，https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02），依會簽程序依序前往：系所簽章、圖書館、出納組（確認學生帳戶）、住宿組（限住宿生）、生僑組或原資中心（僑生、港澳生、陸生到生僑組；原住民族籍學生到原資中心）、國際合作事務處（限國際學生），再送教務處註冊組擬准，經註冊組組長簽章、教務長批示。申請當學期休學須在期末考試（休學截止日）前辦理，逾期不受理；休學一次可申請一學期至二學年，累計以二學年為原則；休學期間的修課紀錄予以刪除。休學／保留學籍證明書可三個工作天後親自到註冊組承辦人處領取，也可郵寄或自行上 iNCCU 查詢。學雜費退費：繳費截止日前完成全額退費，其後至學期 1/3 退費基準日退 2/3，至 2/3 退費基準日退 1/3，逾 2/3 不退；學生平安保險費不退。退費由學務處生僑組主動辦理並匯入已登錄的帳戶；宿費及住宿保證金要先填退宿申請表到住宿組辦理。 圖書館的電話：總圖（中正館流通櫃臺、典藏閱覽組）借還書是 (02)2939-3091 轉分機 63222，直撥 (02)2938-7878；綜圖分機 50107、商圖 84006、傳圖 67152；達賢圖 (02)82377017。",
+  "keypoints": [
+    {
+      "id": "K1",
+      "text": "申請當學期休學要在期末考試（休學截止日）前辦理，逾期不受理",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "申請當學期休學者，請於期末考試（休學截止日）前提出，逾期不予受理",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        },
+        {
+          "text": "學生申請當學期休學者，須於期末考試以前辦理，逾期不予受理",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "申請當學期休學者，須於期末考試以前辦理，逾期不予受理",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學生申請當學期休學者，須於期末考試以前辦理，逾期不予受理",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K2",
+      "text": "休學一次可申請一學期至二學年",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "休學得一次申請一學期至二學年",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        },
+        {
+          "text": "申請休學，得由學校一次核准一學期至二學年",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "得由學校一次核准一學期至二學年",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K3",
+      "text": "休學累計以二學年為原則",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "休學累計以二學年為原則",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        },
+        {
+          "text": "休學累計以二學年為原則",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "休學累計以二學年為原則",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K4",
+      "text": "期滿因重病或特殊事故需再申請延長休學一學期或一學年者，得專案報請校長核准",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "期滿因重病或特殊事故需再申請延長休學一學期或一學年者，得專案報請 校長核准",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        },
+        {
+          "text": "得專案報請校長核准",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "得專案報請校長核准",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K5",
+      "text": "申請延長休學以一次為原則",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "申請延長休學以一次為原則",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        },
+        {
+          "text": "申請延長休學以一次為原則",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "申請延長休學以一次為原則",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K6",
+      "text": "休學期間的修課紀錄予以刪除（含國內外校際選課）",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "請准休學學生，其休學期間之修課紀錄予以刪除（含國內外校際選課）",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        },
+        {
+          "text": "請准休學學生，其休學期間之修課紀錄予以刪除",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "請准休學學生，其休學期間之修課紀錄予以刪除",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K7",
+      "text": "未成年學生須經法定代理人簽章同意",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "(未成年學生須經法定代理人簽章同意。）",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K8",
+      "text": "轉系（所）經核准公告後，於申辦當學期休學者，取消其轉系（所）核准資格",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "※轉系(所)經核准公告後，於申辦當學期 休學者，取消其轉系(所)核准資格",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K9",
+      "text": "休學申請書的表單是「休學/保留學籍申請書」，表單編號 QP-T01-03-02",
+      "required": true,
+      "kind": "hard",
+      "references": [
+        {
+          "text": "表單編號：QP-T01-03-02",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        },
+        {
+          "text": "[休學/保留學籍申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "[休學/保留學籍申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [
+        "QP-T01-03-02"
+      ],
+      "part": "A"
+    },
+    {
+      "id": "K10",
+      "text": "休學申請書的下載連結是 https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_form_link",
+      "registry": {
+        "need": "form_link",
+        "form": "QP-T01-03-02",
+        "mention": "always"
+      },
+      "part": "A"
+    },
+    {
+      "id": "K11",
+      "text": "辦理休學要本人攜帶學生證或身分證件正本",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "本人攜帶學生證或身分證件正本",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "本人攜帶學生證或身分證件正本",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K12",
+      "text": "非本人親辦，需附委託書及被委託人的身分證件正本",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "非本人親辦，需附委託書及被委託人身分證件正本",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "非本人親辦，需附委託書及被委託人身分證件正本",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "申請人或代辦人簽章 (須附委託書)",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K13",
+      "text": "答案提到委託書時，要附委託書的連結（各項證明文件申辦委託書，QP-T01-02-05）",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_form_link",
+      "registry": {
+        "need": "form_link",
+        "form": "QP-T01-02-05",
+        "mention": "conditional"
+      },
+      "applies_if": "答案提到委託書",
+      "part": "A"
+    },
+    {
+      "id": "K14",
+      "text": "申請書上的會簽程序要依序前往各單位辦理",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "會 簽 程 序 【 申 請 者 請 參 閱 本 表 說 明 並 依 序 前 往 辦 理 】",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K15",
+      "text": "要請系所簽章（各系所辦公室）",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "（1）系所簽章",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        },
+        {
+          "text": "（各系所辦公室）",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        },
+        {
+          "text": "依說明至系所及各處室蓋章後",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K16",
+      "text": "要到圖書館（總圖或分館借還書櫃檯）辦理",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "（2）圖書館",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        },
+        {
+          "text": "（總圖或分館借還書櫃檯）",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K17",
+      "text": "要到出納組辦理，確認學生帳戶",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "（3）出納組",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        },
+        {
+          "text": "(行政大樓5樓) (確認學生帳戶)",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K18",
+      "text": "住宿組只有住宿生需要辦理，非住宿生免辦",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "（4）住宿組",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        },
+        {
+          "text": "限住宿生(行政大樓 3 樓)",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        },
+        {
+          "text": "(非住宿生免辦)",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K19",
+      "text": "僑生、港澳生、陸生到生僑組辦理",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "(5)生僑組/原資中心",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        },
+        {
+          "text": "(僑生、港澳生、陸生至生僑組)",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K20",
+      "text": "原住民族籍學生到原住民族學生資源中心（原資中心）辦理",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "(5)生僑組/原資中心",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        },
+        {
+          "text": "(原住民族籍學生至原資中心)",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K21",
+      "text": "國際合作事務處只有國際學生需要辦理",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "（6）國際合作事務處",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        },
+        {
+          "text": "限國際學生(行政大樓8樓)",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K22",
+      "text": "教務處註冊組擬准予休學（或保留學籍）及學年學期",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "(7）教務處註冊組",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        },
+        {
+          "text": "擬准予□休學□保留學籍 計 學年 學期",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K23",
+      "text": "註冊組組長簽章",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "註冊組 組 長",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K24",
+      "text": "教務長批示",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "教務長 批 示",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K25",
+      "text": "各單位蓋章完畢後，送教務處註冊組",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "填妥「休學/保留學籍申請書」並依說明至系所及各處室蓋章後，送至教務處註冊組",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "填妥「休學/保留學籍申請書」並依說明至系所及各處室蓋章後，送至教務處註冊組",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K26",
+      "text": "住宿生要在休學事由發生日起 7 日內（不得超過當學期期末所定離舍日）向住宿組辦理退離宿手續，之後才能申請退還宿費及住宿保證金",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "畢業、休學、退學或轉學住宿生應於發生 日起7日內(含例假日、且不得超過當學期期 末所定離舍日)向住宿組辦理退離宿手續 後，始得申請退還宿費及住宿保證金",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "applies_if": "答案提到住宿組",
+      "part": "A"
+    },
+    {
+      "id": "K27",
+      "text": "國際學生在台居留事由為「就讀」者，外僑居留證將由移民署註銷",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "在台居留事由為「就讀」者，其外僑居留 證將由移民署註銷",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "applies_if": "答案提到國合處",
+      "part": "A"
+    },
+    {
+      "id": "K28",
+      "text": "國際學生需在辦理完休學／保留學籍手續後 10 日內離境",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "學生需在辦理完休學/保 留學籍手續後10日內離境",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "applies_if": "答案提到國合處",
+      "part": "A"
+    },
+    {
+      "id": "K29",
+      "text": "台灣獎學金受獎人的獎學金將自休學／保留學籍生效日的隔月起停發",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "台灣獎學金受獎人獎學金將自休學/保留學 籍生效日之隔月開始停發",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "applies_if": "答案提到國合處",
+      "part": "A"
+    },
+    {
+      "id": "K30",
+      "text": "休學／保留學籍證明書可在三個工作天後親自到註冊組承辦人處領取",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "□三個工作天後親自至註冊組承辦人處領取",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K31",
+      "text": "休學／保留學籍證明書可郵寄給申請人（附足資回郵信封）",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "□郵寄回申請人（請附足資回郵信封）",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K32",
+      "text": "不需要證明書的人，可自行上 iNCCU 的學籍狀態查詢",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "□不需證明書 （自行上iNCCU/校務系統Web入口/學生資訊系統/資訊服務/學年(期)學籍狀態查詢）",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K33",
+      "text": "繳費截止日（含）前完成休學程序，學雜費全額退費（不含學生平安保險費）",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "繳費截止日(含)前完成休(退)學程序。學雜費全額退費(不含學生平安保險費)",
+          "source_url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "繳費截止日(含)前完成休(退)學程序。學雜費全額退費(不含學生平安保險費)",
+          "source_url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K34",
+      "text": "繳費截止日次日起至學期 1/3 退費基準日完成休學程序，退 2/3 學雜費",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "繳費截止日次日起至學期1 / 3退費基準日完成休(退)學程序。退2 / 3學雜費 (不含學生平安保險費)",
+          "source_url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "繳費截止日次日起至學期1 / 3退費基準日完成休(退)學程序。退2 / 3學雜費 (不含學生平安保險費)",
+          "source_url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K35",
+      "text": "學期 1/3 退費基準日次日起至學期 2/3 退費基準日（含）完成休學程序，退 1/3 學雜費",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "學期1 / 3退費基準日次日起至學期2 / 3退費基準日(含)完成休(退)學程序。退1 / 3 學雜費 (不含學生平安保險費)",
+          "source_url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學期1 / 3退費基準日次日起至學期2 / 3退費基準日(含)完成休(退)學程序。退1 / 3 學雜費 (不含學生平安保險費)",
+          "source_url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K36",
+      "text": "逾學期 2/3 退費基準日申請休學，學雜費全數不予退還",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "逾學期2 / 3退費基準日申請休(退)學。學雜費全數不予退還",
+          "source_url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "逾學期2 / 3退費基準日申請休(退)學。學雜費全數不予退還",
+          "source_url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K37",
+      "text": "學生平安保險費不退費",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "另學生於休學當學期繳交平安保險費仍受學生團保之保障，故平安保險費不退費",
+          "source_url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "另學生於休學當學期繳交平安保險費仍受學生團保之保障，故平安保險費不退費",
+          "source_url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K38",
+      "text": "休學退費事宜由學務處生僑組承辦",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "退費相關事宜由學務處生僑組承辦",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "退費相關事宜由學務處生僑組承辦",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K39",
+      "text": "完成休學程序後，生僑組依註冊組與出納組資料主動退費，款項直接匯入學生登錄的帳戶，學生不需親自辦理",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "學務處生僑組將依註冊組學籍資料及出納組繳費資料主動退費，學生不需親自到生僑組辦理，退費款項會直接匯入學生第一銀行或郵局帳戶",
+          "source_url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學務處生僑組將依註冊組學籍資料及出納組繳費資料主動退費，學生不需親自到生僑組辦理，退費款項會直接匯入學生第一銀行或郵局帳戶",
+          "source_url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K40",
+      "text": "宿費及住宿保證金要填退宿申請表、至宿舍區檢查寢室後，到住宿組辦理退費",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "宿費及住宿保證金退費，請填妥退宿申請表，並至宿舍區檢查寢室後，再到行政大樓三樓學務處住宿組辦理退費",
+          "source_url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "宿費及住宿保證金退費，請填妥退宿申請表，並至宿舍區檢查寢室後，再到行政大樓三樓學務處住宿組辦理退費",
+          "source_url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "applies_if": "答案提到住宿組",
+      "part": "A"
+    },
+    {
+      "id": "K41",
+      "text": "未在本校登錄入帳帳戶的學生，要攜帶第一銀行或郵局帳戶到出納組登錄，才能辦理退費",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "學生未於本校登錄入帳帳戶者，請攜帶本人第一銀行或郵局帳戶至行政大樓五樓總務處出納組登錄，以利辦理退費",
+          "source_url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學生未於本校登錄入帳帳戶者，請攜帶本人第一銀行或郵局帳戶至行政大樓五樓總務處出納組登錄，以利辦理退費",
+          "source_url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K42",
+      "text": "因經濟因素申請休學的學生，申請前可洽學務處生僑組申請濟助措施",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "如因經濟因素申請休學之學生，申請前可洽學務處生僑組申請各種濟助措施",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K43",
+      "text": "因懷孕或終止懷孕等因素申請休學的學生，可與學務處身心健康中心討論相關醫療資源",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "如因懷孕或終止懷孕等因素申請休學之學生，可與學務處身心健康中心討論相關醫療資源",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K44",
+      "text": "身心健康中心的電話是 8237-7419",
+      "required": false,
+      "kind": "hard",
+      "references": [
+        {
+          "text": "電話：8237-7419",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [
+        "8237-7419"
+      ],
+      "part": "A"
+    },
+    {
+      "id": "K45",
+      "text": "休學、保留學籍期間，可在每學期註冊截止日前到出納組臨櫃繳交平安保險費，投保學生團體平安保險",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "休學、保留學籍期間得於每學期註冊截止日前至總務處出納組臨櫃繳交平安保險費，投保本校學生團體平安保險",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單版本 202512版）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K46",
+      "text": "當學期繳費註冊截止日前申請休學，免繳註冊相關費用",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "當學期繳費註冊截止日前：申請休學或保留學籍，免繳註冊相關費用",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "當學期繳費註冊截止日前：申請休學或保留學籍，免繳註冊相關費用",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K47",
+      "text": "新生及轉學生在入學第一學期繳費註冊截止日後申請休學，須繳費後始得辦理",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "繳費註冊截止日後申請休學或保留學籍者，須繳費後始得辦理",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "入學第一學期之繳費註冊截止日後：申請休學或保留學籍，須繳費後始得辦理",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "入學第一學期之繳費註冊截止日後：申請休學或保留學籍，須繳費後始得辦理",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K48",
+      "text": "新生若延誤註冊逾二週仍未完成繳費註冊或休學，當學年度入學新生即令註銷學籍",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "若延誤註冊逾二週仍未完成繳費註冊、休學或保留學籍者，當學年度入學新生即令註銷學籍",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "若延誤註冊逾二週仍未完成繳費註冊、休學或保留學籍者，當學年度入學新生即令註銷學籍",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "part": "A"
+    },
+    {
+      "id": "K49",
+      "text": "要寫出註冊組任何一位的姓名或職稱加分機，或註冊組的代表線",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_who",
+      "registry": {
+        "office": "registrar",
+        "need": "who"
+      },
+      "part": "A"
+    },
+    {
+      "id": "K50",
+      "text": "要寫出註冊組的樓層",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_floor",
+      "registry": {
+        "office": "registrar",
+        "need": "floor"
+      },
+      "part": "A"
+    },
+    {
+      "id": "K51",
+      "text": "答案提到出納組時，要寫出出納組任何一位的姓名或職稱加分機，或出納組的代表線",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_who",
+      "registry": {
+        "office": "cashier",
+        "need": "who",
+        "conditional": true
+      },
+      "applies_if": "答案提到出納組",
+      "part": "A"
+    },
+    {
+      "id": "K52",
+      "text": "答案提到出納組時，要寫出出納組的樓層",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_floor",
+      "registry": {
+        "office": "cashier",
+        "need": "floor",
+        "conditional": true
+      },
+      "applies_if": "答案提到出納組",
+      "part": "A"
+    },
+    {
+      "id": "K53",
+      "text": "答案提到住宿組時，要寫出住宿組任何一位的姓名或職稱加分機，或住宿組的代表線",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_who",
+      "registry": {
+        "office": "dorm",
+        "need": "who",
+        "conditional": true
+      },
+      "applies_if": "答案提到住宿組",
+      "part": "A"
+    },
+    {
+      "id": "K54",
+      "text": "答案提到住宿組時，要寫出住宿組的樓層",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_floor",
+      "registry": {
+        "office": "dorm",
+        "need": "floor",
+        "conditional": true
+      },
+      "applies_if": "答案提到住宿組",
+      "part": "A"
+    },
+    {
+      "id": "K55",
+      "text": "答案提到生僑組時，要寫出生僑組任何一位的姓名或職稱加分機，或生僑組的代表線",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_who",
+      "registry": {
+        "office": "soa",
+        "need": "who",
+        "conditional": true
+      },
+      "applies_if": "答案提到生僑組",
+      "part": "A"
+    },
+    {
+      "id": "K56",
+      "text": "答案提到生僑組時，要寫出生僑組的樓層",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_floor",
+      "registry": {
+        "office": "soa",
+        "need": "floor",
+        "conditional": true
+      },
+      "applies_if": "答案提到生僑組",
+      "part": "A"
+    },
+    {
+      "id": "K57",
+      "text": "答案提到原資中心時，要寫出原資中心任何一位的姓名或職稱加分機，或原資中心的代表線",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_who",
+      "registry": {
+        "office": "indigenous",
+        "need": "who",
+        "conditional": true
+      },
+      "applies_if": "答案提到原資中心",
+      "part": "A"
+    },
+    {
+      "id": "K58",
+      "text": "答案提到原資中心時，要寫出原資中心的樓層",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_floor",
+      "registry": {
+        "office": "indigenous",
+        "need": "floor",
+        "conditional": true
+      },
+      "applies_if": "答案提到原資中心",
+      "part": "A"
+    },
+    {
+      "id": "K59",
+      "text": "答案提到國合處時，要寫出國合處任何一位的姓名或職稱加分機，或國合處的代表線",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_who",
+      "registry": {
+        "office": "oic",
+        "need": "who",
+        "conditional": true
+      },
+      "applies_if": "答案提到國合處",
+      "part": "A"
+    },
+    {
+      "id": "K60",
+      "text": "答案提到國合處時，要寫出國合處的樓層",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_floor",
+      "registry": {
+        "office": "oic",
+        "need": "floor",
+        "conditional": true,
+        "unit": "國際教育組"
+      },
+      "applies_if": "答案提到國合處",
+      "part": "A"
+    },
+    {
+      "id": "K61",
+      "text": "總圖（中正館流通櫃臺、典藏閱覽組）借還書的校內分機是 63222",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_line",
+      "part": "B",
+      "registry": {
+        "office": "library",
+        "need": "line",
+        "line": "main_ext"
+      }
+    },
+    {
+      "id": "K62",
+      "text": "典藏閱覽組的直撥電話是 (02)2938-7878",
+      "required": false,
+      "kind": "hard",
+      "value_check": "registry_line",
+      "part": "B",
+      "registry": {
+        "office": "library",
+        "need": "line",
+        "line": "direct"
+      }
+    },
+    {
+      "id": "K63",
+      "text": "政大總機是 (02)29393091",
+      "required": false,
+      "kind": "hard",
+      "value_check": "registry_line",
+      "part": "B",
+      "registry": {
+        "office": "library",
+        "need": "line",
+        "line": "switchboard"
+      }
+    },
+    {
+      "id": "K64",
+      "text": "綜圖的校內分機是 50107",
+      "required": false,
+      "kind": "hard",
+      "value_check": "registry_line",
+      "part": "B",
+      "registry": {
+        "office": "library",
+        "need": "line",
+        "line": "zonghe_ext"
+      }
+    },
+    {
+      "id": "K65",
+      "text": "商圖的校內分機是 84006",
+      "required": false,
+      "kind": "hard",
+      "value_check": "registry_line",
+      "part": "B",
+      "registry": {
+        "office": "library",
+        "need": "line",
+        "line": "shang_ext"
+      }
+    },
+    {
+      "id": "K66",
+      "text": "傳圖的校內分機是 67152",
+      "required": false,
+      "kind": "hard",
+      "value_check": "registry_line",
+      "part": "B",
+      "registry": {
+        "office": "library",
+        "need": "line",
+        "line": "chuan_ext"
+      }
+    },
+    {
+      "id": "K67",
+      "text": "達賢圖的電話是 (02)82377017",
+      "required": false,
+      "kind": "hard",
+      "value_check": "registry_line",
+      "part": "B",
+      "registry": {
+        "office": "library",
+        "need": "line",
+        "line": "daxian"
+      }
+    }
+  ],
+  "source_conflicts": "來源優先順序：表單 > 學務處退費標準頁 > 教務處頁面 > 學則；高的是金標準。目前沒有發現來源之間互相矛盾的事實，只有詳略不同：「期末考試（休學截止日）前」（表單）與「期末考試以前」（教務處頁面、學則）意思相同；表單寫「請於…提出」，教務處頁面寫「須於…辦理」。人員頁的差異（同一分機換人、名字寫法不同）在登記表裡記錄，不在這裡。 圖書館電話：典藏閱覽組那一格顯示 (02)2938-7878，連結的 tel: 目標卻是學校總機 +886229393091（其他各組的連結目標與顯示相同）；顯示文字有統計系「常用行政電話一覽表」的獨立佐證，連結目標視為連結本身的筆誤（2026-11-13 現場確認）。統計系頁面把達賢圖書館寫成 (02)8237-7000（總機），聯絡頁寫達賢圖 (02)82377017（數位創新組直撥），兩個不是同一個號碼，B 部分只收聯絡頁寫的。",
+  "notes": [
+    "人員、分機、樓層、表單連結用 registry 欄位引用 evaluation/registry/registry.json；條件式的（出納組、住宿組、生僑組、原資中心、國合處、委託書）在答案沒提到時不適用、不計入。註冊組一律必要。圖書館不列「找誰」也不列樓層（申請書只寫「總圖或分館借還書櫃檯」，沒有指定承辦人，也沒有樓層）；圖書館人員只留在登記表，答案寫出圖書館分機時不會被當成未知分機（使用者決定 2026-11-13）。",
+    "蓋章的單位拆成一個單位一個 keypoint（K15–K24），生僑組與原資中心拆成兩個（K19、K20），註冊組、組長、教務長各一個（K22–K24），符合「一個 keypoint 一個事實」。",
+    "選擇性（required: false）：延長休學兩項（K4、K5）、轉系取消資格（K8）、委託書內容（K12）、證明書的郵寄與自行查詢（K31、K32）、出納組登錄帳戶（K41）、使用者決定的補充說明（K42–K45：經濟因素、懷孕、身心健康中心電話 8237-7419、平安保險）、新生與轉學生註冊的三項（K46–K48）。K30（親自到註冊組領取）列為必要，是三種領取方式裡最基本的一種；這是我的暫定，待使用者確認。",
+    "K44（身心健康中心電話）是 hard：8237-7419 是表單上的數字；索引裡身心健康中心主任分機是 77430，與表單不同（舊 gold 的 T08 備註），這裡只收表單寫的。",
+    "不收：保留學籍的規定（這題問的是休學）、退學、後備軍人、休學與復學的其他規定（復學另有 resumption 題）、各單位內部的職掌。",
+    "退費四個級距與 1/3、2/3 的算法用 semantic 判斷，不用規則：「1/3」「2/3」在時間點與比例裡都會出現，規則版會誤中。",
+    "出納組舊人員頁（cashier.nccu.edu.tw）已搬到 nccuga.nccu.edu.tw（舊路徑 404），登記表以新頁面為現場來源（議題 F19）；代表線 62123（退費標準頁）與 62120（nccuga 頁尾）有現場依據。總務處 8 個新人員頁都存在 sources/live/ga_*（只有出納組與這題有關）。",
+    "舊資料 evaluation/old_leave_of_absence/（56 個事實、9 站會簽）只當參考，沒有採用其中任何一條引句；這裡的引句全部重新從 output/ 與現場頁面取得。",
+    "複合題：A 部分（K1–K60）整份匯入第 5 題，B 部分（K61–K67）是圖書館電話；每個 keypoint 有 part 欄位（A／B），報告用 part_scores.py 另外列兩部分各自的 Completeness。",
+    "B 部分的電話全部引用登記表圖書館的 lines（每條附逐字引句與來源）；K61（總圖借還書分機 63222）列為必要，其餘選擇性。「必要」目前不影響評分（議題 F8、F9）。",
+    "圖書館的「找誰」（人名加分機）不列：申請書只寫「總圖或分館借還書櫃檯」，沒有指定承辦人（第 5 題使用者決定）；這題問的是電話，不是人。",
+    "答案寫 (02)2939-3091 轉 63222 時，K61（分機）與 K63（總機）都算命中；電話只比數字，區碼 0 或 02 有沒有寫、中間的 - 或空白都不影響。"
+  ]
+}

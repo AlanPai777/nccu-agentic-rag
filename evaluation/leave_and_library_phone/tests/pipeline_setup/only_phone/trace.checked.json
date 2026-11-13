@@ -1,0 +1,139 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "總圖（中正館流通櫃臺）借還書：(02)2939-3091 轉分機 63222",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E5",
+          "quote": "總圖（中正館流通櫃臺、典藏閱覽組）校內分機 63222",
+          "verified": true,
+          "start": 3034,
+          "end": 3061
+        },
+        {
+          "item": "E5",
+          "quote": "政大總機 (02)29393091",
+          "verified": true,
+          "start": 3151,
+          "end": 3168
+        }
+      ],
+      "why": "證據列出總圖（中正館流通櫃臺）分機 63222 與政大總機 (02)29393091（同一號碼，僅連字號寫法不同）；E3 並說典藏閱覽組 63222 負責圖書借還。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        10,
+        48
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "直撥 (02)2938-7878",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E5",
+          "quote": "典藏閱覽組直撥電話",
+          "verified": true,
+          "start": 3077,
+          "end": 3086
+        },
+        {
+          "item": "E5",
+          "quote": "(02)2938-7878",
+          "verified": true,
+          "start": 3122,
+          "end": 3135
+        }
+      ],
+      "why": "證據寫明典藏閱覽組直撥電話為 (02)2938-7878。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        49,
+        65
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "綜圖分機 50107",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "綜圖 50107",
+          "verified": true,
+          "start": 231,
+          "end": 239
+        }
+      ],
+      "why": "證據寫綜圖 50107。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        69,
+        79
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "商圖分機 84006",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "商圖 84006",
+          "verified": true,
+          "start": 240,
+          "end": 248
+        }
+      ],
+      "why": "證據寫商圖 84006。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        80,
+        90
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "傳圖分機 67152",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "傳圖 67152",
+          "verified": true,
+          "start": 249,
+          "end": 257
+        }
+      ],
+      "why": "證據寫傳圖 67152。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        91,
+        101
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

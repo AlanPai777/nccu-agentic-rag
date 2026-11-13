@@ -1,0 +1,936 @@
+{
+  "query_id": "leave_and_library_phone",
+  "run_id": "wrong_phone",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；表單版本 202512版）",
+    "live": "2026-11-13（現場）（教務處頁面、退費標準頁、各處室人員頁；人員、樓層、表單連結的現場依據在 evaluation/registry/）",
+    "library_phone": "圖書館各組聯絡資訊頁：快照 2026-08-25、現場 2026-11-13（動態）"
+  },
+  "system_version": "hypothetical",
+  "rouge_l": {
+    "p": 0.5337,
+    "r": 0.3153,
+    "f": 0.3964
+  },
+  "accuracy": {
+    "hard_keypoints": 14,
+    "hit": 6,
+    "accuracy": 0.4286,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "context_chars": 11125,
+    "sentence": {
+      "p": 0.1216,
+      "r": 1.0,
+      "f": 0.2169
+    },
+    "words": {
+      "p": 0.2576,
+      "r": 1.0,
+      "f": 0.4096
+    },
+    "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）"
+  },
+  "keypoints": {
+    "accuracy_rule": [
+      {
+        "id": "K1",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K2",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K3",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K4",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K5",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K6",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K7",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K8",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K9",
+        "kind": "hard",
+        "verdict": "hit",
+        "matched_expressions": [
+          "QP-T01-03-02"
+        ]
+      },
+      {
+        "id": "K10",
+        "kind": "hard",
+        "form": "QP-T01-03-02",
+        "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+        "verdict": "hit",
+        "applies_if": null
+      },
+      {
+        "id": "K11",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K12",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K13",
+        "kind": "hard",
+        "form": "QP-T01-02-05",
+        "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-02-05",
+        "verdict": "not_applicable",
+        "note": "答案沒有提到這份表單，不適用",
+        "applies_if": "答案提到委託書"
+      },
+      {
+        "id": "K14",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K15",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K16",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K17",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K18",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K19",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K20",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K21",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K22",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K23",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K24",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K25",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K26",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K27",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K28",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K29",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K30",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K31",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K32",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K33",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K34",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K35",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K36",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K37",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K38",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K39",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K40",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K41",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K42",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K43",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K44",
+        "kind": "hard",
+        "verdict": "miss",
+        "matched_expressions": []
+      },
+      {
+        "id": "K45",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K46",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K47",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K48",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K49",
+        "kind": "hard",
+        "office": "registrar",
+        "matched": [],
+        "representative_line": [],
+        "pair_mismatches": [],
+        "unknown_extensions": [
+          "50108",
+          "63223"
+        ],
+        "needs_human_review": "答案有不在登記表的分機；若確認是合法分機，代表登記表漏了（例如系所分機不在登記表）",
+        "verdict": "miss",
+        "applies_if": null
+      },
+      {
+        "id": "K50",
+        "kind": "hard",
+        "office": "registrar",
+        "unit": null,
+        "matched": "行政大樓四樓",
+        "floor": "行政大樓四樓",
+        "verdict": "hit",
+        "applies_if": null
+      },
+      {
+        "id": "K51",
+        "kind": "hard",
+        "office": "cashier",
+        "matched": [],
+        "representative_line": [],
+        "pair_mismatches": [],
+        "unknown_extensions": [
+          "50108",
+          "63223"
+        ],
+        "needs_human_review": "答案有不在登記表的分機；若確認是合法分機，代表登記表漏了（例如系所分機不在登記表）",
+        "verdict": "miss",
+        "applies_if": "答案提到出納組"
+      },
+      {
+        "id": "K52",
+        "kind": "hard",
+        "office": "cashier",
+        "unit": null,
+        "matched": "行政大樓五樓",
+        "floor": "行政大樓五樓",
+        "verdict": "hit",
+        "applies_if": "答案提到出納組"
+      },
+      {
+        "id": "K53",
+        "kind": "hard",
+        "office": "dorm",
+        "verdict": "not_applicable",
+        "note": "答案沒有提到這個單位，不適用，不計入",
+        "applies_if": "答案提到住宿組"
+      },
+      {
+        "id": "K54",
+        "kind": "hard",
+        "office": "dorm",
+        "verdict": "not_applicable",
+        "note": "答案沒有提到這個單位，不適用，不計入",
+        "applies_if": "答案提到住宿組"
+      },
+      {
+        "id": "K55",
+        "kind": "hard",
+        "office": "soa",
+        "verdict": "not_applicable",
+        "note": "答案沒有提到這個單位，不適用，不計入",
+        "applies_if": "答案提到生僑組"
+      },
+      {
+        "id": "K56",
+        "kind": "hard",
+        "office": "soa",
+        "verdict": "not_applicable",
+        "note": "答案沒有提到這個單位，不適用，不計入",
+        "applies_if": "答案提到生僑組"
+      },
+      {
+        "id": "K57",
+        "kind": "hard",
+        "office": "indigenous",
+        "verdict": "not_applicable",
+        "note": "答案沒有提到這個單位，不適用，不計入",
+        "applies_if": "答案提到原資中心"
+      },
+      {
+        "id": "K58",
+        "kind": "hard",
+        "office": "indigenous",
+        "verdict": "not_applicable",
+        "note": "答案沒有提到這個單位，不適用，不計入",
+        "applies_if": "答案提到原資中心"
+      },
+      {
+        "id": "K59",
+        "kind": "hard",
+        "office": "oic",
+        "verdict": "not_applicable",
+        "note": "答案沒有提到這個單位，不適用，不計入",
+        "applies_if": "答案提到國合處"
+      },
+      {
+        "id": "K60",
+        "kind": "hard",
+        "office": "oic",
+        "verdict": "not_applicable",
+        "note": "答案沒有提到這個單位，不適用，不計入",
+        "applies_if": "答案提到國合處"
+      },
+      {
+        "id": "K61",
+        "kind": "hard",
+        "office": "library",
+        "line": "main_ext",
+        "value": "63222",
+        "wrong_numbers": [
+          "29387870",
+          "63223"
+        ],
+        "verdict": "wrong",
+        "applies_if": null
+      },
+      {
+        "id": "K62",
+        "kind": "hard",
+        "office": "library",
+        "line": "direct",
+        "value": "(02)2938-7878",
+        "wrong_numbers": [
+          "29387870",
+          "63223"
+        ],
+        "verdict": "wrong",
+        "applies_if": null
+      },
+      {
+        "id": "K63",
+        "kind": "hard",
+        "office": "library",
+        "line": "switchboard",
+        "value": "(02)29393091",
+        "matched": "29393091",
+        "verdict": "hit",
+        "applies_if": null
+      },
+      {
+        "id": "K64",
+        "kind": "hard",
+        "office": "library",
+        "line": "zonghe_ext",
+        "value": "50107",
+        "wrong_numbers": [
+          "50108"
+        ],
+        "verdict": "wrong",
+        "applies_if": null
+      },
+      {
+        "id": "K65",
+        "kind": "hard",
+        "office": "library",
+        "line": "shang_ext",
+        "value": "84006",
+        "matched": "84006",
+        "verdict": "hit",
+        "applies_if": null
+      },
+      {
+        "id": "K66",
+        "kind": "hard",
+        "office": "library",
+        "line": "chuan_ext",
+        "value": "67152",
+        "verdict": "miss",
+        "applies_if": null
+      },
+      {
+        "id": "K67",
+        "kind": "hard",
+        "office": "library",
+        "line": "daxian",
+        "value": "(02)82377017",
+        "verdict": "miss",
+        "applies_if": null
+      }
+    ],
+    "funnel_stage2": [
+      {
+        "id": "K1",
+        "in_context": true,
+        "matched_reference": "申請當學期休學者，請於期末考試（休學截止日）前提出，逾期不予受理",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K2",
+        "in_context": true,
+        "matched_reference": "申請休學，得由學校一次核准一學期至二學年",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K3",
+        "in_context": true,
+        "matched_reference": "休學累計以二學年為原則",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K4",
+        "in_context": true,
+        "matched_reference": "期滿因重病或特殊事故需再申請延長休學一學期或一學年者，得專案報請 校長核准",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K5",
+        "in_context": true,
+        "matched_reference": "申請延長休學以一次為原則",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K6",
+        "in_context": true,
+        "matched_reference": "請准休學學生，其休學期間之修課紀錄予以刪除（含國內外校際選課）",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K7",
+        "in_context": true,
+        "matched_reference": "(未成年學生須經法定代理人簽章同意。）",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K8",
+        "in_context": true,
+        "matched_reference": "※轉系(所)經核准公告後，於申辦當學期 休學者，取消其轉系(所)核准資格",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K9",
+        "in_context": true,
+        "matched_reference": "[休學/保留學籍申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)",
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K10",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K11",
+        "in_context": true,
+        "matched_reference": "本人攜帶學生證或身分證件正本",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K12",
+        "in_context": true,
+        "matched_reference": "非本人親辦，需附委託書及被委託人身分證件正本",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K13",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "not_applicable"
+      },
+      {
+        "id": "K14",
+        "in_context": true,
+        "matched_reference": "會 簽 程 序 【 申 請 者 請 參 閱 本 表 說 明 並 依 序 前 往 辦 理 】",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K15",
+        "in_context": true,
+        "matched_reference": "依說明至系所及各處室蓋章後",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K16",
+        "in_context": true,
+        "matched_reference": "（總圖或分館借還書櫃檯）",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K17",
+        "in_context": true,
+        "matched_reference": "(行政大樓5樓) (確認學生帳戶)",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K18",
+        "in_context": true,
+        "matched_reference": "限住宿生(行政大樓 3 樓)",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K19",
+        "in_context": true,
+        "matched_reference": "(僑生、港澳生、陸生至生僑組)",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K20",
+        "in_context": true,
+        "matched_reference": "(原住民族籍學生至原資中心)",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K21",
+        "in_context": true,
+        "matched_reference": "限國際學生(行政大樓8樓)",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K22",
+        "in_context": true,
+        "matched_reference": "擬准予□休學□保留學籍 計 學年 學期",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K23",
+        "in_context": true,
+        "matched_reference": "註冊組 組 長",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K24",
+        "in_context": true,
+        "matched_reference": "教務長 批 示",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K25",
+        "in_context": true,
+        "matched_reference": "填妥「休學/保留學籍申請書」並依說明至系所及各處室蓋章後，送至教務處註冊組",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K26",
+        "in_context": true,
+        "matched_reference": "畢業、休學、退學或轉學住宿生應於發生 日起7日內(含例假日、且不得超過當學期期 末所定離舍日)向住宿組辦理退離宿手續 後，始得申請退還宿費及住宿保證金",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K27",
+        "in_context": true,
+        "matched_reference": "在台居留事由為「就讀」者，其外僑居留 證將由移民署註銷",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K28",
+        "in_context": true,
+        "matched_reference": "學生需在辦理完休學/保 留學籍手續後10日內離境",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K29",
+        "in_context": true,
+        "matched_reference": "台灣獎學金受獎人獎學金將自休學/保留學 籍生效日之隔月開始停發",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K30",
+        "in_context": true,
+        "matched_reference": "□三個工作天後親自至註冊組承辦人處領取",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K31",
+        "in_context": true,
+        "matched_reference": "□郵寄回申請人（請附足資回郵信封）",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K32",
+        "in_context": true,
+        "matched_reference": "□不需證明書 （自行上iNCCU/校務系統Web入口/學生資訊系統/資訊服務/學年(期)學籍狀態查詢）",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K33",
+        "in_context": true,
+        "matched_reference": "繳費截止日(含)前完成休(退)學程序。學雜費全額退費(不含學生平安保險費)",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K34",
+        "in_context": true,
+        "matched_reference": "繳費截止日次日起至學期1 / 3退費基準日完成休(退)學程序。退2 / 3學雜費 (不含學生平安保險費)",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K35",
+        "in_context": true,
+        "matched_reference": "學期1 / 3退費基準日次日起至學期2 / 3退費基準日(含)完成休(退)學程序。退1 / 3 學雜費 (不含學生平安保險費)",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K36",
+        "in_context": true,
+        "matched_reference": "逾學期2 / 3退費基準日申請休(退)學。學雜費全數不予退還",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K37",
+        "in_context": true,
+        "matched_reference": "另學生於休學當學期繳交平安保險費仍受學生團保之保障，故平安保險費不退費",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K38",
+        "in_context": true,
+        "matched_reference": "退費相關事宜由學務處生僑組承辦",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K39",
+        "in_context": true,
+        "matched_reference": "學務處生僑組將依註冊組學籍資料及出納組繳費資料主動退費，學生不需親自到生僑組辦理，退費款項會直接匯入學生第一銀行或郵局帳戶",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K40",
+        "in_context": true,
+        "matched_reference": "宿費及住宿保證金退費，請填妥退宿申請表，並至宿舍區檢查寢室後，再到行政大樓三樓學務處住宿組辦理退費",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K41",
+        "in_context": true,
+        "matched_reference": "學生未於本校登錄入帳帳戶者，請攜帶本人第一銀行或郵局帳戶至行政大樓五樓總務處出納組登錄，以利辦理退費",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K42",
+        "in_context": true,
+        "matched_reference": "如因經濟因素申請休學之學生，申請前可洽學務處生僑組申請各種濟助措施",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K43",
+        "in_context": true,
+        "matched_reference": "如因懷孕或終止懷孕等因素申請休學之學生，可與學務處身心健康中心討論相關醫療資源",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K44",
+        "in_context": true,
+        "matched_reference": "電話：8237-7419",
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K45",
+        "in_context": true,
+        "matched_reference": "休學、保留學籍期間得於每學期註冊截止日前至總務處出納組臨櫃繳交平安保險費，投保本校學生團體平安保險",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K46",
+        "in_context": true,
+        "matched_reference": "當學期繳費註冊截止日前：申請休學或保留學籍，免繳註冊相關費用",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K47",
+        "in_context": true,
+        "matched_reference": "入學第一學期之繳費註冊截止日後：申請休學或保留學籍，須繳費後始得辦理",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K48",
+        "in_context": true,
+        "matched_reference": "若延誤註冊逾二週仍未完成繳費註冊、休學或保留學籍者，當學年度入學新生即令註銷學籍",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K49",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K50",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K51",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K52",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K53",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "not_applicable"
+      },
+      {
+        "id": "K54",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "not_applicable"
+      },
+      {
+        "id": "K55",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "not_applicable"
+      },
+      {
+        "id": "K56",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "not_applicable"
+      },
+      {
+        "id": "K57",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "not_applicable"
+      },
+      {
+        "id": "K58",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "not_applicable"
+      },
+      {
+        "id": "K59",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "not_applicable"
+      },
+      {
+        "id": "K60",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "not_applicable"
+      },
+      {
+        "id": "K61",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "wrong"
+      },
+      {
+        "id": "K62",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "wrong"
+      },
+      {
+        "id": "K63",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K64",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "wrong"
+      },
+      {
+        "id": "K65",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K66",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K67",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "miss"
+      }
+    ],
+    "contact_funnel": []
+  }
+}

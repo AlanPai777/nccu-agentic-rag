@@ -572,6 +572,11 @@ def build_indigenous(problems: Problems) -> dict:
     return {"name": "原住民族學生資源中心", "aliases": ["原住民族學生資源中心", "原資中心"], "parent": "學生事務處", "floors": floors, "lines": [], "staff": staff}
 
 
+LIB_CONTACT_URL = "https://www.lib.nccu.edu.tw/p/404-1000-312.php?Lang=zh-tw"
+ACA_LIB_URL = "https://aca.nccu.edu.tw/zh/學士班/圖書資源-學士班"
+STAT_PHONES_URL = "https://stat.nccu.edu.tw/uploads/asset/data/6a6c5abf6c08dbf03ce2a188/常用行政電話一覽表.pdf"
+
+
 def build_library(problems: Problems) -> dict:
     what = "圖書館典藏閱覽組"
     rec, snap_rel, snap_asof = snapshot_from_index("https://www.lib.nccu.edu.tw/p/404-1000-537.php?Lang=zh-tw", "lib_staff_circulation.txt")
@@ -579,8 +584,35 @@ def build_library(problems: Problems) -> dict:
     l_asof = live_asof("lib_staff_circulation.render.json")
     live_text = BeautifulSoup((HERE / live_rel).read_text(encoding="utf-8"), "html.parser").get_text("\n")
     staff = merge_people(problems, what, parse_library(rec["text"]), parse_library(live_text), snap_rel, snap_asof, live_rel, l_asof)
-    return {"name": "圖書館典藏閱覽組", "aliases": ["圖書館", "典藏閱覽組", "總圖或分館借還書櫃檯"], "parent": "圖書館", "floors": [], "lines": [], "staff": staff,
-            "note": "申請書只寫「總圖或分館借還書櫃檯」，沒有樓層；人員只記典藏閱覽組（流通業務）"}
+    # 圖書館的電話（第 6 題）：各組聯絡資訊頁（快照與現場）、教務處「圖書資源」頁、統計系「常用行政電話」
+    _, c_snap, c_asof = snapshot_from_index(LIB_CONTACT_URL, "lib_contact_units.txt")
+    c_live = "sources/live/lib_contact_units.rendered.html"
+    c_live_asof = live_asof("lib_contact_units.render.json")
+    _, aca_rel = snapshot_from_corpus("aca", ACA_LIB_URL, "aca_library_resource.txt")
+    _, stat_rel = snapshot_from_corpus("stat", STAT_PHONES_URL, "stat_admin_phones.txt")
+
+    def line(key, kind, value, quotes, labels=()):
+        """quotes: [(來源種類, 檔案, as_of, 引句)]；labels：答案裡提到這條電話時會出現的字眼（比對電話寫錯時用，見 registry_lib.check_line）"""
+        return {"key": key, "kind": kind, "value": value, "labels": list(labels),
+                "sources": [x for x in (src(k, r, a, q, problems, what + "電話 " + value) for k, r, a, q in quotes) if x]}
+
+    head = "總圖 63222，綜圖 50107，商圖 84006，傳圖 67152"
+    both = lambda q: [("snapshot", c_snap, c_asof, q), ("live", c_live, c_live_asof, q)]      # noqa: E731
+    lines = [
+        line("main_ext", "總圖（中正館流通櫃臺、典藏閱覽組）校內分機", "63222",
+             both("總圖 63222") + [("snapshot", aca_rel, "corpus", "中正館流通櫃臺 (02)2939-3091轉分機63222")],
+             ["總圖", "中正", "流通", "借還", "典藏閱覽"]),
+        line("direct", "典藏閱覽組直撥電話（聯絡頁表格顯示的；該格連結的 tel: 目標是學校總機，與顯示不同）", "(02)2938-7878",
+             [("snapshot", c_snap, c_asof, "[(02)2938-7878](tel:+886229393091)"), ("live", c_live, c_live_asof, "(02)2938-7878"),
+              ("snapshot", stat_rel, "corpus", "圖書館 | (02)2938-7878")], ["直撥", "典藏閱覽"]),
+        line("switchboard", "政大總機", "(02)29393091", both("政大總機：(02)29393091"), ["總機"]),
+        line("zonghe_ext", "綜圖校內分機", "50107", both(head) + [("snapshot", aca_rel, "corpus", "綜圖 (02)2939-3091轉分機50107")], ["綜圖"]),
+        line("shang_ext", "商圖校內分機", "84006", both(head) + [("snapshot", aca_rel, "corpus", "商圖 (02)2939-3091轉分機84006")], ["商圖"]),
+        line("chuan_ext", "傳圖校內分機", "67152", both(head) + [("snapshot", aca_rel, "corpus", "傳圖 (02)2939-3091轉分機67152")], ["傳圖"]),
+        line("daxian", "達賢圖", "(02)82377017", both("達賢圖：(02)82377017"), ["達賢"]),
+    ]
+    return {"name": "圖書館典藏閱覽組", "aliases": ["圖書館", "典藏閱覽組", "總圖或分館借還書櫃檯"], "parent": "圖書館", "floors": [], "lines": lines, "staff": staff,
+            "note": "申請書只寫「總圖或分館借還書櫃檯」，沒有樓層；人員只記典藏閱覽組（流通業務）；電話線來自各組聯絡資訊頁"}
 
 
 OFFICES = {"registrar": build_registrar, "soa": build_soa, "oic": build_oic,

@@ -1,0 +1,448 @@
+{
+  "keypoints": [
+    {
+      "id": "K1",
+      "verdict": "relevant",
+      "claims": [
+        "c1"
+      ],
+      "reason": "期末考試前辦理"
+    },
+    {
+      "id": "K2",
+      "verdict": "relevant",
+      "claims": [
+        "c2"
+      ],
+      "reason": "一學期至二學年"
+    },
+    {
+      "id": "K3",
+      "verdict": "relevant",
+      "claims": [
+        "c3"
+      ],
+      "reason": "累計二學年"
+    },
+    {
+      "id": "K4",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K5",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K6",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K7",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K8",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K9",
+      "verdict": "relevant",
+      "claims": [
+        "c5"
+      ],
+      "reason": "表單編號"
+    },
+    {
+      "id": "K10",
+      "verdict": "relevant",
+      "claims": [
+        "c6"
+      ],
+      "reason": "完整連結"
+    },
+    {
+      "id": "K11",
+      "verdict": "relevant",
+      "claims": [
+        "c4"
+      ],
+      "reason": "攜帶學生證或身分證件正本"
+    },
+    {
+      "id": "K12",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K13",
+      "verdict": "not_applicable",
+      "claims": [],
+      "reason": "答案沒有提到委託書，不適用"
+    },
+    {
+      "id": "K14",
+      "verdict": "relevant",
+      "claims": [
+        "c7"
+      ],
+      "reason": "依序前往"
+    },
+    {
+      "id": "K15",
+      "verdict": "relevant",
+      "claims": [
+        "c8"
+      ],
+      "reason": "系所簽章"
+    },
+    {
+      "id": "K16",
+      "verdict": "relevant",
+      "claims": [
+        "c9"
+      ],
+      "reason": "圖書館借還書櫃檯"
+    },
+    {
+      "id": "K17",
+      "verdict": "relevant",
+      "claims": [
+        "c10"
+      ],
+      "reason": "出納組（只寫了單位與樓層，沒寫確認學生帳戶，主要資訊一致）"
+    },
+    {
+      "id": "K18",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K19",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K20",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K21",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K22",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K23",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K24",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K25",
+      "verdict": "relevant",
+      "claims": [
+        "c12"
+      ],
+      "reason": "送註冊組"
+    },
+    {
+      "id": "K26",
+      "verdict": "not_applicable",
+      "claims": [],
+      "reason": "答案沒有提到對應的單位，不適用"
+    },
+    {
+      "id": "K27",
+      "verdict": "not_applicable",
+      "claims": [],
+      "reason": "答案沒有提到對應的單位，不適用"
+    },
+    {
+      "id": "K28",
+      "verdict": "not_applicable",
+      "claims": [],
+      "reason": "答案沒有提到對應的單位，不適用"
+    },
+    {
+      "id": "K29",
+      "verdict": "not_applicable",
+      "claims": [],
+      "reason": "答案沒有提到對應的單位，不適用"
+    },
+    {
+      "id": "K30",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K31",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K32",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K33",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K34",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K35",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K36",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K37",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K38",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K39",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K40",
+      "verdict": "not_applicable",
+      "claims": [],
+      "reason": "答案沒有提到對應的單位，不適用"
+    },
+    {
+      "id": "K41",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K42",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K43",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K44",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K45",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K46",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K47",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K48",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K49",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K50",
+      "verdict": "relevant",
+      "claims": [
+        "c11"
+      ],
+      "reason": "註冊組四樓"
+    },
+    {
+      "id": "K51",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K52",
+      "verdict": "relevant",
+      "claims": [
+        "c10"
+      ],
+      "reason": "出納組五樓"
+    },
+    {
+      "id": "K53",
+      "verdict": "not_applicable",
+      "claims": [],
+      "reason": "答案沒有提到這個單位，不適用"
+    },
+    {
+      "id": "K54",
+      "verdict": "not_applicable",
+      "claims": [],
+      "reason": "答案沒有提到這個單位，不適用"
+    },
+    {
+      "id": "K55",
+      "verdict": "not_applicable",
+      "claims": [],
+      "reason": "答案沒有提到這個單位，不適用"
+    },
+    {
+      "id": "K56",
+      "verdict": "not_applicable",
+      "claims": [],
+      "reason": "答案沒有提到這個單位，不適用"
+    },
+    {
+      "id": "K57",
+      "verdict": "not_applicable",
+      "claims": [],
+      "reason": "答案沒有提到這個單位，不適用"
+    },
+    {
+      "id": "K58",
+      "verdict": "not_applicable",
+      "claims": [],
+      "reason": "答案沒有提到這個單位，不適用"
+    },
+    {
+      "id": "K59",
+      "verdict": "not_applicable",
+      "claims": [],
+      "reason": "答案沒有提到這個單位，不適用"
+    },
+    {
+      "id": "K60",
+      "verdict": "not_applicable",
+      "claims": [],
+      "reason": "答案沒有提到這個單位，不適用"
+    },
+    {
+      "id": "K61",
+      "verdict": "wrong",
+      "claims": [
+        "c13",
+        "c14"
+      ],
+      "reason": "分機寫成 63223，標準是 63222"
+    },
+    {
+      "id": "K62",
+      "verdict": "wrong",
+      "claims": [
+        "c15"
+      ],
+      "reason": "直撥寫成 (02)2938-7870，標準是 (02)2938-7878"
+    },
+    {
+      "id": "K63",
+      "verdict": "relevant",
+      "claims": [
+        "c13"
+      ],
+      "reason": "(02)2939-3091 是政大總機，正確"
+    },
+    {
+      "id": "K64",
+      "verdict": "wrong",
+      "claims": [
+        "c16"
+      ],
+      "reason": "綜圖分機寫成 50108，標準是 50107"
+    },
+    {
+      "id": "K65",
+      "verdict": "relevant",
+      "claims": [
+        "c17"
+      ],
+      "reason": "商圖 84006"
+    },
+    {
+      "id": "K66",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K67",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "judge-v1",
+    "note": "Claude Code 本 session 判斷（流程測試：答案也是 Claude Code 寫的，判斷不獨立；Keypoint 判斷依設計會看 gold）。主張編號取自子代理的隔離回推 trace.json"
+  }
+}

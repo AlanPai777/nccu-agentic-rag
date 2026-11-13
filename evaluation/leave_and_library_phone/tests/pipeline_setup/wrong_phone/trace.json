@@ -1,0 +1,140 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "申請當學期休學，須在期末考試（休學截止日）前辦理，逾期不予受理。",
+      "status": "supported",
+      "evidence": [{"item": "E4", "quote": "申請當學期休學者，請於期末考試（休學截止日）前提出，逾期不予受理。"}],
+      "why": "申請書說明寫明當學期休學須於期末考試（休學截止日）前提出，逾期不予受理。"
+    },
+    {
+      "id": "c2",
+      "answer_span": "休學一次可申請一學期至二學年",
+      "status": "supported",
+      "evidence": [{"item": "E4", "quote": "休學得一次申請一學期至二學年"}],
+      "why": "申請書說明有同樣規定。"
+    },
+    {
+      "id": "c3",
+      "answer_span": "累計以二學年為原則",
+      "status": "supported",
+      "evidence": [{"item": "E4", "quote": "休學累計以二學年為原則"}],
+      "why": "申請書說明有同樣規定。"
+    },
+    {
+      "id": "c4",
+      "answer_span": "本人攜帶學生證或身分證件正本，填妥「休學/保留學籍申請書」",
+      "status": "supported",
+      "evidence": [
+        {"item": "E1", "quote": "本人攜帶學生證或身分證件正本"},
+        {"item": "E1", "quote": "填妥「休學/保留學籍申請書」"}
+      ],
+      "why": "教務處頁面的申請程序寫明。"
+    },
+    {
+      "id": "c5",
+      "answer_span": "表單編號 QP-T01-03-02",
+      "status": "supported",
+      "evidence": [{"item": "E4", "quote": "表單編號：QP-T01-03-02"}],
+      "why": "表單全文標示該編號為休學/保留學籍申請書。"
+    },
+    {
+      "id": "c6",
+      "answer_span": "下載連結：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+      "status": "supported",
+      "evidence": [{"item": "E4", "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02", "from": "sources"}],
+      "why": "該網址在 E4 sources 中，label 為休學/保留學籍申請書。"
+    },
+    {
+      "id": "c7",
+      "answer_span": "依申請書的會簽程序依序前往各單位辦理",
+      "status": "supported",
+      "evidence": [{"item": "E4", "quote": "申 請 者 請 參 閱 本 表 說 明 並 依 序 前 往 辦 理"}],
+      "why": "申請書會簽程序欄要求申請者依序前往辦理。"
+    },
+    {
+      "id": "c8",
+      "answer_span": "系所簽章",
+      "status": "supported",
+      "evidence": [{"item": "E4", "quote": "（1）系所簽章"}],
+      "why": "會簽程序第一項。"
+    },
+    {
+      "id": "c9",
+      "answer_span": "圖書館（總圖或分館借還書櫃檯）",
+      "status": "supported",
+      "evidence": [
+        {"item": "E4", "quote": "（2）圖書館"},
+        {"item": "E4", "quote": "（總圖或分館借還書櫃檯）"}
+      ],
+      "why": "會簽程序第二項及其地點。"
+    },
+    {
+      "id": "c10",
+      "answer_span": "出納組（行政大樓五樓）",
+      "status": "supported",
+      "evidence": [
+        {"item": "E4", "quote": "（3）出納組"},
+        {"item": "E4", "quote": "(行政大樓5樓)"}
+      ],
+      "why": "會簽程序第三項及其地點為行政大樓5樓。"
+    },
+    {
+      "id": "c11",
+      "answer_span": "教務處註冊組（行政大樓四樓）",
+      "status": "supported",
+      "evidence": [
+        {"item": "E4", "quote": "(7）教務處註冊組"},
+        {"item": "E4", "quote": "(行政大樓 4 樓)"}
+      ],
+      "why": "會簽程序第七項及其地點為行政大樓4樓。"
+    },
+    {
+      "id": "c12",
+      "answer_span": "各單位蓋章完畢後，送教務處註冊組。",
+      "status": "supported",
+      "evidence": [{"item": "E1", "quote": "依說明至系所及各處室蓋章後，送至教務處註冊組"}],
+      "why": "教務處頁面寫明蓋章後送註冊組。"
+    },
+    {
+      "id": "c13",
+      "answer_span": "總圖借還書：(02)2939-3091",
+      "status": "supported",
+      "evidence": [{"item": "E3", "quote": "政大總機：(02)29393091"}],
+      "why": "圖書館頁面的政大總機為此號碼（數字相同，僅寫法不同）。"
+    },
+    {
+      "id": "c14",
+      "answer_span": "轉分機 63223",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據中總圖分機是 63222，沒有 63223。"
+    },
+    {
+      "id": "c15",
+      "answer_span": "直撥 (02)2938-7870",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據中典藏閱覽組直撥是 (02)2938-7878，沒有 7870。"
+    },
+    {
+      "id": "c16",
+      "answer_span": "綜圖分機 50108",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據中綜圖分機是 50107，沒有 50108。"
+    },
+    {
+      "id": "c17",
+      "answer_span": "商圖分機 84006",
+      "status": "supported",
+      "evidence": [{"item": "E3", "quote": "商圖 84006"}],
+      "why": "圖書館頁面載明商圖 84006。"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  }
+}

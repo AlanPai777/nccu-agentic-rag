@@ -1,0 +1,559 @@
+{
+  "query_id": "leave_and_library_phone",
+  "run_id": "only_phone",
+  "system_version": "hypothetical",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；表單版本 202512版）",
+    "live": "2026-11-13（現場）（教務處頁面、退費標準頁、各處室人員頁；人員、樓層、表單連結的現場依據在 evaluation/registry/）",
+    "library_phone": "圖書館各組聯絡資訊頁：快照 2026-08-25、現場 2026-11-13（動態）"
+  },
+  "judges": {
+    "trace": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "isolated-v3",
+      "note": "isolated trace by a subagent that read only trace_input.json"
+    },
+    "keypoint": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "judge-v1",
+      "note": "Claude Code 本 session 判斷（流程測試：答案也是 Claude Code 寫的，判斷不獨立；Keypoint 判斷依設計會看 gold）。主張編號取自子代理的隔離回推 trace.json"
+    }
+  },
+  "rouge_l": {
+    "p": 0.8511,
+    "r": 0.1136,
+    "f": 0.2005
+  },
+  "accuracy_rule": {
+    "hard_keypoints": 12,
+    "hit": 6,
+    "accuracy": 0.5,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "context_chars": 11125,
+    "sentence": {
+      "p": 0.1216,
+      "r": 1.0,
+      "f": 0.2169
+    },
+    "words": {
+      "p": 0.2576,
+      "r": 1.0,
+      "f": 0.4096
+    },
+    "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）"
+  },
+  "keypoint": {
+    "relevant": 6,
+    "wrong": 0,
+    "irrelevant": 45,
+    "total": 51,
+    "not_applicable": 16,
+    "completeness": 0.1176,
+    "hallucination": 0.0,
+    "irrelevance": 0.8824
+  },
+  "fact_unit": {
+    "precision": 1.0,
+    "recall": 0.1176,
+    "f1": 0.2105,
+    "note": "P = Relevant ÷ (Relevant + Wrong)；R = Relevant ÷ keypoint 總數"
+  },
+  "claim_unit": {
+    "claims": 5,
+    "correct_claims": 5,
+    "precision": 1.0,
+    "recall": 0.1176,
+    "f1": 0.2105,
+    "note": "P = 正確陳述某個 keypoint 的主張 ÷ 全部主張；額外但正確的資訊會讓 P 下降，量的是聚焦程度"
+  },
+  "evidence_support": {
+    "rate": 1.0,
+    "supported": 5,
+    "claims": 5,
+    "unsupported_claims": []
+  },
+  "ungrounded_correct_keypoints": [],
+  "funnel": [
+    {
+      "id": "K1",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K2",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K3",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K4",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K5",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K6",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K7",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K8",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K9",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K10",
+      "in_context": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K11",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K12",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K13",
+      "verdict": "not_applicable",
+      "in_context": null,
+      "stated_correctly": null,
+      "grounded": null
+    },
+    {
+      "id": "K14",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K15",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K16",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K17",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K18",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K19",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K20",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K21",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K22",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K23",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K24",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K25",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K26",
+      "verdict": "not_applicable",
+      "in_context": null,
+      "stated_correctly": null,
+      "grounded": null
+    },
+    {
+      "id": "K27",
+      "verdict": "not_applicable",
+      "in_context": null,
+      "stated_correctly": null,
+      "grounded": null
+    },
+    {
+      "id": "K28",
+      "verdict": "not_applicable",
+      "in_context": null,
+      "stated_correctly": null,
+      "grounded": null
+    },
+    {
+      "id": "K29",
+      "verdict": "not_applicable",
+      "in_context": null,
+      "stated_correctly": null,
+      "grounded": null
+    },
+    {
+      "id": "K30",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K31",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K32",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K33",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K34",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K35",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K36",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K37",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K38",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K39",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K40",
+      "verdict": "not_applicable",
+      "in_context": null,
+      "stated_correctly": null,
+      "grounded": null
+    },
+    {
+      "id": "K41",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K42",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K43",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K44",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K45",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K46",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K47",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K48",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K49",
+      "in_context": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K50",
+      "in_context": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K51",
+      "verdict": "not_applicable",
+      "in_context": null,
+      "stated_correctly": null,
+      "grounded": null
+    },
+    {
+      "id": "K52",
+      "verdict": "not_applicable",
+      "in_context": null,
+      "stated_correctly": null,
+      "grounded": null
+    },
+    {
+      "id": "K53",
+      "verdict": "not_applicable",
+      "in_context": null,
+      "stated_correctly": null,
+      "grounded": null
+    },
+    {
+      "id": "K54",
+      "verdict": "not_applicable",
+      "in_context": null,
+      "stated_correctly": null,
+      "grounded": null
+    },
+    {
+      "id": "K55",
+      "verdict": "not_applicable",
+      "in_context": null,
+      "stated_correctly": null,
+      "grounded": null
+    },
+    {
+      "id": "K56",
+      "verdict": "not_applicable",
+      "in_context": null,
+      "stated_correctly": null,
+      "grounded": null
+    },
+    {
+      "id": "K57",
+      "verdict": "not_applicable",
+      "in_context": null,
+      "stated_correctly": null,
+      "grounded": null
+    },
+    {
+      "id": "K58",
+      "verdict": "not_applicable",
+      "in_context": null,
+      "stated_correctly": null,
+      "grounded": null
+    },
+    {
+      "id": "K59",
+      "verdict": "not_applicable",
+      "in_context": null,
+      "stated_correctly": null,
+      "grounded": null
+    },
+    {
+      "id": "K60",
+      "verdict": "not_applicable",
+      "in_context": null,
+      "stated_correctly": null,
+      "grounded": null
+    },
+    {
+      "id": "K61",
+      "in_context": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K62",
+      "in_context": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K63",
+      "in_context": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K64",
+      "in_context": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K65",
+      "in_context": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K66",
+      "in_context": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K67",
+      "in_context": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    }
+  ],
+  "contact_funnel": [],
+  "disagreements": [],
+  "warnings": []
+}

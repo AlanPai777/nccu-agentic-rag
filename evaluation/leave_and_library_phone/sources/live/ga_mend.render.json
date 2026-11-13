@@ -1,0 +1,14 @@
+{
+  "url": "https://nccuga.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C%E9%81%B8%E5%96%AE/%E7%87%9F%E7%B9%95%E7%B5%84_",
+  "ok": true,
+  "status": 200,
+  "error": "",
+  "detail": "",
+  "elapsed_seconds": 2.64,
+  "requests": 30,
+  "requests_nccu": 25,
+  "fetched_at": "2026-11-13T19:45:17+08:00",
+  "tool": "rag.live.browser.PlaywrightBackend",
+  "settle_ms": 2000,
+  "user_agent": "Chromium default (not set; no email)"
+}

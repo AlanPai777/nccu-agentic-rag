@@ -1,0 +1,406 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "申請當學期休學，須在期末考試（休學截止日）前辦理，逾期不予受理。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "申請當學期休學者，請於期末考試（休學截止日）前提出，逾期不予受理。",
+          "verified": true,
+          "start": 2157,
+          "end": 2190
+        }
+      ],
+      "why": "申請書說明寫明當學期休學須於期末考試（休學截止日）前提出，逾期不予受理。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        17,
+        49
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "休學一次可申請一學期至二學年",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "休學得一次申請一學期至二學年",
+          "verified": true,
+          "start": 2194,
+          "end": 2208
+        }
+      ],
+      "why": "申請書說明有同樣規定。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        52,
+        66
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "累計以二學年為原則",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "休學累計以二學年為原則",
+          "verified": true,
+          "start": 2209,
+          "end": 2220
+        }
+      ],
+      "why": "申請書說明有同樣規定。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        67,
+        76
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "本人攜帶學生證或身分證件正本，填妥「休學/保留學籍申請書」",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "本人攜帶學生證或身分證件正本",
+          "verified": true,
+          "start": 780,
+          "end": 794
+        },
+        {
+          "item": "E1",
+          "quote": "填妥「休學/保留學籍申請書」",
+          "verified": true,
+          "start": 819,
+          "end": 833
+        }
+      ],
+      "why": "教務處頁面的申請程序寫明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        85,
+        114
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "表單編號 QP-T01-03-02",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "表單編號：QP-T01-03-02",
+          "verified": true,
+          "start": 783,
+          "end": 800
+        }
+      ],
+      "why": "表單全文標示該編號為休學/保留學籍申請書。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        115,
+        132
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c6",
+      "answer_span": "下載連結：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "休學/保留學籍申請書 / NCCU Application Form for Leave of Absence of Student Status"
+        }
+      ],
+      "why": "該網址在 E4 sources 中，label 為休學/保留學籍申請書。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        133,
+        213
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c7",
+      "answer_span": "依申請書的會簽程序依序前往各單位辦理",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "申 請 者 請 參 閱 本 表 說 明 並 依 序 前 往 辦 理",
+          "verified": true,
+          "start": 1296,
+          "end": 1329
+        }
+      ],
+      "why": "申請書會簽程序欄要求申請者依序前往辦理。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        219,
+        237
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c8",
+      "answer_span": "系所簽章",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "（1）系所簽章",
+          "verified": true,
+          "start": 1337,
+          "end": 1344
+        }
+      ],
+      "why": "會簽程序第一項。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        238,
+        242
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c9",
+      "answer_span": "圖書館（總圖或分館借還書櫃檯）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "（2）圖書館",
+          "verified": true,
+          "start": 1353,
+          "end": 1359
+        },
+        {
+          "item": "E4",
+          "quote": "（總圖或分館借還書櫃檯）",
+          "verified": true,
+          "start": 1448,
+          "end": 1460
+        }
+      ],
+      "why": "會簽程序第二項及其地點。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        243,
+        258
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c10",
+      "answer_span": "出納組（行政大樓五樓）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "（3）出納組",
+          "verified": true,
+          "start": 1374,
+          "end": 1380
+        },
+        {
+          "item": "E4",
+          "quote": "(行政大樓5樓)",
+          "verified": true,
+          "start": 1475,
+          "end": 1483
+        }
+      ],
+      "why": "會簽程序第三項及其地點為行政大樓5樓。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        259,
+        270
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c11",
+      "answer_span": "教務處註冊組（行政大樓四樓）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "(7）教務處註冊組",
+          "verified": true,
+          "start": 1875,
+          "end": 1884
+        },
+        {
+          "item": "E4",
+          "quote": "(行政大樓 4 樓)",
+          "verified": true,
+          "start": 1956,
+          "end": 1966
+        }
+      ],
+      "why": "會簽程序第七項及其地點為行政大樓4樓。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        271,
+        285
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c12",
+      "answer_span": "各單位蓋章完畢後，送教務處註冊組。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "依說明至系所及各處室蓋章後，送至教務處註冊組",
+          "verified": true,
+          "start": 834,
+          "end": 856
+        }
+      ],
+      "why": "教務處頁面寫明蓋章後送註冊組。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        290,
+        307
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c13",
+      "answer_span": "總圖借還書：(02)2939-3091",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "政大總機：(02)29393091",
+          "verified": true,
+          "start": 203,
+          "end": 220
+        }
+      ],
+      "why": "圖書館頁面的政大總機為此號碼（數字相同，僅寫法不同）。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        318,
+        337
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c14",
+      "answer_span": "轉分機 63223",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據中總圖分機是 63222，沒有 63223。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        338,
+        347
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c15",
+      "answer_span": "直撥 (02)2938-7870",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據中典藏閱覽組直撥是 (02)2938-7878，沒有 7870。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        348,
+        364
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c16",
+      "answer_span": "綜圖分機 50108",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據中綜圖分機是 50107，沒有 50108。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        368,
+        378
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c17",
+      "answer_span": "商圖分機 84006",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "商圖 84006",
+          "verified": true,
+          "start": 240,
+          "end": 248
+        }
+      ],
+      "why": "圖書館頁面載明商圖 84006。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        379,
+        389
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

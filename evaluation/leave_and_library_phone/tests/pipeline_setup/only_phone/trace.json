@@ -1,0 +1,56 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "總圖（中正館流通櫃臺）借還書：(02)2939-3091 轉分機 63222",
+      "status": "supported",
+      "evidence": [
+        {"item": "E5", "quote": "總圖（中正館流通櫃臺、典藏閱覽組）校內分機 63222"},
+        {"item": "E5", "quote": "政大總機 (02)29393091"}
+      ],
+      "why": "證據列出總圖（中正館流通櫃臺）分機 63222 與政大總機 (02)29393091（同一號碼，僅連字號寫法不同）；E3 並說典藏閱覽組 63222 負責圖書借還。"
+    },
+    {
+      "id": "c2",
+      "answer_span": "直撥 (02)2938-7878",
+      "status": "supported",
+      "evidence": [
+        {"item": "E5", "quote": "典藏閱覽組直撥電話"},
+        {"item": "E5", "quote": "(02)2938-7878"}
+      ],
+      "why": "證據寫明典藏閱覽組直撥電話為 (02)2938-7878。"
+    },
+    {
+      "id": "c3",
+      "answer_span": "綜圖分機 50107",
+      "status": "supported",
+      "evidence": [
+        {"item": "E3", "quote": "綜圖 50107"}
+      ],
+      "why": "證據寫綜圖 50107。"
+    },
+    {
+      "id": "c4",
+      "answer_span": "商圖分機 84006",
+      "status": "supported",
+      "evidence": [
+        {"item": "E3", "quote": "商圖 84006"}
+      ],
+      "why": "證據寫商圖 84006。"
+    },
+    {
+      "id": "c5",
+      "answer_span": "傳圖分機 67152",
+      "status": "supported",
+      "evidence": [
+        {"item": "E3", "quote": "傳圖 67152"}
+      ],
+      "why": "證據寫傳圖 67152。"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  }
+}

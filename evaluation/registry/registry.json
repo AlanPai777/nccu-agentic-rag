@@ -11060,7 +11060,197 @@
       ],
       "parent": "圖書館",
       "floors": [],
-      "lines": [],
+      "lines": [
+        {
+          "key": "main_ext",
+          "kind": "總圖（中正館流通櫃臺、典藏閱覽組）校內分機",
+          "value": "63222",
+          "labels": [
+            "總圖",
+            "中正",
+            "流通",
+            "借還",
+            "典藏閱覽"
+          ],
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/lib_contact_units.txt",
+              "quote": "總圖 63222"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/lib_contact_units.rendered.html",
+              "quote": "總圖 63222"
+            },
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/aca_library_resource.txt",
+              "quote": "中正館流通櫃臺 (02)2939-3091轉分機63222"
+            }
+          ]
+        },
+        {
+          "key": "direct",
+          "kind": "典藏閱覽組直撥電話（聯絡頁表格顯示的；該格連結的 tel: 目標是學校總機，與顯示不同）",
+          "value": "(02)2938-7878",
+          "labels": [
+            "直撥",
+            "典藏閱覽"
+          ],
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/lib_contact_units.txt",
+              "quote": "[(02)2938-7878](tel:+886229393091)"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/lib_contact_units.rendered.html",
+              "quote": "(02)2938-7878"
+            },
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/stat_admin_phones.txt",
+              "quote": "圖書館 | (02)2938-7878"
+            }
+          ]
+        },
+        {
+          "key": "switchboard",
+          "kind": "政大總機",
+          "value": "(02)29393091",
+          "labels": [
+            "總機"
+          ],
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/lib_contact_units.txt",
+              "quote": "政大總機：(02)29393091"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/lib_contact_units.rendered.html",
+              "quote": "政大總機：(02)29393091"
+            }
+          ]
+        },
+        {
+          "key": "zonghe_ext",
+          "kind": "綜圖校內分機",
+          "value": "50107",
+          "labels": [
+            "綜圖"
+          ],
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/lib_contact_units.txt",
+              "quote": "總圖 63222，綜圖 50107，商圖 84006，傳圖 67152"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/lib_contact_units.rendered.html",
+              "quote": "總圖 63222，綜圖 50107，商圖 84006，傳圖 67152"
+            },
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/aca_library_resource.txt",
+              "quote": "綜圖 (02)2939-3091轉分機50107"
+            }
+          ]
+        },
+        {
+          "key": "shang_ext",
+          "kind": "商圖校內分機",
+          "value": "84006",
+          "labels": [
+            "商圖"
+          ],
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/lib_contact_units.txt",
+              "quote": "總圖 63222，綜圖 50107，商圖 84006，傳圖 67152"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/lib_contact_units.rendered.html",
+              "quote": "總圖 63222，綜圖 50107，商圖 84006，傳圖 67152"
+            },
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/aca_library_resource.txt",
+              "quote": "商圖 (02)2939-3091轉分機84006"
+            }
+          ]
+        },
+        {
+          "key": "chuan_ext",
+          "kind": "傳圖校內分機",
+          "value": "67152",
+          "labels": [
+            "傳圖"
+          ],
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/lib_contact_units.txt",
+              "quote": "總圖 63222，綜圖 50107，商圖 84006，傳圖 67152"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/lib_contact_units.rendered.html",
+              "quote": "總圖 63222，綜圖 50107，商圖 84006，傳圖 67152"
+            },
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/aca_library_resource.txt",
+              "quote": "傳圖 (02)2939-3091轉分機67152"
+            }
+          ]
+        },
+        {
+          "key": "daxian",
+          "kind": "達賢圖",
+          "value": "(02)82377017",
+          "labels": [
+            "達賢"
+          ],
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/lib_contact_units.txt",
+              "quote": "達賢圖：(02)82377017"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/lib_contact_units.rendered.html",
+              "quote": "達賢圖：(02)82377017"
+            }
+          ]
+        }
+      ],
       "staff": [
         {
           "ext": "67172",
@@ -11777,7 +11967,7 @@
           "status": "changed"
         }
       ],
-      "note": "申請書只寫「總圖或分館借還書櫃檯」，沒有樓層；人員只記典藏閱覽組（流通業務）"
+      "note": "申請書只寫「總圖或分館借還書櫃檯」，沒有樓層；人員只記典藏閱覽組（流通業務）；電話線來自各組聯絡資訊頁"
     }
   },
   "forms": [
