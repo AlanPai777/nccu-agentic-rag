@@ -1,0 +1,23 @@
+{
+ "keypoints": [
+  {
+   "id": "K1",
+   "verdict": "relevant",
+   "claims": [
+    "c2"
+   ],
+   "reason": "答案寫表單編號 QP-T01-03-02，與標準一致"
+  },
+  {
+   "id": "K2",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案只給教務處頁面的網址（c4），沒有給 moltke 的下載連結；沒提到下載連結本身，不是與標準矛盾，判 irrelevant（見 gold notes）"
+  }
+ ],
+ "judge": {
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "judge-v1",
+  "note": "Claude Code 本 session 判斷（流程測試：答案也是 Claude Code 寫的，判斷不獨立；Keypoint 判斷依設計會看 gold）。主張編號取自子代理的隔離回推 trace.json"
+ }
+}

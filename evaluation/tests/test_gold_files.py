@@ -46,6 +46,36 @@ class LivePdfTextIsReadTest(unittest.TestCase):
         self.assertTrue(any("引文不在來源原文裡" in p for p in validate_gold(d / "gold.json")))
 
 
+class LiveHtmlLinksAreReadTest(unittest.TestCase):
+    """現場 HTML 裡只出現在 href 屬性的網址（表單連結），要能被引句驗證到：連結寫成 [文字](網址)，與快照的 markdown 連結同形。"""
+
+    def gold(self, quote):
+        return {"query_id": "x", "query": "q", "content": "c", "data_as_of": {},
+                "keypoints": [{"id": "K1", "text": "t", "kind": "hard",
+                               "references": [{"text": quote, "source_url": "u", "source_kind": "live", "as_of": "d"}]}]}
+
+    def check(self, html_text, quote):
+        d = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, d, True)
+        live = d / "sources" / "live"
+        live.mkdir(parents=True)
+        (live / "page.html").write_text(html_text, encoding="utf-8")
+        (d / "gold.json").write_text(json.dumps(self.gold(quote), ensure_ascii=False), encoding="utf-8")
+        return validate_gold(d / "gold.json")
+
+    def test_the_url_in_an_href_can_be_quoted(self):
+        page = '<p><span><a style="x" href="https://moltke.nccu.edu.tw/f?viewdetail=QP-1&amp;x=2">休學/保留學籍\n<b>申請書</b></a></span></p>'
+        self.assertEqual(self.check(page, "[休學/保留學籍申請書](https://moltke.nccu.edu.tw/f?viewdetail=QP-1&x=2)"), [])
+
+    def test_a_url_that_is_not_in_any_href_is_not_found(self):
+        page = '<a href="https://moltke.nccu.edu.tw/f?viewdetail=QP-1">休學申請書</a>'
+        self.assertTrue(any("引文不在來源原文裡" in p for p in self.check(page, "[休學申請書](https://moltke.nccu.edu.tw/f?viewdetail=QP-2)")))
+
+    def test_plain_text_around_links_is_still_found(self):
+        page = '<p>本校學士班學生每學期上限為25學分，<a href="https://x.example/a">詳見</a>學則。</p>'
+        self.assertEqual(self.check(page, "本校學士班學生每學期上限為25學分"), [])
+
+
 class GoldCheckCatchesProblemsTest(unittest.TestCase):
     """複製出納組的 gold 與來源到暫存資料夾，各弄壞一處，確認 validate_gold 抓得到。"""
 

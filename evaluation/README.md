@@ -91,6 +91,7 @@ python evaluation/compare_tests.py evaluation/cashier_contact/tests/tampered_v1 
 | `stage3.py` | 階段 3：`prepare`、`check`、`score`；`OUTPUT_FORMAT` 是給判斷者的格式與規則 |
 | `compare_tests.py` | 隔離回推結果與鑰匙的比對 |
 | `list_runs.py` | 列出一題所有 run 的標籤、時間、模型、版本、分數（唯讀、離線） |
+| `leave_form_download/` | 休學申請表下載題（第一題資源類）：`gold.json`（K1 表單編號、K2 moltke 網址）、`build_gold.py`、`sources/`（含 moltke 連結回 302 的查證記錄）、`tests/pipeline_setup/`（4 份假設答案的流程測試，`report.md`，不是評測結果） |
 | `course_limit/` | 選課上限題：`gold.json`、`build_gold.py`、`sources/`（快照複本、現場 PDF／HTML 與 `live_check.md` 查證記錄）。第一題非聯絡人題，7 個 keypoint（一個事實一個；數字型 `hard`、文字敘述型 `semantic`）；`tests/pipeline_setup/` 是用假設答案讓管線跑一次的流程測試（`report.md`，不是評測結果） |
 | `cashier_contact/` | 出納組：`gold.json`、`build_gold.py`、`sources/`（來源原文複本與官網查證記錄）、`runs/`（每次 run）、`tests/`（隔離回推材料） |
 | `tests/` | 評測程式的單元測試與 fixtures |

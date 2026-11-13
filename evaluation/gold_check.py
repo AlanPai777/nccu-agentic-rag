@@ -24,17 +24,26 @@ def norm(s: str) -> str:
     return re.sub(r"[\s|]+", "", unicodedata.normalize("NFKC", s or ""))
 
 
+_ANCHOR_RE = re.compile(r'(?is)<a\b[^>]*?\bhref\s*=\s*"([^"]*)"[^>]*>(.*?)</a>')
+
+
+def html_to_text(raw: str) -> str:
+    """現場 HTML → 文字。連結寫成 [文字](網址)（與快照裡的 markdown 連結同形），其餘標籤去掉；
+    不這樣做的話，只出現在 href 屬性裡的網址（例如表單連結）就會從文字裡消失，引句驗證不到。"""
+    raw = re.sub(r"(?s)<(script|style).*?</\1>", "", raw)
+    raw = _ANCHOR_RE.sub(lambda m: "[" + re.sub(r"<[^>]+>", "", m.group(2)).strip() + "](" + m.group(1) + ")", raw)
+    return html.unescape(re.sub(r"<[^>]+>", "\n", raw))
+
+
 def source_text(question_dir: Path) -> str:
-    """該題 sources/ 底下所有來源原文：snapshot 的 .txt、live 的 .html（去掉標籤）、live 的 PDF 轉出的 .pdf.txt。"""
+    """該題 sources/ 底下所有來源原文：snapshot 的 .txt、live 的 .html（連結寫成 [文字](網址)，其餘標籤去掉）、live 的 PDF 轉出的 .pdf.txt。"""
     parts = []
     for p in sorted((question_dir / "sources" / "snapshot").glob("*.txt")):
         parts.append(p.read_text(encoding="utf-8", errors="ignore"))
     for p in sorted((question_dir / "sources" / "live").glob("*.pdf.txt")):
         parts.append(p.read_text(encoding="utf-8", errors="ignore"))
     for p in sorted((question_dir / "sources" / "live").glob("*.html")):
-        raw = p.read_text(encoding="utf-8", errors="ignore")
-        raw = re.sub(r"(?s)<(script|style).*?</\1>", "", raw)
-        parts.append(html.unescape(re.sub(r"<[^>]+>", "\n", raw)))
+        parts.append(html_to_text(p.read_text(encoding="utf-8", errors="ignore")))
     return norm("\n".join(parts))
 
 

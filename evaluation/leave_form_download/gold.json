@@ -1,0 +1,99 @@
+{
+  "query_id": "leave_form_download",
+  "query": "休學申請表在哪裡下載",
+  "query_variants": [],
+  "query_type": "resource",
+  "data_as_of": {
+    "snapshot": "2026-08（output/ 快照；moltke 表單 2026-08-21 抓取，版本 202512版）",
+    "live": "2026-11-13（現場）；兩個教務處頁面現場仍列有同一個連結；moltke 的表單連結本身現場回 302 轉到同一主機的登入頁，沒有跟隨，不知道登入後的內容"
+  },
+  "content": "休學申請書的名稱是「休學/保留學籍申請書」，表單編號 QP-T01-03-02，下載連結：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+  "keypoints": [
+    {
+      "id": "K1",
+      "text": "休學申請書的表單編號是 QP-T01-03-02",
+      "required": true,
+      "kind": "hard",
+      "references": [
+        {
+          "text": "[休學/保留學籍申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；moltke 表單 2026-08-21 抓取，版本 202512版）"
+        },
+        {
+          "text": "Application Form for Leave of Absence or Retainment of Student Status(休學(保留學籍)申請書)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)",
+          "source_url": "https://aca.nccu.edu.tw/en/form-download",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；moltke 表單 2026-08-21 抓取，版本 202512版）"
+        },
+        {
+          "text": "表單編號：QP-T01-03-02",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；moltke 表單 2026-08-21 抓取，版本 202512版）"
+        },
+        {
+          "text": "[休學/保留學籍申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "Application Form for Leave of Absence or Retainment of Student Status(休學(保留學籍)申請書)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)",
+          "source_url": "https://aca.nccu.edu.tw/en/form-download",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [
+        "QP-T01-03-02"
+      ]
+    },
+    {
+      "id": "K2",
+      "text": "休學申請書的下載連結是 https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+      "required": true,
+      "kind": "hard",
+      "references": [
+        {
+          "text": "[休學/保留學籍申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；moltke 表單 2026-08-21 抓取，版本 202512版）"
+        },
+        {
+          "text": "Application Form for Leave of Absence or Retainment of Student Status(休學(保留學籍)申請書)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)",
+          "source_url": "https://aca.nccu.edu.tw/en/form-download",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；moltke 表單 2026-08-21 抓取，版本 202512版）"
+        },
+        {
+          "text": "[休學/保留學籍申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "Application Form for Leave of Absence or Retainment of Student Status(休學(保留學籍)申請書)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)",
+          "source_url": "https://aca.nccu.edu.tw/en/form-download",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [
+        "moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02"
+      ]
+    }
+  ],
+  "source_conflicts": "無。",
+  "notes": [
+    "K1 的可接受寫法 QP-T01-03-02 也包含在 K2 的網址裡，所以只給連結的答案會同時命中 K1 與 K2（連結裡就有表單編號）。",
+    "不列「表單名稱」keypoint：題目已經說「休學申請表」，表單編號足以確認是同一份表（使用者決定）。",
+    "不列「答案要簡短、不附完整辦理流程」：那是答案的風格，不是從原文抽取的事實。答案多講的內容由主張層處理：有依據的多講只會拉低「答案為單位 P」（聚焦度的參考），沒有依據的才是幻覺，看有依據比例。資源類題目的報告要把 P 放在 Completeness 旁邊（使用者決定 2026-11-12，選項 A：多講但有依據算中性）。",
+    "K2 要給 moltke 的連結才算；只給教務處頁面（索引）的連結算沒提到，Keypoint 判斷判 irrelevant，不是 wrong。2026-09-20 那次 Gemma 答案（docs/evidence/2026-09-20_resource_query_run.md）給的就是教務處頁面連結，舊 criteria 判不算。",
+    "現場查證：moltke 的表單連結回 302，Location 是同一主機的登入頁 login.formservice?viewdetail=QP-T01-03-02（formservice_SSO 是單一登入的表單服務）。沒有跟隨，所以不知道登入後會看到什麼、是不是需要校內帳號才能下載。gold 的標準答案是教務處頁面列出的連結，系統回答時也只能引用這個連結。記錄見 sources/live/live_check.md。",
+    "表單本身（moltke 上的 PDF，快照）首行「表單編號：QP-T01-03-02」，標題「國立政治大學 學生□休學□保留學籍 申請書」，版本 202512版；索引記錄寫承辦單位是教務處註冊組、用途是「休學、保留學籍（服役、懷孕、分娩、撫育三歲以下子女者）申請用」。",
+    "語料裡還有很多重複的頁面（中英文、`?start=48` 分頁、各種樣板頁），只列三個正規來源。"
+  ]
+}

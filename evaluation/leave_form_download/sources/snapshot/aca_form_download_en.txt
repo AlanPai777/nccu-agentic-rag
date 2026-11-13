@@ -1,0 +1,40 @@
+# 來源：https://aca.nccu.edu.tw/en/form-download
+# 檔案：output/aca/extracted_texts.jsonl
+# 資料日期：2026-08（output/ 快照；moltke 表單 2026-08-21 抓取，版本 202512版）
+# 以下為該筆記錄的 text 欄位全文（逐字複本）
+
+Forms Download			
+
+[Application form for grade degree ranking certification(中英文/成績/學位/排名證明書申請書)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-02-01)
+
+[Application Form for Various Certificates (各項證明文件申請書)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-02-03)
+
+[Application to request a reissued diploma degree certificate(遺失畢業(學位)證書補發申請書)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-02-02)
+
+[Power of attorney for certificates(委託書)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-02-05)
+
+[Application form for student information change correcion(學籍資料更改(正)申請書)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-01)
+
+[Application Form for Leave of Absence or Retainment of Student Status(休學(保留學籍)申請書)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)
+
+[Application Form for Deferment of Admission(新生保留入學申請書)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-03)
+
+[Application form for early recommence of study(提早復學申請書)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-04)
+
+[Application form for withdrawal from study(退學離校申請書)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-05)
+
+[Application form for substitution of credit(替代學分申請書)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-03)
+
+[Application form for overseas or domestic exchange class credit(國內外交換選課抵免學分申請書)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05)
+
+[Registration course retake form(重複修習認定單)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-13)
+
+[Application form for degree examination of graduate students(碩博士班學生學位考試申請書)](https://aca.nccu.edu.tw/db/upload/%E7%B7%9A%E4%B8%8A%E5%AD%B8%E4%BD%8D%E8%80%83%E8%A9%A6%E7%94%B3%E8%AB%8B%E7%B3%BB%E7%B5%B1%E8%AA%AA%E6%98%8E%E9%A0%81%E9%9D%A2%E4%B8%AD%E8%8B%B1%E6%96%87%E7%89%88.pdf)
+
+[Application for test scores of master or doctoral degree examination(碩博士班學位考試成績報告單)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-02)
+
+[National Chengchi University Faculty and Researchers Application Form for New General Education Course(國立政治大學教師暨研究人員新開授通識教育課程申請表 (一般通識、書院通識))](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T04-07-02)
+
+[National Chengchi University Master Student Application Form for Institute Transfer(碩士轉系申請書)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05)
+
+116011台北市文山區指南路二段64號 行政大樓四樓 Contact Us

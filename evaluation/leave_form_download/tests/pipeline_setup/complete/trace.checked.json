@@ -1,0 +1,86 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "休學申請書的名稱是「休學/保留學籍申請書」",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "填妥「休學/保留學籍申請書」",
+          "verified": true,
+          "start": 819,
+          "end": 833
+        },
+        {
+          "item": "E2",
+          "quote": "get_form 取得表單 休學/保留學籍申請書",
+          "verified": true,
+          "start": 690,
+          "end": 714
+        }
+      ],
+      "why": "證據中休學申請所用表單名稱即為「休學/保留學籍申請書」。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        0,
+        21
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "表單編號 QP-T01-03-02",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "表單編號：QP-T01-03-02",
+          "verified": true,
+          "start": 783,
+          "end": 800
+        }
+      ],
+      "why": "E2 中休學/保留學籍申請書的表單編號為 QP-T01-03-02。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        22,
+        39
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "下載連結：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "[休學/保留學籍申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)",
+          "verified": true,
+          "start": 1745,
+          "end": 1834
+        }
+      ],
+      "why": "E1 的相關表單區把該網址連結到「休學/保留學籍申請書」。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        40,
+        120
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v2",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

@@ -1,0 +1,37 @@
+{
+  "input": "<session>/scratchpad/iso_lf_complete/trace_input.json",
+  "output": "<session>/scratchpad/iso_lf_complete/trace.json",
+  "n_calls": 4,
+  "n_violations": 1,
+  "ok": false,
+  "calls": [
+    {
+      "n": 1,
+      "tool": "Read",
+      "target": "<session>/scratchpad/iso_lf_complete/trace_input.json",
+      "verdict": "ok",
+      "why": "read the input file"
+    },
+    {
+      "n": 2,
+      "tool": "Write",
+      "target": "<session>/scratchpad/iso_lf_complete/trace.json",
+      "verdict": "ok",
+      "why": "wrote the output file"
+    },
+    {
+      "n": 3,
+      "tool": "Bash",
+      "target": "python3 -I -c \"\nimport json\np='<session>/scratchpad/iso_lf_complete/'\ni=json.load(open(p+'trace_input.json",
+      "verdict": "violation",
+      "why": "tool 'Bash' is not allowed (only Read of the input, Write of the output, the hand-back)"
+    },
+    {
+      "n": 4,
+      "tool": "SubagentHandback",
+      "target": "",
+      "verdict": "ok",
+      "why": "hand-back of the final report"
+    }
+  ]
+}

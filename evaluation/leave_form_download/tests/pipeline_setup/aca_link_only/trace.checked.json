@@ -1,0 +1,123 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "休學申請書的名稱是「休學/保留學籍申請書」",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "[休學/保留學籍申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)",
+          "verified": true,
+          "start": 1745,
+          "end": 1834
+        },
+        {
+          "item": "E2",
+          "quote": "get_form 取得表單 休學/保留學籍申請書 / NCCU Application Form for Leave of Absence of Student Status",
+          "verified": true,
+          "start": 690,
+          "end": 777
+        }
+      ],
+      "why": "證據中休學用的表單名稱就是「休學/保留學籍申請書」。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        0,
+        21
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "表單編號 QP-T01-03-02",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "表單編號：QP-T01-03-02",
+          "verified": true,
+          "start": 783,
+          "end": 800
+        }
+      ],
+      "why": "E2 中休學/保留學籍申請書的表單編號為 QP-T01-03-02。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        22,
+        39
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "請到教務處「休學-保留學籍-退學-提早復學」頁面的「相關法規與表單」下載",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "標題: 休學-保留學籍-退學-提早復學",
+          "verified": true,
+          "start": 19,
+          "end": 38
+        },
+        {
+          "item": "E1",
+          "quote": "相關法規與表單\n\n[國立政治大學學則第十三條",
+          "verified": true,
+          "start": 1637,
+          "end": 1659
+        },
+        {
+          "item": "E1",
+          "quote": "[休學/保留學籍申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)",
+          "verified": true,
+          "start": 1745,
+          "end": 1834
+        }
+      ],
+      "why": "該頁面的「相關法規與表單」區塊列有休學/保留學籍申請書的連結（頁面屬 aca 教務處站，E1 未明說「下載」二字）。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        40,
+        76
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "get_page 取得 1936 字，標題: 休學-保留學籍-退學-提早復學，subdomain: aca",
+          "verified": true,
+          "start": 0,
+          "end": 53
+        }
+      ],
+      "why": "該網址是 E1 的 source_url（頁面標題與 aca 站名與此吻合），但網址本身不在 E1 文字內。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        77,
+        127
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v2",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}
