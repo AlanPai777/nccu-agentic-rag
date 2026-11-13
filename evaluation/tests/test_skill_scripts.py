@@ -144,6 +144,19 @@ class AuditSubagentToolsTest(unittest.TestCase):
         self.assertIn("not a pass", r.stderr)
         self.assertEqual(run(AUDIT, self.d / "nope.output", "--input", self.inp, "--output", self.out).returncode, 2)
 
+    def test_a_violation_shows_the_whole_command_not_just_the_first_200_characters(self):
+        long_cmd = "python3 -c \"import json\\nx = 1  # " + "padding " * 40 + "TAIL_OF_THE_COMMAND\""
+        self.assertGreater(len(long_cmd), 200)
+        r = self.audit(self.clean[:2] + [("Bash", {"command": long_cmd})] + self.clean[2:])
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("TAIL_OF_THE_COMMAND", r.stdout)
+        data = json.loads(self.audit(self.clean[:2] + [("Bash", {"command": long_cmd})], "--json").stdout)
+        self.assertIn("TAIL_OF_THE_COMMAND", data["calls"][2]["target"])
+
+    def test_allowed_calls_are_still_shown_as_a_path_only(self):
+        r = self.audit(self.clean)
+        self.assertEqual(r.stdout.count("|"), 0)
+
     def test_json_output(self):
         r = self.audit(self.clean + [("Bash", {"command": "ls"})], "--json")
         data = json.loads(r.stdout)

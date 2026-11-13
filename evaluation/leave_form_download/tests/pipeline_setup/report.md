@@ -1,6 +1,6 @@
 # 流程測試（pipeline_setup）：休學申請表下載題（資源類），用假設的答案讓整條評測管線跑一次
 
-**日期**：2026-11-13
+**日期**：2026-11-13（同日第二輪：加了第 5 個案例 `complete_direct`，確認問題 1）
 **這不是系統的真實答案，下面的分數不能當評測結果。** 目的：檢查整條管線在第一題資源類題目上走不走得通，以及找出這類題目特有的問題。
 答案是 Claude Code 寫的（`answers/`），證據用 `output/` 裡真實的快照（教務處頁面、moltke 表單原文）。`model`／`system_version`／`label` 都標「假設」。
 不放 `runs/`，所以 `list_runs.py` 與之後的彙整都讀不到。`make_runs.py` 沒有單元測試。
@@ -20,8 +20,9 @@
 | `aca_link_only` | 名稱、編號、教務處頁面的網址，沒有 moltke 連結 | 2026-09-20 那次 Gemma 答案的失敗型態；K2 怎麼判 |
 | `wrong_form` | 把「提早復學申請書」（QP-T01-03-04）當成休學申請書 | 真實會發生的混淆 |
 | `verbose` | 同 `complete`，另附 5 條辦理流程（內容都來自教務處頁面） | 聚焦度：keypoint 滿分、主張精確率很低 |
+| `complete_direct`（第二輪） | 答案與 `complete` 逐字相同，但證據是**直接走 `resource_node`** 的形狀：只有一則注入訊息、一張休學申請書，沒有 `get_page`（真實 2026-09-20 run 的節點順序） | 正確的連結只存在於標記行時，會不會被判沒依據 |
 
-流程：`make_runs.py` → 階段 2 → 階段 3 `prepare` → **隔離回推**（4 個全新的 general-purpose 子代理，使用者批准；提示詞與 `tampered_v2` 逐字相同，只有路徑不同）→ `audit_subagent_tools.py` → `check` → `verify_run.py` → Keypoint 判斷（Claude Code）→ `score`。沒有呼叫 ollama，這一輪沒有對 nccu.edu.tw 發請求（現場查證在建 gold 時做過，見 `sources/live/live_check.md`）。
+流程：`make_runs.py` → 階段 2 → 階段 3 `prepare` → **隔離回推**（5 個全新的 general-purpose 子代理，使用者批准；提示詞與 `tampered_v2` 逐字相同，只有路徑不同）→ `audit_subagent_tools.py` → `check` → `verify_run.py` → Keypoint 判斷（Claude Code）→ `score`。沒有呼叫 ollama，這一輪沒有對 nccu.edu.tw 發請求（現場查證在建 gold 時做過，見 `sources/live/live_check.md`）。
 
 ## 管線本身：走得通，但有一個稽核違規
 
@@ -29,9 +30,14 @@
 |---|---|
 | 階段 2、`prepare`、`check`、`verify_run`、`score` | 四份都正常；`check` 全部通過（逐字引用 4/4、7/7、0/0、13/13），沒有重疊警告 |
 | 證據形狀 | E1＝`get_page` 的頁面；E2＝`resource_node` 的三張表單（`kind` 是 `HumanMessage`） |
-| 子代理工具稽核 | `aca_link_only`、`wrong_form`、`verbose` 都是 3 次呼叫（Read 輸入、Write 輸出、交回報告），PASS。**`complete` 是 FAIL**，見下 |
+| 子代理工具稽核 | `aca_link_only`、`wrong_form`、`verbose` 都是 3 次呼叫（Read 輸入、Write 輸出、交回報告），PASS。**`complete` 與 `complete_direct` 是 FAIL**，見下 |
 
-**`complete` 的稽核違規**：這個子代理用 Bash 跑了一段 Python，內容是打開輸入檔與它自己的輸出檔，逐字檢查 `answer_span` 與引句是否在輸入檔裡（`complete/tool_audit.json` 有記錄）。提示詞要求它「不要執行 shell 指令，只讀一個檔、寫一個檔」，所以字面上違規。但它只碰了被允許的兩個檔案，沒有讀 gold、鑰匙或任何其他檔案，**隔離的實質沒有被破壞**。它的 trace 之後也由 `check` 驗證通過。這一份的結果要標「稽核 FAIL（字面違規）」，要不要接受或重做，待使用者決定。其餘 7 個子代理（含第 2 題三個、`tampered_v2` 一個）都是 3 次呼叫。
+**兩個稽核違規**（使用者決定：接受並標註，稽核維持嚴格；稽核改成違規時顯示完整指令，兩個案例的 `tool_audit.json` 都用新版重新產生）：
+
+- `complete`：子代理用 Bash 跑了一段 Python，打開輸入檔與它自己的輸出檔，逐字檢查 `answer_span` 與引句是否在輸入檔裡。
+- `complete_direct`：子代理沒有用 Write 工具，改用 Bash 的 heredoc（`cat > <輸出檔> <<'EOF'`）把 trace 寫進**被指定的輸出檔**，再用一行 Python 檢查那個檔案能不能被解析。**呼叫次數仍然是 3 次**（Read、Bash、交回報告），所以只看次數看不出來，稽核看的是工具名稱。
+
+兩者都只碰了被允許的輸入檔與輸出檔，沒有讀 gold、鑰匙或任何其他檔案，**隔離的實質沒有被破壞**；它們的 trace 也都由 `check` 驗證通過。這兩份標「稽核 FAIL（字面違規）」。這個工作到目前為止用過的 9 個子代理（第 2 題三個、`tampered_v2` 一個、本題五個），7 個完全照規矩，2 個用了 Bash。
 
 ## 結果（只供看流程，不是評測結果）
 
@@ -41,23 +47,31 @@
 | aca_link_only | 4 | 4（1.00） | relevant／irrelevant | 0.50／0.00 | **0.25** | 1/2 |
 | wrong_form | 3 | 0（0.00） | wrong／wrong | 0.00／1.00 | 0.00 | 0/2 |
 | verbose | 13 | 13（1.00） | relevant／relevant | 1.00／0.00 | **0.15** | 2/2 |
+| complete_direct（稽核 FAIL） | 3 | **2（0.67）**，c3 連結沒依據 | relevant／relevant | 1.00／0.00 | 0.67 | 2/2 |
 
-規則與 Claude 都沒有不一致。`wrong_form` 的規則版只能判 miss、不能判 wrong（沒有 `value_check`），與 Keypoint 判斷都是「沒命中」，所以沒有列為不一致（第 2 題同樣）。
+規則與 Claude 都沒有不一致。`complete_direct` 另有：**答對但沒依據的 keypoint：K2**；Context 句子召回 0.50（其他案例是 1.00）。`wrong_form` 的規則版只能判 miss、不能判 wrong（沒有 `value_check`），與 Keypoint 判斷都是「沒命中」，所以沒有列為不一致（第 2 題同樣）。
 
 **聚焦度（使用者選項 A 的預期）驗證了**：`complete`、`verbose` 的 Completeness 都是 1.00，只有「答案為單位 P」分得出差別（0.67 對 0.15）。`aca_link_only` 的 P（0.25）比 `complete` 低，因為它多講的 2 個主張（教務處頁面的位置與網址）不屬於任何 keypoint。最簡短、最聚焦的答案（只給連結）會得到 1.00，所以 P 的絕對值沒有意義（與前面討論一致）。
 
 ## 找到的問題（只記錄，沒有決定）
 
-### 1. 網址主張的依據：標記行被剝掉之後，網址只剩 `source_url` 欄位（最重要，且有一半沒有測到）
+### 1. 網址主張的依據：標記行被剝掉之後，網址只剩 `source_url` 欄位（已用第 5 個案例確認）
 
-`build_evidence` 把 `[live:src … url=…]` 標記行剝掉，網址另存到證據項目的 `source_url` 欄位；回推規則要求引句必須逐字取自該項目的 `text`，`source_url` 不在 `text` 裡。這在這題造成：
+`build_evidence` 把 `[live:src … url=…]` 標記行剝掉，網址另存到證據項目的 `source_url` 欄位；回推規則要求引句必須逐字取自該項目的 `text`，`source_url` 不在 `text` 裡。結果：
 
-- **`aca_link_only` 的 c4**（答案裡的教務處頁面網址）：這個網址只出現在 E1 的標記行與 `source_url`，不在 E1 的 `text`。子代理自述不確定，**拿 E1 的標頭行（只有標題與 subdomain）當引句判 supported**。引句通過 `check`（逐字存在），但它證明的是頁面標題，不是網址，所以有依據比例 1.00 在這一個主張上是灌水的。
-- **E2 的 `source_url` 只記到第一個標記**：三張表單合成一則訊息，只留第一個標記的網址（QP-T01-02-05 那張），其餘兩張（含 QP-T01-03-02）的網址都沒有保存。
-- **`complete` 的連結主張有依據，是因為這個測試的證據形狀有 `get_page`**：完整的 moltke 網址出現在教務處頁面全文的 markdown 連結裡（E1 的 `text`），子代理才找得到逐字引句。
-- **沒有測到的情況**：真實的 2026-09-20 那次 run 的節點順序是 `plan_node` → `resource_node`，**沒有 `get_page`**（`--stream` 記錄沒有任何工具呼叫）。在那種形狀下，正確的 moltke 連結只存在於標記行，會被剝掉，連結主張很可能被判 unsupported，即使答案是對的。**這一種需要再加一個案例（直接走 resource_node，不經 get_page）才能確認，需要使用者批准。**
+| 情況 | 結果 |
+|---|---|
+| 完整網址在頁面文字裡（`complete`，有 `get_page`） | 子代理引得到，supported，正確 |
+| 網址只在標記行（`aca_link_only` 的 c4，教務處頁面自己的網址） | 引不到。子代理拿標頭行（只有標題與 subdomain）當引句判 supported，通過 `check`（逐字存在），但證明的是頁面標題不是網址；有依據在這個主張上是灌水的（子代理自述不確定） |
+| **網址只在標記行，而且是答案裡最重要的內容（`complete_direct`，真實 run 的形狀）** | **答對的連結被判沒依據**：有依據比例 2÷3 ＝ 0.67；K2 被列進「答對但沒依據的 keypoint」，看起來像系統碰運氣答對；Context 句子召回從 1.00 掉到 0.50（K2 的依據句在教務處頁面，證據裡沒有），也在說「沒讀到」。子代理自述不確定，是照「網址本身不是證據」的規則判 unsupported |
 
-背景：標記行被剝掉是有理由的（第 2 題之前決定：標記行與只含網址的來源行不算證據，否則網址路徑裡的字，例如「退費」，會讓關於職掌的主張被誤判為有依據）。所以這是兩個決定的衝突，不是單純的漏洞：要不要讓「答案裡的網址主張」可以引用 `source_url`，需要使用者決定。
+**真實的系統其實是看得到這個網址的**：標記行是工具輸出的一部分，答案模型讀得到 `url=…`，連結並不是憑空編的。所以這是評測這一側造成的偽陰性，不是系統的問題。
+**診斷被誤導**：資源類題目的核心內容就是連結，這個問題讓「有依據比例」、「答對但沒依據」、Context 召回三個診斷數字在這類題目上都指向錯的方向（以為是生成問題或檢索問題）。Keypoint 層不受影響（K2 判 relevant）。
+另外：`resource_node` 把三張表單合成一則訊息時，`source_url` 只記到第一個標記（委託書那張，不是休學申請書）；`complete_direct` 因為只有一張表單才沒有受影響。
+
+背景：標記行被剝掉有理由（第 2 題之前決定：標記行與只含網址的來源行不算證據，否則網址路徑裡的字，例如「退費」，會讓關於職掌的主張被誤判為有依據）。
+
+**可行的做法（待使用者決定）：** 讓「答案裡的網址主張」可以引用證據項目的網址，但**引句必須等於其中一個完整網址**（不是子字串），這樣網址路徑裡的字仍然不能拿去支持其他主張。需要改 `build_evidence`（保留一則訊息裡所有標記的網址，不只第一個）、`check_trace`（接受引自 `source_urls` 的引句）、回推規則（新增一條）、補測試；之後 `complete_direct` 的隔離回推要重做。
 
 ### 2. 子代理的行為有些微變異
 
@@ -78,6 +92,5 @@
 
 ## 後續（都需要使用者決定）
 
-- 問題 1：要不要加第 5 個案例（`complete` 的答案，但證據不含 `get_page`，模擬直接走 `resource_node`），確認連結主張會不會被判沒有依據？需要再開一個子代理。
-- 問題 1 的取捨：答案裡的網址主張可不可以引用 `source_url`？
-- `complete` 的稽核違規：接受（標註）或重做這一個子代理。
+- 問題 1 的做法：照上面的「可行的做法」改 `build_evidence`／`check_trace`／回推規則？或維持現狀、記為已知限制（資源類題目的網址主張與依據、Context 召回不可靠）？
+- `complete`、`complete_direct` 的稽核違規：已決定接受並標註。

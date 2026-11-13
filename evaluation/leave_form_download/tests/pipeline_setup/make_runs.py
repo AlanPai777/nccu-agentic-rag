@@ -13,7 +13,7 @@ model／system_version／label 明確標示假設；不放 runs/，所以 list_r
 
 用法（專案根目錄）：
   python evaluation/leave_form_download/tests/pipeline_setup/make_runs.py
-已存在的案例資料夾不覆蓋（避免新舊檔案混在一起），要重做請先自己刪掉那個資料夾。
+已存在的案例資料夾不覆蓋、直接略過（避免新舊檔案混在一起），只補缺的；要重做請先自己刪掉那個資料夾。
 """
 import datetime as dt
 import json
@@ -31,7 +31,8 @@ from rag.live.ledger import DISCLOSURE_HEADER, make_marker  # noqa: E402
 PAGE_URL = "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學"
 PAGE_TITLE = "休學-保留學籍-退學-提早復學"
 FORM_IDS = ["QP-T01-02-05", "QP-T01-03-02", "QP-T01-03-04"]        # extract_form_ids 的結果，排序後
-CASES = ["complete", "aca_link_only", "wrong_form", "verbose"]
+CASES = ["complete", "aca_link_only", "wrong_form", "verbose", "complete_direct"]
+DIRECT_CASES = {"complete_direct"}      # 直接走 resource_node：沒有 get_page，證據只有 resource_node 注入的一張表單（QP-T01-03-02）
 LABEL = "假設答案，流程測試，不計分"
 MODEL = "hypothetical（Claude Code 撰寫，不是系統輸出）"
 BODY_MARK = "# 以下為該筆記錄的 text 欄位全文（逐字複本）"
@@ -63,6 +64,16 @@ def form_records() -> dict[str, dict]:
     return {f: {"title": titles[f], "text": texts[f]} for f in FORM_IDS}
 
 
+def build_context_direct() -> list[dict]:
+    """真實的 2026-09-20 run 的形狀：plan_node 直接走 resource_node（沒有 get_page），_judge_forms 只挑休學申請書一張。
+    表單的網址只存在於 ledger 標記行（build_evidence 會把標記行剝掉，網址只留在 source_url）。"""
+    fid = "QP-T01-03-02"
+    forms = form_records()
+    m = make_marker(link_url_for(fid), status="snapshot", checked="", snap="2026-08", kind="form")
+    block = f"get_form 取得表單 {forms[fid]['title']}\n{m}\n\n全文：\n{forms[fid]['text']}"
+    return [{"message_index": 1, "role": "HumanMessage", "tool": None, "text": RESOURCE_PREFIX + block}]
+
+
 def build_context() -> list[dict]:
     text = page_text()
     marker = make_marker(PAGE_URL, status="snapshot", checked="", snap="2026-08")
@@ -89,12 +100,11 @@ def answer_raw(body: str) -> str:
 def main() -> int:
     gold = json.loads((QUESTION / "gold.json").read_text(encoding="utf-8"))
     now = dt.datetime.now().astimezone().isoformat(timespec="seconds")
-    for name in CASES:
-        if (HERE / name).exists():
-            print(f"已存在，不覆蓋：{(HERE / name).relative_to(ROOT)}", file=sys.stderr)
-            return 1
     made = []
     for name in CASES:
+        if (HERE / name).exists():                     # 已存在的不覆蓋（避免新舊檔案混在一起），只補缺的案例
+            print(f"已存在，略過：{(HERE / name).relative_to(ROOT)}")
+            continue
         raw = answer_raw((HERE / "answers" / f"{name}.txt").read_text(encoding="utf-8"))
         body, stripped = run_system.split_answer(raw)
         pred = {
@@ -102,7 +112,7 @@ def main() -> int:
             "started_at": now, "finished_at": now, "system_version": "hypothetical", "model": MODEL,
             "live": False, "live_fetch_env": None,
             "answer_raw": raw, "answer_body": body, "stripped": stripped,
-            "context": build_context(), "checks": {"contact_pages": [], "contact_consistency": []},
+            "context": build_context_direct() if name in DIRECT_CASES else build_context(), "checks": {"contact_pages": [], "contact_consistency": []},
             "trace": {"query_type": "resource", "turn": 1, "self_eval_note": None, "subdomain_hint": "aca", "tool_calls": []},
         }
         out_dir = HERE / name

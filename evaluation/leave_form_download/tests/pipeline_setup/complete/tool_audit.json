@@ -22,7 +22,7 @@
     {
       "n": 3,
       "tool": "Bash",
-      "target": "python3 -I -c \"\nimport json\np='<session>/scratchpad/iso_lf_complete/'\ni=json.load(open(p+'trace_input.json",
+      "target": "python3 -I -c \"\nimport json\np='<session>/scratchpad/iso_lf_complete/'\ni=json.load(open(p+'trace_input.json'));t=json.load(open(p+'trace.json'))\nev={e['id']:e['text'] for e in i['evidence_items']}\nfor c in t['claims']:\n    print(c['answer_span'] in i['answer_text'],[q['quote'] in ev[q['item']] for q in c['evidence']])\n\"",
       "verdict": "violation",
       "why": "tool 'Bash' is not allowed (only Read of the input, Write of the output, the hand-back)"
     },
