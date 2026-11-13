@@ -1,0 +1,747 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "申請當學期休學，須在期末考試（休學截止日）前辦理，逾期不予受理。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "申請當學期休學者，請於期末考試（休學截止日）前提出，逾期不予受理。",
+          "verified": true,
+          "start": 2157,
+          "end": 2190
+        }
+      ],
+      "why": "表單說明載明相同規定。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        17,
+        49
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "休學一次可申請一學期至二學年，累計以二學年為原則。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "休學得一次申請一學期至二學年，休學累計以二學年為原則。",
+          "verified": true,
+          "start": 2194,
+          "end": 2221
+        }
+      ],
+      "why": "表單說明載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        52,
+        77
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "休學期間的修課紀錄予以刪除（含國內外校際選課）。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "請准休學學生，其休學期間之修課紀錄予以刪除（含國內外校際選課）。",
+          "verified": true
+        }
+      ],
+      "why": "表單說明載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        80,
+        104
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "本人攜帶學生證或身分證件正本，填妥「休學/保留學籍申請書」",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "本人攜帶學生證或身分證件正本",
+          "verified": true,
+          "start": 780,
+          "end": 794
+        },
+        {
+          "item": "E1",
+          "quote": "填妥「休學/保留學籍申請書」",
+          "verified": true,
+          "start": 819,
+          "end": 833
+        }
+      ],
+      "why": "申請程序段落載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        112,
+        141
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "表單編號 QP-T01-03-02",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "表單編號：QP-T01-03-02",
+          "verified": true,
+          "start": 783,
+          "end": 800
+        }
+      ],
+      "why": "休學/保留學籍申請書的編號。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        142,
+        159
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c6",
+      "answer_span": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "休學/保留學籍申請書 / NCCU Application Form for Leave of Absence of Student Status"
+        }
+      ],
+      "why": "sources 中此網址的 label 是休學/保留學籍申請書。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        165,
+        240
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c7",
+      "answer_span": "依申請書的會簽程序依序前往各單位辦理",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "申 請 者 請 參 閱 本 表 說 明 並 依 序 前 往 辦 理",
+          "verified": true,
+          "start": 1296,
+          "end": 1329
+        }
+      ],
+      "why": "表單會簽程序要求依序前往辦理。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        246,
+        264
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c8",
+      "answer_span": "系所簽章",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "（1）系所簽章",
+          "verified": true,
+          "start": 1337,
+          "end": 1344
+        }
+      ],
+      "why": "會簽第一項。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        271,
+        275
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c9",
+      "answer_span": "圖書館（總圖或分館借還書櫃檯）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "（2）圖書館",
+          "verified": true,
+          "start": 1353,
+          "end": 1359
+        },
+        {
+          "item": "E3",
+          "quote": "（總圖或分館借還書櫃檯）",
+          "verified": true,
+          "start": 1448,
+          "end": 1460
+        }
+      ],
+      "why": "會簽第二項及其地點。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        282,
+        297
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c10",
+      "answer_span": "出納組（行政大樓五樓）確認學生帳戶",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "（3）出納組",
+          "verified": true,
+          "start": 1374,
+          "end": 1380
+        },
+        {
+          "item": "E3",
+          "quote": "(行政大樓5樓)",
+          "verified": true,
+          "start": 1475,
+          "end": 1483
+        },
+        {
+          "item": "E3",
+          "quote": "(確認學生帳戶)",
+          "verified": true,
+          "start": 1484,
+          "end": 1492
+        }
+      ],
+      "why": "表單載明出納組、5樓、確認學生帳戶。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        304,
+        321
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c11",
+      "answer_span": "找劉組長（分機 62120）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "劉桂芬（組長）分機 62120",
+          "verified": true,
+          "start": 630,
+          "end": 645
+        }
+      ],
+      "why": "出納組組長分機為 62120。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        322,
+        336
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c12",
+      "answer_span": "住宿組（行政大樓三樓）：限住宿生，非住宿生免辦。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "（4）住宿組",
+          "verified": true,
+          "start": 1506,
+          "end": 1512
+        },
+        {
+          "item": "E3",
+          "quote": "限住宿生(行政大樓 3 樓)",
+          "verified": true,
+          "start": 1571,
+          "end": 1585
+        },
+        {
+          "item": "E3",
+          "quote": "(非住宿生免辦)",
+          "verified": true,
+          "start": 1664,
+          "end": 1672
+        }
+      ],
+      "why": "表單載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        343,
+        367
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c13",
+      "answer_span": "找陳源宗（分機 67161）",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據中沒有陳源宗；分機 67161 屬於張君豪。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        367,
+        381
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c14",
+      "answer_span": "生僑組（行政大樓三樓）：僑生、港澳生、陸生到生僑組",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "(5)生僑組/原資中心",
+          "verified": true,
+          "start": 1521,
+          "end": 1532
+        },
+        {
+          "item": "E3",
+          "quote": "(僑生、港澳生、陸生至生僑組)",
+          "verified": true,
+          "start": 1692,
+          "end": 1707
+        }
+      ],
+      "why": "表單載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        388,
+        413
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c15",
+      "answer_span": "找盧小姐（分機 62226）",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "62226 屬盧誼甄（行政專員），不是盧小姐；證據裡的盧小姐是國合處組長 62833。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        414,
+        428
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c16",
+      "answer_span": "原住民族籍學生到原資中心（行政大樓三樓）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "(原住民族籍學生至原資中心)",
+          "verified": true,
+          "start": 1708,
+          "end": 1722
+        },
+        {
+          "item": "E3",
+          "quote": "(行政大樓 3 樓)",
+          "verified": true,
+          "start": 1575,
+          "end": 1585
+        }
+      ],
+      "why": "表單載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        429,
+        449
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c17",
+      "answer_span": "找古素幸（分機 62201）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "古素幸（中心秘書）分機 62201",
+          "verified": true,
+          "start": 1877,
+          "end": 1894
+        }
+      ],
+      "why": "姓名與分機相符。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        450,
+        464
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c18",
+      "answer_span": "國際合作事務處（行政大樓八樓）：限國際學生",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "（6）國際合作事務處",
+          "verified": true,
+          "start": 1547,
+          "end": 1557
+        },
+        {
+          "item": "E3",
+          "quote": "限國際學生(行政大樓8樓)",
+          "verified": true,
+          "start": 1737,
+          "end": 1750
+        }
+      ],
+      "why": "表單載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        471,
+        492
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c19",
+      "answer_span": "找計畫專員（分機 62058）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "徐維勵（計畫專員）分機 62058",
+          "verified": true,
+          "start": 2580,
+          "end": 2597
+        }
+      ],
+      "why": "職稱與分機配同一人（答案未寫姓名）。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        493,
+        508
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c20",
+      "answer_span": "教務處註冊組（行政大樓四樓）擬准休學，由註冊組組長簽章，教務長批示",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "（7）教務處註冊組",
+          "verified": true
+        },
+        {
+          "item": "E3",
+          "quote": "(行政大樓 4 樓)",
+          "verified": true,
+          "start": 1956,
+          "end": 1966
+        },
+        {
+          "item": "E3",
+          "quote": "註冊組 組 長",
+          "verified": true,
+          "start": 1893,
+          "end": 1900
+        },
+        {
+          "item": "E3",
+          "quote": "教務長 批 示",
+          "verified": true,
+          "start": 1915,
+          "end": 1922
+        }
+      ],
+      "why": "表單載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        515,
+        548
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c21",
+      "answer_span": "找王組長（分機 63273）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "王揚忠（組長）分機 63273",
+          "verified": true,
+          "start": 193,
+          "end": 208
+        }
+      ],
+      "why": "註冊組組長分機 63273。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        549,
+        563
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c22",
+      "answer_span": "各單位蓋章完畢後，送教務處註冊組",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "依說明至系所及各處室蓋章後，送至教務處註冊組",
+          "verified": true,
+          "start": 834,
+          "end": 856
+        }
+      ],
+      "why": "申請程序載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        568,
+        584
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c23",
+      "answer_span": "由學務處生僑組承辦",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "退費相關事宜由學務處生僑組承辦",
+          "verified": true,
+          "start": 1216,
+          "end": 1231
+        }
+      ],
+      "why": "E1 載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        590,
+        599
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c24",
+      "answer_span": "繳費截止日（含）前完成休學程序：學雜費全額退費",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "繳費截止日(含)前完成休(退)學程序。",
+          "verified": true,
+          "start": 277,
+          "end": 296
+        },
+        {
+          "item": "E2",
+          "quote": "學雜費全額退費(不含學生平安保險費)",
+          "verified": true,
+          "start": 298,
+          "end": 316
+        }
+      ],
+      "why": "退費標準表載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        603,
+        626
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c25",
+      "answer_span": "繳費截止日次日起至學期 1/3 退費基準日：退 2/3 學雜費",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "繳費截止日次日起至學期1 / 3退費基準日完成休(退)學程序。",
+          "verified": true,
+          "start": 346,
+          "end": 377
+        },
+        {
+          "item": "E2",
+          "quote": "退2 / 3學雜費",
+          "verified": true,
+          "start": 379,
+          "end": 388
+        }
+      ],
+      "why": "退費標準表載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        630,
+        661
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c26",
+      "answer_span": "學期 1/3 退費基準日次日起至 2/3 退費基準日（含）：退 1/3 學雜費",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "學期1 / 3退費基準日次日起至學期2 / 3退費基準日(含)完成休(退)學程序。",
+          "verified": true,
+          "start": 430,
+          "end": 471
+        },
+        {
+          "item": "E2",
+          "quote": "退1 / 3 學雜費",
+          "verified": true,
+          "start": 473,
+          "end": 483
+        }
+      ],
+      "why": "退費標準表載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        665,
+        704
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c27",
+      "answer_span": "逾學期 2/3 退費基準日申請休學：學雜費全數不予退還",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "逾學期2 / 3退費基準日申請休(退)學。",
+          "verified": true,
+          "start": 524,
+          "end": 545
+        },
+        {
+          "item": "E2",
+          "quote": "學雜費全數不予退還。",
+          "verified": true,
+          "start": 547,
+          "end": 557
+        }
+      ],
+      "why": "退費標準表載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        708,
+        735
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c28",
+      "answer_span": "學生平安保險費不退費",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "故平安保險費不退費",
+          "verified": true,
+          "start": 901,
+          "end": 910
+        }
+      ],
+      "why": "注意事項 3 載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        739,
+        749
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

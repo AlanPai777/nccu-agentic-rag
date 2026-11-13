@@ -23,6 +23,7 @@ evaluation/registry/build_registry.py
 import json
 import re
 import sys
+from urllib.parse import unquote
 from pathlib import Path
 
 from bs4 import BeautifulSoup
@@ -67,10 +68,17 @@ def add_form(items: list, form: str, value: str, source: dict | None, key: str =
 
 
 def status_of(entry: dict) -> str:
-    kinds = {s["source"] for n in entry["names"] for s in n["sources"]}
+    """both：快照與現場都有名字且姓氏一致（同一個人，可能是不同寫法）；snapshot-only／live-only：只有一邊有名字；
+    changed：兩邊都有名字但姓氏不同（同一個分機換人了）；title-only：沒有任何姓名。"""
     if not entry["names"]:
         return "title-only"
-    return "both" if kinds >= {"snapshot", "live"} else f"{next(iter(kinds))}-only"
+    by_kind = {"snapshot": set(), "live": set()}
+    for n in entry["names"]:
+        for s in n["sources"]:
+            by_kind[s["source"]].add(n["value"][0])
+    if by_kind["snapshot"] and by_kind["live"]:
+        return "both" if by_kind["snapshot"] & by_kind["live"] else "changed"
+    return "snapshot-only" if by_kind["snapshot"] else "live-only"
 
 
 def finish(entry: dict) -> dict:
@@ -81,7 +89,7 @@ def finish(entry: dict) -> dict:
 def snapshot_from_index(url: str, out_name: str) -> tuple[dict, str, str]:
     for line in INDEX.open(encoding="utf-8"):
         d = json.loads(line)
-        if d.get("url") == url:
+        if unquote(d.get("url", "")) == unquote(url):
             SNAP_DIR.mkdir(parents=True, exist_ok=True)
             rel = f"sources/snapshot/{out_name}"
             (HERE / rel).write_text(f"# url: {d['url']}\n# fetched_at: {d['fetched_at']}\n# 來源：output/office_contacts_index.jsonl\n\n{d['text']}\n", encoding="utf-8")
@@ -169,7 +177,12 @@ def build_registrar(problems: Problems) -> dict:
             src("live", live_rel, l_asof, "行政大樓四樓", problems, what + "樓層")]})
     else:
         problems.add(f"{what}樓層：快照或現場找不到行政大樓四樓")
-    return {"name": "註冊組", "aliases": ["教務處註冊組", "註冊組"], "parent": "教務處", "floors": floors, "lines": [], "staff": staff}
+    refund_snap = refund_page_snapshot()
+    rep_quote = "行政大樓四樓教務處註冊組，代表分機 63279"
+    lines = [{"kind": "代表分機（休退學相關問題）", "value": "63279", "sources": [x for x in (
+        src("snapshot", refund_snap, "corpus", rep_quote, problems, what + "代表線"),
+        src("live", "sources/live/osa_refund_standard.html", LIVE_STATIC_ASOF, rep_quote, problems, what + "代表線")) if x]}]
+    return {"name": "註冊組", "aliases": ["教務處註冊組", "註冊組"], "parent": "教務處", "floors": floors, "lines": lines, "staff": staff}
 
 
 # --- 生僑組 ----------------------------------------------------------------
@@ -348,8 +361,8 @@ def build_forms(problems: Problems) -> list[dict]:
                 recs[fid] = d
     SNAP_DIR.mkdir(parents=True, exist_ok=True)
     forms_rel = "sources/snapshot/moltke_forms.txt"
-    (HERE / forms_rel).write_text("# 來源：output/aca/extracted_supplementary.jsonl（無抓取時間）；每筆：網址、標題、前 300 字\n\n" + "\n\n".join(
-        f"url: {d['url']}\ntitle: {d['title']}\n{d['text'][:300]}" for d in recs.values()) + "\n", encoding="utf-8")
+    (HERE / forms_rel).write_text("# 來源：output/aca/extracted_supplementary.jsonl（無抓取時間）；每筆：網址、標題、全文\n\n" + "\n\n".join(
+        f"url: {d['url']}\ntitle: {d['title']}\n{d['text']}" for d in recs.values()) + "\n", encoding="utf-8")
     out = []
     for fid, link_text, headers in FORMS:
         w = f"表單 {fid}"
@@ -380,12 +393,205 @@ def build_forms(problems: Problems) -> list[dict]:
     return out
 
 
-OFFICES = {"registrar": build_registrar, "soa": build_soa, "oic": build_oic}
+# --- 第 5 題（休學）新增的單位：出納組、住宿組、原資中心、圖書館 -----------------------------------------
+REFUND_URL = "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準"
+FORM_SNAP = "sources/snapshot/moltke_forms.txt"      # QP-T01-03-02 的全文在 build_forms 裡寫入（單位樓層的依據是表單上的說明）
+
+
+def refund_page_snapshot() -> str:
+    _, rel = snapshot_from_corpus("osa", REFUND_URL, "osa_refund_standard.txt")
+    return rel
+
+
+def parse_dash_label_snapshot(text: str) -> list[dict]:
+    """出納組：「劉桂芬 組長」「校內分機」「62120」。"""
+    lines = [l.strip() for l in text.splitlines() if l.strip()]
+    rows = []
+    for i, l in enumerate(lines):
+        if l == "校內分機" and EXT_RE.match(lines[i + 1]):
+            name, _, title = lines[i - 1].replace("\xa0", " ").rpartition(" ")     # 姓名可能含空白（罕用字拆寫成「王 (禾+翟 )媗」），職稱是最後一段
+            rows.append({"name": name.strip(), "title": title.strip(), "ext": lines[i + 1]})
+    return rows
+
+
+def parse_library(text: str) -> list[dict]:
+    """圖書館典藏閱覽組：「左以文 組長」、業務項目（一、二、…）、「電話：(02)2939-3091 分機：67172」。"""
+    lines = [l.strip().replace("\xa0", " ") for l in text.splitlines() if l.strip()]
+    rows = []
+    for i, l in enumerate(lines):
+        if l.startswith("一、") and i > 0 and re.match(r"^[\u4e00-\u9fff]{2,4}\s+\S+$", lines[i - 1]):
+            name, _, title = lines[i - 1].partition(" ")
+            ext = next((m.group(1) for x in lines[i + 1:i + 40] for m in [re.search(r"分機：(\d{5})", x)] if m), None)
+            rows.append({"name": name, "title": title.strip(), "ext": ext})
+    return rows
+
+
+def merge_people(problems: Problems, what: str, snap_rows, live_rows, snap_rel, snap_asof, live_rel, l_asof) -> list[dict]:
+    """快照與現場各自解析成 (分機, 姓名, 職稱) 之後用分機合併：同一個分機兩邊都有名字就各記各的寫法（換人也照記，狀態 changed）。"""
+    order, by_ext = [], {}
+    for kind, rel, asof, rows in (("snapshot", snap_rel, snap_asof, snap_rows), ("live", live_rel, l_asof, live_rows)):
+        for r in rows:
+            ext = r.get("ext")
+            key = ext or f"noext:{r['name']}"
+            if key not in by_ext:
+                by_ext[key] = {"ext": ext, "row": len(order) + 1, "names": [], "titles": [], "ext_sources": []}
+                order.append(key)
+            e = by_ext[key]
+            w = f"{what} 分機 {ext or '無'}"
+            nz, ne = split_zh_en(r["name"])
+            tz, te = split_zh_en(r["title"])
+            if nz and not re.search(r"待[補聘]", nz):
+                form = "surname_title" if re.fullmatch(r"[\u4e00-\u9fff]小?[姐生]", nz) and nz[-2:] in ("小姐", "先生") else "full"
+                add_form(e["names"], form, nz, src(kind, rel, asof, nz, problems, w))
+            if tz:
+                add_form(e["titles"], "title", tz, src(kind, rel, asof, tz, problems, w), key="kind")
+            if ext:
+                x = src(kind, rel, asof, ext, problems, w)
+                if x:
+                    e["ext_sources"].append(x)
+    return [finish(by_ext[k]) for k in order]
+
+
+def sources_for(kind_items, problems, what):
+    return [x for x in kind_items if x]
+
+
+def building_floor(problems, what, value, accepted, units, quotes):
+    """quotes: [(kind, 相對路徑, as_of, 引句)]"""
+    return {"value": value, "accepted": accepted, "units": units,
+            "sources": [x for x in (src(k, r, a, q, problems, what + "樓層") for k, r, a, q in quotes) if x]}
+
+
+GA_BASE = "https://nccuga.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C%E9%81%B8%E5%96%AE/"
+GA_FLOOR_QUOTE = "116臺北市文山區指南路二段64號 (行政大樓五樓)"
+GA_UNITS = [   # (登記表鍵, 名稱, 別名, 現場檔名, 索引舊網址（沒有就是 None）, 新頁面網址的單位名稱)
+    ("ga_dean", "總務長室", ["總務處長室", "總務長室"], "ga_dean", "https://dean.nccu.edu.tw/PageStaffing?fid=8353", "總務長室"),
+    ("docu", "文書組", ["總務處文書組", "文書組"], "ga_docu", "https://docu.nccu.edu.tw/PageStaffing?fid=8372", "文書組"),
+    ("aff", "事務組", ["總務處事務組", "事務組"], "ga_aff", "https://aff.nccu.edu.tw/PageStaffing?fid=8611", "事務組"),
+    ("wealth", "財產組", ["總務處財產組", "財產組"], "ga_wealth", "https://wealth.nccu.edu.tw/PageStaffing?fid=8253", "財產組"),
+    ("mend", "營繕組", ["總務處營繕組", "營繕組"], "ga_mend", "https://mend.nccu.edu.tw/PageStaffing?fid=8380", "營繕組"),
+    ("cashier", "出納組", ["總務處出納組", "出納組"], "ga_cashier", "https://cashier.nccu.edu.tw/PageStaffing?fid=7994", "出納組"),
+    ("safety", "環安組", ["總務處環安組", "環安組"], "ga_safety", None, "環安組"),
+    ("planning", "校園規劃與發展組", ["校園規劃與發展組", "規劃組"], "ga_planning", "https://cpds.nccu.edu.tw/PageStaffing?fid=8465", "規劃組"),
+]
+
+
+def parse_ga_live(text: str) -> list[dict]:
+    """總務處新人員頁（nccuga）：「姓名」「職稱」「校內分機」「62120」，姓名可能不顯示（接在「單位主管」「行政人員」之後）。"""
+    lines = [l.strip() for l in text.splitlines() if l.strip()]
+    rows = []
+    for i, l in enumerate(lines):
+        if l == "校內分機" and i + 1 < len(lines) and EXT_RE.match(lines[i + 1]):
+            name = lines[i - 2] if i >= 2 and lines[i - 2] not in ("單位主管", "行政人員") else ""
+            rows.append({"name": name, "title": lines[i - 1], "ext": lines[i + 1]})
+    return rows
+
+
+def index_line(url: str) -> int:
+    for n, line in enumerate(INDEX.open(encoding="utf-8"), 1):
+        if unquote(json.loads(line).get("url", "")) == unquote(url):
+            return n
+    return 0
+
+
+def build_ga_unit(problems: Problems, key: str, name: str, aliases: list[str], live_name: str, old_url: str | None, page_name: str) -> dict:
+    what = name
+    live_rel = f"sources/live/{live_name}.rendered.html"
+    meta = json.loads((LIVE_DIR / f"{live_name}.render.json").read_text(encoding="utf-8"))
+    l_asof = meta["fetched_at"][:10]
+    live_rows = parse_ga_live(BeautifulSoup((HERE / live_rel).read_text(encoding="utf-8"), "html.parser").get_text("\n"))
+    snap_rows, snap_rel, snap_asof, line_no = [], "", "", 0
+    if old_url:
+        rec, snap_rel, snap_asof = snapshot_from_index(old_url, f"{live_name.replace('ga_', 'ga_old_')}.txt")
+        snap_rows = parse_dash_label_snapshot(rec["text"])
+        line_no = index_line(old_url)
+    staff = merge_people(problems, what, snap_rows, live_rows, snap_rel, snap_asof, live_rel, l_asof)
+    floors = [building_floor(problems, what, "行政大樓五樓", ["行政大樓五樓", "五樓", "5樓"], [name], [("live", live_rel, l_asof, GA_FLOOR_QUOTE)])]
+    lines = []
+    if key == "cashier":
+        refund = refund_page_snapshot()
+        floors[0]["sources"] += [x for x in (src("snapshot", FORM_SNAP, "corpus", "(行政大樓5樓) (確認學生帳戶)", problems, what + "樓層"),
+                                             src("snapshot", refund, "corpus", "行政大樓五樓總務處出納組", problems, what + "樓層"),
+                                             src("live", "sources/live/osa_refund_standard.html", LIVE_STATIC_ASOF, "行政大樓五樓總務處出納組", problems, what + "樓層")) if x]
+        lines = [
+            {"kind": "代表分機（帳戶登錄、入帳）", "value": "62123", "sources": [x for x in (
+                src("snapshot", refund, "corpus", "總務處出納組，分機62123", problems, what + "代表線"),
+                src("live", "sources/live/osa_refund_standard.html", LIVE_STATIC_ASOF, "總務處出納組，分機62123", problems, what + "代表線")) if x]},
+            {"kind": "頁尾分機（總務處各組）", "value": "62120", "sources": [x for x in (
+                src("live", "sources/live/cashier_nccuga_contact_info.html", LIVE_STATIC_ASOF, "出納組分機 62120", problems, what + "分機"),) if x]},
+        ]
+    new_url = GA_BASE + __import__("urllib.parse", fromlist=["quote"]).quote(page_name + "_")
+    wtf = [{"role": "現在的官網頁面（現場來源）", "url": meta["url"], "checked": l_asof, "status": f"{meta['status']}，解析出 {len(live_rows)} 筆人員", "file": live_rel}]
+    if old_url:
+        old = {"role": "舊網址（索引裡的人員頁）", "url": old_url, "status": "未請求；索引網域與現站不同，推測已搬家，未驗證"}
+        if key == "cashier":
+            old["status"] = "301 轉到 https://nccuga.nccu.edu.tw/zh/PageStaffing?fid=7994，新站該路徑 404（2026-11-09，第 1 題查證）"
+            old["evidence"] = src("live", "sources/live/cashier_redirects.md", "2026-11-09",
+                                  "`301 Moved Permanently`，`Location: https://nccuga.nccu.edu.tw/zh/PageStaffing?fid=7994`", problems, what + "舊網址")
+        wtf.append(old)
+        wtf.append({"role": "快照（本機索引）", "file": "output/office_contacts_index.jsonl", "line": line_no, "fetched": snap_asof})
+    else:
+        wtf.append({"role": "快照（本機索引）", "status": "索引沒有這個單位"})
+    out = {"name": name, "aliases": aliases, "parent": "總務處", "floors": floors, "lines": lines, "staff": staff, "where_to_find": wtf}
+    if key == "cashier":
+        out["note"] = "舊人員頁（cashier.nccu.edu.tw）已搬到 nccuga.nccu.edu.tw，人員以新頁面為現場來源（2026-11-13）"
+    return out
+
+
+def make_ga_builder(unit):
+    key, name, aliases, live_name, old_url, page_name = unit
+    return lambda problems: build_ga_unit(problems, key, name, aliases, live_name, old_url, page_name)
+
+
+def build_dorm(problems: Problems) -> dict:
+    what = "住宿組"
+    rec, snap_rel, snap_asof = snapshot_from_index("https://osa.nccu.edu.tw/tw/住宿輔導組/關於我們/成員介紹", "osa_staff_dorm.txt")
+    live_rel = "sources/live/osa_staff_dorm.rendered.html"
+    l_asof = live_asof("osa_staff_dorm.render.json")
+    staff = merge_people(problems, what, parse_soa_snapshot(rec["text"]), parse_soa_live((HERE / live_rel).read_text(encoding="utf-8")),
+                         snap_rel, snap_asof, live_rel, l_asof)
+    floors = [building_floor(problems, what, "行政大樓三樓", ["行政大樓三樓", "三樓", "3樓"], ["住宿組"], [
+        ("snapshot", FORM_SNAP, "corpus", "限住宿生(行政大樓 3 樓)"),
+        ("live", live_rel, l_asof, "行政大樓三樓")])]
+    lines = [{"kind": "總機", "value": "63252", "sources": [x for x in (
+        src("snapshot", snap_rel, snap_asof, "住宿組總機 63252", problems, what + "總機"),
+        src("live", live_rel, l_asof, "住宿組總機 63252", problems, what + "總機")) if x]}]
+    return {"name": "住宿輔導組", "aliases": ["住宿輔導組", "住宿組"], "parent": "學生事務處", "floors": floors, "lines": lines, "staff": staff}
+
+
+def build_indigenous(problems: Problems) -> dict:
+    what = "原資中心"
+    rec, snap_rel, snap_asof = snapshot_from_index("https://osa.nccu.edu.tw/tw/原資中心/關於我們-原資中心/成員介紹-原資中心", "osa_staff_indigenous.txt")
+    live_rel = "sources/live/osa_staff_indigenous.rendered.html"
+    l_asof = live_asof("osa_staff_indigenous.render.json")
+    staff = merge_people(problems, what, parse_soa_snapshot(rec["text"]), parse_soa_live((HERE / live_rel).read_text(encoding="utf-8")),
+                         snap_rel, snap_asof, live_rel, l_asof)
+    floors = [building_floor(problems, what, "行政大樓三樓", ["行政大樓三樓", "三樓", "3樓"], ["原資中心"], [
+        ("snapshot", FORM_SNAP, "corpus", "(行政大樓 3 樓) (僑生、港澳生、陸生至生僑組) (原住民族籍學生至原資中心)"),
+        ("live", live_rel, l_asof, "行政大樓三樓")])]
+    return {"name": "原住民族學生資源中心", "aliases": ["原住民族學生資源中心", "原資中心"], "parent": "學生事務處", "floors": floors, "lines": [], "staff": staff}
+
+
+def build_library(problems: Problems) -> dict:
+    what = "圖書館典藏閱覽組"
+    rec, snap_rel, snap_asof = snapshot_from_index("https://www.lib.nccu.edu.tw/p/404-1000-537.php?Lang=zh-tw", "lib_staff_circulation.txt")
+    live_rel = "sources/live/lib_staff_circulation.rendered.html"
+    l_asof = live_asof("lib_staff_circulation.render.json")
+    live_text = BeautifulSoup((HERE / live_rel).read_text(encoding="utf-8"), "html.parser").get_text("\n")
+    staff = merge_people(problems, what, parse_library(rec["text"]), parse_library(live_text), snap_rel, snap_asof, live_rel, l_asof)
+    return {"name": "圖書館典藏閱覽組", "aliases": ["圖書館", "典藏閱覽組", "總圖或分館借還書櫃檯"], "parent": "圖書館", "floors": [], "lines": [], "staff": staff,
+            "note": "申請書只寫「總圖或分館借還書櫃檯」，沒有樓層；人員只記典藏閱覽組（流通業務）"}
+
+
+OFFICES = {"registrar": build_registrar, "soa": build_soa, "oic": build_oic,
+           **{u[0]: make_ga_builder(u) for u in GA_UNITS},
+           "dorm": build_dorm, "indigenous": build_indigenous, "library": build_library}
 
 
 def main() -> int:
     problems = Problems()
-    registry = {"version": 1, "offices": {key: fn(problems) for key, fn in OFFICES.items()}, "forms": build_forms(problems)}
+    forms = build_forms(problems)       # 先建表單：它會寫出表單全文的快照複本，單位的樓層引句要讀
+    registry = {"version": 1, "offices": {key: fn(problems) for key, fn in OFFICES.items()}, "forms": forms}
     if problems:
         print("驗證失敗，沒有寫檔：")
         for p in problems:

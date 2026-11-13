@@ -1,0 +1,14 @@
+{
+  "url": "https://osa.nccu.edu.tw/tw/原資中心/關於我們-原資中心/成員介紹-原資中心",
+  "ok": true,
+  "status": 200,
+  "error": "",
+  "detail": "",
+  "elapsed_seconds": 2.53,
+  "requests": 56,
+  "requests_nccu": 48,
+  "fetched_at": "2026-11-13T17:08:42+08:00",
+  "tool": "rag.live.browser.PlaywrightBackend",
+  "settle_ms": 2000,
+  "user_agent": "Chromium default (not set; no email)"
+}

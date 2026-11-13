@@ -1,0 +1,479 @@
+{
+  "keypoints": [
+    {
+      "id": "K1",
+      "verdict": "relevant",
+      "claims": [
+        "c1"
+      ],
+      "reason": "期末考試（休學截止日）前辦理，逾期不受理"
+    },
+    {
+      "id": "K2",
+      "verdict": "relevant",
+      "claims": [
+        "c2"
+      ],
+      "reason": "一次一學期至二學年"
+    },
+    {
+      "id": "K3",
+      "verdict": "relevant",
+      "claims": [
+        "c2"
+      ],
+      "reason": "累計以二學年為原則"
+    },
+    {
+      "id": "K4",
+      "verdict": "relevant",
+      "claims": [
+        "c3"
+      ],
+      "reason": "專案報請校長核准延長"
+    },
+    {
+      "id": "K5",
+      "verdict": "relevant",
+      "claims": [
+        "c3"
+      ],
+      "reason": "延長以一次為原則"
+    },
+    {
+      "id": "K6",
+      "verdict": "relevant",
+      "claims": [
+        "c4"
+      ],
+      "reason": "修課紀錄予以刪除（含國內外校際選課）"
+    },
+    {
+      "id": "K7",
+      "verdict": "relevant",
+      "claims": [
+        "c5"
+      ],
+      "reason": "未成年學生須法定代理人簽章"
+    },
+    {
+      "id": "K8",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K9",
+      "verdict": "relevant",
+      "claims": [
+        "c9"
+      ],
+      "reason": "表單編號 QP-T01-03-02"
+    },
+    {
+      "id": "K10",
+      "verdict": "relevant",
+      "claims": [
+        "c10"
+      ],
+      "reason": "完整下載連結"
+    },
+    {
+      "id": "K11",
+      "verdict": "relevant",
+      "claims": [
+        "c6"
+      ],
+      "reason": "攜帶學生證或身分證件正本"
+    },
+    {
+      "id": "K12",
+      "verdict": "relevant",
+      "claims": [
+        "c6"
+      ],
+      "reason": "非本人親辦需附委託書及被委託人證件"
+    },
+    {
+      "id": "K13",
+      "verdict": "relevant",
+      "claims": [
+        "c7"
+      ],
+      "reason": "提到委託書並附連結"
+    },
+    {
+      "id": "K14",
+      "verdict": "relevant",
+      "claims": [
+        "c11"
+      ],
+      "reason": "依會簽程序依序前往"
+    },
+    {
+      "id": "K15",
+      "verdict": "relevant",
+      "claims": [
+        "c12"
+      ],
+      "reason": "系所簽章"
+    },
+    {
+      "id": "K16",
+      "verdict": "relevant",
+      "claims": [
+        "c13"
+      ],
+      "reason": "圖書館借還書櫃檯"
+    },
+    {
+      "id": "K17",
+      "verdict": "relevant",
+      "claims": [
+        "c14"
+      ],
+      "reason": "出納組確認學生帳戶"
+    },
+    {
+      "id": "K18",
+      "verdict": "relevant",
+      "claims": [
+        "c16"
+      ],
+      "reason": "住宿組限住宿生，非住宿生免辦"
+    },
+    {
+      "id": "K19",
+      "verdict": "relevant",
+      "claims": [
+        "c19"
+      ],
+      "reason": "僑生、港澳生、陸生到生僑組"
+    },
+    {
+      "id": "K20",
+      "verdict": "relevant",
+      "claims": [
+        "c21"
+      ],
+      "reason": "原住民族籍學生到原資中心"
+    },
+    {
+      "id": "K21",
+      "verdict": "relevant",
+      "claims": [
+        "c23"
+      ],
+      "reason": "國合處限國際學生"
+    },
+    {
+      "id": "K22",
+      "verdict": "relevant",
+      "claims": [
+        "c27"
+      ],
+      "reason": "註冊組擬准休學"
+    },
+    {
+      "id": "K23",
+      "verdict": "relevant",
+      "claims": [
+        "c27"
+      ],
+      "reason": "註冊組組長簽章"
+    },
+    {
+      "id": "K24",
+      "verdict": "relevant",
+      "claims": [
+        "c27"
+      ],
+      "reason": "教務長批示"
+    },
+    {
+      "id": "K25",
+      "verdict": "relevant",
+      "claims": [
+        "c29"
+      ],
+      "reason": "蓋章完畢後送註冊組"
+    },
+    {
+      "id": "K26",
+      "verdict": "relevant",
+      "claims": [
+        "c17"
+      ],
+      "reason": "住宿生 7 日內辦理退離宿"
+    },
+    {
+      "id": "K27",
+      "verdict": "relevant",
+      "claims": [
+        "c25"
+      ],
+      "reason": "居留證將由移民署註銷"
+    },
+    {
+      "id": "K28",
+      "verdict": "relevant",
+      "claims": [
+        "c25"
+      ],
+      "reason": "辦完手續後 10 日內離境"
+    },
+    {
+      "id": "K29",
+      "verdict": "relevant",
+      "claims": [
+        "c26"
+      ],
+      "reason": "台灣獎學金隔月停發"
+    },
+    {
+      "id": "K30",
+      "verdict": "relevant",
+      "claims": [
+        "c30"
+      ],
+      "reason": "三個工作天後親自領取"
+    },
+    {
+      "id": "K31",
+      "verdict": "relevant",
+      "claims": [
+        "c30"
+      ],
+      "reason": "可郵寄（附回郵信封）"
+    },
+    {
+      "id": "K32",
+      "verdict": "relevant",
+      "claims": [
+        "c31"
+      ],
+      "reason": "自行上 iNCCU 查詢"
+    },
+    {
+      "id": "K33",
+      "verdict": "relevant",
+      "claims": [
+        "c33"
+      ],
+      "reason": "繳費截止日前全額退費"
+    },
+    {
+      "id": "K34",
+      "verdict": "relevant",
+      "claims": [
+        "c34"
+      ],
+      "reason": "退 2/3"
+    },
+    {
+      "id": "K35",
+      "verdict": "relevant",
+      "claims": [
+        "c35"
+      ],
+      "reason": "退 1/3"
+    },
+    {
+      "id": "K36",
+      "verdict": "relevant",
+      "claims": [
+        "c36"
+      ],
+      "reason": "逾 2/3 不退"
+    },
+    {
+      "id": "K37",
+      "verdict": "relevant",
+      "claims": [
+        "c37"
+      ],
+      "reason": "平安保險費不退"
+    },
+    {
+      "id": "K38",
+      "verdict": "relevant",
+      "claims": [
+        "c32"
+      ],
+      "reason": "退費由生僑組承辦"
+    },
+    {
+      "id": "K39",
+      "verdict": "relevant",
+      "claims": [
+        "c38"
+      ],
+      "reason": "生僑組主動退費匯入帳戶"
+    },
+    {
+      "id": "K40",
+      "verdict": "relevant",
+      "claims": [
+        "c39"
+      ],
+      "reason": "退宿申請表、檢查寢室、到住宿組退費"
+    },
+    {
+      "id": "K41",
+      "verdict": "relevant",
+      "claims": [
+        "c40"
+      ],
+      "reason": "登錄入帳帳戶"
+    },
+    {
+      "id": "K42",
+      "verdict": "relevant",
+      "claims": [
+        "c41"
+      ],
+      "reason": "經濟因素洽生僑組濟助"
+    },
+    {
+      "id": "K43",
+      "verdict": "relevant",
+      "claims": [
+        "c42"
+      ],
+      "reason": "懷孕洽身心健康中心"
+    },
+    {
+      "id": "K44",
+      "verdict": "relevant",
+      "claims": [
+        "c43"
+      ],
+      "reason": "電話 8237-7419"
+    },
+    {
+      "id": "K45",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K46",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K47",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K48",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K49",
+      "verdict": "relevant",
+      "claims": [
+        "c28"
+      ],
+      "reason": "組長王揚忠（分機 63273）"
+    },
+    {
+      "id": "K50",
+      "verdict": "relevant",
+      "claims": [
+        "c27"
+      ],
+      "reason": "註冊組行政大樓四樓"
+    },
+    {
+      "id": "K51",
+      "verdict": "relevant",
+      "claims": [
+        "c15"
+      ],
+      "reason": "劉桂芬（分機 62120）"
+    },
+    {
+      "id": "K52",
+      "verdict": "relevant",
+      "claims": [
+        "c14"
+      ],
+      "reason": "出納組行政大樓五樓"
+    },
+    {
+      "id": "K53",
+      "verdict": "relevant",
+      "claims": [
+        "c18"
+      ],
+      "reason": "趙紀綱（分機 62500）"
+    },
+    {
+      "id": "K54",
+      "verdict": "relevant",
+      "claims": [
+        "c16"
+      ],
+      "reason": "住宿組行政大樓三樓"
+    },
+    {
+      "id": "K55",
+      "verdict": "relevant",
+      "claims": [
+        "c20"
+      ],
+      "reason": "盧誼甄（分機 62226）"
+    },
+    {
+      "id": "K56",
+      "verdict": "relevant",
+      "claims": [
+        "c19"
+      ],
+      "reason": "生僑組行政大樓三樓"
+    },
+    {
+      "id": "K57",
+      "verdict": "relevant",
+      "claims": [
+        "c22"
+      ],
+      "reason": "蔡炎龍（分機 62200）"
+    },
+    {
+      "id": "K58",
+      "verdict": "relevant",
+      "claims": [
+        "c21"
+      ],
+      "reason": "原資中心行政大樓三樓"
+    },
+    {
+      "id": "K59",
+      "verdict": "relevant",
+      "claims": [
+        "c24"
+      ],
+      "reason": "徐維勵（分機 62058）"
+    },
+    {
+      "id": "K60",
+      "verdict": "relevant",
+      "claims": [
+        "c23"
+      ],
+      "reason": "國合處行政大樓八樓"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "judge-v1",
+    "note": "Claude Code 本 session 判斷（流程測試：答案也是 Claude Code 寫的，判斷不獨立；Keypoint 判斷依設計會看 gold）。主張編號取自子代理的隔離回推 trace.json"
+  }
+}

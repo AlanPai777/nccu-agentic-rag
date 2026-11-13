@@ -49,6 +49,54 @@ class RegistrySourcesTest(unittest.TestCase):
         self.assertEqual([n["value"] for n in e["names"]], ["徐維勵"])
 
 
+class SleepOfAbsenceOfficesTest(unittest.TestCase):
+    """第 5 題（休學）新增的單位：出納組、住宿組、原資中心、圖書館，以及註冊組代表線 63279。"""
+
+    def staff(self, office):
+        return {e["ext"]: e for e in REG["offices"][office]["staff"]}
+
+    def test_cashier_now_reads_the_new_nccuga_page_and_one_extension_is_vacant(self):
+        staff = {e["ext"]: e for e in REG["offices"]["cashier"]["staff"]}
+        self.assertEqual(len(staff), 11)
+        self.assertEqual(sum(e["status"] == "both" for e in staff.values()), 10)
+        # 62173：新頁面的姓名欄是「待補」，只有快照有名字（鄭雅玲）
+        self.assertEqual(staff["62173"]["status"], "snapshot-only")
+        self.assertEqual([n["value"] for n in staff["62173"]["names"]], ["鄭雅玲"])
+        self.assertIn("62120", {ln["value"] for ln in REG["offices"]["cashier"]["lines"]})
+
+    def test_the_eight_general_affairs_units_record_where_to_find_them(self):
+        keys = ["ga_dean", "docu", "aff", "wealth", "mend", "cashier", "safety", "planning"]
+        for k in keys:
+            w = REG["offices"][k]["where_to_find"]
+            self.assertTrue(w[0]["url"].startswith("https://nccuga.nccu.edu.tw/zh/"), k)
+            self.assertIn("200", w[0]["status"], k)
+        self.assertEqual(REG["offices"]["safety"]["where_to_find"][1]["status"], "索引沒有這個單位")
+        self.assertIn("evidence", REG["offices"]["cashier"]["where_to_find"][1])
+
+    def test_same_extension_with_a_different_person_is_marked_changed_and_both_names_are_kept(self):
+        e = self.staff("dorm")["67161"]
+        self.assertEqual(e["status"], "changed")
+        self.assertEqual({n["value"] for n in e["names"]}, {"張君豪", "陳源宗"})
+
+    def test_placeholder_names_are_not_recorded(self):
+        for o in REG["offices"].values():
+            for e in o["staff"]:
+                self.assertFalse(any("待" in n["value"] for n in e["names"]), e["ext"])
+
+    def test_registrar_representative_line_63279_comes_from_the_refund_page(self):
+        lines = REG["offices"]["registrar"]["lines"]
+        self.assertEqual([ln["value"] for ln in lines], ["63279"])
+        self.assertEqual({s["source"] for s in lines[0]["sources"]}, {"snapshot", "live"})
+
+    def test_library_has_people_but_no_floor(self):
+        self.assertTrue(REG["offices"]["library"]["staff"])
+        self.assertEqual(REG["offices"]["library"]["floors"], [])
+
+    def test_both_the_old_and_the_new_person_of_a_changed_extension_score(self):
+        for name in ("張君豪", "陳源宗"):
+            self.assertEqual(R.check_who(f"住宿組{name}（分機 67161）", REG, "dorm")["verdict"], "hit", name)
+
+
 class CheckWhoTest(unittest.TestCase):
     def v(self, answer, office):
         return R.check_who(answer, REG, office)["verdict"]

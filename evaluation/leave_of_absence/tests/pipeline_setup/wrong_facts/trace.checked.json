@@ -1,0 +1,489 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "申請休學須在開學後一個月內辦理",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據說當學期休學須於期末考試以前辦理，沒有開學後一個月的規定。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        17,
+        32
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "休學一次可申請一學期至三學年",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據是一次核准一學期至二學年，不是三學年。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        36,
+        50
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "休學期間的修課紀錄會保留",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據說休學期間之修課紀錄予以刪除，與答案相反。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        54,
+        66
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "本人攜帶學生證，填妥「休學/保留學籍申請書」",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "本人攜帶學生證或身分證件正本",
+          "verified": true,
+          "start": 780,
+          "end": 794
+        },
+        {
+          "item": "E1",
+          "quote": "填妥「休學/保留學籍申請書」",
+          "verified": true,
+          "start": 819,
+          "end": 833
+        }
+      ],
+      "why": "申請程序寫本人攜帶學生證（或身分證件）填妥該申請書。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        75,
+        97
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "表單編號 QP-T01-03-02",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "表單編號：QP-T01-03-02",
+          "verified": true,
+          "start": 783,
+          "end": 800
+        }
+      ],
+      "why": "表單全文載明休學/保留學籍申請書編號為 QP-T01-03-02。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        98,
+        115
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c6",
+      "answer_span": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "休學/保留學籍申請書 / NCCU Application Form for Leave of Absence of Student Status"
+        }
+      ],
+      "why": "該網址在 sources 中，標籤為休學/保留學籍申請書。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        121,
+        196
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c7",
+      "answer_span": "系所簽章",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "（1）系所簽章",
+          "verified": true,
+          "start": 1337,
+          "end": 1344
+        }
+      ],
+      "why": "會簽程序第一項為系所簽章。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        213,
+        217
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c8",
+      "answer_span": "出納組（行政大樓四樓）",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據說出納組在行政大樓 5 樓，不是四樓。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        224,
+        235
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c9",
+      "answer_span": "確認學生帳戶",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "確認學生帳戶",
+          "verified": true,
+          "start": 1485,
+          "end": 1491
+        }
+      ],
+      "why": "表單的出納組步驟標註確認學生帳戶。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        236,
+        242
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c10",
+      "answer_span": "聯絡人劉桂芬（分機 62121）",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "劉桂芬分機是 62120；62121 是吳慧玲的分機。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        243,
+        259
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c11",
+      "answer_span": "住宿組（行政大樓三樓）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "限住宿生(行政大樓 3 樓)",
+          "verified": true,
+          "start": 1571,
+          "end": 1585
+        }
+      ],
+      "why": "表單載明住宿組在行政大樓 3 樓。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        266,
+        277
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c12",
+      "answer_span": "所有學生都要辦理",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據說住宿組限住宿生，非住宿生免辦。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        278,
+        286
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c13",
+      "answer_span": "聯絡人趙紀綱（分機 62500）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "趙紀綱（住宿組組長）分機 62500",
+          "verified": true,
+          "start": 937,
+          "end": 955
+        }
+      ],
+      "why": "趙紀綱的分機是 62500，屬住宿輔導組。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        287,
+        303
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c14",
+      "answer_span": "生僑組（行政大樓三樓）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "(行政大樓 3 樓) (僑生、港澳生、陸生至生僑組)",
+          "verified": true,
+          "start": 1681,
+          "end": 1707
+        }
+      ],
+      "why": "表單載明生僑組在行政大樓 3 樓。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        310,
+        321
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c15",
+      "answer_span": "僑生、港澳生、陸生到生僑組",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "僑生、港澳生、陸生至生僑組",
+          "verified": true,
+          "start": 1693,
+          "end": 1706
+        }
+      ],
+      "why": "表單寫僑生、港澳生、陸生至生僑組。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        322,
+        335
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c16",
+      "answer_span": "聯絡人盧誼甄（分機 62224）",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "盧誼甄分機是 62226；62224 是陳韻帆的分機。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        336,
+        352
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c17",
+      "answer_span": "教務處註冊組（行政大樓四樓）擬准休學",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "擬准予□休學□保留學籍 計 學年 學期 (行政大樓 4 樓)",
+          "verified": true,
+          "start": 1936,
+          "end": 1966
+        }
+      ],
+      "why": "表單載明教務處註冊組在行政大樓 4 樓擬准休學。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        359,
+        377
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c18",
+      "answer_span": "聯絡人王揚忠（分機 63273）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "王揚忠（組長）分機 63273",
+          "verified": true,
+          "start": 193,
+          "end": 208
+        }
+      ],
+      "why": "王揚忠的分機是 63273，屬註冊組。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        378,
+        394
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c19",
+      "answer_span": "蓋章完畢後送註冊組",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "送至教務處註冊組",
+          "verified": true,
+          "start": 848,
+          "end": 856
+        }
+      ],
+      "why": "蓋章後送教務處註冊組。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        399,
+        408
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c20",
+      "answer_span": "由總務處出納組承辦",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據說退費事宜由學務處生僑組承辦，出納組只負責帳戶登錄。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        414,
+        423
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c21",
+      "answer_span": "繳費截止日前完成休學程序：學雜費全額退費",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "繳費截止日(含)前完成休(退)學程序。",
+          "verified": true,
+          "start": 277,
+          "end": 296
+        },
+        {
+          "item": "E2",
+          "quote": "學雜費全額退費",
+          "verified": true,
+          "start": 298,
+          "end": 305
+        }
+      ],
+      "why": "退費標準寫繳費截止日前完成程序學雜費全額退費。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        427,
+        447
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c22",
+      "answer_span": "繳費截止日次日起至學期 1/3 退費基準日：退 1/2 學雜費",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據是退 2/3 學雜費，不是 1/2。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        451,
+        482
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c23",
+      "answer_span": "逾學期 1/3 退費基準日申請休學：學雜費全數不予退還",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據是逾學期 2/3 退費基準日才全數不退，1/3 之後仍退 1/3。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        486,
+        513
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c24",
+      "answer_span": "學生平安保險費可以退費",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據說平安保險費不退費。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        517,
+        528
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

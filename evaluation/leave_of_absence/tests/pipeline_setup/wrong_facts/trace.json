@@ -1,0 +1,57 @@
+{
+  "claims": [
+    {"id": "c1", "answer_span": "申請休學須在開學後一個月內辦理", "status": "unsupported", "evidence": [], "why": "證據說當學期休學須於期末考試以前辦理，沒有開學後一個月的規定。"},
+    {"id": "c2", "answer_span": "休學一次可申請一學期至三學年", "status": "unsupported", "evidence": [], "why": "證據是一次核准一學期至二學年，不是三學年。"},
+    {"id": "c3", "answer_span": "休學期間的修課紀錄會保留", "status": "unsupported", "evidence": [], "why": "證據說休學期間之修課紀錄予以刪除，與答案相反。"},
+    {"id": "c4", "answer_span": "本人攜帶學生證，填妥「休學/保留學籍申請書」", "status": "supported", "evidence": [
+      {"item": "E1", "quote": "本人攜帶學生證或身分證件正本"},
+      {"item": "E1", "quote": "填妥「休學/保留學籍申請書」"}
+    ], "why": "申請程序寫本人攜帶學生證（或身分證件）填妥該申請書。"},
+    {"id": "c5", "answer_span": "表單編號 QP-T01-03-02", "status": "supported", "evidence": [
+      {"item": "E3", "quote": "表單編號：QP-T01-03-02"}
+    ], "why": "表單全文載明休學/保留學籍申請書編號為 QP-T01-03-02。"},
+    {"id": "c6", "answer_span": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02", "status": "supported", "evidence": [
+      {"item": "E3", "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02", "from": "sources"}
+    ], "why": "該網址在 sources 中，標籤為休學/保留學籍申請書。"},
+    {"id": "c7", "answer_span": "系所簽章", "status": "supported", "evidence": [
+      {"item": "E3", "quote": "（1）系所簽章"}
+    ], "why": "會簽程序第一項為系所簽章。"},
+    {"id": "c8", "answer_span": "出納組（行政大樓四樓）", "status": "unsupported", "evidence": [], "why": "證據說出納組在行政大樓 5 樓，不是四樓。"},
+    {"id": "c9", "answer_span": "確認學生帳戶", "status": "supported", "evidence": [
+      {"item": "E3", "quote": "確認學生帳戶"}
+    ], "why": "表單的出納組步驟標註確認學生帳戶。"},
+    {"id": "c10", "answer_span": "聯絡人劉桂芬（分機 62121）", "status": "unsupported", "evidence": [], "why": "劉桂芬分機是 62120；62121 是吳慧玲的分機。"},
+    {"id": "c11", "answer_span": "住宿組（行政大樓三樓）", "status": "supported", "evidence": [
+      {"item": "E3", "quote": "限住宿生(行政大樓 3 樓)"}
+    ], "why": "表單載明住宿組在行政大樓 3 樓。"},
+    {"id": "c12", "answer_span": "所有學生都要辦理", "status": "unsupported", "evidence": [], "why": "證據說住宿組限住宿生，非住宿生免辦。"},
+    {"id": "c13", "answer_span": "聯絡人趙紀綱（分機 62500）", "status": "supported", "evidence": [
+      {"item": "E4", "quote": "趙紀綱（住宿組組長）分機 62500"}
+    ], "why": "趙紀綱的分機是 62500，屬住宿輔導組。"},
+    {"id": "c14", "answer_span": "生僑組（行政大樓三樓）", "status": "supported", "evidence": [
+      {"item": "E3", "quote": "(行政大樓 3 樓) (僑生、港澳生、陸生至生僑組)"}
+    ], "why": "表單載明生僑組在行政大樓 3 樓。"},
+    {"id": "c15", "answer_span": "僑生、港澳生、陸生到生僑組", "status": "supported", "evidence": [
+      {"item": "E3", "quote": "僑生、港澳生、陸生至生僑組"}
+    ], "why": "表單寫僑生、港澳生、陸生至生僑組。"},
+    {"id": "c16", "answer_span": "聯絡人盧誼甄（分機 62224）", "status": "unsupported", "evidence": [], "why": "盧誼甄分機是 62226；62224 是陳韻帆的分機。"},
+    {"id": "c17", "answer_span": "教務處註冊組（行政大樓四樓）擬准休學", "status": "supported", "evidence": [
+      {"item": "E3", "quote": "擬准予□休學□保留學籍 計 學年 學期 (行政大樓 4 樓)"}
+    ], "why": "表單載明教務處註冊組在行政大樓 4 樓擬准休學。"},
+    {"id": "c18", "answer_span": "聯絡人王揚忠（分機 63273）", "status": "supported", "evidence": [
+      {"item": "E4", "quote": "王揚忠（組長）分機 63273"}
+    ], "why": "王揚忠的分機是 63273，屬註冊組。"},
+    {"id": "c19", "answer_span": "蓋章完畢後送註冊組", "status": "supported", "evidence": [
+      {"item": "E1", "quote": "送至教務處註冊組"}
+    ], "why": "蓋章後送教務處註冊組。"},
+    {"id": "c20", "answer_span": "由總務處出納組承辦", "status": "unsupported", "evidence": [], "why": "證據說退費事宜由學務處生僑組承辦，出納組只負責帳戶登錄。"},
+    {"id": "c21", "answer_span": "繳費截止日前完成休學程序：學雜費全額退費", "status": "supported", "evidence": [
+      {"item": "E2", "quote": "繳費截止日(含)前完成休(退)學程序。"},
+      {"item": "E2", "quote": "學雜費全額退費"}
+    ], "why": "退費標準寫繳費截止日前完成程序學雜費全額退費。"},
+    {"id": "c22", "answer_span": "繳費截止日次日起至學期 1/3 退費基準日：退 1/2 學雜費", "status": "unsupported", "evidence": [], "why": "證據是退 2/3 學雜費，不是 1/2。"},
+    {"id": "c23", "answer_span": "逾學期 1/3 退費基準日申請休學：學雜費全數不予退還", "status": "unsupported", "evidence": [], "why": "證據是逾學期 2/3 退費基準日才全數不退，1/3 之後仍退 1/3。"},
+    {"id": "c24", "answer_span": "學生平安保險費可以退費", "status": "unsupported", "evidence": [], "why": "證據說平安保險費不退費。"}
+  ],
+  "judge": {"model": "claude-sonnet-5-5", "prompt_version": "isolated-v3", "note": "isolated trace by a subagent that read only trace_input.json"}
+}

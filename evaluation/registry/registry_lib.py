@@ -63,6 +63,9 @@ def _sources(reg: dict):
         for ln in o["lines"]:
             for s in ln["sources"]:
                 yield f"{okey} 代表線 {ln['value']}", s
+        for w in o.get("where_to_find", []):
+            if w.get("evidence"):
+                yield f"{okey} where_to_find {w['role']}", w["evidence"]
         for e in o["staff"]:
             for key in ("names", "titles"):
                 for n in e[key]:
