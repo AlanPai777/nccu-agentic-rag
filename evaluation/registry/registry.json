@@ -12371,6 +12371,63 @@
         "quote": "Location: login.formservice?viewdetail=QP-M03-01-05",
         "result": "302 轉到同一站台的登入頁，沒有跟隨；看不到表單內容，連結本身仍然有效"
       }
+    },
+    {
+      "id": "QP-T01-03-08",
+      "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+      "names": [
+        {
+          "kind": "name",
+          "value": "國立政治大學碩、博士班學生修讀雙主修輔系申請表",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/moltke_forms.txt",
+              "quote": "國立政治大學碩、博士班學生修讀雙主修輔系申請表"
+            }
+          ]
+        },
+        {
+          "kind": "name",
+          "value": "雙主修輔系申請表",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/moltke_forms.txt",
+              "quote": "雙主修輔系申請表"
+            }
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/moltke_forms.txt",
+          "quote": "url: https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08"
+        },
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/aca_double_major_page.txt",
+          "quote": "[國立政治大學碩、博士班學生修讀雙主修輔系申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08)"
+        },
+        {
+          "source": "live",
+          "asof": "2026-11-13",
+          "file": "sources/live/aca_double_major_page.html",
+          "quote": "[國立政治大學碩、博士班學生修讀雙主修輔系申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08)"
+        }
+      ],
+      "live_check": {
+        "source": "live",
+        "asof": "2026-11-13",
+        "file": "sources/live/moltke_QP-T01-03-08.headers.txt",
+        "quote": "Location: login.formservice?viewdetail=QP-T01-03-08",
+        "result": "302 轉到同一站台的登入頁，沒有跟隨；看不到表單內容，連結本身仍然有效"
+      }
     }
   ]
 }

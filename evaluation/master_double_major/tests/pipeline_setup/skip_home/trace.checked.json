@@ -1,0 +1,186 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "碩士班申請雙主修或輔系，直接向招收修讀的學系所提出申請就可以",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據說要經就讀學系所同意、核章後才送招收學系所，並非直接向招收學系所申請就可以。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        0,
+        30
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "由申請學系所審查，決定准予或不准修讀",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "申請學系(所) | □准予修讀",
+          "verified": true,
+          "start": 1221,
+          "end": 1236
+        },
+        {
+          "item": "E2",
+          "quote": "□不准修讀，原因：",
+          "verified": true,
+          "start": 1262,
+          "end": 1271
+        }
+      ],
+      "why": "簽核流程中申請學系(所)欄位為准予或不准修讀。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        31,
+        49
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "通過後教務處註冊組審查基本資格並維護資料（承辦人、組長）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "教務處註冊組 | 承辦人 | (審查基本資格及維護資料) | 組長",
+          "verified": true,
+          "start": 1303,
+          "end": 1336
+        }
+      ],
+      "why": "簽核流程最後一欄為教務處註冊組審查基本資格及維護資料，由承辦人與組長簽核。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        50,
+        78
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "不需要所屬學系所同意。",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據明載須經就讀學系所同意，簽核流程亦有所屬學系(所)是否同意一欄，與此主張相反。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        79,
+        90
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "對象是碩、博士班學生",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "本校碩、博士班學生",
+          "verified": true,
+          "start": 97,
+          "end": 106
+        }
+      ],
+      "why": "E1 申請對象為本校碩、博士班學生。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        94,
+        104
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c6",
+      "answer_span": "碩士在職專班不開放",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "碩士在職專班不開放學生申請雙主修或輔系",
+          "verified": true,
+          "start": 491,
+          "end": 510
+        }
+      ],
+      "why": "E1 明文碩士在職專班不開放。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        105,
+        114
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c7",
+      "answer_span": "申請表的表單編號是 QP-T01-03-08",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "QP-T01-03-08\n保存年限: 學生畢業\n國立政治大學碩、博士班學生修讀雙主修/輔系申請表",
+          "verified": true,
+          "start": 86,
+          "end": 134
+        }
+      ],
+      "why": "E2 表單開頭為編號 QP-T01-03-08 及該申請表名稱。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        118,
+        140
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c8",
+      "answer_span": "下載連結：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "國立政治大學碩、博士班學生修讀雙主修輔系申請表"
+        }
+      ],
+      "why": "該網址在 E2 sources 中，label 為雙主修輔系申請表。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        141,
+        221
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

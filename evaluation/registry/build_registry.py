@@ -350,11 +350,14 @@ FORMS = [  # (編號, 在教務處頁面上的連結文字, 現場 302 標頭檔
     ("QP-T01-05-05", "碩士班轉系所申請書", "moltke_QP-T01-05-05.headers.txt", "transfer"),
     ("QP-T01-05-06", "碩士轉系所學分認定申請書", "moltke_QP-T01-05-06.headers.txt", "transfer"),
     ("QP-M03-01-05", "請下載填寫： 『退離宿暨退還「住宿保證金」申請表』", "moltke_QP-M03-01-05.headers.txt", "dorm", "osa"),
+    ("QP-T01-03-08", "國立政治大學碩、博士班學生修讀雙主修輔系申請表", "moltke_QP-T01-03-08.headers.txt", "double"),
 ]
+DOUBLE_PAGE = "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系"
 EXIT_PAGE = "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序"
 # 頁面正文用的簡稱（逐字出現在列出這份表單的頁面裡），指的就是這份表單
 FORM_ALIASES = {"QP-T01-02-05": ["委託書"], "QP-T01-05-05": ["轉系所申請書"], "QP-T01-05-06": ["學分認定申請書"],
-                "QP-M03-01-05": ["離宿暨退還保證金申請表", "退離宿暨退還「住宿保證金」申請表", "離宿暨退還「住宿保證金」申請表"]}
+                "QP-M03-01-05": ["離宿暨退還保證金申請表", "退離宿暨退還「住宿保證金」申請表", "離宿暨退還「住宿保證金」申請表"],
+                "QP-T01-03-08": ["雙主修輔系申請表"]}
 
 
 def build_forms(problems: Problems) -> list[dict]:
@@ -363,7 +366,9 @@ def build_forms(problems: Problems) -> list[dict]:
     _, tpage_rel = snapshot_from_corpus("aca", TRANSFER_PAGE, "aca_transfer_page.txt")
     tlive_page = "sources/live/aca_transfer_page.html"
     _, epage_rel = snapshot_from_corpus("osa", EXIT_PAGE, "osa_exit_procedure.txt")
-    pages = {"leave": (page_rel, live_page), "transfer": (tpage_rel, tlive_page), "dorm": (epage_rel, "sources/live/osa_exit_procedure.html")}
+    _, dpage_rel = snapshot_from_corpus("aca", DOUBLE_PAGE, "aca_double_major_page.txt")
+    pages = {"leave": (page_rel, live_page), "transfer": (tpage_rel, tlive_page), "dorm": (epage_rel, "sources/live/osa_exit_procedure.html"),
+             "double": (dpage_rel, "sources/live/aca_double_major_page.html")}
     recs = {}
     for sub in ("aca", "osa"):
         for line in (ROOT / "output" / sub / "extracted_supplementary.jsonl").open(encoding="utf-8"):

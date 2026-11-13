@@ -91,3 +91,7 @@
 ## 2026-11-13 約 21:00：第 8 題（住宿保證金）——住宿組「退離宿程序」頁、學務處 FAQ、表單連結（使用者批准，curl，每個一次）
 
 「退離宿程序」頁 200（`osa_exit_procedure.html`）、FAQ 200（`osa_faq.html`，只存在第 8 題資料夾）、`QP-M03-01-05` 的 moltke 連結 302 轉登入頁，沒有跟隨（`moltke_QP-M03-01-05.headers.txt`）。細節見 `evaluation/dorm_deposit/sources/live/live_check.md`。
+
+## 2026-11-13 約 21:50：第 9 題（碩士班雙主修輔系）——教務處「碩博士班雙修輔系」頁、辦法 PDF、表單連結（使用者批准，curl，每個一次）
+
+教務處頁面 200（`aca_double_major_page.html`）、辦法 `law131A.pdf` 200（只存在第 9 題資料夾）、`QP-T01-03-08` 的 moltke 連結 302 轉登入頁，沒有跟隨（`moltke_QP-T01-03-08.headers.txt`）。細節見 `evaluation/master_double_major/sources/live/live_check.md`。

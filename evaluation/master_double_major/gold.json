@@ -1,0 +1,593 @@
+{
+  "query_id": "master_double_major",
+  "query": "碩士班雙主修輔系申請需要經過哪些單位審核",
+  "query_variants": [],
+  "query_type": "procedure",
+  "data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）",
+    "live": "2026-11-13（現場）（教務處頁面與辦法 PDF，curl；moltke 表單連結回 302 轉登入頁，沒有跟隨）；註冊組聯絡人與樓層的現場依據在 evaluation/registry/"
+  },
+  "content": "碩、博士班學生（碩士在職專班不開放）自註冊在學第二學期起至第四學期止，要經過三段連續審核：先由「所屬（就讀）學系所」同意（承辦人、單位主管核章），再送「申請修讀雙主修或輔系的學系所」審查，決定准予或不准修讀（承辦人、單位主管），最後由「教務處註冊組」審查基本資格並維護資料（承辦人、組長）。申請前要先確認哪些學系所有開辦；申請時間是每年四月下旬至五月上旬，填紙本申請書（表單編號 QP-T01-03-08，https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08），在截止日前送達申請學系，逾期不受理。各學系所審完後在網頁公告核准名單，名單送教務處後教務處仍會審查基本資格，不符資格會取消錄取。",
+  "keypoints": [
+    {
+      "id": "K1",
+      "text": "就讀（所屬）學系所要先同意所屬學生申請（核章）",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "是否同意所屬學生申請修讀雙主修/輔系",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        },
+        {
+          "text": "經就讀學系所（學程）同意，得向招收修讀雙主修或輔系學系所（學程）提出申請",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law131A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "經就讀學系所（學程）同意，得向招收修讀雙主修或輔系學系所（學程）提出申請",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law131A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "經就讀學系所（學程）同意，得向招收修讀雙主修或輔系學系所（學程）提出申請",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "經就讀學系所核章後，併同其他申請資料送申請雙輔學系所審查",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K2",
+      "text": "就讀學系所核章後，申請書連同其他申請資料，送申請修讀雙主修或輔系的學系所",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "經就讀學系所核章後，併同其他申請資料送申請雙輔學系所審查",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "經就讀學系所核章後，併同其他申請資料送申請雙輔學系所審查",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "請於申請截止日前將申請表及相關申請資料紙本送達申請學系",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K3",
+      "text": "申請學系所審查申請，決定准予修讀或不准修讀",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "□准予修讀，適用規定：________學年度必修/輔系科目表 □不准修讀，原因：",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        },
+        {
+          "text": "經就讀學系所核章後，併同其他申請資料送申請雙輔學系所審查",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "經就讀學系所核章後，併同其他申請資料送申請雙輔學系所審查",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K4",
+      "text": "教務處註冊組審查基本資格並維護資料",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "教務處註冊組",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        },
+        {
+          "text": "(審查基本資格及維護資料)",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        },
+        {
+          "text": "名單送交教務處後，仍會就說明一及說明三審查基本資格",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K5",
+      "text": "順序：所屬學系所 → 申請學系所 → 教務處註冊組，三段連續審核",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "所屬學系(所)",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        },
+        {
+          "text": "申請學系(所)",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        },
+        {
+          "text": "教務處註冊組",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        },
+        {
+          "text": "經就讀學系所核章後，併同其他申請資料送申請雙輔學系所審查",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "名單送交教務處後，仍會就說明一及說明三審查基本資格",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K6",
+      "text": "所屬學系所與申請學系所這兩站，各有承辦人與單位主管簽核",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "承辦人 | | 單位主管",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K7",
+      "text": "教務處註冊組這一站有承辦人與組長簽核",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "教務處註冊組 | 承辦人 | (審查基本資格及維護資料) | 組長",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K8",
+      "text": "各學系所審核完畢後，在單位網頁公告核准修讀名單",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "各學系所於審核完畢後單位網頁公告核准修讀名單，請自行前往查詢",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K9",
+      "text": "名單送教務處後，教務處仍會審查基本資格，不符資格會取消錄取",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "名單送交教務處後，仍會就說明一及說明三審查基本資格；如未符資格，將取消錄取",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K10",
+      "text": "對象是碩、博士班學生，碩士在職專班不開放申請",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "本校碩、博士班學生",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "碩士在職專班不開放學生申請雙主修或輔系",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "碩士在職專班不開放學生申請雙主修或輔系",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law131A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "碩士在職專班不開放學生申請雙主修或輔系",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "碩士在職專班不開放學生申請雙主修或輔系",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law131A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "碩士在職專班學生不開放申請",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K11",
+      "text": "申請資格：自註冊在學第二學期起至第四學期止",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "自註冊在學第二學期起至第四學期止",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學生自註冊在學第二學期起至第四學期止",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law131A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學生自註冊在學第二學期起至第四學期止",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law131A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "碩、博士班學生自註冊在學第二學期起至第四學期止可申請修讀雙主修/輔系",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        },
+        {
+          "text": "自註冊在學第二學期起至第四學期止",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K12",
+      "text": "申請時間是每年四月下旬至五月上旬（依學校行事曆公告為準）",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "每年四月下旬至五月上旬期間（依本校行事曆公告為準）",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "每年四月下旬至五月上旬期間（依本校行事曆公告為準）",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "申請日程依校訂行事曆公告為準",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K13",
+      "text": "申請前要先確認哪些學系所有開辦（教務處公告的碩、博士班雙主修輔系開辦資訊）",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "學生提出申請前，請務必至教務處網頁查看學校目前有開放碩、博士班學生申請雙主修/輔系的教學單位，再向該單位提出申請",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        },
+        {
+          "text": "碩、博士班雙主修輔系開辦資訊",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "碩、博士班雙主修輔系開辦資訊",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K14",
+      "text": "要填寫紙本申請書，並在截止日前送達申請學系，逾期不受理",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "請於申請截止日前將申請表及相關申請資料紙本送達申請學系，逾期不予受理",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        },
+        {
+          "text": "於上列公告申請時間內填寫紙本申請書申請",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "於上列公告申請時間內填寫紙本申請書申請",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K15",
+      "text": "申請額度：同級雙主修及同級或向下一級輔系，各以一個學系所為限",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "申請額度以一個同級雙主修及一個同級或向下一級輔系為限",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        },
+        {
+          "text": "修讀同級雙主修及同級或向下一級輔系，各以一學系所（學程）為限",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學生修讀同級雙主修及同級或向下一級輔系，各以一學系所（學程）為限",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law131A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學生修讀同級雙主修及同級或向下一級輔系，各以一學系所（學程）為限",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law131A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K16",
+      "text": "碩士班學生可申請碩士班雙主修，及碩士班輔系或學士班輔系",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "碩士班學生可申請修讀碩士班雙主修及碩士班輔系或學士班輔系",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K17",
+      "text": "同時申請同一學系的雙主修與輔系，經審查已符合雙主修資格時，以雙主修錄取",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "同時申請同一學系為雙主修及輔系，經學系審查已符合雙主修修讀資格時，即以雙主修錄取",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        },
+        {
+          "text": "同時申請同一學系為雙主修及輔系，經學系審查已符合雙主修修讀資格時，即以雙主修錄取",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學生同時申請同一學系為雙主修及輔系，經學系審查已符合雙主修修讀資格時，即以雙主修錄取",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law131A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K18",
+      "text": "申請輔系，原則上不得修習前已取得學位的學系所（經申請學系所同意者不在此限）",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "申請修讀輔系，以不得修習前已取得學位之學系所（學程）為原則，但經申請修讀學系所（學程）同意者，不在此限",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "學生申請修讀輔系，以不得修習前已取得學位之學系所（學程）為原則，但經申請修讀學系所（學程）同意者，不在此限",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law131A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K19",
+      "text": "經核定修讀後，如重新申請其他學系所，核定同意即自動放棄原有的雙主修或輔系資格，且不得再申請回復",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "經核定同意後即自動放棄原有之雙主修或輔系修讀資格，且不得再申請回復",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "視同自願放棄原有之雙主修或輔系資格，且不得再申請回復",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        },
+        {
+          "text": "經核定同意後即自動放棄原有之雙主修或輔系修讀資格，且不得再申請回復",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law131A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K20",
+      "text": "申請表是「碩、博士班學生修讀雙主修／輔系申請表」，表單編號 QP-T01-03-08",
+      "required": true,
+      "kind": "hard",
+      "references": [
+        {
+          "text": "QP-T01-03-08",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        },
+        {
+          "text": "[國立政治大學碩、博士班學生修讀雙主修輔系申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08)",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "[國立政治大學碩、博士班學生修讀雙主修輔系申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08)",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [
+        "QP-T01-03-08"
+      ]
+    },
+    {
+      "id": "K21",
+      "text": "申請表的下載連結是 https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_form_link",
+      "registry": {
+        "need": "form_link",
+        "form": "QP-T01-03-08",
+        "mention": "always"
+      }
+    },
+    {
+      "id": "K22",
+      "text": "答案要寫出教務處註冊組的聯絡人：註冊組任何一位的姓名或職稱加分機",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_who",
+      "registry": {
+        "office": "registrar",
+        "need": "who"
+      }
+    },
+    {
+      "id": "K23",
+      "text": "註冊組在行政大樓四樓",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_floor",
+      "registry": {
+        "office": "registrar",
+        "need": "floor"
+      }
+    }
+  ],
+  "source_conflicts": "來源優先順序：表單 > 辦法 > 教務處頁面；高的是金標準。沒有發現互相矛盾的事實，只有詳略不同：辦法第 2 條寫「經就讀學系所同意，向招收修讀雙主修或輔系學系所提出申請」，頁面寫「經就讀學系所核章後，併同其他申請資料送申請雙輔學系所審查」，表單的簽核流程把三站列成表（所屬學系所 → 申請學系所 → 教務處註冊組）；三者描述的是同一件事。申請時間在頁面是「每年四月下旬至五月上旬」，表單寫「依校訂行事曆公告為準」，年度公告（115 學年度）才寫具體日期（4/30–5/6），年度專屬，不收。",
+  "notes": [
+    "三段連續審核：K1、K3、K4 各考一站，K5 專門考順序（所屬學系所 → 申請學系所 → 教務處註冊組），不依賴主張切法保留順序（議題 F2、F23：順序只有判斷版能抓）。",
+    "每一站的簽核人：K6（兩個學系所站各有承辦人與單位主管）、K7（註冊組承辦人與組長）。系所沒有固定聯絡窗口，不收；教務處註冊組的聯絡人與樓層引用登記表（K22、K23，必要）。",
+    "選擇性：K8（公告核准名單）、K9（名單送教務處後仍審查基本資格）、K18（輔系不得修習前已取得學位的學系所）、K19（重新申請自動放棄原有資格）。「必要」目前不影響評分（議題 F8、F9）。",
+    "時間（K12）用 semantic（使用者決定）：寫成「4 月底到 5 月初」「每年四、五月之交」都由 Keypoint 判斷。",
+    "不收：115 學年度年度公告的具體日期（4/30–5/6）、修課學分規定（雙主修至少四分之三、輔系至少三分之二）、放棄修讀、抵免學分、延長修業、學位授予、學分費、修讀他校雙主修輔系（都不是「需要經過哪些單位審核」）。",
+    "這題的依據都在專屬頁面與專屬表單（沒有用到 FAQ 那類大而雜的頁面），所以「沒讀到」的風險比第 8 題低（第 8 題的 7 日內、保證金金額主要在 FAQ）。",
+    "moltke 的表單連結現場回 302 轉登入頁（2026-11-13，curl，沒有跟隨），連結本身有效、看不到表單內容；表單內容以快照為準。記錄見 sources/live/live_check.md 與登記表。"
+  ]
+}

@@ -1,0 +1,350 @@
+{
+  "query_id": "master_double_major",
+  "run_id": "wrong_facts",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）",
+    "live": "2026-11-13（現場）（教務處頁面與辦法 PDF，curl；moltke 表單連結回 302 轉登入頁，沒有跟隨）；註冊組聯絡人與樓層的現場依據在 evaluation/registry/"
+  },
+  "system_version": "hypothetical",
+  "rouge_l": {
+    "p": 0.4762,
+    "r": 0.3535,
+    "f": 0.4058
+  },
+  "accuracy": {
+    "hard_keypoints": 4,
+    "hit": 2,
+    "accuracy": 0.5,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      0,
+      1,
+      2
+    ],
+    "context_chars": 2824,
+    "sentence": {
+      "p": 0.25,
+      "r": 1.0,
+      "f": 0.4
+    },
+    "words": {
+      "p": 0.4078,
+      "r": 1.0,
+      "f": 0.5794
+    },
+    "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）"
+  },
+  "keypoints": {
+    "accuracy_rule": [
+      {
+        "id": "K1",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K2",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K3",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K4",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K5",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K6",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K7",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K8",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K9",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K10",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K11",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K12",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K13",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K14",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K15",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K16",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K17",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K18",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K19",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K20",
+        "kind": "hard",
+        "verdict": "hit",
+        "matched_expressions": [
+          "QP-T01-03-08"
+        ]
+      },
+      {
+        "id": "K21",
+        "kind": "hard",
+        "form": "QP-T01-03-08",
+        "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+        "verdict": "hit",
+        "applies_if": null
+      },
+      {
+        "id": "K22",
+        "kind": "hard",
+        "office": "registrar",
+        "matched": [],
+        "representative_line": [],
+        "pair_mismatches": [
+          {
+            "name": "王揚忠",
+            "said": "63274",
+            "expected": [
+              "63273"
+            ]
+          }
+        ],
+        "unknown_extensions": [
+          "63274"
+        ],
+        "needs_human_review": "答案有不在登記表的分機；若確認是合法分機，代表登記表漏了（例如系所分機不在登記表）",
+        "verdict": "wrong",
+        "applies_if": null
+      },
+      {
+        "id": "K23",
+        "kind": "hard",
+        "office": "registrar",
+        "unit": null,
+        "expected": [
+          "行政大樓四樓"
+        ],
+        "stated": [
+          "行政大樓五樓"
+        ],
+        "verdict": "wrong",
+        "applies_if": null
+      }
+    ],
+    "funnel_stage2": [
+      {
+        "id": "K1",
+        "in_context": true,
+        "matched_reference": "經就讀學系所（學程）同意，得向招收修讀雙主修或輔系學系所（學程）提出申請",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K2",
+        "in_context": true,
+        "matched_reference": "經就讀學系所核章後，併同其他申請資料送申請雙輔學系所審查",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K3",
+        "in_context": true,
+        "matched_reference": "□准予修讀，適用規定：________學年度必修/輔系科目表 □不准修讀，原因：",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K4",
+        "in_context": true,
+        "matched_reference": "名單送交教務處後，仍會就說明一及說明三審查基本資格",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K5",
+        "in_context": true,
+        "matched_reference": "經就讀學系所核章後，併同其他申請資料送申請雙輔學系所審查",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K6",
+        "in_context": true,
+        "matched_reference": "承辦人 | | 單位主管",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K7",
+        "in_context": true,
+        "matched_reference": "教務處註冊組 | 承辦人 | (審查基本資格及維護資料) | 組長",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K8",
+        "in_context": true,
+        "matched_reference": "各學系所於審核完畢後單位網頁公告核准修讀名單，請自行前往查詢",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K9",
+        "in_context": true,
+        "matched_reference": "名單送交教務處後，仍會就說明一及說明三審查基本資格；如未符資格，將取消錄取",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K10",
+        "in_context": true,
+        "matched_reference": "碩士在職專班不開放學生申請雙主修或輔系",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K11",
+        "in_context": true,
+        "matched_reference": "碩、博士班學生自註冊在學第二學期起至第四學期止可申請修讀雙主修/輔系",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K12",
+        "in_context": true,
+        "matched_reference": "每年四月下旬至五月上旬期間（依本校行事曆公告為準）",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K13",
+        "in_context": true,
+        "matched_reference": "學生提出申請前，請務必至教務處網頁查看學校目前有開放碩、博士班學生申請雙主修/輔系的教學單位，再向該單位提出申請",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K14",
+        "in_context": true,
+        "matched_reference": "請於申請截止日前將申請表及相關申請資料紙本送達申請學系，逾期不予受理",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K15",
+        "in_context": true,
+        "matched_reference": "修讀同級雙主修及同級或向下一級輔系，各以一學系所（學程）為限",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K16",
+        "in_context": true,
+        "matched_reference": "碩士班學生可申請修讀碩士班雙主修及碩士班輔系或學士班輔系",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K17",
+        "in_context": true,
+        "matched_reference": "同時申請同一學系為雙主修及輔系，經學系審查已符合雙主修修讀資格時，即以雙主修錄取",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K18",
+        "in_context": true,
+        "matched_reference": "申請修讀輔系，以不得修習前已取得學位之學系所（學程）為原則，但經申請修讀學系所（學程）同意者，不在此限",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K19",
+        "in_context": true,
+        "matched_reference": "經核定同意後即自動放棄原有之雙主修或輔系修讀資格，且不得再申請回復",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K20",
+        "in_context": true,
+        "matched_reference": "[國立政治大學碩、博士班學生修讀雙主修輔系申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08)",
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K21",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K22",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "wrong"
+      },
+      {
+        "id": "K23",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "wrong"
+      }
+    ],
+    "contact_funnel": []
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "先送教務處註冊組審查基本資格",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據的簽核流程把教務處註冊組放在最後一關（所屬學系所、申請學系所之後），沒有說它是第一步。"
+    },
+    {
+      "id": "c2",
+      "answer_span": "再由申請學系所審查",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "答案把申請學系所放在註冊組之後；證據的流程裡申請學系所在所屬學系所之後、註冊組之前，順序不符。"
+    },
+    {
+      "id": "c3",
+      "answer_span": "最後才請所屬學系所同意",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據的簽核流程中所屬學系所是第一關，不是最後；證據也說經就讀學系所核章後才送申請學系所。"
+    },
+    {
+      "id": "c4",
+      "answer_span": "對象是碩、博士班學生",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "本校碩、博士班學生"
+        }
+      ],
+      "why": "申請對象寫明為碩、博士班學生。"
+    },
+    {
+      "id": "c5",
+      "answer_span": "碩士在職專班不開放",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "二、碩士在職專班不開放學生申請雙主修或輔系。"
+        }
+      ],
+      "why": "證據明說碩士在職專班不開放申請。"
+    },
+    {
+      "id": "c6",
+      "answer_span": "申請時間是每年四月下旬至五月上旬",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "每年四月下旬至五月上旬期間"
+        }
+      ],
+      "why": "申請時間與證據相符。"
+    },
+    {
+      "id": "c7",
+      "answer_span": "「碩、博士班學生修讀雙主修／輔系申請表」",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "國立政治大學碩、博士班學生修讀雙主修輔系申請表"
+        }
+      ],
+      "why": "申請表名稱與證據相符（只差斜線與校名前綴）。"
+    },
+    {
+      "id": "c8",
+      "answer_span": "表單編號 QP-T01-03-08",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "QP-T01-03-08"
+        }
+      ],
+      "why": "表單全文開頭即為此編號。"
+    },
+    {
+      "id": "c9",
+      "answer_span": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "from": "sources"
+        }
+      ],
+      "why": "網址在 E2 的 sources 裡，label 為該申請表。"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  }
+}

@@ -1,0 +1,165 @@
+{
+  "keypoints": [
+    {
+      "id": "K1",
+      "verdict": "wrong",
+      "claims": [
+        "c4"
+      ],
+      "reason": "寫「不需要所屬學系所同意」，標準是所屬學系所要先同意"
+    },
+    {
+      "id": "K2",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K3",
+      "verdict": "relevant",
+      "claims": [
+        "c2"
+      ],
+      "reason": "申請學系所審查，決定准予或不准"
+    },
+    {
+      "id": "K4",
+      "verdict": "relevant",
+      "claims": [
+        "c3"
+      ],
+      "reason": "註冊組審查基本資格並維護資料"
+    },
+    {
+      "id": "K5",
+      "verdict": "wrong",
+      "claims": [
+        "c1",
+        "c4"
+      ],
+      "reason": "只寫申請學系所 → 註冊組兩段、跳過所屬學系所，與標準的三段連續審核不符"
+    },
+    {
+      "id": "K6",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K7",
+      "verdict": "relevant",
+      "claims": [
+        "c3"
+      ],
+      "reason": "註冊組承辦人與組長"
+    },
+    {
+      "id": "K8",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K9",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K10",
+      "verdict": "relevant",
+      "claims": [
+        "c5",
+        "c6"
+      ],
+      "reason": "碩博士班學生，碩士在職專班不開放"
+    },
+    {
+      "id": "K11",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K12",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K13",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K14",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K15",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K16",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K17",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K18",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K19",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K20",
+      "verdict": "relevant",
+      "claims": [
+        "c7"
+      ],
+      "reason": "表單編號 QP-T01-03-08"
+    },
+    {
+      "id": "K21",
+      "verdict": "relevant",
+      "claims": [
+        "c8"
+      ],
+      "reason": "完整下載連結"
+    },
+    {
+      "id": "K22",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K23",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "judge-v1",
+    "note": "Claude Code 本 session 判斷（流程測試：答案也是 Claude Code 寫的，判斷不獨立；Keypoint 判斷依設計會看 gold）。主張編號取自子代理的隔離回推 trace.json"
+  }
+}
