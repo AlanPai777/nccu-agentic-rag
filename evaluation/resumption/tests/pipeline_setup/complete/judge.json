@@ -1,0 +1,196 @@
+{
+  "keypoints": [
+    {
+      "id": "K1",
+      "verdict": "relevant",
+      "claims": [
+        "c1",
+        "c2"
+      ],
+      "reason": "答案寫期滿者完成繳費註冊、選課上課即完成復學，與標準一致"
+    },
+    {
+      "id": "K2",
+      "verdict": "relevant",
+      "claims": [
+        "c3"
+      ],
+      "reason": "答案寫復學當學期加退選結束前"
+    },
+    {
+      "id": "K3",
+      "verdict": "relevant",
+      "claims": [
+        "c8"
+      ],
+      "reason": "表單編號 QP-T01-03-04"
+    },
+    {
+      "id": "K4",
+      "verdict": "relevant",
+      "claims": [
+        "c9"
+      ],
+      "reason": "給提早復學申請書的完整連結"
+    },
+    {
+      "id": "K5",
+      "verdict": "relevant",
+      "claims": [
+        "c4"
+      ],
+      "reason": "本人攜帶學生證或身分證件正本"
+    },
+    {
+      "id": "K6",
+      "verdict": "relevant",
+      "claims": [
+        "c5"
+      ],
+      "reason": "非本人親辦需附委託書及被委託人身分證件正本"
+    },
+    {
+      "id": "K7",
+      "verdict": "relevant",
+      "claims": [
+        "c6"
+      ],
+      "reason": "提到委託書並附連結"
+    },
+    {
+      "id": "K8",
+      "verdict": "relevant",
+      "claims": [
+        "c10"
+      ],
+      "reason": "系所會辦"
+    },
+    {
+      "id": "K9",
+      "verdict": "relevant",
+      "claims": [
+        "c11"
+      ],
+      "reason": "生僑組僅男生及僑生需辦理"
+    },
+    {
+      "id": "K10",
+      "verdict": "relevant",
+      "claims": [
+        "c12"
+      ],
+      "reason": "答案提到生僑組，並寫三種文件"
+    },
+    {
+      "id": "K11",
+      "verdict": "relevant",
+      "claims": [
+        "c15"
+      ],
+      "reason": "國際合作事務處僅國際學生需辦理"
+    },
+    {
+      "id": "K12",
+      "verdict": "relevant",
+      "claims": [
+        "c18"
+      ],
+      "reason": "註冊組承辦人擬准，再由組長蓋章"
+    },
+    {
+      "id": "K13",
+      "verdict": "relevant",
+      "claims": [
+        "c19"
+      ],
+      "reason": "學士班另加會學士班統籌"
+    },
+    {
+      "id": "K14",
+      "verdict": "relevant",
+      "claims": [
+        "c22"
+      ],
+      "reason": "蓋章完畢後送註冊組辦理"
+    },
+    {
+      "id": "K15",
+      "verdict": "relevant",
+      "claims": [
+        "c21"
+      ],
+      "reason": "組長王揚忠（分機 63273）"
+    },
+    {
+      "id": "K16",
+      "verdict": "relevant",
+      "claims": [
+        "c20"
+      ],
+      "reason": "註冊組在行政大樓四樓"
+    },
+    {
+      "id": "K17",
+      "verdict": "relevant",
+      "claims": [
+        "c14"
+      ],
+      "reason": "生僑組聯絡人盧誼甄（分機 62226）"
+    },
+    {
+      "id": "K18",
+      "verdict": "relevant",
+      "claims": [
+        "c13"
+      ],
+      "reason": "生僑組在行政大樓三樓"
+    },
+    {
+      "id": "K19",
+      "verdict": "relevant",
+      "claims": [
+        "c17"
+      ],
+      "reason": "國合處聯絡人徐維勵（分機 62058）"
+    },
+    {
+      "id": "K20",
+      "verdict": "relevant",
+      "claims": [
+        "c16"
+      ],
+      "reason": "國合處在行政大樓八樓"
+    },
+    {
+      "id": "K21",
+      "verdict": "relevant",
+      "claims": [
+        "c24"
+      ],
+      "reason": "完成復學手續後依規定期限辦理註冊"
+    },
+    {
+      "id": "K22",
+      "verdict": "relevant",
+      "claims": [
+        "c25",
+        "c26",
+        "c27"
+      ],
+      "reason": "原保留入學資格限第一學期（每年八月）"
+    },
+    {
+      "id": "K23",
+      "verdict": "relevant",
+      "claims": [
+        "c23"
+      ],
+      "reason": "申請經核准後即完成復學手續"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "judge-v1",
+    "note": "Claude Code 本 session 判斷（流程測試：答案也是 Claude Code 寫的，判斷不獨立；Keypoint 判斷依設計會看 gold）。主張編號取自子代理的隔離回推 trace.json"
+  }
+}

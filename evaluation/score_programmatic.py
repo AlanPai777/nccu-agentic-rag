@@ -24,6 +24,8 @@ import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(Path(__file__).resolve().parent / "registry"))
+import registry_lib  # noqa: E402
 
 
 def _shown(p) -> str:
@@ -91,6 +93,11 @@ def context_scores(keypoints: list[dict], context: list[dict]) -> tuple[dict, li
 
     per_kp, matched_chars, gold_words = [], 0, set()
     for kp in keypoints:
+        if kp.get("registry"):
+            # 引用登記表的 keypoint 沒有自己的 references，不算進 Context 的 recall 分母（登記表的來源另外驗證）
+            per_kp.append({"id": kp["id"], "in_context": None, "matched_reference": None, "n_references": 0,
+                           "note": "引用登記表，不計入 Context recall"})
+            continue
         refs = [r["text"] for r in kp.get("references", [])]
         found = [r for r in refs if norm(r) and norm(r) in ctx_norm]
         # 一個 keypoint 的 references 是「可接受的替代原文」：命中任一條就算讀到了
@@ -109,7 +116,7 @@ def context_scores(keypoints: list[dict], context: list[dict]) -> tuple[dict, li
                 return len(set(_words(r)) & ctx_words)
             gold_words |= set(_words(max(refs, key=overlap)))
 
-    n_kp = len(keypoints) or 1
+    n_kp = sum(1 for k in keypoints if not k.get("registry")) or 1
     covered = sum(1 for k in per_kp if k["in_context"])
     s_recall = covered / n_kp                                   # keypoint 層級
     s_precision = matched_chars / len(ctx_norm) if ctx_norm else 0.0   # 字數，WSM EIR 做法
@@ -152,6 +159,16 @@ def pair_mismatches(answer: str, people: list[dict]) -> list[dict]:
     return [{k: v for k, v in c.items() if k != "ok"} for c in check_pairs(answer, people) if not c["ok"]]
 
 
+_REG = None
+
+
+def _registry() -> dict:
+    global _REG
+    if _REG is None:
+        _REG = registry_lib.load()
+    return _REG
+
+
 def accuracy(gold: dict, answer: str, context: list[dict]) -> tuple[dict, list[dict]]:
     ans_norm = norm(answer)
     av = gold.get("allowed_values", {})
@@ -164,6 +181,17 @@ def accuracy(gold: dict, answer: str, context: list[dict]) -> tuple[dict, list[d
         row = {"id": kp["id"], "kind": kp.get("kind", "hard")}
         if kp.get("kind", "hard") != "hard":
             row.update(verdict="needs_llm", note="語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷")
+            per_kp.append(row)
+            continue
+        if kp.get("registry"):
+            # 引用登記表：單位的人員／樓層、表單連結；條件式的在答案沒提到時不適用、不計入
+            reg = _registry()
+            row.update(registry_lib.check_keypoint(kp, answer, reg))
+            row["applies_if"] = kp.get("applies_if")
+            if row["verdict"] != "not_applicable":
+                hard_total += 1
+                if row["verdict"] == "hit":
+                    hard_hit += 1
             per_kp.append(row)
             continue
         if kp.get("value_check") == "extension_pairs":

@@ -19,6 +19,9 @@ TAMPER = EVAL / "cashier_contact" / "tests" / "tampered_v1"
 
 if str(EVAL) not in sys.path:
     sys.path.insert(0, str(EVAL))
+REGISTRY = EVAL / "registry"
+if str(REGISTRY) not in sys.path:
+    sys.path.insert(0, str(REGISTRY))
 
 # 測試不能連到 Chromium 與 Langfuse（CLAUDE.md：跑測試要 LIVE_BROWSER=off）
 os.environ["LIVE_BROWSER"] = "off"

@@ -1,0 +1,368 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "休學或保留學籍期滿者，依規定完成繳費註冊",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "學生休學或保留學籍期滿即應復學，並依規定期限辦妥繳費註冊相關事宜",
+          "verified": true,
+          "start": 900,
+          "end": 932
+        }
+      ],
+      "why": "證據說期滿即應復學並依規定辦妥繳費註冊。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        0,
+        20
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "選課上課，即完成復學手續",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據沒有說期滿者選課上課即完成復學手續；完成復學手續是指提早復學申請核准後。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        21,
+        33
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "須在復學開學後兩週內辦理",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據說應於復學當學期加退選結束前申請，沒有開學後兩週的規定。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        52,
+        64
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "本人攜帶學生證或身分證件正本",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "本人攜帶學生證或身分證件正本",
+          "verified": true,
+          "start": 780,
+          "end": 794
+        }
+      ],
+      "why": "E1 有同樣的規定。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        69,
+        83
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "填妥「提早復學申請書」",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "填妥「提早復學申請書」",
+          "verified": true,
+          "start": 1005,
+          "end": 1016
+        }
+      ],
+      "why": "E1 有同樣的規定。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        84,
+        95
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c6",
+      "answer_span": "表單編號 QP-T01-03-04",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "表單編號：QP-T01-03-04",
+          "verified": true,
+          "start": 2859,
+          "end": 2876
+        }
+      ],
+      "why": "提早復學申請書的表單編號是 QP-T01-03-04。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        96,
+        113
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c7",
+      "answer_span": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-04",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-04",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "提早復學申請書 / Application Form for Early Recommence of Study"
+        }
+      ],
+      "why": "sources 中此網址的 label 是提早復學申請書。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        119,
+        194
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c8",
+      "answer_span": "請系所會辦、生僑組蓋章",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "系 所 會 辦",
+          "verified": true,
+          "start": 3258,
+          "end": 3265
+        },
+        {
+          "item": "E2",
+          "quote": "生 僑 組",
+          "verified": true,
+          "start": 3271,
+          "end": 3276
+        }
+      ],
+      "why": "表單的會辦單位蓋章欄有系所會辦與生僑組。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        200,
+        211
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c9",
+      "answer_span": "僅男生及僑生需辦理",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "僅男生及僑生需辦理",
+          "verified": true
+        }
+      ],
+      "why": "表單在生僑組欄註明僅男生及僑生需辦理。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        212,
+        221
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c10",
+      "answer_span": "在行政大樓二樓",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據說生僑組在行政大樓三樓，不是二樓。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        222,
+        229
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c11",
+      "answer_span": "聯絡人盧誼甄，分機 62224",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據中盧誼甄的分機是 62226，62224 是陳韻帆的。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        230,
+        245
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c12",
+      "answer_span": "再由註冊組承辦人與組長蓋章",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "註 冊 組 承 辦 人",
+          "verified": true,
+          "start": 3376,
+          "end": 3387
+        },
+        {
+          "item": "E2",
+          "quote": "註 冊 組 組 長",
+          "verified": true,
+          "start": 3426,
+          "end": 3435
+        }
+      ],
+      "why": "表單有註冊組承辦人與註冊組組長的蓋章欄。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        247,
+        260
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c13",
+      "answer_span": "註冊組在行政大樓四樓",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "註冊組　行政大樓 4 樓",
+          "verified": true,
+          "start": 125,
+          "end": 137
+        }
+      ],
+      "why": "E3 列註冊組在行政大樓 4 樓。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        261,
+        271
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c14",
+      "answer_span": "組長王揚忠（分機 63274）",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據中王揚忠（組長）的分機是 63273，不是 63274。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        272,
+        287
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c15",
+      "answer_span": "蓋章完畢後送註冊組辦理",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "請至各單位（雙線以上）蓋章完畢後，送註冊組辦理",
+          "verified": true
+        }
+      ],
+      "why": "注意事項有同樣的步驟。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        292,
+        303
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c16",
+      "answer_span": "核准後即完成復學手續",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "本申請經核准後，即完成復學手續",
+          "verified": true
+        }
+      ],
+      "why": "注意事項有同樣的說法。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        304,
+        314
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c17",
+      "answer_span": "再依規定期限辦理註冊",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "完成復學手續後，應依規定期限辦理註冊",
+          "verified": true
+        }
+      ],
+      "why": "注意事項有同樣的說法。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        315,
+        325
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "subagent",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

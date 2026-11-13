@@ -1,0 +1,3579 @@
+{
+  "version": 1,
+  "offices": {
+    "registrar": {
+      "name": "註冊組",
+      "aliases": [
+        "教務處註冊組",
+        "註冊組"
+      ],
+      "parent": "教務處",
+      "floors": [
+        {
+          "value": "行政大樓四樓",
+          "accepted": [
+            "行政大樓四樓",
+            "四樓",
+            "4樓"
+          ],
+          "units": [
+            "註冊組"
+          ],
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_registrar.txt",
+              "quote": "116011台北市文山區指南路二段64號 行政大樓四樓"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/aca_staff_registrar.rendered.html",
+              "quote": "行政大樓四樓"
+            }
+          ]
+        }
+      ],
+      "lines": [],
+      "staff": [
+        {
+          "ext": "63273",
+          "row": 1,
+          "names": [
+            {
+              "form": "full",
+              "value": "王揚忠",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "王揚忠"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "王組長",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "王組長"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "組長",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "組長"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "王組長"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_registrar.txt",
+              "quote": "63273"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/aca_staff_registrar.rendered.html",
+              "quote": "63273"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63278",
+          "row": 2,
+          "names": [
+            {
+              "form": "full",
+              "value": "蔡侑町",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "蔡侑町"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "蔡行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "蔡行政專員"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "一級行政專員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "一級行政專員"
+                }
+              ]
+            },
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "蔡行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_registrar.txt",
+              "quote": "63278"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/aca_staff_registrar.rendered.html",
+              "quote": "63278"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63277",
+          "row": 3,
+          "names": [
+            {
+              "form": "full",
+              "value": "鄧懿賢",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "鄧懿賢"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "鄧編審",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "鄧編審"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "編審",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "編審"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "鄧編審"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_registrar.txt",
+              "quote": "63277"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/aca_staff_registrar.rendered.html",
+              "quote": "63277"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63276",
+          "row": 4,
+          "names": [
+            {
+              "form": "full",
+              "value": "林婉婷",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "林婉婷"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "林行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "林行政專員"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "一級行政專員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "一級行政專員"
+                }
+              ]
+            },
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "林行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_registrar.txt",
+              "quote": "63276"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/aca_staff_registrar.rendered.html",
+              "quote": "63276"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63275",
+          "row": 5,
+          "names": [
+            {
+              "form": "full",
+              "value": "陳昀含",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "陳昀含"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "陳行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "陳行政專員"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "行政專員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "陳行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_registrar.txt",
+              "quote": "63275"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/aca_staff_registrar.rendered.html",
+              "quote": "63275"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63289",
+          "row": 6,
+          "names": [
+            {
+              "form": "full",
+              "value": "黃盈儒",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "黃盈儒"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "黃行政組員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "黃行政組員"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "職務代理",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "職務代理"
+                }
+              ]
+            },
+            {
+              "kind": "title",
+              "value": "行政組員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "黃行政組員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_registrar.txt",
+              "quote": "63289"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/aca_staff_registrar.rendered.html",
+              "quote": "63289"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63288",
+          "row": 7,
+          "names": [
+            {
+              "form": "full",
+              "value": "陳潔",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "陳   潔"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "陳助教",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "陳助教"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "助教",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "助 教"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "陳助教"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_registrar.txt",
+              "quote": "63288"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/aca_staff_registrar.rendered.html",
+              "quote": "63288"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63287",
+          "row": 8,
+          "names": [
+            {
+              "form": "full",
+              "value": "周芷瑩",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "周芷瑩"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "周行政組員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "周行政組員"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "一級行政組員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "一級行政組員"
+                }
+              ]
+            },
+            {
+              "kind": "title",
+              "value": "行政組員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "周行政組員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_registrar.txt",
+              "quote": "63287"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/aca_staff_registrar.rendered.html",
+              "quote": "63287"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63286",
+          "row": 9,
+          "names": [
+            {
+              "form": "full",
+              "value": "簡淑雯",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "簡淑雯"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "簡行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "簡行政專員"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "行政專員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "簡行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_registrar.txt",
+              "quote": "63286"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/aca_staff_registrar.rendered.html",
+              "quote": "63286"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63285",
+          "row": 10,
+          "names": [
+            {
+              "form": "full",
+              "value": "鄭竹芸",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "鄭竹芸"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "鄭計畫助理",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "鄭計畫助理"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "計畫專任助理",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "計畫專任助理"
+                }
+              ]
+            },
+            {
+              "kind": "title",
+              "value": "計畫助理",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "鄭計畫助理"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_registrar.txt",
+              "quote": "63285"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/aca_staff_registrar.rendered.html",
+              "quote": "63285"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63284",
+          "row": 11,
+          "names": [
+            {
+              "form": "full",
+              "value": "楊千霆",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "楊千霆"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "楊行政組員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "楊行政組員"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "一級行政組員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "一級行政組員"
+                }
+              ]
+            },
+            {
+              "kind": "title",
+              "value": "行政組員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "楊行政組員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_registrar.txt",
+              "quote": "63284"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/aca_staff_registrar.rendered.html",
+              "quote": "63284"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63283",
+          "row": 12,
+          "names": [
+            {
+              "form": "full",
+              "value": "蕭巧如",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "蕭巧如"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "蕭行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "蕭行政專員"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "行政專員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "蕭行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_registrar.txt",
+              "quote": "63283"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/aca_staff_registrar.rendered.html",
+              "quote": "63283"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63282",
+          "row": 13,
+          "names": [
+            {
+              "form": "full",
+              "value": "呂依潔",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "呂依潔"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "呂行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "呂行政專員"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "一級行政專員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "一級行政專員"
+                }
+              ]
+            },
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "呂行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_registrar.txt",
+              "quote": "63282"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/aca_staff_registrar.rendered.html",
+              "quote": "63282"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63281",
+          "row": 14,
+          "names": [
+            {
+              "form": "full",
+              "value": "黃婉綝",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "黃婉綝"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "黃行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "黃行政專員"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "一級行政專員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "一級行政專員"
+                }
+              ]
+            },
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "黃行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_registrar.txt",
+              "quote": "63281"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/aca_staff_registrar.rendered.html",
+              "quote": "63281"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": null,
+          "row": 15,
+          "names": [
+            {
+              "form": "full",
+              "value": "黃勻姝",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "黃勻姝"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "黃行政助理",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "黃行政助理"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政助理",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_registrar.txt",
+                  "quote": "行政助理"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/aca_staff_registrar.rendered.html",
+                  "quote": "黃行政助理"
+                }
+              ]
+            }
+          ],
+          "status": "both"
+        }
+      ]
+    },
+    "soa": {
+      "name": "生僑組",
+      "aliases": [
+        "生活事務暨僑生輔導組",
+        "學務處生僑組",
+        "生僑組"
+      ],
+      "parent": "學生事務處",
+      "floors": [
+        {
+          "value": "行政大樓三樓",
+          "accepted": [
+            "行政大樓三樓",
+            "三樓",
+            "3樓"
+          ],
+          "units": [
+            "生僑組"
+          ],
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/osa_staff_soa.txt",
+              "quote": "行政大樓三樓"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/osa_staff_soa.rendered.html",
+              "quote": "行政大樓三樓"
+            }
+          ]
+        }
+      ],
+      "lines": [
+        {
+          "kind": "總機",
+          "value": "63016",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/osa_staff_soa.txt",
+              "quote": "總機 63016"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/osa_staff_soa.rendered.html",
+              "quote": "總機 63016"
+            }
+          ]
+        }
+      ],
+      "staff": [
+        {
+          "ext": "63010",
+          "row": 1,
+          "names": [
+            {
+              "form": "full",
+              "value": "盧翠婷",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/osa_staff_soa.txt",
+                  "quote": "盧翠婷"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/osa_staff_soa.rendered.html",
+                  "quote": "盧翠婷"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "組長",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/osa_staff_soa.txt",
+                  "quote": "組長"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/osa_staff_soa.rendered.html",
+                  "quote": "組長"
+                }
+              ]
+            }
+          ],
+          "english": {
+            "name": "LU, TSUEI-TING",
+            "title": "Section Chief"
+          },
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/osa_staff_soa.txt",
+              "quote": "63010"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/osa_staff_soa.rendered.html",
+              "quote": "63010"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62221",
+          "row": 2,
+          "names": [
+            {
+              "form": "full",
+              "value": "周柏宏",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/osa_staff_soa.txt",
+                  "quote": "周柏宏"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/osa_staff_soa.rendered.html",
+                  "quote": "周柏宏"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "輔導員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/osa_staff_soa.txt",
+                  "quote": "輔導員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/osa_staff_soa.rendered.html",
+                  "quote": "輔導員"
+                }
+              ]
+            }
+          ],
+          "english": {
+            "name": "CHOU, PO-HUNG",
+            "title": "Counselor"
+          },
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/osa_staff_soa.txt",
+              "quote": "62221"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/osa_staff_soa.rendered.html",
+              "quote": "62221"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62227",
+          "row": 3,
+          "names": [
+            {
+              "form": "full",
+              "value": "傅秀平",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/osa_staff_soa.txt",
+                  "quote": "傅秀平"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/osa_staff_soa.rendered.html",
+                  "quote": "傅秀平"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "組員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/osa_staff_soa.txt",
+                  "quote": "組員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/osa_staff_soa.rendered.html",
+                  "quote": "組員"
+                }
+              ]
+            }
+          ],
+          "english": {
+            "name": "FU, SIU-PING",
+            "title": "Officer"
+          },
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/osa_staff_soa.txt",
+              "quote": "62227"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/osa_staff_soa.rendered.html",
+              "quote": "62227"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62223",
+          "row": 4,
+          "names": [
+            {
+              "form": "full",
+              "value": "洪子茹",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/osa_staff_soa.txt",
+                  "quote": "洪子茹（分機：62223）"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/osa_staff_soa.rendered.html",
+                  "quote": "洪子茹（分機：62223）"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "組員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/osa_staff_soa.txt",
+                  "quote": "組員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/osa_staff_soa.rendered.html",
+                  "quote": "組員"
+                }
+              ]
+            }
+          ],
+          "english": {
+            "name": "",
+            "title": "Officer"
+          },
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/osa_staff_soa.txt",
+              "quote": "62223"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/osa_staff_soa.rendered.html",
+              "quote": "62223"
+            }
+          ],
+          "note": "姓名欄是「待補」；名字取自職務代理人欄的「姓名（分機：62223）」",
+          "status": "both"
+        },
+        {
+          "ext": "62224",
+          "row": 5,
+          "names": [
+            {
+              "form": "full",
+              "value": "陳韻帆",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/osa_staff_soa.txt",
+                  "quote": "陳韻帆"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/osa_staff_soa.rendered.html",
+                  "quote": "陳韻帆"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/osa_staff_soa.txt",
+                  "quote": "行政專員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/osa_staff_soa.rendered.html",
+                  "quote": "行政專員"
+                }
+              ]
+            }
+          ],
+          "english": {
+            "name": "CHEN, YUN-FAN",
+            "title": "Administrative Specialist"
+          },
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/osa_staff_soa.txt",
+              "quote": "62224"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/osa_staff_soa.rendered.html",
+              "quote": "62224"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62226",
+          "row": 6,
+          "names": [
+            {
+              "form": "full",
+              "value": "盧誼甄",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/osa_staff_soa.txt",
+                  "quote": "盧誼甄"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/osa_staff_soa.rendered.html",
+                  "quote": "盧誼甄"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/osa_staff_soa.txt",
+                  "quote": "行政專員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/osa_staff_soa.rendered.html",
+                  "quote": "行政專員"
+                }
+              ]
+            }
+          ],
+          "english": {
+            "name": "LU, YI-CHEN",
+            "title": "Administrative Specialist"
+          },
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/osa_staff_soa.txt",
+              "quote": "62226"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/osa_staff_soa.rendered.html",
+              "quote": "62226"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63013",
+          "row": 7,
+          "names": [
+            {
+              "form": "full",
+              "value": "黃湘妮",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/osa_staff_soa.txt",
+                  "quote": "黃湘妮"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/osa_staff_soa.rendered.html",
+                  "quote": "黃湘妮"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/osa_staff_soa.txt",
+                  "quote": "行政專員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/osa_staff_soa.rendered.html",
+                  "quote": "行政專員"
+                }
+              ]
+            }
+          ],
+          "english": {
+            "name": "HUANG, HSIANG-NI",
+            "title": "Administrative Specialist"
+          },
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/osa_staff_soa.txt",
+              "quote": "63013"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/osa_staff_soa.rendered.html",
+              "quote": "63013"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63011",
+          "row": 8,
+          "names": [
+            {
+              "form": "full",
+              "value": "黃信翰",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/osa_staff_soa.txt",
+                  "quote": "黃信翰"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/osa_staff_soa.rendered.html",
+                  "quote": "黃信翰"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "一級行政專員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/osa_staff_soa.txt",
+                  "quote": "一級行政專員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/osa_staff_soa.rendered.html",
+                  "quote": "一級行政專員"
+                }
+              ]
+            }
+          ],
+          "english": {
+            "name": "HUANG, HSIN-HAN",
+            "title": "Administrative Specialist"
+          },
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/osa_staff_soa.txt",
+              "quote": "63011"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/osa_staff_soa.rendered.html",
+              "quote": "63011"
+            }
+          ],
+          "status": "both"
+        }
+      ]
+    },
+    "oic": {
+      "name": "國際合作事務處",
+      "aliases": [
+        "國合處",
+        "國際合作事務處"
+      ],
+      "parent": null,
+      "floors": [
+        {
+          "value": "行政大樓八樓",
+          "accepted": [
+            "行政大樓八樓",
+            "行政大樓8樓",
+            "八樓",
+            "8樓"
+          ],
+          "units": [
+            "國際教育組",
+            "合作交流組",
+            "海外辦公室"
+          ],
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/oic_post_800.txt",
+              "quote": "八樓—國際教育組、合作交流組、海外辦公室"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_post_800.html",
+              "quote": "八樓—國際教育組、合作交流組、海外辦公室"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/aca_notice_115_1.pdf.txt",
+              "quote": "國際合作事務處 (行政大樓八樓)"
+            }
+          ]
+        },
+        {
+          "value": "行政大樓七樓",
+          "accepted": [
+            "行政大樓七樓",
+            "行政大樓7樓",
+            "七樓",
+            "7樓"
+          ],
+          "units": [
+            "大陸事務組",
+            "發展策劃組"
+          ],
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/oic_post_800.txt",
+              "quote": "七樓—大陸事務組、發展策劃組"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_post_800.html",
+              "quote": "七樓—大陸事務組、發展策劃組"
+            }
+          ]
+        }
+      ],
+      "lines": [
+        {
+          "kind": "總機（註冊通知單的國際學生專線）",
+          "value": "02-29393091轉67729",
+          "sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/aca_notice_115_1.pdf.txt",
+              "quote": "(聯絡電話：02-29393091轉67729)"
+            }
+          ]
+        },
+        {
+          "kind": "聯絡電話（國合處聯絡方式頁）",
+          "value": "886-2-2938-7729",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/oic_post_800.txt",
+              "quote": "聯絡電話：886-2-2938-7729"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_post_800.html",
+              "quote": "聯絡電話：886-2-2938-7729"
+            }
+          ]
+        },
+        {
+          "kind": "頁尾電話（工作職掌頁）",
+          "value": "886-2-29393091 #62040",
+          "sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "電話 886-2-29393091 #62040"
+            }
+          ]
+        }
+      ],
+      "staff": [
+        {
+          "ext": "67102",
+          "row": 1,
+          "names": [
+            {
+              "form": "full",
+              "value": "陳美芬",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "陳美芬"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "國合長",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "國合長"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：67102"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：67102"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62830",
+          "row": 2,
+          "names": [
+            {
+              "form": "full",
+              "value": "蘇卓馨",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "蘇卓馨"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "副國合長",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "副國合長"
+                }
+              ]
+            },
+            {
+              "kind": "title",
+              "value": "組長",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "組長"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62830"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62830"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "67589",
+          "row": 3,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "黃小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "黃小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "簡任秘書",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "簡任秘書"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：67589"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：67589"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62837",
+          "row": 4,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "池小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "池小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政組員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "行政組員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62837"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62837"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62016",
+          "row": 5,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "陶小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "陶小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "資深區域經理",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "資深區域經理"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62016"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62016"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62393",
+          "row": 6,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "蔡小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "蔡小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "資深區域經理",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "資深區域經理"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62393"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62393"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62831",
+          "row": 7,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "王小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "王小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "資深區域經理",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "資深區域經理"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62831"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62831"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62852",
+          "row": 8,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "薛小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "薛小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "區域經理",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "區域經理"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62852"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62852"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "60322",
+          "row": 9,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "張小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "張小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "計畫專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "計畫專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：60322"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：60322"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62836",
+          "row": 10,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "邱先生",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "邱先生"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62836"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62836"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62829",
+          "row": 11,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "楊小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "楊小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62829"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62829"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62815",
+          "row": 12,
+          "names": [],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "計畫專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "計畫專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62815"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62815"
+            }
+          ],
+          "status": "title-only"
+        },
+        {
+          "ext": "62828",
+          "row": 13,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "林小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "林小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "計畫專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "計畫專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62828"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62828"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62838",
+          "row": 14,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "賴小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "賴小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "計畫專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "計畫專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62838"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62838"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62840",
+          "row": 15,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "游先生",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "游先生"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "計畫專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "計畫專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62840"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62840"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "67601",
+          "row": 16,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "張小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "張小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "組長",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "組長"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：67601"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：67601"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62510",
+          "row": 17,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "凌小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "凌小姐"
+                }
+              ]
+            },
+            {
+              "form": "full",
+              "value": "凌千喆",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/oic_post_788.txt",
+                  "quote": "研究所申請：凌千喆小姐（校內分機：62510）"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_post_788.html",
+                  "quote": "研究所申請：凌千喆小姐（校內分機：62510）"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "國際學生事務督導、計畫專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "國際學生事務督導、計畫專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62510"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62510"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62058",
+          "row": 18,
+          "names": [
+            {
+              "form": "full",
+              "value": "徐維勵",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/oic_post_788.txt",
+                  "quote": "大學部申請：徐維勵小姐（校內分機：62058）"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_post_788.html",
+                  "quote": "大學部申請：徐維勵小姐（校內分機：62058）"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "計畫專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "計畫專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62058"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62058"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62765",
+          "row": 19,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "張先生",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "張先生"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "資深行政秘書",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "資深行政秘書"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62765"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62765"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62026",
+          "row": 20,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "陳先生",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "陳先生"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政秘書",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "行政秘書"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62026"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62026"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62040",
+          "row": 21,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "何小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "何小姐"
+                }
+              ]
+            },
+            {
+              "form": "full",
+              "value": "何芸婷",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "corpus",
+                  "file": "sources/snapshot/oic_post_16017.txt",
+                  "quote": "本案承辦人：何芸婷，分機62040"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "助教",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "助教"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62040"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62040"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "67465",
+          "row": 22,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "丘小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "丘小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "學生交換事務督導、行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "學生交換事務督導、行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：67465"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：67465"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62025",
+          "row": 23,
+          "names": [],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62025"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62025"
+            }
+          ],
+          "status": "title-only"
+        },
+        {
+          "ext": "62045",
+          "row": 24,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "郭先生",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "郭先生"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政秘書",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "行政秘書"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62045"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62045"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62068",
+          "row": 25,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "陳先生",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "陳先生"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "計畫專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "計畫專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62068"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62068"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62834",
+          "row": 26,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "葉小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "葉小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "計畫專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "計畫專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62834"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62834"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62832",
+          "row": 27,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "許小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "許小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62832"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62832"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62833",
+          "row": 28,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "盧小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "盧小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "組長",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "組長"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62833"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62833"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62827",
+          "row": 29,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "黃小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "黃小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "編審",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "編審"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62827"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62827"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62023",
+          "row": 30,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "黃小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "黃小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62023"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62023"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62056",
+          "row": 31,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "李小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "李小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62056"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62056"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62566",
+          "row": 32,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "柯小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "柯小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "計畫專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "計畫專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62566"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62566"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "67800",
+          "row": 33,
+          "names": [
+            {
+              "form": "full",
+              "value": "薛健吾",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "薛健吾"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "組長",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "組長"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：67800"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：67800"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62179",
+          "row": 34,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "劉小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "劉小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62179"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62179"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "62598",
+          "row": 35,
+          "names": [
+            {
+              "form": "surname_title",
+              "value": "李小姐",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "李小姐"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-13",
+                  "file": "sources/live/oic_category_596.rendered.html",
+                  "quote": "行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-13",
+              "file": "sources/live/oic_category_596.rendered.html",
+              "quote": "分機：62598"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/oic_category_596.txt",
+              "quote": "分機：62598"
+            }
+          ],
+          "status": "live-only"
+        }
+      ]
+    }
+  },
+  "forms": [
+    {
+      "id": "QP-T01-03-04",
+      "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-04",
+      "names": [
+        {
+          "kind": "name",
+          "value": "提早復學申請書",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/moltke_forms.txt",
+              "quote": "提早復學申請書"
+            }
+          ]
+        },
+        {
+          "kind": "name",
+          "value": "Application Form for Early Recommence of Study",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/moltke_forms.txt",
+              "quote": "Application Form for Early Recommence of Study"
+            }
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/moltke_forms.txt",
+          "quote": "url: https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-04"
+        },
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/aca_leave_page.txt",
+          "quote": "[提早復學申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-04)"
+        },
+        {
+          "source": "live",
+          "asof": "2026-11-13",
+          "file": "sources/live/aca_leave_page.html",
+          "quote": "[提早復學申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-04)"
+        }
+      ],
+      "live_check": null,
+      "live_note": "沒有對這個網址送過現場請求（未經批准）；連結以教務處現場頁面（2026-11-13）上列出的為準"
+    },
+    {
+      "id": "QP-T01-02-05",
+      "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-02-05",
+      "names": [
+        {
+          "kind": "name",
+          "value": "各項證明文件申辦委託書",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/moltke_forms.txt",
+              "quote": "各項證明文件申辦委託書"
+            }
+          ]
+        },
+        {
+          "kind": "name",
+          "value": "Power of Attorney for Certificates",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/moltke_forms.txt",
+              "quote": "Power of Attorney for Certificates"
+            }
+          ]
+        },
+        {
+          "kind": "name",
+          "value": "委託書",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/aca_leave_page.txt",
+              "quote": "需附委託書"
+            }
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/moltke_forms.txt",
+          "quote": "url: https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-02-05"
+        },
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/aca_leave_page.txt",
+          "quote": "[各項證明文件申辦委託書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-02-05)"
+        },
+        {
+          "source": "live",
+          "asof": "2026-11-13",
+          "file": "sources/live/aca_leave_page.html",
+          "quote": "[各項證明文件申辦委託書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-02-05)"
+        }
+      ],
+      "live_check": {
+        "source": "live",
+        "asof": "2026-11-13",
+        "file": "sources/live/moltke_qp_t01_02_05.headers.txt",
+        "quote": "Location: login.formservice?viewdetail=QP-T01-02-05",
+        "result": "302 轉到同一站台的登入頁，沒有跟隨；看不到表單內容，連結本身仍然有效"
+      }
+    },
+    {
+      "id": "QP-T01-03-02",
+      "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+      "names": [
+        {
+          "kind": "name",
+          "value": "休學/保留學籍申請書",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/moltke_forms.txt",
+              "quote": "休學/保留學籍申請書"
+            }
+          ]
+        },
+        {
+          "kind": "name",
+          "value": "NCCU Application Form for Leave of Absence of Student Status",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/moltke_forms.txt",
+              "quote": "NCCU Application Form for Leave of Absence of Student Status"
+            }
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/moltke_forms.txt",
+          "quote": "url: https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02"
+        },
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/aca_leave_page.txt",
+          "quote": "[休學/保留學籍申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)"
+        },
+        {
+          "source": "live",
+          "asof": "2026-11-13",
+          "file": "sources/live/aca_leave_page.html",
+          "quote": "[休學/保留學籍申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)"
+        }
+      ],
+      "live_check": {
+        "source": "live",
+        "asof": "2026-11-13",
+        "file": "sources/live/moltke_QP-T01-03-02.headers.txt",
+        "quote": "Location: login.formservice?viewdetail=QP-T01-03-02",
+        "result": "302 轉到同一站台的登入頁，沒有跟隨；看不到表單內容，連結本身仍然有效"
+      }
+    }
+  ]
+}

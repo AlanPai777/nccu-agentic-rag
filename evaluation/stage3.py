@@ -43,6 +43,7 @@ sys.path.insert(0, str(HERE))
 from score_programmatic import _NODE_PROMPT_PREFIXES, norm  # noqa: E402
 from run_system import split_answer  # noqa: E402
 
+sys.path.insert(0, str(Path(__file__).resolve().parent / "registry"))
 ROOT = HERE.parent
 _MARKER_RE = re.compile(r"\[live:src ([^\]]*?) url=([^\]]+)\]")
 
@@ -188,6 +189,12 @@ def cmd_prepare(gold_path: Path, run_dir: Path) -> None:
         notes["允許的出納組分機"] = [e["value"] for e in av["extension"]]
     if av.get("disallowed"):
         notes["不屬於這個單位的號碼（答案寫了就是錯）"] = [f"{d['value']}：{d['reason']}" for d in av["disallowed"]]
+
+    used = sorted({k["registry"]["office"] for k in gold["keypoints"] if k.get("registry", {}).get("office")})
+    if used:   # 引用登記表的單位：把允許的人員、代表線、樓層列給評審看（配對與樓層由程式檢查，評審只作參考）
+        import registry_lib
+        reg = registry_lib.load()
+        notes["登記表允許的單位資料（姓名接受全名或姓氏＋職稱，姓氏＋小姐／先生也算）"] = {o: registry_lib.allowed_for_judge(reg, o) for o in used}
 
     _write(run_dir / "trace_input.json", {
         "query_id": gold["query_id"], "run_id": pred["run_id"],

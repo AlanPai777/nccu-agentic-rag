@@ -1,0 +1,14 @@
+{
+  "url": "https://oic.nccu.edu.tw/Category/596",
+  "ok": true,
+  "status": 200,
+  "error": "",
+  "detail": "",
+  "elapsed_seconds": 3.32,
+  "requests": 37,
+  "requests_nccu": 22,
+  "fetched_at": "2026-11-13T15:40:36+08:00",
+  "tool": "rag.live.browser.PlaywrightBackend",
+  "settle_ms": 2000,
+  "user_agent": "Chromium default (not set; no email)"
+}

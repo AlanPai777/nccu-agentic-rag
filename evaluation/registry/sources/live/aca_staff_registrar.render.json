@@ -1,0 +1,14 @@
+{
+  "url": "https://aca.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C-%E8%A8%BB%E5%86%8A",
+  "ok": true,
+  "status": 200,
+  "error": "",
+  "detail": "",
+  "elapsed_seconds": 3.54,
+  "requests": 30,
+  "requests_nccu": 26,
+  "fetched_at": "2026-11-13T15:42:35+08:00",
+  "tool": "rag.live.browser.PlaywrightBackend",
+  "settle_ms": 2000,
+  "user_agent": "Chromium default (not set; no email)"
+}

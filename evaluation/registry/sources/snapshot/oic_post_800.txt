@@ -1,0 +1,46 @@
+# url: https://oic.nccu.edu.tw/Post/800
+# 來源：output/oic/extracted_texts.jsonl（無抓取時間）
+
+[首頁](https://oic.nccu.edu.tw/) > [關於我們](https://oic.nccu.edu.tw/Category/134) > 國合處聯絡方式
+
+國合處聯絡方式
+
+國際合作事務處
+
+國立政治大學行政大樓
+
+八樓—國際教育組、合作交流組、海外辦公室
+
+七樓—大陸事務組、發展策劃組
+
+地址：116011 台北市文山區指南路二段64號 
+
+聯絡電話：886-2-2938-7729
+
+傳真：886-2-29399850
+
+辦公時間：9-12時，13:30-17時
+
+Email：[oic@nccu.edu.tw](mailto:oic@nccu.edu.tw)
+
+國際學位生 International Degree-Seeking Student
+
+研究所申請：[nccugrad@nccu.edu.tw](mailto:nccugrad@nccu.edu.tw)
+
+大學部申請：[intladm@nccu.edu.tw](mailto:intladm@nccu.edu.tw)
+
+獎學金：[tws@nccu.edu.tw](mailto:tws@nccu.edu.tw)
+
+國際外薦交換學生 Incoming Exchange Student
+
+Email：[ykuo088@g.nccu.edu.tw](mailto:ykuo088@g.nccu.edu.tw)
+
+國立政治大學國際會館 International House
+
+地址：台北市文山區秀明路二段112巷17號
+
+聯絡電話：886-2-29368869
+
+傳真：886-2-29367769
+
+Email：[ihouse@nccu.edu.tw](mailto:ihouse@nccu.edu.tw)

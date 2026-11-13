@@ -1,0 +1,11 @@
+HTTP/1.1 302 
+Cache-Control: private
+Strict-Transport-Security: max-age=31536000;includeSubDomains
+X-Frame-Options: ALLOW-FROM webapp.nccu.edu.tw,webapp1.nccu.edu.tw,webapp2.nccu.edu.tw,webapp3.nccu.edu.tw,webapp5.nccu.edu.tw
+X-Content-Type-Options: nosniff
+Set-Cookie: JSESSIONID=<redacted>; Path=/formservice_SSO; Secure; HttpOnly
+Location: login.formservice?viewdetail=QP-T01-02-05
+Content-Type: text/html;charset=utf-8
+Content-Length: 0
+Date: Fri, 13 Nov 2026 08:05:46 GMT
+

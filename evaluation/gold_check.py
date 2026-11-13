@@ -5,8 +5,10 @@ gold.json 的機械檢查（不判斷內容寫得好不好，那要人讀）。�
 單元測試（evaluation/tests/test_gold_files.py）與 build-eval-gold skill 的驗證腳本共用這一份。
 
   - 必要欄位齊全、keypoint 編號不重複、每個 keypoint 有 references
+  - 引用登記表的 keypoint（有 registry 欄位，見 registry/registry_lib.py）：指到登記表裡真有的單位／組別／表單，
+    登記表本身每條引句再驗證一次；這類 keypoint 不需要自己的 references
   - 每個 reference 的 text 都是該題 sources/ 底下某份來源原文的子字串（空白與全半形正規化後）
-  - 有 value_check 的 keypoint 與 allowed_values 一致；條件式 keypoint 有 applies_if 與 value_check
+  - 有 value_check 的 keypoint 與 allowed_values 一致；hard 的條件式 keypoint 有 applies_if 與 value_check（語意的條件式由評審判斷）
   - 禁止值不在允許集合裡
 
 用法（專案根目錄）：
@@ -18,6 +20,9 @@ import re
 import sys
 import unicodedata
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent / "registry"))
+import registry_lib  # noqa: E402
 
 
 def norm(s: str) -> str:
@@ -62,8 +67,18 @@ def validate_gold(gold_path: Path) -> list[str]:
     if len(ids) != len(set(ids)):
         problems.append(f"keypoint 編號重複：{ids}")
 
+    reg = None
     for k in kps:
         kid = k.get("id")
+        if k.get("registry"):
+            if reg is None:
+                reg = registry_lib.load()
+                problems += [f"登記表：{p}" for p in registry_lib.validate(reg)]
+            for key in ("id", "text", "kind", "value_check"):
+                if key not in k:
+                    problems.append(f"{kid} 缺少 {key}")
+            problems += registry_lib.validate_keypoint_refs(k, reg)
+            continue
         for key in ("id", "text", "kind", "references"):
             if key not in k:
                 problems.append(f"{kid} 缺少 {key}")
@@ -75,8 +90,8 @@ def validate_gold(gold_path: Path) -> list[str]:
             for f in ("source_url", "source_kind", "as_of"):
                 if f not in ref:
                     problems.append(f"{kid} 的 reference 缺少 {f}")
-        if k.get("applies_if") and "value_check" not in k:
-            problems.append(f"{kid} 是條件式 keypoint，要有 value_check 說明怎麼檢查")
+        if k.get("applies_if") and k.get("kind", "hard") == "hard" and "value_check" not in k:
+            problems.append(f"{kid} 是條件式 keypoint，要有 value_check 說明怎麼檢查")   # 語意的條件式由評審依 applies_if 判斷
 
     av = gold.get("allowed_values") or {}
     allowed = {e["value"] for e in av.get("extension", [])}

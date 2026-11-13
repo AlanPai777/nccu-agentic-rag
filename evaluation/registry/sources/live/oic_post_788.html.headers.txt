@@ -1,0 +1,13 @@
+HTTP/2 200 
+cache-control: private
+content-type: text/html; charset=utf-8
+server: Microsoft-IIS/10.0
+x-aspnetmvc-version: 5.2
+x-frame-options: SAMEORIGIN
+x-aspnet-version: 4.0.30319
+set-cookie: __RequestVerificationToken=<redacted>; path=/; HttpOnly
+x-powered-by: ASP.NET
+strict-transport-security: max-age=0
+date: Fri, 13 Nov 2026 07:45:53 GMT
+content-length: 76410
+

@@ -1,0 +1,407 @@
+"""
+evaluation/registry/build_registry.py
+
+建單位登記表 evaluation/registry/registry.json（人員、樓層、代表線；各題共用，只維護這一份）。
+
+原則（沿用 evaluation/README.md）：抽取，不是生成。登記表裡每一個名字、職稱、分機、樓層、電話都附逐字引句，
+引句要在來源檔裡找得到（NFKC 正規化、忽略空白）；名字與分機要在同一個表格列／同一張卡片。
+任何一條驗證失敗就中止，不寫檔。來源檔都放在 evaluation/registry/sources/ 下，不需要上網。
+
+每個人以分機為鍵，名字與職稱都記「寫法」，每個寫法帶它的所有來源（快照 snapshot、現場 live），答案符合任一寫法都算對：
+  names[].form   full（全名）／surname_title（姓氏＋職稱或稱謂，如「王組長」「黃小姐」）
+  status         both（快照與現場都有名字）／snapshot-only／live-only／title-only（沒有任何姓名，只有職稱）
+來源種類：
+  snapshot  語料快照（output/office_contacts_index.jsonl 有抓取時間；output/<子網域>/extracted_texts.jsonl 沒有時間，asof 記 "corpus"）
+  live      2026-11-13 現場抓取（動態渲染的人員頁，或靜態 curl 的頁面；evaluation/registry/sources/live/live_check.md）
+
+用法（在專案根目錄）：
+  python evaluation/registry/build_registry.py
+輸出：
+  evaluation/registry/registry.json
+  evaluation/registry/sources/snapshot/*.txt（引用到的快照原文複本）
+"""
+import json
+import re
+import sys
+from pathlib import Path
+
+from bs4 import BeautifulSoup
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from registry_lib import norm, text_of  # noqa: E402  比對與來源文字的函式只有一份（登記表的驗證也用它）
+
+ROOT = Path(__file__).resolve().parents[2]
+HERE = Path(__file__).resolve().parent
+LIVE_DIR = HERE / "sources" / "live"
+SNAP_DIR = HERE / "sources" / "snapshot"
+INDEX = ROOT / "output" / "office_contacts_index.jsonl"
+
+EXT_RE = re.compile(r"^\d{5}$")
+FIRST_ITEM = ("一、", "ㄧ、")  # 業務項目的第一項（有一份用的是注音符號 ㄧ）
+
+
+class Problems(list):
+    def add(self, msg: str) -> None:
+        self.append(msg)
+
+
+def src(kind: str, rel: str, asof: str, quote: str, problems: Problems, what: str) -> dict | None:
+    """一個來源引用；引句找不到就記問題並回傳 None。"""
+    if norm(quote) not in norm(text_of(rel)):
+        problems.add(f"{what}：{rel} 找不到「{quote}」")
+        return None
+    return {"source": kind, "asof": asof, "file": rel, "quote": quote}
+
+
+def add_form(items: list, form: str, value: str, source: dict | None, key: str = "form") -> None:
+    """把來源加進 items 裡同形式同值的條目，沒有就新增。"""
+    if source is None:
+        return
+    for it in items:
+        if it[key] == form and it["value"] == value:
+            if source not in it["sources"]:
+                it["sources"].append(source)
+            return
+    items.append({key: form, "value": value, "sources": [source]})
+
+
+def status_of(entry: dict) -> str:
+    kinds = {s["source"] for n in entry["names"] for s in n["sources"]}
+    if not entry["names"]:
+        return "title-only"
+    return "both" if kinds >= {"snapshot", "live"} else f"{next(iter(kinds))}-only"
+
+
+def finish(entry: dict) -> dict:
+    entry["status"] = status_of(entry)
+    return entry
+
+
+def snapshot_from_index(url: str, out_name: str) -> tuple[dict, str, str]:
+    for line in INDEX.open(encoding="utf-8"):
+        d = json.loads(line)
+        if d.get("url") == url:
+            SNAP_DIR.mkdir(parents=True, exist_ok=True)
+            rel = f"sources/snapshot/{out_name}"
+            (HERE / rel).write_text(f"# url: {d['url']}\n# fetched_at: {d['fetched_at']}\n# 來源：output/office_contacts_index.jsonl\n\n{d['text']}\n", encoding="utf-8")
+            return d, rel, d["fetched_at"][:10]
+    raise SystemExit(f"索引裡找不到：{url}")
+
+
+def snapshot_from_corpus(subdomain: str, url: str, out_name: str) -> tuple[dict, str]:
+    for line in (ROOT / "output" / subdomain / "extracted_texts.jsonl").open(encoding="utf-8"):
+        d = json.loads(line)
+        if d.get("url") == url:
+            SNAP_DIR.mkdir(parents=True, exist_ok=True)
+            rel = f"sources/snapshot/{out_name}"
+            (HERE / rel).write_text(f"# url: {d['url']}\n# 來源：output/{subdomain}/extracted_texts.jsonl（無抓取時間）\n\n{d['text']}\n", encoding="utf-8")
+            return d, rel
+    raise SystemExit(f"語料裡找不到：{url}")
+
+
+def live_asof(meta_file: str) -> str:
+    return json.loads((LIVE_DIR / meta_file).read_text(encoding="utf-8"))["fetched_at"][:10]
+
+
+LIVE_STATIC_ASOF = "2026-11-13"  # curl 靜態抓取，時間見 live_check.md
+
+
+# --- 註冊組 ----------------------------------------------------------------
+def parse_registrar_snapshot(text: str) -> list[dict]:
+    """每一列從「一、」（業務項目第一項）開始，前兩行是職稱與姓名，其後（下一列開始前）第一個不加括號的五位數是分機。"""
+    lines = [l.strip() for l in text.splitlines() if l.strip()]
+    starts = [i for i, l in enumerate(lines) if l in FIRST_ITEM]
+    rows = []
+    for n, i in enumerate(starts):
+        end = starts[n + 1] if n + 1 < len(starts) else len(lines)
+        ext = next((x for x in lines[i + 1:end] if EXT_RE.match(x)), None)
+        rows.append({"title": lines[i - 2], "name": lines[i - 1], "ext": ext})
+    return rows
+
+
+def parse_registrar_live(html: str) -> list[dict]:
+    soup = BeautifulSoup(html, "html.parser")
+    table = next(t for t in soup.find_all("table") if "分機" in t.get_text())
+    rows = []
+    for tr in table.find_all("tr"):
+        cells = tr.find_all("td", recursive=False)
+        if len(cells) < 3:
+            continue
+        label = " ".join(cells[0].get_text(" ", strip=True).split())
+        if not label or label == "姓名/職稱":
+            continue
+        ext_cell = " ".join(cells[-2].get_text(" ", strip=True).split())
+        rows.append({"label": label, "ext": ext_cell if EXT_RE.match(ext_cell) else None})
+    return rows
+
+
+def build_registrar(problems: Problems) -> dict:
+    what = "註冊組"
+    rec, snap_rel, snap_asof = snapshot_from_index("https://aca.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C-%E8%A8%BB%E5%86%8A", "aca_staff_registrar.txt")
+    live_rel = "sources/live/aca_staff_registrar.rendered.html"
+    l_asof = live_asof("aca_staff_registrar.render.json")
+    snap_rows = parse_registrar_snapshot(rec["text"])
+    live_rows = parse_registrar_live((HERE / live_rel).read_text(encoding="utf-8"))
+    if len(snap_rows) != len(live_rows):
+        problems.add(f"{what}：快照 {len(snap_rows)} 列，現場 {len(live_rows)} 列，列數不同")
+    staff = []
+    for k, (s, l) in enumerate(zip(snap_rows, live_rows), 1):
+        w = f"{what}第 {k} 列"
+        if s["ext"] != l["ext"]:
+            problems.add(f"{w}：快照分機 {s['ext']}，現場分機 {l['ext']}")
+        if norm(s["name"])[0] != norm(l["label"])[0]:
+            problems.add(f"{w}：快照姓名 {s['name']} 與現場 {l['label']} 姓氏不同")
+        e = {"ext": s["ext"] or l["ext"], "row": k, "names": [], "titles": []}
+        add_form(e["names"], "full", norm(s["name"]), src("snapshot", snap_rel, snap_asof, s["name"], problems, w))
+        add_form(e["names"], "surname_title", norm(l["label"]), src("live", live_rel, l_asof, l["label"], problems, w))
+        add_form(e["titles"], "title", norm(s["title"]), src("snapshot", snap_rel, snap_asof, s["title"], problems, w), key="kind")
+        add_form(e["titles"], "title", norm(l["label"])[1:], src("live", live_rel, l_asof, l["label"], problems, w), key="kind")
+        if e["ext"]:
+            e["ext_sources"] = [x for x in (src("snapshot", snap_rel, snap_asof, e["ext"], problems, w), src("live", live_rel, l_asof, e["ext"], problems, w)) if x]
+        staff.append(finish(e))
+    floor_snap = re.search(r"\d{5,6}[^\n]*?號\s*行政大樓四樓", rec["text"])
+    floor_live = re.search(r"行政大樓四樓", text_of(live_rel))
+    floors = []
+    if floor_snap and floor_live:
+        floors.append({"value": "行政大樓四樓", "accepted": ["行政大樓四樓", "四樓", "4樓"], "units": ["註冊組"], "sources": [
+            src("snapshot", snap_rel, snap_asof, floor_snap.group(0), problems, what + "樓層"),
+            src("live", live_rel, l_asof, "行政大樓四樓", problems, what + "樓層")]})
+    else:
+        problems.add(f"{what}樓層：快照或現場找不到行政大樓四樓")
+    return {"name": "註冊組", "aliases": ["教務處註冊組", "註冊組"], "parent": "教務處", "floors": floors, "lines": [], "staff": staff}
+
+
+# --- 生僑組 ----------------------------------------------------------------
+def split_zh_en(s: str) -> tuple[str, str]:
+    """「盧誼甄 LU, YI-CHEN」→（盧誼甄, LU, YI-CHEN）；「組長 Section Chief」→（組長, Section Chief）。"""
+    m = re.match(r"^([^A-Za-z]*?)\s*([A-Za-z].*)?$", s.strip())
+    return (m.group(1).strip(), (m.group(2) or "").strip())
+
+
+def parse_soa_snapshot(text: str) -> list[dict]:
+    lines = [l.strip() for l in text.splitlines() if l.strip()]
+    rows = []
+    for i, l in enumerate(lines):
+        if l == "職稱" and lines[i + 2] == "姓名" and lines[i + 4] == "分機":
+            rows.append({"title": lines[i + 1], "name": lines[i + 3], "ext": lines[i + 5]})
+    return rows
+
+
+def parse_soa_live(html: str) -> list[dict]:
+    rows = []
+    for t in BeautifulSoup(html, "html.parser").find_all("table"):
+        c = [" ".join(x.get_text(" ", strip=True).split()) for x in t.find_all(["td", "th"])]
+        if c[:1] == ["職稱"] and "分機" in c:
+            rows.append({"title": c[1], "name": c[3], "ext": c[5]})
+    return rows
+
+
+def build_soa(problems: Problems) -> dict:
+    what = "生僑組"
+    url = "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/關於我們/成員介紹"
+    rec, snap_rel = snapshot_from_corpus("osa", url, "osa_staff_soa.txt")
+    snap_asof = "corpus"
+    live_rel = "sources/live/osa_staff_soa.rendered.html"
+    l_asof = live_asof("osa_staff_soa.render.json")
+    snap_rows, live_rows = parse_soa_snapshot(rec["text"]), parse_soa_live((HERE / live_rel).read_text(encoding="utf-8"))
+    if len(snap_rows) != len(live_rows):
+        problems.add(f"{what}：快照 {len(snap_rows)} 列，現場 {len(live_rows)} 列")
+    staff = []
+    for k, (s, l) in enumerate(zip(snap_rows, live_rows), 1):
+        w = f"{what}第 {k} 列"
+        if (s["ext"], norm(s["name"]), norm(s["title"])) != (l["ext"], norm(l["name"]), norm(l["title"])):
+            problems.add(f"{w}：快照 {s} 與現場 {l} 不同")
+        title_zh, title_en = split_zh_en(s["title"])
+        name_zh, name_en = split_zh_en(s["name"])
+        e = {"ext": s["ext"], "row": k, "names": [], "titles": [], "english": {"name": name_en, "title": title_en}}
+        for kind, rel, asof, row in (("snapshot", snap_rel, snap_asof, s), ("live", live_rel, l_asof, l)):
+            tz, _ = split_zh_en(row["title"])
+            nz, _ = split_zh_en(row["name"])
+            add_form(e["titles"], "title", tz, src(kind, rel, asof, tz, problems, w), key="kind")
+            if nz != "待補":
+                add_form(e["names"], "full", nz, src(kind, rel, asof, nz, problems, w))
+            e.setdefault("ext_sources", []).append(src(kind, rel, asof, row["ext"], problems, w))
+        e["ext_sources"] = [x for x in e["ext_sources"] if x]
+        staff.append(e)
+    # 姓名欄是「待補」的分機，職務代理人欄用「洪子茹（分機：62223）」寫出現任者；兩邊都有才收
+    for e in staff:
+        if not e["names"]:
+            m = re.search(r"([一-鿿]{2,4})（分機：" + e["ext"] + "）", rec["text"])
+            if m:
+                q = m.group(0)
+                add_form(e["names"], "full", m.group(1), src("snapshot", snap_rel, snap_asof, q, problems, what + e["ext"]))
+                add_form(e["names"], "full", m.group(1), src("live", live_rel, l_asof, q, problems, what + e["ext"]))
+                e["note"] = "姓名欄是「待補」；名字取自職務代理人欄的「姓名（分機：" + e["ext"] + "）」"
+    staff = [finish(e) for e in staff]
+    floors = [{"value": "行政大樓三樓", "accepted": ["行政大樓三樓", "三樓", "3樓"], "units": ["生僑組"], "sources": [
+        src("snapshot", snap_rel, snap_asof, "行政大樓三樓", problems, what + "樓層"),
+        src("live", live_rel, l_asof, "行政大樓三樓", problems, what + "樓層")]}]
+    lines = [{"kind": "總機", "value": "63016", "sources": [
+        src("snapshot", snap_rel, snap_asof, "總機 63016", problems, what + "總機"),
+        src("live", live_rel, l_asof, "總機 63016", problems, what + "總機")]}]
+    return {"name": "生僑組", "aliases": ["生活事務暨僑生輔導組", "學務處生僑組", "生僑組"], "parent": "學生事務處",
+            "floors": floors, "lines": lines, "staff": staff}
+
+
+# --- 國合處 ----------------------------------------------------------------
+# 現場卡片沒有姓名的分機，另外用「姓名＋分機」同一句的頁面補全名（快照語料為主，現場靜態頁有同一句就一併記）
+OIC_EXTRA_NAMES = [
+    ("62058", "徐維勵", "Post/788", "大學部申請：徐維勵小姐（校內分機：62058）"),
+    ("62510", "凌千喆", "Post/788", "研究所申請：凌千喆小姐（校內分機：62510）"),
+    ("62040", "何芸婷", "Post/16017", "本案承辦人：何芸婷，分機62040"),
+]
+
+
+def build_oic(problems: Problems) -> dict:
+    what = "國合處"
+    rec, snap_rel, snap_asof = snapshot_from_index("https://oic.nccu.edu.tw/Category/596", "oic_category_596.txt")
+    live_rel = "sources/live/oic_category_596.rendered.html"
+    l_asof = live_asof("oic_category_596.render.json")
+    soup = BeautifulSoup((HERE / live_rel).read_text(encoding="utf-8"), "html.parser")
+    cards = soup.find_all(class_="staff-card")
+    by_ext: dict[str, dict] = {}
+    for k, c in enumerate(cards, 1):
+        w = f"{what}第 {k} 張卡片"
+        m = re.search(r"分機：(\d{5})", c.get_text())
+        if not m:
+            problems.add(f"{w}：沒有分機")
+            continue
+        ext = m.group(1)
+        name_el, title_el = c.find(class_="staff-name"), c.find(class_="staff-title")
+        name = name_el.get_text(strip=True) if name_el else ""
+        title = title_el.get_text(strip=True) if title_el else ""
+        e = by_ext.setdefault(ext, {"ext": ext, "row": len(by_ext) + 1, "names": [], "titles": [], "ext_sources": []})
+        if name:
+            form = "surname_title" if re.search(r"(小姐|先生)$", name) else "full"
+            add_form(e["names"], form, name, src("live", live_rel, l_asof, name, problems, w))
+        if title:
+            add_form(e["titles"], "title", title, src("live", live_rel, l_asof, title, problems, w), key="kind")
+        for x in (src("live", live_rel, l_asof, f"分機：{ext}", problems, w), src("snapshot", snap_rel, snap_asof, f"分機：{ext}", problems, w)):
+            if x and x not in e["ext_sources"]:
+                e["ext_sources"].append(x)
+    snap_exts = set(re.findall(r"分機：(\d{5})", rec["text"]))
+    if snap_exts != set(by_ext):
+        problems.add(f"{what}：快照分機 {sorted(snap_exts ^ set(by_ext))} 與現場不一致")
+    # 補全名：快照語料頁、現場靜態頁
+    pages = {}
+    for page, snap_file, live_file in (("Post/788", "oic_post_788.txt", "oic_post_788.html"), ("Post/16017", "oic_post_16017.txt", None)):
+        _, rel = snapshot_from_corpus("oic", f"https://oic.nccu.edu.tw/{page}", snap_file)
+        pages[page] = (rel, f"sources/live/{live_file}" if live_file else None)
+    for ext, name, page, quote in OIC_EXTRA_NAMES:
+        e = by_ext.get(ext)
+        if e is None:
+            problems.add(f"{what}：補全名的分機 {ext} 不在現場頁")
+            continue
+        w = f"{what}分機 {ext} 補全名"
+        snap_page, live_page = pages[page]
+        add_form(e["names"], "full", name, src("snapshot", snap_page, "corpus", quote, problems, w))
+        if live_page:
+            add_form(e["names"], "full", name, src("live", live_page, LIVE_STATIC_ASOF, quote, problems, w))
+        for n in e["names"]:
+            if n["form"] == "surname_title" and n["value"][0] != name[0]:
+                problems.add(f"{w}：{name} 與現場 {n['value']} 姓氏不同")
+    staff = [finish(e) for e in by_ext.values()]
+    p800_snap, _ = snapshot_from_corpus("oic", "https://oic.nccu.edu.tw/Post/800", "oic_post_800.txt")
+    s800, l800 = "sources/snapshot/oic_post_800.txt", "sources/live/oic_post_800.html"
+    notice = "sources/live/aca_notice_115_1.pdf.txt"
+    floors = []
+    for value, acc, units, quote in (
+        ("行政大樓八樓", ["行政大樓八樓", "行政大樓8樓", "八樓", "8樓"], ["國際教育組", "合作交流組", "海外辦公室"], "八樓—國際教育組、合作交流組、海外辦公室"),
+        ("行政大樓七樓", ["行政大樓七樓", "行政大樓7樓", "七樓", "7樓"], ["大陸事務組", "發展策劃組"], "七樓—大陸事務組、發展策劃組"),
+    ):
+        srcs = [src("snapshot", s800, "corpus", quote, problems, what + "樓層"), src("live", l800, LIVE_STATIC_ASOF, quote, problems, what + "樓層")]
+        if value == "行政大樓八樓":
+            srcs.append(src("live", notice, LIVE_STATIC_ASOF, "國際合作事務處 (行政大樓八樓)", problems, what + "樓層"))
+        floors.append({"value": value, "accepted": acc, "units": units, "sources": [x for x in srcs if x]})
+    lines = [
+        {"kind": "總機（註冊通知單的國際學生專線）", "value": "02-29393091轉67729", "sources": [src("live", notice, LIVE_STATIC_ASOF, "(聯絡電話：02-29393091轉67729)", problems, what + "專線")]},
+        {"kind": "聯絡電話（國合處聯絡方式頁）", "value": "886-2-2938-7729", "sources": [
+            src("snapshot", s800, "corpus", "聯絡電話：886-2-2938-7729", problems, what + "電話"),
+            src("live", l800, LIVE_STATIC_ASOF, "聯絡電話：886-2-2938-7729", problems, what + "電話")]},
+        {"kind": "頁尾電話（工作職掌頁）", "value": "886-2-29393091 #62040", "sources": [src("live", live_rel, l_asof, "電話 886-2-29393091 #62040", problems, what + "頁尾")]},
+    ]
+    for ln in lines:
+        ln["sources"] = [x for x in ln["sources"] if x]
+    return {"name": "國際合作事務處", "aliases": ["國合處", "國際合作事務處"], "parent": None, "floors": floors, "lines": lines, "staff": staff}
+
+
+# --- 表單 ------------------------------------------------------------------
+MOLTKE = "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail="
+LEAVE_PAGE = "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學"
+FORMS = [  # (編號, 在教務處頁面上的連結文字, 現場 302 標頭檔)
+    ("QP-T01-03-04", "提早復學申請書", None),
+    ("QP-T01-02-05", "各項證明文件申辦委託書", "moltke_qp_t01_02_05.headers.txt"),
+    ("QP-T01-03-02", "休學/保留學籍申請書", "moltke_QP-T01-03-02.headers.txt"),
+]
+FORM_ALIASES = {"QP-T01-02-05": ["委託書"]}  # 教務處頁面正文寫「需附委託書」，指的是這份表單
+
+
+def build_forms(problems: Problems) -> list[dict]:
+    _, page_rel = snapshot_from_corpus("aca", LEAVE_PAGE, "aca_leave_page.txt")
+    live_page = "sources/live/aca_leave_page.html"
+    recs = {}
+    for line in (ROOT / "output" / "aca" / "extracted_supplementary.jsonl").open(encoding="utf-8"):
+        d = json.loads(line)
+        for fid, *_ in FORMS:
+            if d["url"] == MOLTKE + fid:
+                recs[fid] = d
+    SNAP_DIR.mkdir(parents=True, exist_ok=True)
+    forms_rel = "sources/snapshot/moltke_forms.txt"
+    (HERE / forms_rel).write_text("# 來源：output/aca/extracted_supplementary.jsonl（無抓取時間）；每筆：網址、標題、前 300 字\n\n" + "\n\n".join(
+        f"url: {d['url']}\ntitle: {d['title']}\n{d['text'][:300]}" for d in recs.values()) + "\n", encoding="utf-8")
+    out = []
+    for fid, link_text, headers in FORMS:
+        w = f"表單 {fid}"
+        d = recs.get(fid)
+        if d is None:
+            problems.add(f"{w}：語料沒有這份表單")
+            continue
+        zh, _, en = d["title"].partition(" / ")
+        link_quote = f"[{link_text}]({MOLTKE}{fid})"
+        names = [zh] + ([en] if en else []) + FORM_ALIASES.get(fid, [])
+        e = {"id": fid, "url": MOLTKE + fid, "names": [], "sources": [], "live_check": None}
+        for n in names:
+            basis = forms_rel if n in (zh, en) else page_rel
+            q = n if n in (zh, en) else "需附委託書"
+            add_form(e["names"], "name", n, src("snapshot", basis, "corpus", q if n not in (zh, en) else n, problems, w), key="kind")
+        e["sources"] = [x for x in (
+            src("snapshot", forms_rel, "corpus", f"url: {MOLTKE}{fid}", problems, w),
+            src("snapshot", page_rel, "corpus", link_quote, problems, w),
+            src("live", live_page, LIVE_STATIC_ASOF, link_quote, problems, w)) if x]
+        if headers:
+            hrel = f"sources/live/{headers}"
+            e["live_check"] = src("live", hrel, LIVE_STATIC_ASOF, f"Location: login.formservice?viewdetail={fid}", problems, w)
+            if e["live_check"]:
+                e["live_check"]["result"] = "302 轉到同一站台的登入頁，沒有跟隨；看不到表單內容，連結本身仍然有效"
+        else:
+            e["live_note"] = "沒有對這個網址送過現場請求（未經批准）；連結以教務處現場頁面（2026-11-13）上列出的為準"
+        out.append(e)
+    return out
+
+
+OFFICES = {"registrar": build_registrar, "soa": build_soa, "oic": build_oic}
+
+
+def main() -> int:
+    problems = Problems()
+    registry = {"version": 1, "offices": {key: fn(problems) for key, fn in OFFICES.items()}, "forms": build_forms(problems)}
+    if problems:
+        print("驗證失敗，沒有寫檔：")
+        for p in problems:
+            print("  -", p)
+        return 1
+    out = HERE / "registry.json"
+    out.write_text(json.dumps(registry, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    for o in registry["offices"].values():
+        c = {}
+        for s in o["staff"]:
+            c[s["status"]] = c.get(s["status"], 0) + 1
+        print(f"{o['name']}：{len(o['staff'])} 筆 {c}，樓層 {[f['value'] for f in o['floors']]}，代表線 {len(o['lines'])} 條")
+    print(f"表單：{[f['id'] for f in registry['forms']]}")
+    print(f"→ {out.relative_to(ROOT)}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

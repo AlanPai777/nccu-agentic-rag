@@ -1,0 +1,32 @@
+{
+  "claims": [
+    {"id": "c1", "answer_span": "休學或保留學籍期滿者，依規定完成繳費註冊", "status": "supported", "evidence": [{"item": "E1", "quote": "學生休學或保留學籍期滿即應復學，並依規定期限辦妥繳費註冊相關事宜。"}], "why": "證據說期滿應復學並依規定辦妥繳費註冊。"},
+    {"id": "c2", "answer_span": "選課上課，即完成復學手續，不需要申請表", "status": "unsupported", "evidence": [], "why": "證據未說期滿者靠選課上課即完成復學手續，也未說不需要申請表。"},
+    {"id": "c3", "answer_span": "須在復學當學期的加退選結束前辦理", "status": "supported", "evidence": [{"item": "E1", "quote": "應於復學之當學期加退選結束前"}], "why": "E1 明載提早復學的期限。"},
+    {"id": "c4", "answer_span": "本人攜帶學生證或身分證件正本", "status": "supported", "evidence": [{"item": "E1", "quote": "本人攜帶學生證或身分證件正本"}], "why": "E1 原文相同。"},
+    {"id": "c5", "answer_span": "非本人親辦，需附委託書及被委託人身分證件正本", "status": "supported", "evidence": [{"item": "E1", "quote": "非本人親辦，需附委託書及被委託人身分證件正本"}], "why": "E1 原文相同。"},
+    {"id": "c6", "answer_span": "委託書：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-02-05", "status": "supported", "evidence": [{"item": "E2", "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-02-05", "from": "sources"}], "why": "sources 中此網址的 label 是各項證明文件申辦委託書。"},
+    {"id": "c7", "answer_span": "填妥「提早復學申請書」", "status": "supported", "evidence": [{"item": "E1", "quote": "填妥「提早復學申請書」"}], "why": "E1 原文相同。"},
+    {"id": "c8", "answer_span": "表單編號 QP-T01-03-04", "status": "supported", "evidence": [{"item": "E2", "quote": "表單編號：QP-T01-03-04"}], "why": "E2 提早復學申請書的表單編號。"},
+    {"id": "c9", "answer_span": "下載連結：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-04", "status": "supported", "evidence": [{"item": "E2", "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-04", "from": "sources"}], "why": "sources 中此網址的 label 是提早復學申請書。"},
+    {"id": "c10", "answer_span": "系所會辦", "status": "supported", "evidence": [{"item": "E1", "quote": "依說明至系所及各處室蓋章後"}], "why": "E1 說要至系所及各處室蓋章。"},
+    {"id": "c11", "answer_span": "生僑組（僅男生及僑生需辦理）", "status": "supported", "evidence": [{"item": "E2", "quote": "(僅男生及僑生需辦理)"}], "why": "E2 表單生僑組欄標明僅男生及僑生需辦理。"},
+    {"id": "c12", "answer_span": "請繳交歸屬證書正本、體位證書正本或退伍令影本", "status": "supported", "evidence": [{"item": "E2", "quote": "請繳交歸屬證書正本或體位證書正本或退伍令影本"}], "why": "E2 原文相同意思。"},
+    {"id": "c13", "answer_span": "在行政大樓三樓", "status": "supported", "evidence": [{"item": "E2", "quote": "【行政大樓三樓】"}], "why": "E2 生僑組欄標示行政大樓三樓。"},
+    {"id": "c14", "answer_span": "聯絡人盧誼甄（分機 62226）", "status": "supported", "evidence": [{"item": "E3", "quote": "盧誼甄（行政專員）分機 62226"}], "why": "E3 同一人與分機相符。"},
+    {"id": "c15", "answer_span": "國際合作事務處（僅國際學生需辦理）", "status": "supported", "evidence": [{"item": "E2", "quote": "（僅國際學生需辦理）"}], "why": "E2 國合處欄標明僅國際學生需辦理。"},
+    {"id": "c16", "answer_span": "在行政大樓八樓", "status": "supported", "evidence": [{"item": "E2", "quote": "限國際學生(行政大樓8樓)"}], "why": "E2 國際合作事務處欄標示行政大樓8樓。"},
+    {"id": "c17", "answer_span": "聯絡人徐維勵（分機 62058）", "status": "supported", "evidence": [{"item": "E3", "quote": "徐維勵（計畫專員）分機 62058"}], "why": "E3 同一人與分機相符。"},
+    {"id": "c18", "answer_span": "註冊組承辦人擬准予復學，再由註冊組組長蓋章", "status": "supported", "evidence": [{"item": "E2", "quote": "擬 准予 學年第 學期復學。"}, {"item": "E2", "quote": "註 冊 組 組 長"}], "why": "E2 表單有註冊組承辦人擬准予復學與註冊組組長欄。"},
+    {"id": "c19", "answer_span": "學士班另加會學士班統籌", "status": "supported", "evidence": [{"item": "E2", "quote": "學士班請加會學士班統籌"}], "why": "E2 原文相同意思。"},
+    {"id": "c20", "answer_span": "註冊組在行政大樓四樓", "status": "supported", "evidence": [{"item": "E2", "quote": "學年 學期 (行政大樓 4 樓)"}], "why": "E2 表單教務處註冊組欄標示行政大樓 4 樓。"},
+    {"id": "c21", "answer_span": "組長王揚忠（分機 63273）", "status": "supported", "evidence": [{"item": "E3", "quote": "王揚忠（組長）分機 63273"}], "why": "E3 姓名、職稱、分機相符。"},
+    {"id": "c22", "answer_span": "各單位蓋章完畢後，送註冊組辦理", "status": "supported", "evidence": [{"item": "E2", "quote": "蓋章完畢後，送註冊組辦理"}], "why": "E2 注意事項一。"},
+    {"id": "c23", "answer_span": "申請經核准後，即完成復學手續", "status": "supported", "evidence": [{"item": "E2", "quote": "本申請經核准後，即完成復學手續。"}], "why": "E2 注意事項三。"},
+    {"id": "c24", "answer_span": "完成復學手續後，要依規定期限辦理註冊", "status": "supported", "evidence": [{"item": "E2", "quote": "完成復學手續後，應依規定期限辦理註冊"}], "why": "E2 注意事項三。"},
+    {"id": "c25", "answer_span": "原保留入學資格者，因保留原因消失想提早復學，限於第一學期申請", "status": "supported", "evidence": [{"item": "E2", "quote": "原保留入學資格，因保留原因消失欲提早復學（入學）者，限於第一學期申請"}], "why": "E2 注意事項四。"},
+    {"id": "c26", "answer_span": "（每年八月）", "status": "supported", "evidence": [{"item": "E2", "quote": "（每年 八月）"}], "why": "E2 注明每年八月。"},
+    {"id": "c27", "answer_span": "第二學期不得申請入學", "status": "supported", "evidence": [{"item": "E2", "quote": "第二學期不得申請入學"}], "why": "E2 注意事項四。"}
+  ],
+  "judge": {"model": "claude-sonnet-5-5", "prompt_version": "isolated-v3", "note": "isolated trace by a subagent that read only trace_input.json"}
+}

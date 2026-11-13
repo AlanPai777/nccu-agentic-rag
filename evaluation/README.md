@@ -93,5 +93,7 @@ python evaluation/compare_tests.py evaluation/cashier_contact/tests/tampered_v1 
 | `list_runs.py` | 列出一題所有 run 的標籤、時間、模型、版本、分數（唯讀、離線） |
 | `leave_form_download/` | 休學申請表下載題（第一題資源類）：`gold.json`（K1 表單編號、K2 moltke 網址）、`build_gold.py`、`sources/`（含 moltke 連結回 302 的查證記錄）、`tests/pipeline_setup/`（4 份假設答案的流程測試，`report.md`，不是評測結果） |
 | `course_limit/` | 選課上限題：`gold.json`、`build_gold.py`、`sources/`（快照複本、現場 PDF／HTML 與 `live_check.md` 查證記錄）。第一題非聯絡人題，7 個 keypoint（一個事實一個；數字型 `hard`、文字敘述型 `semantic`）；`tests/pipeline_setup/` 是用假設答案讓管線跑一次的流程測試（`report.md`，不是評測結果） |
+| `registry/` | 單位登記表（各題共用、只維護一份）：`registry.json`（註冊組、生僑組、國合處的人員、樓層、代表線，以及表單；每個名字同時記快照與現場兩種寫法，每條都附逐字引句與來源）、`build_registry.py`（建置並逐字驗證）、`registry_lib.py`（比對：姓名＋分機、樓層、表單連結；gold 用 `"registry": {...}` 欄位引用）、`fetch_live_page.py`（人員頁一律用動態抓取，預設只列網址，加 `--run` 才送）、`sources/`（快照複本與現場原始頁面、`live_check.md` 查證記錄） |
+| `resumption/` | 如何辦理復學（第一題跨處室程序題）：`gold.json`（23 個 keypoint，蓋章一個單位一個 keypoint；人員、樓層、表單連結 8 個引用登記表）、`build_gold.py`、`sources/`、`tests/pipeline_setup/`（5 份假設答案的流程測試，`report.md`，不是評測結果） |
 | `cashier_contact/` | 出納組：`gold.json`、`build_gold.py`、`sources/`（來源原文複本與官網查證記錄）、`runs/`（每次 run）、`tests/`（隔離回推材料） |
 | `tests/` | 評測程式的單元測試與 fixtures |

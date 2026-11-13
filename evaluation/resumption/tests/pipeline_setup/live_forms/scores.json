@@ -1,0 +1,253 @@
+{
+  "query_id": "resumption",
+  "run_id": "live_forms",
+  "system_version": "hypothetical",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；表單版本 2024修訂8版）",
+    "live": "2026-11-13（現場）（教務處頁面、註冊通知單 115-1、各處室人員頁；人員、樓層、表單連結的現場依據在 evaluation/registry/）"
+  },
+  "judges": {
+    "trace": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "isolated-v3",
+      "note": "isolated trace by a subagent that read only trace_input.json"
+    },
+    "keypoint": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "judge-v1",
+      "note": "Claude Code 本 session 判斷（流程測試：答案也是 Claude Code 寫的，判斷不獨立；Keypoint 判斷依設計會看 gold）。主張編號取自子代理的隔離回推 trace.json"
+    }
+  },
+  "rouge_l": {
+    "p": 0.5785,
+    "r": 0.6965,
+    "f": 0.6321
+  },
+  "accuracy_rule": {
+    "hard_keypoints": 8,
+    "hit": 8,
+    "accuracy": 1.0,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      0,
+      1,
+      2
+    ],
+    "context_chars": 6558,
+    "sentence": {
+      "p": 0.0676,
+      "r": 1.0,
+      "f": 0.1266
+    },
+    "words": {
+      "p": 0.1441,
+      "r": 0.9804,
+      "f": 0.2513
+    },
+    "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）"
+  },
+  "keypoint": {
+    "relevant": 19,
+    "wrong": 0,
+    "irrelevant": 3,
+    "total": 22,
+    "not_applicable": 1,
+    "completeness": 0.8636,
+    "hallucination": 0.0,
+    "irrelevance": 0.1364
+  },
+  "fact_unit": {
+    "precision": 1.0,
+    "recall": 0.8636,
+    "f1": 0.9268,
+    "note": "P = Relevant ÷ (Relevant + Wrong)；R = Relevant ÷ keypoint 總數"
+  },
+  "claim_unit": {
+    "claims": 21,
+    "correct_claims": 21,
+    "precision": 1.0,
+    "recall": 0.8636,
+    "f1": 0.9268,
+    "note": "P = 正確陳述某個 keypoint 的主張 ÷ 全部主張；額外但正確的資訊會讓 P 下降，量的是聚焦程度"
+  },
+  "evidence_support": {
+    "rate": 0.9048,
+    "supported": 19,
+    "claims": 21,
+    "unsupported_claims": [
+      "c2",
+      "c10"
+    ]
+  },
+  "ungrounded_correct_keypoints": [
+    "K17"
+  ],
+  "funnel": [
+    {
+      "id": "K1",
+      "in_context": true,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K2",
+      "in_context": true,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K3",
+      "in_context": true,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K4",
+      "in_context": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K5",
+      "in_context": true,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K6",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K7",
+      "verdict": "not_applicable",
+      "in_context": null,
+      "stated_correctly": null,
+      "grounded": null
+    },
+    {
+      "id": "K8",
+      "in_context": true,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K9",
+      "in_context": true,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K10",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K11",
+      "in_context": true,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K12",
+      "in_context": true,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K13",
+      "in_context": true,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K14",
+      "in_context": true,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K15",
+      "in_context": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K16",
+      "in_context": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K17",
+      "in_context": null,
+      "stated_correctly": true,
+      "grounded": false,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K18",
+      "in_context": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K19",
+      "in_context": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K20",
+      "in_context": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K21",
+      "in_context": true,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K22",
+      "in_context": true,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K23",
+      "in_context": true,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    }
+  ],
+  "contact_funnel": [],
+  "disagreements": [],
+  "warnings": []
+}
