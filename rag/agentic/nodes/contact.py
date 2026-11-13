@@ -150,7 +150,9 @@ def _snapshot_ledger(context: str, offices: list[str], result: dict) -> str:
     from rag.live.clock import taipei_minute
     from rag.live.ledger import FIXED_DATA, SNAPSHOT, contact_markers_text, make_marker, sanitize
     by_url, dates = _snapshot_pages(offices, result)
-    markers = [make_marker(url, SNAPSHOT, "", dates.get(url) or config.SNAPSHOT_ASOF, kind="contact", title="、".join(offs) + " 人員頁")
+    from rag.live import moved
+    markers = [make_marker(url, SNAPSHOT, "", dates.get(url) or config.SNAPSHOT_ASOF, kind="contact", title="、".join(offs) + " 人員頁",
+                           moved_to=moved.new_for(url))
                for url, offs in by_url.items()]
     now = taipei_minute()
     markers += [make_marker("fixed://KNOWN_CONTACTS/" + office, FIXED_DATA, now, "", False, kind="contact")
@@ -169,7 +171,7 @@ def _with_ledger(context: str, offices: list[str], result: dict, live) -> str:
     markers: list[str] = []
     if live is not None:
         markers += [make_marker(o.url, o.state, o.checked, (o.snapshot_at or config.SNAPSHOT_ASOF)[:10], o.tls_unverified,
-                                kind="contact", title="、".join(o.offices) + " 人員頁")
+                                kind="contact", title="、".join(o.offices) + " 人員頁", moved_to=getattr(o, "moved_to", ""), moved_from=getattr(o, "moved_from", ""))
                     for o in live.pages.values()]
     now = taipei_minute()
     markers += [make_marker("fixed://KNOWN_CONTACTS/" + office, FIXED_DATA, now, "", False, kind="contact")

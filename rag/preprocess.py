@@ -199,8 +199,27 @@ def _parse_soup(soup: BeautifulSoup, url: str = "") -> str:
         if re.search(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", footer_info):
             footer_info = ""
 
+    # Staff cards of the general-affairs pages (nccuga.nccu.edu.tw, moved there in 2026-11): the person's NAME and TITLE sit in
+    # <header class="staff-card__header">, which the noise removal below would drop together with the page header, losing every name
+    # (F19). Rewrite that header into the labeled fields the contact parser already reads ("姓名" / "職稱"), and keep it. A card with
+    # no name (or a placeholder) gets "姓名 待補" so the parser does not guess one from the text around it. Only a header whose class
+    # says it belongs to a staff card is touched; the page header is still removed and every other page is unchanged.
+    for hdr in soup.find_all("header", class_=re.compile(r"staff-card__header")):
+        name_el = hdr.find(class_=re.compile(r"staff-card__name"))
+        title_el = hdr.find(class_=re.compile(r"staff-card__title"))
+        name = name_el.get_text(strip=True) if name_el else ""
+        title = title_el.get_text(strip=True) if title_el else ""
+        hdr.clear()
+        for text in ("姓名", name or "待補") + (("職稱", title) if title else ()):
+            tag = soup.new_tag("p")
+            tag.string = text
+            hdr.append(tag)
+        hdr["data-staff-card"] = "1"
+
     # Remove noise elements
     for tag in soup.find_all(["nav", "footer", "header", "script", "style", "aside"]):
+        if tag.attrs and tag.attrs.get("data-staff-card"):      # (a tag inside an already removed parent has attrs None)
+            continue
         tag.decompose()
 
     # Also remove Joomla-specific navigation/breadcrumb wrappers, but never

@@ -90,8 +90,9 @@ _TITLE_WORDS = {
 # 62221）"-style deputy REFERENCES embedded in someone else's own entry —
 # without it, the deputy mention (which appears earlier in the text) wins the
 # de-dup race against that person's own real, fuller entry.
-_EXT_LABELED_RE  = re.compile(r'(?<!（)(?:校內)?分機\s*[：:]?\s*\n*\s*(\d{4,5})(?!\s*）)')
-_NAME_LABELED_RE  = re.compile(r'姓\s*名\s*\n*\s*([一-鿿]{2,6})')
+_EXT_LABELED_RE  = re.compile(r'(?<!（)(?:校內)?分機\s*[：:]?\s*\n*\s*(\d{4,6})(?!\d)(?!\s*）)')    # extensions are 4-6 digits (營繕組's technicians have six: 472013); without (?!\d) a six-digit one was cut to 47201
+_NAME_LABELED_RE  = re.compile(r'姓\s*名\s*\n*\s*([一-鿿\U00020000-\U0002FFFF]{2,6})')      # plane-2 hanzi too: 王𥣞媗 (cashier)
+_PLACEHOLDER_NAMES = ('待補', '待聘')      # a vacant post is not a person
 _TITLE_LABELED_RE = re.compile(r'職\s*稱\s*\n*\s*([^\n]{2,20})')
 _EMAIL_RE         = re.compile(r'([\w.+-]+@nccu\.edu\.tw)')
 
@@ -185,7 +186,7 @@ def _parse_labeled(text: str) -> tuple[list[dict], bool]:
             nt_match = _NAME_TITLE_RE.search(block)
             name = nt_match.group(1) if nt_match else ""
             used_fallback = True
-        if not name:
+        if not name or name.startswith(_PLACEHOLDER_NAMES):
             continue
         seen.add(ext)
         title_match = _TITLE_LABELED_RE.search(block)

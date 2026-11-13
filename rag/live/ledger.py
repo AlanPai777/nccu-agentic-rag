@@ -72,6 +72,8 @@ class Source:
     cached: bool = False        # the live result came from the side cache, not from a request made for this question
     age_min: int | None = None  # minutes since that live result was fetched (only meaningful with cached)
     title: str = ""             # page / form title, or the offices a staff page covers
+    moved_to: str = ""          # the page moved: this record is the OLD url (snapshot only / live failed) and the official one is now this
+    moved_from: str = ""        # the page moved: this record is the NEW url, read live, and this is the old url it replaced
 
 
 def snap_short(snap: str) -> str:
@@ -106,9 +108,9 @@ def sanitize(text: str) -> str:
 
 
 def make_marker(url: str, status: str, checked: str, snap: str, tls_unverified: bool = False, kind: str = "page",
-                cached: bool = False, age_min: int | None = None, title: str = "") -> str:
-    """The optional parts (cache=, age=, t=) are only written when set, so a marker without them is byte-for-byte what it always was.
-    `t` is percent-encoded: it never contains a space or a bracket, so a page title cannot break or forge a marker."""
+                cached: bool = False, age_min: int | None = None, title: str = "", moved_to: str = "", moved_from: str = "") -> str:
+    """The optional parts (cache=, age=, t=, mv=, mf=) are only written when set, so a marker without them is byte-for-byte what it always was.
+    `t`, `mv` and `mf` are percent-encoded: they never contain a space or a bracket, so a title or URL cannot break or forge a marker."""
     extra = ""
     if cached:
         extra += " cache=1"
@@ -116,6 +118,10 @@ def make_marker(url: str, status: str, checked: str, snap: str, tls_unverified: 
             extra += f" age={int(age_min)}"
     if title:
         extra += f" t={quote(title[:80], safe='')}"
+    if moved_to:
+        extra += f" mv={quote(moved_to, safe='')}"
+    if moved_from:
+        extra += f" mf={quote(moved_from, safe='')}"
     return f"[live:src status={status} kind={kind} checked={checked} snap={snap} tls={int(tls_unverified)}{extra} url={url}]"
 
 
@@ -134,7 +140,8 @@ def _source(attrs: str, url: str) -> Source | None:
         return None
     age = kv.get("age", "")
     return Source(url.strip(), kv["status"], kv.get("checked", ""), kv.get("snap", ""), kv.get("tls") == "1",
-                  kv.get("kind", "page"), kv.get("cache") == "1", int(age) if age.isdigit() else None, unquote(kv.get("t", "")))
+                  kv.get("kind", "page"), kv.get("cache") == "1", int(age) if age.isdigit() else None, unquote(kv.get("t", "")),
+                  unquote(kv.get("mv", "")), unquote(kv.get("mf", "")))
 
 
 def parse_markers(messages: list) -> list[Source]:
@@ -192,7 +199,8 @@ def status_section(sources: list[Source], gate_none: list[str] | None = None,
                 tls = "（此站憑證無法驗證）" if x.tls_unverified else ""
                 shown = x.url.rsplit("/", 1)[-1] if x.url.startswith("fixed://") else unquote(x.url)
                 when = time_text(x)
-                lines.append(f"  - {shown}{tls}" + (f"（{when}）" if when else ""))
+                moved = (f"（官網網址已搬到 {unquote(x.moved_to)}）" if x.moved_to else "") + (f"（原網址 {unquote(x.moved_from)} 已搬到此）" if x.moved_from else "")
+                lines.append(f"  - {shown}{tls}" + (f"（{when}）" if when else "") + moved)
     if uncovered:
         lines.append(f"- 以下辦公室的承辦人與分機未經官網核對，使用資料庫：{'、'.join(uncovered)}")
     return "\n".join(lines)

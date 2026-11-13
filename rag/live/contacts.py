@@ -26,7 +26,7 @@ from concurrent.futures import Future, ThreadPoolExecutor
 from dataclasses import dataclass, field
 from typing import Any, Callable
 
-from rag.live import config, events, ledger, resolve as R
+from rag.live import config, events, ledger, moved, resolve as R
 from rag.live.clock import taipei_minute
 from rag.live.compare import Comparison
 from rag.live.escalate import fetch_with_escalation, live_from_render, post_parse_reason, pre_parse_reason, static_similarity
@@ -59,6 +59,8 @@ class PageOutcome:
     tls_unverified: bool = False     # fetched over a connection whose certificate could not be verified (cashier)
     handled: Any = None              # whatever `handler` returned
     handler_error: str = ""
+    moved_from: str = ""             # the page moved (F19): `url` is the NEW url that was read live, and this is the old one
+    moved_to: str = ""               # the page moved: `url` is the OLD url (snapshot used, the live read failed) and this is the new one
 
 
 @dataclass
@@ -137,6 +139,17 @@ def _run_handler(outcome: PageOutcome, handler) -> None:
         log.warning("handler failed for %s: %s", outcome.url, outcome.handler_error)
 
 
+def _mark_moved(outcome: PageOutcome) -> PageOutcome:
+    """Source rule for a moved page: a successful live read is cited at the NEW url (moved_from = the old one); a snapshot result keeps the OLD
+    url and says where the page lives now. Does nothing for a page that did not move."""
+    shown_url, moved_from, moved_to = moved.shown(outcome.url, outcome.state in (ledger.LIVE_SAME, ledger.LIVE_CHANGED, ledger.LIVE_NEW))
+    if moved_from:
+        outcome.url, outcome.moved_from = shown_url, moved_from
+    else:
+        outcome.moved_to = moved_to
+    return outcome
+
+
 def process_page(url: str, info: dict, fetch_static: Callable[[str], LiveResult], render: Callable[[str], "Future"],
                  handler: Callable[[PageOutcome], Any] | None = None) -> PageOutcome:
     """One staff page, start to finish: static fetch -> compare -> A/B -> parse -> C -> (maybe) Chromium. Used by
@@ -145,6 +158,11 @@ def process_page(url: str, info: dict, fetch_static: Callable[[str], LiveResult]
     The fetch, the browser render and the order of the checks are in escalate.fetch_with_escalation. What is specific to a
     staff page is only what it passes in: A and B before the parse, and the parse followed by C."""
     handler = handler or _default_handler
+    moved_page = moved.lookup(url)
+    if moved_page is not None:                          # F19: read the page where it lives now; the snapshot stays the old index record
+        real_fetch, real_render, new_url = fetch_static, render, moved_page.new
+        fetch_static = lambda _u: real_fetch(new_url)    # noqa: E731
+        render = lambda _u: real_render(new_url)         # noqa: E731
     parsed_static: dict[str, PageOutcome] = {}          # the static outcome, kept when the parse step already built it
 
     def pre_parse(live: LiveResult) -> str | None:      # A, B: decided without parsing
@@ -159,12 +177,12 @@ def process_page(url: str, info: dict, fetch_static: Callable[[str], LiveResult]
     result = fetch_with_escalation(url, fetch_static, render, pre_parse, parse_then_c)
     static_outcome = parsed_static.get("outcome") or _decide_static(url, info, result.static)
     if result.rendered is None:
-        return static_outcome
+        return _mark_moved(static_outcome)
     # the static result is not enough: the browser's result stands
     final = _decide_rendered(url, info, result.rendered)
     final.escalated, final.static_requests = result.reason, static_outcome.requests
     _run_handler(final, handler)
-    return final
+    return _mark_moved(final)
 
 
 def fetch_contact_pages(offices: list[str], fetch_static: Callable[[str], LiveResult],
@@ -193,7 +211,7 @@ def fetch_contact_pages(offices: list[str], fetch_static: Callable[[str], LiveRe
         # the prefetch may have worked out a different office list for this page than the one asked for now
         outcome = dataclasses.replace(outcome, offices=info["offices"])
         if grp:
-            grp.row("done", rid=rid, url=url, title=title, state=outcome.state, checked=outcome.checked, tls_unverified=outcome.tls_unverified,
+            grp.row("done", rid=rid, url=outcome.url, title=title, state=outcome.state, checked=outcome.checked, tls_unverified=outcome.tls_unverified,
                     snap=(outcome.snapshot_at or config.SNAPSHOT_ASOF)[:10], seconds=time.monotonic() - t0, kind="contact")
         return outcome
 

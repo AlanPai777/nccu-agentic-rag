@@ -1,0 +1,54 @@
+{
+  "_comment": "Staff pages that moved. rag/live/moved.py reads this: a live read of `old` fetches `new` instead; the source shown is `new` when the live read succeeded, `old` plus a moved-to note when only the snapshot was used. Exact URLs only, not whole hosts.",
+  "pages": [
+    {
+      "unit": "總務長室",
+      "old": "https://dean.nccu.edu.tw/PageStaffing?fid=8353",
+      "new": "https://nccuga.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C%E9%81%B8%E5%96%AE/%E7%B8%BD%E5%8B%99%E9%95%B7%E5%AE%A4_",
+      "since": "2026-11-13",
+      "note": "總務處各單位的人員頁搬到 nccuga.nccu.edu.tw（F19）；舊網址連不上或 404"
+    },
+    {
+      "unit": "文書組",
+      "old": "https://docu.nccu.edu.tw/PageStaffing?fid=8372",
+      "new": "https://nccuga.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C%E9%81%B8%E5%96%AE/%E6%96%87%E6%9B%B8%E7%B5%84_",
+      "since": "2026-11-13",
+      "note": "總務處各單位的人員頁搬到 nccuga.nccu.edu.tw（F19）；舊網址連不上或 404"
+    },
+    {
+      "unit": "事務組",
+      "old": "https://aff.nccu.edu.tw/PageStaffing?fid=8611",
+      "new": "https://nccuga.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C%E9%81%B8%E5%96%AE/%E4%BA%8B%E5%8B%99%E7%B5%84_",
+      "since": "2026-11-13",
+      "note": "總務處各單位的人員頁搬到 nccuga.nccu.edu.tw（F19）；舊網址連不上或 404"
+    },
+    {
+      "unit": "財產組",
+      "old": "https://wealth.nccu.edu.tw/PageStaffing?fid=8253",
+      "new": "https://nccuga.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C%E9%81%B8%E5%96%AE/%E8%B2%A1%E7%94%A2%E7%B5%84_",
+      "since": "2026-11-13",
+      "note": "總務處各單位的人員頁搬到 nccuga.nccu.edu.tw（F19）；舊網址連不上或 404"
+    },
+    {
+      "unit": "營繕組",
+      "old": "https://mend.nccu.edu.tw/PageStaffing?fid=8380",
+      "new": "https://nccuga.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C%E9%81%B8%E5%96%AE/%E7%87%9F%E7%B9%95%E7%B5%84_",
+      "since": "2026-11-13",
+      "note": "總務處各單位的人員頁搬到 nccuga.nccu.edu.tw（F19）；舊網址連不上或 404"
+    },
+    {
+      "unit": "出納組",
+      "old": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
+      "new": "https://nccuga.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C%E9%81%B8%E5%96%AE/%E5%87%BA%E7%B4%8D%E7%B5%84_",
+      "since": "2026-11-13",
+      "note": "總務處各單位的人員頁搬到 nccuga.nccu.edu.tw（F19）；舊網址連不上或 404"
+    },
+    {
+      "unit": "校園規劃與發展組",
+      "old": "https://cpds.nccu.edu.tw/PageStaffing?fid=8465",
+      "new": "https://nccuga.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C%E9%81%B8%E5%96%AE/%E8%A6%8F%E5%8A%83%E7%B5%84_",
+      "since": "2026-11-13",
+      "note": "總務處各單位的人員頁搬到 nccuga.nccu.edu.tw（F19）；舊網址連不上或 404"
+    }
+  ]
+}

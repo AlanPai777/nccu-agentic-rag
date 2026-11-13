@@ -24,6 +24,7 @@ from rag.live.escalate import fetch_with_escalation, live_from_render, page_pre_
 from rag.live.fetcher import Fetcher
 from rag.live.ledger import (DISCONTINUED, LIVE_CHANGED, LIVE_NEW, LIVE_SAME, SNAPSHOT, SNAPSHOT_FALLBACK, make_marker,
                              sanitize)
+from rag.live import moved
 from rag.live import resolve as R
 
 log = logging.getLogger("rag.live")
@@ -50,7 +51,9 @@ def _snapshot_marked(page: dict, url: str, title_key: str, kind: str) -> dict:
     if "error" in page:
         return page
     out = dict(page)
-    out["live_marker"] = make_marker(url if kind == "form" else (page.get("url") or url), SNAPSHOT, "", config.SNAPSHOT_ASOF, kind=kind, title=page.get(title_key) or "")
+    shown_url = url if kind == "form" else (page.get("url") or url)
+    out["live_marker"] = make_marker(shown_url, SNAPSHOT, "", config.SNAPSHOT_ASOF, kind=kind, title=page.get(title_key) or "",
+                                     moved_to=moved.new_for(shown_url) if kind == "page" else "")
     out["live_state"] = SNAPSHOT
     return out
 
@@ -97,16 +100,17 @@ def apply_page(url: str, snapshot_page: dict, live: bool | None = None, render=N
         return snapshot_page
     snap_text = snapshot_page.get("text") if snap_found else None
     fetcher = get_fetcher()
-    outcome = fetch_with_escalation(target, lambda u: fetcher.fetch(u, kind="page"), render or _browser_render,
+    fetch_url = moved.fetch_target(target)             # a page that moved (F19) is read at its new URL; the snapshot stays the old record
+    outcome = fetch_with_escalation(fetch_url, lambda u: fetcher.fetch(u, kind="page"), render or _browser_render,
                                     lambda static: page_pre_reason(static, snap_text))
     static = outcome.static
-    log.info("live fetch %s -> %s in %.2fs (attempts=%d, cache=%s)", target, "ok" if static.ok else static.error, static.elapsed, static.attempts, static.from_cache)
+    log.info("live fetch %s -> %s in %.2fs (attempts=%d, cache=%s)", fetch_url, "ok" if static.ok else static.error, static.elapsed, static.attempts, static.from_cache)
     lv = static
     if outcome.rendered is not None:
-        lv = live_from_render(target, outcome.rendered)
-        log.info("live render %s (%s) -> %s in %.2fs (%d requests)", target, outcome.reason, "ok" if lv.ok else lv.error,
+        lv = live_from_render(fetch_url, outcome.rendered)
+        log.info("live render %s (%s) -> %s in %.2fs (%d requests)", fetch_url, outcome.reason, "ok" if lv.ok else lv.error,
                  outcome.rendered.elapsed, outcome.rendered.requests)
-        _cache_rendered(fetcher, target, static, lv, outcome.rendered)
+        _cache_rendered(fetcher, fetch_url, static, lv, outcome.rendered)
     res = R.resolve(snap_text, lv)
 
     if not snap_found and res.state == R.SNAPSHOT_FALLBACK:
@@ -116,13 +120,17 @@ def apply_page(url: str, snapshot_page: dict, live: bool | None = None, render=N
     state = _STATE_MAP[res.state]
     checked = taipei_minute(lv.fetched_at or None) if lv.ok else taipei_minute()
     cached, age = _cache_info(lv.from_cache, lv.fetched_at)
-    page["live_marker"] = make_marker(target, state, checked, config.SNAPSHOT_ASOF, res.tls_unverified, cached=cached, age_min=age,
-                                      title=page.get("title") or "")
+    # the source to show: the new URL when the live read succeeded, the old one (plus where it moved to) when only the snapshot was used
+    shown_url, moved_from, moved_to = moved.shown(target, lv.ok and state in (LIVE_SAME, LIVE_CHANGED, LIVE_NEW))
+    if moved_from:
+        page["url"] = shown_url
+    page["live_marker"] = make_marker(shown_url, state, checked, config.SNAPSHOT_ASOF, res.tls_unverified, cached=cached, age_min=age,
+                                      title=page.get("title") or "", moved_to=moved_to, moved_from=moved_from)
     page["live_state"] = state
     if res.comparison and not res.comparison.same:
-        log.info("live diff %s: %s", target, res.comparison.summary())
+        log.info("live diff %s: %s", fetch_url, res.comparison.summary())
     if not lv.ok:
-        log.warning("live fetch failed %s: %s %s", target, lv.error, lv.detail)
+        log.warning("live fetch failed %s: %s %s", fetch_url, lv.error, lv.detail)
     return page
 
 

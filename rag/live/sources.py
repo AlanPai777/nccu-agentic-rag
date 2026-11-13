@@ -32,7 +32,7 @@ def _title(src: Source) -> str:
 
 def _item(src: Source) -> dict:
     fixed = src.status == FIXED_DATA
-    return {
+    item = {
         "title": _title(src),
         "kind": src.kind,
         "url": "" if fixed else src.url,                 # fixed data is not a web page: nothing to open
@@ -44,6 +44,11 @@ def _item(src: Source) -> dict:
         "age_min": src.age_min,
         "tls_unverified": src.tls_unverified,
     }
+    if src.moved_to:           # F19: a moved page. Present only for such a source, so every other item is unchanged
+        item["moved_to"] = src.moved_to
+    if src.moved_from:
+        item["moved_from"] = src.moved_from
+    return item
 
 
 def build_sources(messages: list, live: bool) -> dict:
