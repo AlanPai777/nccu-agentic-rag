@@ -604,7 +604,7 @@ def build_library(problems: Problems) -> dict:
              ["總圖", "中正", "流通", "借還", "典藏閱覽"]),
         line("direct", "典藏閱覽組直撥電話（聯絡頁表格顯示的；該格連結的 tel: 目標是學校總機，與顯示不同）", "(02)2938-7878",
              [("snapshot", c_snap, c_asof, "[(02)2938-7878](tel:+886229393091)"), ("live", c_live, c_live_asof, "(02)2938-7878"),
-              ("snapshot", stat_rel, "corpus", "圖書館 | (02)2938-7878")], ["直撥", "典藏閱覽"]),
+              ("snapshot", stat_rel, "corpus", "圖書館 | (02)2938-7878")], ["直撥", "典藏閱覽", "總圖", "中正", "流通", "借還"]),
         line("switchboard", "政大總機", "(02)29393091", both("政大總機：(02)29393091"), ["總機"]),
         line("zonghe_ext", "綜圖校內分機", "50107", both(head) + [("snapshot", aca_rel, "corpus", "綜圖 (02)2939-3091轉分機50107")], ["綜圖"]),
         line("shang_ext", "商圖校內分機", "84006", both(head) + [("snapshot", aca_rel, "corpus", "商圖 (02)2939-3091轉分機84006")], ["商圖"]),

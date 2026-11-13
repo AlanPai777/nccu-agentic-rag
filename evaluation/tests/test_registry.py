@@ -180,6 +180,33 @@ class CheckLineTest(unittest.TestCase):
         self.assertEqual(self.verdict(a, "chuan_ext"), "miss")             # 傳圖 is not mentioned: a miss, not a wrong
         self.assertEqual(self.verdict(a, "daxian"), "miss")
 
+    def test_a_number_written_after_the_wrong_label_is_a_wrong_and_gets_no_credit_for_the_right_line(self):
+        a = "綜圖分機 63222"                       # 63222 is 總圖's number, not 綜圖's
+        self.assertEqual(self.verdict(a, "zonghe_ext"), "wrong")
+        self.assertEqual(self.verdict(a, "main_ext"), "miss")       # no credit: the answer said 綜圖, not 總圖
+
+    def test_labels_and_numbers_in_the_right_pairs_all_hit(self):
+        a = "總圖 63222，綜圖 50107，商圖 84006，傳圖 67152"
+        for k in ("main_ext", "zonghe_ext", "shang_ext", "chuan_ext"):
+            self.assertEqual(self.verdict(a, k), "hit", k)
+
+    def test_a_number_before_its_label_is_not_charged_to_another_label(self):
+        self.assertEqual(self.verdict("63222（總圖借還書）", "main_ext"), "hit")
+        self.assertEqual(self.verdict("63222（總圖借還書）", "zonghe_ext"), "miss")
+
+    def test_an_enumeration_is_not_a_mispairing(self):
+        a = "總圖與綜圖的分機分別是 63222 與 50107"
+        self.assertEqual(self.verdict(a, "main_ext"), "hit")
+        self.assertEqual(self.verdict(a, "zonghe_ext"), "hit")
+
+    def test_switchboard_plus_extension_pairs_the_extension_with_the_label_before_the_switchboard(self):
+        a = "總圖借還書：(02)2939-3091 轉分機 63222"
+        self.assertEqual(self.verdict(a, "main_ext"), "hit")
+        self.assertEqual(self.verdict(a, "switchboard"), "hit")
+        b = "綜圖：(02)2939-3091 轉分機 63222"
+        self.assertEqual(self.verdict(b, "zonghe_ext"), "wrong")
+        self.assertEqual(self.verdict(b, "main_ext"), "miss")
+
     def test_numbers_that_the_registry_knows_are_not_wrong_numbers(self):
         # 62123 is the cashier's line (in the registry): a library sentence that mentions it is not "a wrong library number"
         self.assertEqual(self.verdict("圖書館遺失賠償請洽出納組分機 62123", "main_ext"), "miss")

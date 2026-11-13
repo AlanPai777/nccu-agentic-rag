@@ -457,7 +457,6 @@
         "line": "main_ext",
         "value": "63222",
         "wrong_numbers": [
-          "29387870",
           "63223"
         ],
         "verdict": "wrong",

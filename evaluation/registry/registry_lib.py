@@ -11,7 +11,7 @@ need：
   who        答案要有該單位任何一位的「姓名或職稱 + 分機」（姓名接受登記表記的任何寫法，姓氏＋小姐／先生也算），
              或該單位的代表線；姓名與分機對不上算 wrong
   floor      答案在該單位名稱同一行或前後 40 字內寫出樓層（"unit" 可指定組別，如國際教育組）；寫了別的樓層算 wrong
-  line       （hit／wrong／miss）答案要有登記表記的某一條電話；寫了號碼但不對（同一行有這條電話的標籤字眼，而號碼不在登記表）判 wrong，沒寫判 miss（"line" 是該條的 key，如 "main_ext"）；電話只比數字（8 碼的電話比後 8 碼，前面的區碼 0 或 02
+  line       （hit／wrong／miss）答案要有登記表記的某一條電話，標籤和號碼要綁在一起（像姓名與分機）：標籤後面接的是別條或不在登記表的號碼判 wrong，沒寫判 miss（"line" 是該條的 key，如 "main_ext"）；電話只比數字（8 碼的電話比後 8 碼，前面的區碼 0 或 02
              有沒有寫都行，號碼中間的 - 或空白不影響；分機比 5 位數）
   form_link  答案要有登記表記的表單連結（"form"：表單編號）；"mention": "conditional" 時，答案沒提到這份表單就不適用
 conditional  true：答案沒有提到該單位（任何別名）時，這個 keypoint 不適用、不計入
@@ -262,46 +262,70 @@ def _line_core(ln: dict) -> list[str]:
     return [d[-8:] if len(d) >= 8 else d]
 
 
-def _known_numbers(reg: dict) -> set[str]:
-    """登記表裡所有單位的分機與電話（數字）：答案裡這些以外、長得像電話的數字，才可能是「寫錯的號碼」。"""
-    known: set[str] = set()
-    for o in reg["offices"].values():
-        known |= {e["ext"] for e in o["staff"] if e["ext"]}
-        for ln in o["lines"]:
-            known |= set(_line_core(ln))
-            m = re.search(r"(?<!\d)(\d{5})$", norm(ln["value"]))
-            if m:
-                known.add(m.group(1))
-    return known
+_LABEL_REACH = 12      # 標籤字眼與它後面的號碼之間最多隔幾個字
 
 
-def _phone_numbers(line: str) -> list[str]:
-    """一行文字裡長得像電話的數字：獨立的 5 位數（分機）或 8 位數（可帶區碼 0／02）；回傳核心數字。"""
-    text = re.sub(r"(?<=\d)[-\s](?=\d)", "", unicodedata.normalize("NFKC", line))
-    out = re.findall(r"(?<!\d)(?:0?2)?(\d{8})(?!\d)", text) + re.findall(r"(?<!\d)(\d{5})(?!\d)", text)
-    return list(dict.fromkeys(out))
+def _tokens(t: str) -> list[dict]:
+    """一行文字（號碼中間的 - 與空白已去掉）裡長得像電話的數字，依位置排序：獨立的 8 位數（可帶區碼 0／02）或 5 位數（分機）。"""
+    toks = [{"start": m.start(1), "end": m.end(1), "core": m.group(1)} for m in re.finditer(r"(?<!\d)(?:0?2)?(\d{8})(?!\d)", t)]
+    toks += [{"start": m.start(1), "end": m.end(1), "core": m.group(1)} for m in re.finditer(r"(?<!\d)(\d{5})(?!\d)", t)]
+    return sorted(toks, key=lambda x: x["start"])
 
 
 def check_line(answer: str, reg: dict, okey: str, key: str) -> dict:
-    """hit：答案有這條電話。wrong：沒有這條，但答案有「標籤字眼同一行」的、不在登記表的電話號碼（寫了號碼但不對）。miss：沒寫。
-    標籤（lines[].labels，如「綜圖」「直撥」）讓錯誤只算給它自己的那條電話：寫對 63222、寫錯「綜圖 50108」時，綜圖是 wrong，商圖、傳圖沒寫仍是 miss。"""
+    """答案有沒有這條電話，並且標籤和號碼要綁在一起（像姓名與分機）。
+    每個號碼看它前面最近的標籤字眼（lines[].labels，如「綜圖」「直撥」，_LABEL_REACH 個字內）：
+      標籤後面接的是這條自己的號碼 → hit；接的是登記表別條或不在登記表的號碼 → 這條 wrong；
+      沒有標籤的號碼 → 出現就算命中（沒說它屬於誰，不判錯）；「(02)總機 轉分機 63222」當一組：分機算給總機前面的標籤，總機本身另外算總機那條。
+    寫了別條的號碼但同一行前面也出現那條的標籤（「總圖與綜圖分別是 63222 與 50107」）視為列舉，不判錯。沒有任何相關號碼 → miss。"""
     o = office(reg, okey)
-    ln = next(x for x in o["lines"] if x.get("key") == key)
-    text = unicodedata.normalize("NFKC", answer or "")
-    joined = re.sub(r"(?<=\d)[-\s](?=\d)", "", text)                # 2938-7878 → 29387878，02 2938 7878 → 0229387878
-    for core in _line_core(ln):
-        pattern = rf"(?<!\d)(?:0?2)?{core}(?!\d)" if len(core) >= 8 else rf"(?<!\d){core}(?!\d)"
-        if re.search(pattern, joined):
-            return {"office": okey, "line": key, "value": ln["value"], "matched": core, "verdict": "hit"}
-    known = _known_numbers(reg)
-    labels = ln.get("labels") or []
-    wrong_numbers = []
-    for line in text.split("\n"):
-        if labels and any(lb in line for lb in labels):
-            wrong_numbers += [n for n in _phone_numbers(line) if n not in known]
-    if wrong_numbers:
-        return {"office": okey, "line": key, "value": ln["value"], "wrong_numbers": sorted(set(wrong_numbers)), "verdict": "wrong"}
-    return {"office": okey, "line": key, "value": ln["value"], "verdict": "miss"}
+    lines = {ln["key"]: ln for ln in o["lines"] if ln.get("key")}
+    cores = {k: set(_line_core(ln)) for k, ln in lines.items()}
+    label_keys: dict[str, set] = {}
+    for k, ln in lines.items():
+        for lb in ln.get("labels") or []:
+            label_keys.setdefault(lb, set()).add(k)
+    hit, wrong = None, []
+    for raw in unicodedata.normalize("NFKC", answer or "").split("\n"):
+        t = re.sub(r"(?<=\d)[-\s](?=\d)", "", raw)
+        labs = [(m.start(), m.end(), lb) for lb in label_keys for m in re.finditer(re.escape(lb), t)]
+        toks = _tokens(t)
+        anchor: dict[int, int] = {}                       # 分機 token 的位置 → 它前面那個「總機」的起點（分機要用總機前面的標籤）
+        for i, tok in enumerate(toks):
+            nxt = toks[i + 1] if i + 1 < len(toks) else None
+            if nxt and len(tok["core"]) == 8 and len(nxt["core"]) == 5 and re.match(r"\s*(?:轉|分機|ext)", t[tok["end"]:tok["end"] + 6]):
+                anchor[nxt["start"]] = tok["start"]
+                if tok["core"] in cores[key]:
+                    hit = hit or {"matched": tok["core"]}
+                tok["prefix"] = True
+        for tok in toks:
+            if tok.get("prefix"):
+                continue
+            pos = anchor.get(tok["start"], tok["start"])
+            near = [x for x in labs if x[1] <= pos and pos - x[1] <= _LABEL_REACH]
+            if not near:                                   # 沒有標籤：出現就算命中
+                if tok["core"] in cores[key]:
+                    hit = hit or {"matched": tok["core"]}
+                continue
+            lb = max(near, key=lambda x: x[1])[2]
+            owners = label_keys[lb]
+            if tok["core"] in set().union(*(cores[k] for k in owners)):
+                if key in owners and tok["core"] in cores[key]:
+                    hit = hit or {"matched": tok["core"]}
+                continue
+            belongs = [k for k, c in cores.items() if tok["core"] in c]
+            if belongs and any(x[1] <= tok["start"] and any(b in label_keys[x[2]] for b in belongs) for x in labs):
+                if tok["core"] in cores[key]:              # 列舉（前面也出現過那條的標籤）：不判錯
+                    hit = hit or {"matched": tok["core"]}
+                continue
+            if key in owners:
+                wrong.append(tok["core"])
+    base = {"office": okey, "line": key, "value": lines[key]["value"]}
+    if hit:
+        return {**base, **hit, "verdict": "hit"}
+    if wrong:
+        return {**base, "wrong_numbers": sorted(set(wrong)), "verdict": "wrong"}
+    return {**base, "verdict": "miss"}
 
 
 def check_keypoint(kp: dict, answer: str, reg: dict) -> dict:
