@@ -1,33 +1,26 @@
 {
-  "input": "<session>/scratchpad/iso_lf_complete/trace_input.json",
-  "output": "<session>/scratchpad/iso_lf_complete/trace.json",
-  "n_calls": 4,
-  "n_violations": 1,
-  "ok": false,
+  "input": "<session>/scratchpad/iso_lf_complete3/trace_input.json",
+  "output": "<session>/scratchpad/iso_lf_complete3/trace.json",
+  "n_calls": 3,
+  "n_violations": 0,
+  "ok": true,
   "calls": [
     {
       "n": 1,
       "tool": "Read",
-      "target": "<session>/scratchpad/iso_lf_complete/trace_input.json",
+      "target": "<session>/scratchpad/iso_lf_complete3/trace_input.json",
       "verdict": "ok",
       "why": "read the input file"
     },
     {
       "n": 2,
       "tool": "Write",
-      "target": "<session>/scratchpad/iso_lf_complete/trace.json",
+      "target": "<session>/scratchpad/iso_lf_complete3/trace.json",
       "verdict": "ok",
       "why": "wrote the output file"
     },
     {
       "n": 3,
-      "tool": "Bash",
-      "target": "python3 -I -c \"\nimport json\np='<session>/scratchpad/iso_lf_complete/'\ni=json.load(open(p+'trace_input.json'));t=json.load(open(p+'trace.json'))\nev={e['id']:e['text'] for e in i['evidence_items']}\nfor c in t['claims']:\n    print(c['answer_span'] in i['answer_text'],[q['quote'] in ev[q['item']] for q in c['evidence']])\n\"",
-      "verdict": "violation",
-      "why": "tool 'Bash' is not allowed (only Read of the input, Write of the output, the hand-back)"
-    },
-    {
-      "n": 4,
       "tool": "SubagentHandback",
       "target": "",
       "verdict": "ok",

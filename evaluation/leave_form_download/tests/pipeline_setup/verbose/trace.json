@@ -1,18 +1,92 @@
 {
   "claims": [
-    {"id": "c1", "answer_span": "休學申請書的名稱是「休學/保留學籍申請書」", "status": "supported", "evidence": [{"item": "E2", "quote": "get_form 取得表單 休學/保留學籍申請書"}], "why": "證據中該表單名稱為休學/保留學籍申請書。"},
-    {"id": "c2", "answer_span": "表單編號 QP-T01-03-02", "status": "supported", "evidence": [{"item": "E2", "quote": "表單編號：QP-T01-03-02"}], "why": "休學/保留學籍申請書的表單編號為 QP-T01-03-02。"},
-    {"id": "c3", "answer_span": "下載連結：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02", "status": "supported", "evidence": [{"item": "E1", "quote": "[休學/保留學籍申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)"}], "why": "頁面中該申請書連結即此網址。"},
-    {"id": "c4", "answer_span": "本人攜帶學生證或身分證件正本", "status": "supported", "evidence": [{"item": "E1", "quote": "本人攜帶學生證或身分證件正本"}], "why": "申請程序明載。"},
-    {"id": "c5", "answer_span": "填妥「休學/保留學籍申請書」並依說明至系所及各處室蓋章後", "status": "supported", "evidence": [{"item": "E1", "quote": "填妥「休學/保留學籍申請書」並依說明至系所及各處室蓋章後"}], "why": "申請程序明載。"},
-    {"id": "c6", "answer_span": "送至教務處註冊組", "status": "supported", "evidence": [{"item": "E1", "quote": "送至教務處註冊組"}], "why": "申請程序明載。"},
-    {"id": "c7", "answer_span": "申請當學期休學者，須於期末考試以前辦理", "status": "supported", "evidence": [{"item": "E1", "quote": "學生申請當學期休學者，須於期末考試以前辦理"}], "why": "休學規定明載。"},
-    {"id": "c8", "answer_span": "逾期不予受理", "status": "supported", "evidence": [{"item": "E1", "quote": "逾期不予受理"}], "why": "休學規定明載。"},
-    {"id": "c9", "answer_span": "申請休學，得由學校一次核准一學期至二學年", "status": "supported", "evidence": [{"item": "E1", "quote": "申請休學，得由學校一次核准一學期至二學年"}], "why": "休學規定明載。"},
-    {"id": "c10", "answer_span": "休學累計以二學年為原則", "status": "supported", "evidence": [{"item": "E1", "quote": "休學累計以二學年為原則"}], "why": "休學規定明載。"},
-    {"id": "c11", "answer_span": "請准休學學生，其休學期間的修課紀錄予以刪除", "status": "supported", "evidence": [{"item": "E1", "quote": "請准休學學生，其休學期間之修課紀錄予以刪除"}], "why": "證據僅「的」作「之」，語意相同。"},
-    {"id": "c12", "answer_span": "退費相關事宜由學務處生僑組承辦", "status": "supported", "evidence": [{"item": "E1", "quote": "退費相關事宜由學務處生僑組承辦"}], "why": "退費說明明載。"},
-    {"id": "c13", "answer_span": "退費標準請參考學務處網頁", "status": "supported", "evidence": [{"item": "E1", "quote": "休（退）學退費標準"}], "why": "證據指示至學務處首頁下的休（退）學退費標準項下參考退費標準。"}
+    {
+      "id": "c1",
+      "answer_span": "休學申請書的名稱是「休學/保留學籍申請書」",
+      "status": "supported",
+      "evidence": [
+        {"item": "E2", "quote": "休學/保留學籍申請書 / NCCU Application Form for Leave of Absence of Student Status"}
+      ],
+      "why": "表單全文標題即為休學/保留學籍申請書。"
+    },
+    {
+      "id": "c2",
+      "answer_span": "表單編號 QP-T01-03-02",
+      "status": "supported",
+      "evidence": [
+        {"item": "E2", "quote": "表單編號：QP-T01-03-02"}
+      ],
+      "why": "該申請書表單編號為 QP-T01-03-02。"
+    },
+    {
+      "id": "c3",
+      "answer_span": "下載連結：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+      "status": "supported",
+      "evidence": [
+        {"item": "E2", "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02", "from": "sources"}
+      ],
+      "why": "sources 裡此網址的 label 是休學/保留學籍申請書。"
+    },
+    {
+      "id": "c4",
+      "answer_span": "本人攜帶學生證或身分證件正本，填妥「休學/保留學籍申請書」並依說明至系所及各處室蓋章後，送至教務處註冊組",
+      "status": "supported",
+      "evidence": [
+        {"item": "E1", "quote": "本人攜帶學生證或身分證件正本"},
+        {"item": "E1", "quote": "填妥「休學/保留學籍申請書」並依說明至系所及各處室蓋章後，送至教務處註冊組"}
+      ],
+      "why": "申請程序原文如此（中間只省略非本人親辦的括號說明）。"
+    },
+    {
+      "id": "c5",
+      "answer_span": "申請當學期休學者，須於期末考試以前辦理，逾期不予受理。",
+      "status": "supported",
+      "evidence": [
+        {"item": "E1", "quote": "學生申請當學期休學者，須於期末考試以前辦理，逾期不予受理。"}
+      ],
+      "why": "休學規定原文相同。"
+    },
+    {
+      "id": "c6",
+      "answer_span": "申請休學，得由學校一次核准一學期至二學年，休學累計以二學年為原則。",
+      "status": "supported",
+      "evidence": [
+        {"item": "E1", "quote": "申請休學，得由學校一次核准一學期至二學年"},
+        {"item": "E1", "quote": "休學累計以二學年為原則"}
+      ],
+      "why": "休學規定原文兩句相同。"
+    },
+    {
+      "id": "c7",
+      "answer_span": "請准休學學生，其休學期間的修課紀錄予以刪除。",
+      "status": "supported",
+      "evidence": [
+        {"item": "E1", "quote": "請准休學學生，其休學期間之修課紀錄予以刪除。"}
+      ],
+      "why": "原文僅「的」作「之」，意思相同。"
+    },
+    {
+      "id": "c8",
+      "answer_span": "退費相關事宜由學務處生僑組承辦，",
+      "status": "supported",
+      "evidence": [
+        {"item": "E1", "quote": "退費相關事宜由學務處生僑組承辦"}
+      ],
+      "why": "退費說明原文如此。"
+    },
+    {
+      "id": "c9",
+      "answer_span": "退費標準請參考學務處網頁。",
+      "status": "supported",
+      "evidence": [
+        {"item": "E1", "quote": "請至【學務處首頁/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/[休（退）學退費標準]"}
+      ],
+      "why": "原文指示至學務處首頁項下參考休（退）學退費標準。"
+    }
   ],
-  "judge": {"model": "claude-sonnet-5-5", "prompt_version": "isolated-v2", "note": "isolated trace by a subagent that read only trace_input.json"}
+  "judge": {
+    "model": "Sonnet 5.5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  }
 }

@@ -9,7 +9,7 @@
   "judges": {
     "trace": {
       "model": "claude-sonnet-5-5",
-      "prompt_version": "isolated-v2",
+      "prompt_version": "isolated-v3",
       "note": "isolated trace by a subagent that read only trace_input.json"
     },
     "keypoint": {

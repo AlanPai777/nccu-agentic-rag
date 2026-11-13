@@ -1,6 +1,6 @@
 {
-  "input": "<session>/scratchpad/iso_lf_wrong_form/trace_input.json",
-  "output": "<session>/scratchpad/iso_lf_wrong_form/trace.json",
+  "input": "<session>/scratchpad/iso_lf_wrong_form3/trace_input.json",
+  "output": "<session>/scratchpad/iso_lf_wrong_form3/trace.json",
   "n_calls": 3,
   "n_violations": 0,
   "ok": true,
@@ -8,14 +8,14 @@
     {
       "n": 1,
       "tool": "Read",
-      "target": "<session>/scratchpad/iso_lf_wrong_form/trace_input.json",
+      "target": "<session>/scratchpad/iso_lf_wrong_form3/trace_input.json",
       "verdict": "ok",
       "why": "read the input file"
     },
     {
       "n": 2,
       "tool": "Write",
-      "target": "<session>/scratchpad/iso_lf_wrong_form/trace.json",
+      "target": "<session>/scratchpad/iso_lf_wrong_form3/trace.json",
       "verdict": "ok",
       "why": "wrote the output file"
     },

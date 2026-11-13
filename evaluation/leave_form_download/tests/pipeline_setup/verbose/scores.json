@@ -8,8 +8,8 @@
   },
   "judges": {
     "trace": {
-      "model": "claude-sonnet-5-5",
-      "prompt_version": "isolated-v2",
+      "model": "Sonnet 5.5",
+      "prompt_version": "isolated-v3",
       "note": "isolated trace by a subagent that read only trace_input.json"
     },
     "keypoint": {
@@ -64,17 +64,17 @@
     "note": "P = Relevant ÷ (Relevant + Wrong)；R = Relevant ÷ keypoint 總數"
   },
   "claim_unit": {
-    "claims": 13,
+    "claims": 9,
     "correct_claims": 2,
-    "precision": 0.1538,
+    "precision": 0.2222,
     "recall": 1.0,
-    "f1": 0.2667,
+    "f1": 0.3636,
     "note": "P = 正確陳述某個 keypoint 的主張 ÷ 全部主張；額外但正確的資訊會讓 P 下降，量的是聚焦程度"
   },
   "evidence_support": {
     "rate": 1.0,
-    "supported": 13,
-    "claims": 13,
+    "supported": 9,
+    "claims": 9,
     "unsupported_claims": []
   },
   "ungrounded_correct_keypoints": [],
