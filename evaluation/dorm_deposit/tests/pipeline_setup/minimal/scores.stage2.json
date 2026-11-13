@@ -1,0 +1,338 @@
+{
+  "query_id": "dorm_deposit",
+  "run_id": "minimal",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；表單 QP-M03-01-05）",
+    "live": "2026-11-13（現場）（住宿組「退離宿程序」頁、學務處 FAQ，curl；moltke 表單連結回 302 轉登入頁，沒有跟隨）；住宿組、出納組的聯絡人與樓層的現場依據在 evaluation/registry/"
+  },
+  "system_version": "hypothetical",
+  "rouge_l": {
+    "p": 0.6,
+    "r": 0.0563,
+    "f": 0.1029
+  },
+  "accuracy": {
+    "hard_keypoints": 5,
+    "hit": 0,
+    "accuracy": 0.0,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "context_chars": 53391,
+    "sentence": {
+      "p": 0.0101,
+      "r": 0.9444,
+      "f": 0.02
+    },
+    "words": {
+      "p": 0.0329,
+      "r": 0.9781,
+      "f": 0.0637
+    },
+    "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）"
+  },
+  "keypoints": {
+    "accuracy_rule": [
+      {
+        "id": "K1",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K2",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K3",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K4",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K5",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K6",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K7",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K8",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K9",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K10",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K11",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K12",
+        "kind": "hard",
+        "verdict": "miss",
+        "matched_expressions": []
+      },
+      {
+        "id": "K13",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K14",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K15",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K16",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K17",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K18",
+        "kind": "hard",
+        "verdict": "miss",
+        "matched_expressions": []
+      },
+      {
+        "id": "K19",
+        "kind": "hard",
+        "form": "QP-M03-01-05",
+        "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+        "verdict": "miss",
+        "applies_if": null
+      },
+      {
+        "id": "K20",
+        "kind": "hard",
+        "office": "dorm",
+        "unit": null,
+        "expected": [
+          "行政大樓三樓"
+        ],
+        "verdict": "miss",
+        "applies_if": null
+      },
+      {
+        "id": "K21",
+        "kind": "hard",
+        "office": "dorm",
+        "matched": [],
+        "representative_line": [],
+        "pair_mismatches": [],
+        "verdict": "miss",
+        "applies_if": null
+      },
+      {
+        "id": "K22",
+        "kind": "hard",
+        "office": "cashier",
+        "verdict": "not_applicable",
+        "note": "答案沒有提到這個單位，不適用，不計入",
+        "applies_if": "答案提到出納組"
+      },
+      {
+        "id": "K23",
+        "kind": "hard",
+        "office": "cashier",
+        "verdict": "not_applicable",
+        "note": "答案沒有提到這個單位，不適用，不計入",
+        "applies_if": "答案提到出納組"
+      }
+    ],
+    "funnel_stage2": [
+      {
+        "id": "K1",
+        "in_context": true,
+        "matched_reference": "填寫列印『離宿暨退還「住宿保證金」申請表』",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K2",
+        "in_context": true,
+        "matched_reference": "持上表 至宿舍服務台(檢查寢室簽章)",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K3",
+        "in_context": true,
+        "matched_reference": "持上表 至宿舍服務台(檢查寢室簽章) ↓ 三天內持上表及「宿費繳費收據」至住宿組(行政大樓3樓)",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K4",
+        "in_context": true,
+        "matched_reference": "三天內持上表及「宿費繳費收據」至住宿組(行政大樓3樓)",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K5",
+        "in_context": true,
+        "matched_reference": "辦理退宿註記、退宿費或住宿保證金",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K6",
+        "in_context": true,
+        "matched_reference": "由住宿組造冊匯入同學(於政大網頁-在校學生-個人基本資料)登記之帳戶",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K7",
+        "in_context": true,
+        "matched_reference": "僅退住宿保證金者可不交宿費收據",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K8",
+        "in_context": true,
+        "matched_reference": "「宿費繳費收據」若遺失，可至iNccu補發",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K9",
+        "in_context": true,
+        "matched_reference": "期末規定離宿日前一週內離宿者，本表可交由「宿舍區服務中心/服務台」轉交",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K10",
+        "in_context": true,
+        "matched_reference": "畢業、休學、退學或轉學住宿生應於發生日起7日(含例假日，且不得超過當學期期末所訂離宿日)內向宿舍服務台辦理退離宿手續",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K11",
+        "in_context": true,
+        "matched_reference": "若未依退離宿程序辦理退離宿手續者，保證金不予退還",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K12",
+        "in_context": true,
+        "matched_reference": "每位住宿生需繳納「住宿保證金」1,000元",
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K13",
+        "in_context": true,
+        "matched_reference": "3、延遲搬 Extension of dorm stay",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K14",
+        "in_context": true,
+        "matched_reference": "予追繳。If the amount of subtractions",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K15",
+        "in_context": true,
+        "matched_reference": "僑生及外籍生因離宿後即出國、帳戶已結清無法領取者，另再填",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K16",
+        "in_context": true,
+        "matched_reference": "外籍交換生請向相關系所辦理退還「住宿保證金」",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K17",
+        "in_context": false,
+        "matched_reference": null,
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K18",
+        "in_context": true,
+        "matched_reference": "[請下載填寫： 『退離宿暨退還「住宿保證金」申請表』](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05)",
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K19",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K20",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K21",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K22",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "not_applicable"
+      },
+      {
+        "id": "K23",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "not_applicable"
+      }
+    ],
+    "contact_funnel": []
+  }
+}

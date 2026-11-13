@@ -87,3 +87,7 @@
 ## 2026-11-13 約 20:20：第 7 題（碩士班轉系所）——教務處「轉系／轉所」頁面與兩張表單連結（使用者批准，curl，每個一次）
 
 教務處頁面 200（`aca_transfer_page.html`）；`QP-T01-05-05`、`QP-T01-05-06` 兩個 moltke 連結都是 302 轉登入頁，沒有跟隨（`moltke_QP-T01-05-0*.headers.txt`）。細節見 `evaluation/master_transfer/sources/live/live_check.md`。
+
+## 2026-11-13 約 21:00：第 8 題（住宿保證金）——住宿組「退離宿程序」頁、學務處 FAQ、表單連結（使用者批准，curl，每個一次）
+
+「退離宿程序」頁 200（`osa_exit_procedure.html`）、FAQ 200（`osa_faq.html`，只存在第 8 題資料夾）、`QP-M03-01-05` 的 moltke 連結 302 轉登入頁，沒有跟隨（`moltke_QP-M03-01-05.headers.txt`）。細節見 `evaluation/dorm_deposit/sources/live/live_check.md`。

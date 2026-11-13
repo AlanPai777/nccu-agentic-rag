@@ -1,0 +1,23 @@
+HTTP/1.1 200 OK
+Date: Fri, 13 Nov 2026 14:36:22 GMT
+Server: Apache
+X-Logged-In: False
+X-Content-Powered-By: K2 v2.10.3 (by JoomlaWorks)
+P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"
+Expires: Wed, 17 Aug 2005 00:00:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+Pragma: no-cache
+Set-Cookie: 5d215ea4d2d05d0eb0ed6b4dac3838da=<redacted>; path=/; secure; HttpOnly
+X-Content-Type-Options: nosniff
+Last-Modified: Fri, 13 Nov 2026 14:36:23 GMT
+Vary: Accept-Encoding
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: max-age=0, no-cache, no-store, must-revalidate
+Pragma: no-cache
+Expires: Wed, 11 Jan 1984 05:00:00 GMT
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+Transfer-Encoding: chunked
+Content-Type: text/html; charset=utf-8
+

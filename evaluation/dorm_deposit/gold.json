@@ -1,0 +1,540 @@
+{
+  "query_id": "dorm_deposit",
+  "query": "搬離宿舍如何辦理退還住宿保證金",
+  "query_variants": [],
+  "query_type": "procedure",
+  "data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；表單 QP-M03-01-05）",
+    "live": "2026-11-13（現場）（住宿組「退離宿程序」頁、學務處 FAQ，curl；moltke 表單連結回 302 轉登入頁，沒有跟隨）；住宿組、出納組的聯絡人與樓層的現場依據在 evaluation/registry/"
+  },
+  "content": "搬離宿舍要退還住宿保證金，順序是：先填寫列印「離宿暨退還住宿保證金申請表」（表單編號 QP-M03-01-05，https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05），持表到宿舍服務台請管理人員檢查寢室並簽章，再在三天內持表及宿費繳費收據到住宿組（行政大樓三樓）辦理退宿註記、退宿費或住宿保證金，由住宿組造冊匯入學生在個人基本資料登記的帳戶。只退住宿保證金者可以不交宿費繳費收據；畢業、休學、退學或轉學的住宿生要在發生日起 7 日內辦理；沒有依程序辦理退離宿的人，住宿保證金（1,000 元）不予退還。",
+  "keypoints": [
+    {
+      "id": "K1",
+      "text": "要先填寫列印「離宿暨退還住宿保證金申請表」",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "填寫列印『離宿暨退還「住宿保證金」申請表』",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "填寫列印『離宿暨退還「住宿保證金」申請表』",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K2",
+      "text": "要持表到宿舍服務台，請宿舍管理人員檢查寢室並簽章",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "宿舍區管理人員檢查寢室",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單 QP-M03-01-05）"
+        },
+        {
+          "text": "持上表 至宿舍服務台(檢查寢室簽章)",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "持上表 至宿舍服務台(檢查寢室簽章)",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K3",
+      "text": "順序：要先經宿舍服務台檢查寢室簽章，之後才到住宿組辦理",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "離宿流程：宿舍區管理人員檢查寢室➔三天內至住宿組辦理退費(持本表及宿費收據)",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單 QP-M03-01-05）"
+        },
+        {
+          "text": "持上表 至宿舍服務台(檢查寢室簽章) ↓ 三天內持上表及「宿費繳費收據」至住宿組(行政大樓3樓)",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "持上表 至宿舍服務台(檢查寢室簽章) ↓ 三天內持上表及「宿費繳費收據」至住宿組(行政大樓3樓)",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K4",
+      "text": "檢查寢室後三天內，要持表及宿費繳費收據到住宿組辦理",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "三天內至住宿組辦理退費(持本表及宿費收據)",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單 QP-M03-01-05）"
+        },
+        {
+          "text": "三天內持上表及「宿費繳費收據」至住宿組(行政大樓3樓)",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "三天內持上表及「宿費繳費收據」至住宿組(行政大樓3樓)",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K5",
+      "text": "住宿組辦理退宿註記、退宿費或住宿保證金",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "辦理退宿註記、退宿費或住宿保證金",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "辦理退宿註記、退宿費或住宿保證金",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K6",
+      "text": "退款由住宿組造冊，匯入學生在個人基本資料登記的帳戶",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "由住宿組造冊匯入同學(於政大網頁-在校學生-個人基本資料)登記之帳戶",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單 QP-M03-01-05）"
+        },
+        {
+          "text": "由住宿組造冊匯入同學(於政大網頁-在校學生-個人基本資料)登記之帳戶",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "由住宿組造冊匯入同學(於政大網頁-在校學生-個人基本資料)登記之帳戶",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K7",
+      "text": "只退住宿保證金的人，可以不交宿費繳費收據",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "僅退住宿保證金者可不交宿費收據",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單 QP-M03-01-05）"
+        },
+        {
+          "text": "僅退住宿保證金者可不交宿費收據",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "僅退住宿保證金者可不交宿費收據",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K8",
+      "text": "宿費繳費收據遺失可以補發（可到 iNccu 補發或請出納組補發）",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "「宿費繳費收據」若遺失，可請出納組補發",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單 QP-M03-01-05）"
+        },
+        {
+          "text": "「宿費繳費收據」若遺失，可至iNccu補發",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "「宿費繳費收據」若遺失，可至iNccu補發",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K9",
+      "text": "期末規定離宿日前一週內離宿者，申請表可交由宿舍區服務中心／服務台轉交",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "期末規定離宿日前一週內離宿者，本表可交由「宿舍區服務中心/服務台」轉交",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "期末規定離宿日前一週內離宿者，本表可交由「宿舍區服務中心/服務台」轉交",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K10",
+      "text": "畢業、休學、退學或轉學的住宿生，要在發生日起 7 日內（含例假日，且不得超過當學期期末所訂離宿日）辦理退離宿手續",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "畢業、休學、退學或轉學住宿生應於發生日起7日(含例假日，且不得超過當學期期末所訂離宿日)內向宿舍服務台辦理退離宿手續",
+          "source_url": "https://osa.nccu.edu.tw/tw/faq",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "畢業、休學、退學或轉學住宿生應於發生日起7日(含例假日，且不得超過當學期期末所訂離宿日)內向宿舍服務台辦理退離宿手續",
+          "source_url": "https://osa.nccu.edu.tw/tw/faq",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "畢業、休學、退學或轉學住宿生應於發生 日起7日內(含例假日、且不得超過當學期期 末所定離舍日)向住宿組辦理退離宿手續 後，始得申請退還宿費及住宿保證金",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單 QP-T01-03-02，202512版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K11",
+      "text": "沒有依退離宿程序辦理退離宿手續的人，住宿保證金不予退還",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "若未依退離宿程序辦理退離宿手續者，保證金不予退還",
+          "source_url": "https://osa.nccu.edu.tw/tw/faq",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "若未依退離宿程序辦理退離宿手續者，保證金不予退還",
+          "source_url": "https://osa.nccu.edu.tw/tw/faq",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "若未依規定辦理退離宿手續者，住宿保證金不予退還",
+          "source_url": "https://aca.nccu.edu.tw/db/upload/115-1註冊通知單_中文版.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K12",
+      "text": "住宿保證金是 1,000 元",
+      "required": true,
+      "kind": "hard",
+      "references": [
+        {
+          "text": "每位住宿生需繳納「住宿保證金」1,000元",
+          "source_url": "https://osa.nccu.edu.tw/tw/faq",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "每位住宿生需繳納「住宿保證金」1,000元",
+          "source_url": "https://osa.nccu.edu.tw/tw/faq",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "扣款金額若超過住宿保證金1000元以上",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單 QP-M03-01-05）"
+        }
+      ],
+      "acceptable_expressions": [
+        "1,000",
+        "1000",
+        "一千"
+      ]
+    },
+    {
+      "id": "K13",
+      "text": "保證金扣款的項目有財產損失、垃圾清理、延遲搬離等",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "1、財產損失 Property Damage",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單 QP-M03-01-05）"
+        },
+        {
+          "text": "2、垃圾清理 Removal of",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單 QP-M03-01-05）"
+        },
+        {
+          "text": "3、延遲搬 Extension of dorm stay",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單 QP-M03-01-05）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K14",
+      "text": "扣款金額超過住宿保證金 1,000 元的部分，另行追繳",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "扣款金額若超過住宿保證金1000元以上，另",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單 QP-M03-01-05）"
+        },
+        {
+          "text": "予追繳。If the amount of subtractions",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單 QP-M03-01-05）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K15",
+      "text": "僑生及外籍生離宿後即出國、帳戶已結清無法領取者，要另外填代領人帳戶領據，到相關系所辦理",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "僑生及外籍生因離宿後即出國、帳戶已結清無法領取者，另再填",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單 QP-M03-01-05）"
+        },
+        {
+          "text": "僑生及外籍生因離宿後即出國、帳戶已結清無法領取者，另再填",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "僑生及外籍生因離宿後即出國、帳戶已結清無法領取者，另再填",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "applies_if": "答案提到僑生或外籍生"
+    },
+    {
+      "id": "K16",
+      "text": "外籍交換生要向相關系所辦理退還住宿保證金",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "外籍交換生請向相關系所辦理退還「住宿保證金」",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單 QP-M03-01-05）"
+        },
+        {
+          "text": "外籍交換生請向相關系所辦理退還「住宿保證金」",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "外籍交換生請向相關系所辦理退還「住宿保證金」",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [],
+      "applies_if": "答案提到外籍交換生"
+    },
+    {
+      "id": "K17",
+      "text": "宿舍相關退費問題，大學部洽分機 62222，研究所洽分機 63251",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "宿舍相關退費問題，大學部請洽分機62222，研究所請洽分機63251",
+          "source_url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K18",
+      "text": "申請書是「離宿暨退還住宿保證金申請表」，表單編號 QP-M03-01-05",
+      "required": true,
+      "kind": "hard",
+      "references": [
+        {
+          "text": "表單編號：QP-M03-01-05",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；表單 QP-M03-01-05）"
+        },
+        {
+          "text": "[請下載填寫： 『退離宿暨退還「住宿保證金」申請表』](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05)",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "[請下載填寫： 『退離宿暨退還「住宿保證金」申請表』](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05)",
+          "source_url": "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        }
+      ],
+      "acceptable_expressions": [
+        "QP-M03-01-05"
+      ]
+    },
+    {
+      "id": "K19",
+      "text": "離宿暨退還住宿保證金申請表的下載連結是 https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_form_link",
+      "registry": {
+        "need": "form_link",
+        "form": "QP-M03-01-05",
+        "mention": "always"
+      }
+    },
+    {
+      "id": "K20",
+      "text": "住宿組在行政大樓三樓",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_floor",
+      "registry": {
+        "office": "dorm",
+        "need": "floor"
+      }
+    },
+    {
+      "id": "K21",
+      "text": "答案要寫出住宿組的聯絡人：住宿組任何一位的姓名或職稱加分機",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_who",
+      "registry": {
+        "office": "dorm",
+        "need": "who"
+      }
+    },
+    {
+      "id": "K22",
+      "text": "答案提到出納組時，要寫出出納組任何一位的姓名或職稱加分機，或出納組的代表線",
+      "required": false,
+      "kind": "hard",
+      "value_check": "registry_who",
+      "registry": {
+        "office": "cashier",
+        "need": "who",
+        "conditional": true
+      },
+      "applies_if": "答案提到出納組"
+    },
+    {
+      "id": "K23",
+      "text": "答案提到出納組時，要寫出出納組的樓層",
+      "required": false,
+      "kind": "hard",
+      "value_check": "registry_floor",
+      "registry": {
+        "office": "cashier",
+        "need": "floor",
+        "conditional": true
+      },
+      "applies_if": "答案提到出納組"
+    }
+  ],
+  "source_conflicts": "來源優先順序：表單 > 住宿組頁面 > 學務處 FAQ > 註冊通知單；高的是金標準，低的列為可替代。（1）宿費繳費收據遺失：頁面寫「可至 iNccu 補發（補印）」，表單寫「可請出納組補發」；兩種都算對（K8）。（2）畢業、休學、退學、轉學的 7 日內退離宿：FAQ 寫向「宿舍服務台」辦理，休學申請書（QP-T01-03-02）寫向「住宿組」辦理；K10 只收「7 日內辦理退離宿手續」，不指定去哪個單位，兩種寫法都不判錯。（3）學期末的流程：頁面只寫到宿舍服務台簽章，表單的通則是檢查寢室後三天內至住宿組；K9 只收頁面明寫的轉交規則。（4）僑外生的代領人表單名稱：頁面寫「申請退還『住宿保證金』匯入代理人申請表」，表單寫「僑外生退住宿保證金轉入代領人帳戶領據」；K15 只收「另外填代領人帳戶領據」這件事，不指定表單名稱。",
+  "notes": [
+    "鏈式依賴：順序是這題要考的內容，所以用專門的 K3（先檢查寢室簽章、之後才到住宿組）考順序，不依賴主張的切法保留順序（議題 F2：切細會丟順序）；K4（三天內）是時限。",
+    "住宿組的聯絡人與樓層引用登記表（K20、K21，必要）；出納組只在答案提到時才適用（K22、K23，選擇性、條件式）。",
+    "選擇性：K8、K9、K13、K14、K17、K22、K23；條件式：K15（提到僑生或外籍生）、K16（提到外籍交換生）、K22、K23。「必要」目前不影響評分（議題 F8、F9）。",
+    "K10（7 日內）列為必要：它回答「什麼時候要搬」；K12（1,000 元）用 hard（數字），寫成「1,000」「1000」「一千」都算。",
+    "不收：學期前退宿（QP-M03-01-04，取消／放棄下學期住宿，另一個流程，不是搬離宿舍；使用者決定 2026-11-13）、暑宿費退費、宿費退費比例（2/3、1/2、不退）。",
+    "moltke 的表單連結現場回 302 轉登入頁（2026-11-13，curl，沒有跟隨），連結本身有效、看不到表單內容；表單內容以快照為準。記錄見 sources/live/live_check.md 與登記表。"
+  ]
+}

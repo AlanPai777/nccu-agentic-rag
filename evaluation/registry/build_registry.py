@@ -349,9 +349,12 @@ FORMS = [  # (編號, 在教務處頁面上的連結文字, 現場 302 標頭檔
     ("QP-T01-03-02", "休學/保留學籍申請書", "moltke_QP-T01-03-02.headers.txt", "leave"),
     ("QP-T01-05-05", "碩士班轉系所申請書", "moltke_QP-T01-05-05.headers.txt", "transfer"),
     ("QP-T01-05-06", "碩士轉系所學分認定申請書", "moltke_QP-T01-05-06.headers.txt", "transfer"),
+    ("QP-M03-01-05", "請下載填寫： 『退離宿暨退還「住宿保證金」申請表』", "moltke_QP-M03-01-05.headers.txt", "dorm", "osa"),
 ]
+EXIT_PAGE = "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序"
 # 頁面正文用的簡稱（逐字出現在列出這份表單的頁面裡），指的就是這份表單
-FORM_ALIASES = {"QP-T01-02-05": ["委託書"], "QP-T01-05-05": ["轉系所申請書"], "QP-T01-05-06": ["學分認定申請書"]}
+FORM_ALIASES = {"QP-T01-02-05": ["委託書"], "QP-T01-05-05": ["轉系所申請書"], "QP-T01-05-06": ["學分認定申請書"],
+                "QP-M03-01-05": ["離宿暨退還保證金申請表", "退離宿暨退還「住宿保證金」申請表", "離宿暨退還「住宿保證金」申請表"]}
 
 
 def build_forms(problems: Problems) -> list[dict]:
@@ -359,19 +362,21 @@ def build_forms(problems: Problems) -> list[dict]:
     live_page = "sources/live/aca_leave_page.html"
     _, tpage_rel = snapshot_from_corpus("aca", TRANSFER_PAGE, "aca_transfer_page.txt")
     tlive_page = "sources/live/aca_transfer_page.html"
-    pages = {"leave": (page_rel, live_page), "transfer": (tpage_rel, tlive_page)}
+    _, epage_rel = snapshot_from_corpus("osa", EXIT_PAGE, "osa_exit_procedure.txt")
+    pages = {"leave": (page_rel, live_page), "transfer": (tpage_rel, tlive_page), "dorm": (epage_rel, "sources/live/osa_exit_procedure.html")}
     recs = {}
-    for line in (ROOT / "output" / "aca" / "extracted_supplementary.jsonl").open(encoding="utf-8"):
-        d = json.loads(line)
-        for fid, *_ in FORMS:
-            if d["url"] == MOLTKE + fid:
-                recs[fid] = d
+    for sub in ("aca", "osa"):
+        for line in (ROOT / "output" / sub / "extracted_supplementary.jsonl").open(encoding="utf-8"):
+            d = json.loads(line)
+            for fid, *_ in FORMS:
+                if d["url"] == MOLTKE + fid:
+                    recs[fid] = d
     SNAP_DIR.mkdir(parents=True, exist_ok=True)
     forms_rel = "sources/snapshot/moltke_forms.txt"
-    (HERE / forms_rel).write_text("# 來源：output/aca/extracted_supplementary.jsonl（無抓取時間）；每筆：網址、標題、全文\n\n" + "\n\n".join(
+    (HERE / forms_rel).write_text("# 來源：output/aca 與 output/osa 的 extracted_supplementary.jsonl（無抓取時間）；每筆：網址、標題、全文\n\n" + "\n\n".join(
         f"url: {d['url']}\ntitle: {d['title']}\n{d['text']}" for d in recs.values()) + "\n", encoding="utf-8")
     out = []
-    for fid, link_text, headers, which in FORMS:
+    for fid, link_text, headers, which, *_ in FORMS:
         page_rel, live_page = pages[which]
         w = f"表單 {fid}"
         d = recs.get(fid)
@@ -383,7 +388,7 @@ def build_forms(problems: Problems) -> list[dict]:
         names = [zh] + ([en] if en else []) + FORM_ALIASES.get(fid, [])
         e = {"id": fid, "url": MOLTKE + fid, "names": [], "sources": [], "live_check": None}
         for n in names:
-            basis = forms_rel if n in (zh, en) else page_rel
+            basis = forms_rel if n in d["title"] else page_rel      # 名稱是表單標題的一部分就以表單為依據，否則以列出它的頁面為依據
             add_form(e["names"], "name", n, src("snapshot", basis, "corpus", n, problems, w), key="kind")
         e["sources"] = [x for x in (
             src("snapshot", forms_rel, "corpus", f"url: {MOLTKE}{fid}", problems, w),

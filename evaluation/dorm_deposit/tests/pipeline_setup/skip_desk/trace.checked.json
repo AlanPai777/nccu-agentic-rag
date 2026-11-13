@@ -1,0 +1,187 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "填寫「離宿暨退還住宿保證金申請表」",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "離宿暨退還「住宿保證金」申請表",
+          "verified": true,
+          "start": 565,
+          "end": 580
+        }
+      ],
+      "why": "E1 說搬離宿舍退還住宿保證金要填寫這張申請表。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        12,
+        29
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "表單編號 QP-M03-01-05",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "表單編號：QP-M03-01-05",
+          "verified": true,
+          "start": 144,
+          "end": 161
+        }
+      ],
+      "why": "E3 表單全文列出此編號。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        30,
+        47
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "離宿暨退還保證金申請表-學期中/末搬離宿舍(中文.English) Application for Leaving the Dorm/Deposit Return"
+        }
+      ],
+      "why": "E3 的 sources 有此網址，label 為離宿暨退還保證金申請表。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        53,
+        128
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "直接持表到住宿組",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據說要先持表到宿舍服務台檢查寢室簽章，再到住宿組，並非直接到住宿組。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        130,
+        138
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "（行政大樓三樓）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "至住宿組(行政大樓3樓)",
+          "verified": true,
+          "start": 761,
+          "end": 773
+        }
+      ],
+      "why": "E1 說住宿組在行政大樓3樓。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        138,
+        146
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c6",
+      "answer_span": "辦理退宿與退還住宿保證金",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "辦理退宿註記、退宿費或住宿保證金",
+          "verified": true,
+          "start": 775,
+          "end": 791
+        }
+      ],
+      "why": "E1 說在住宿組辦理退宿註記與退住宿保證金。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        146,
+        158
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c7",
+      "answer_span": "住宿組會把款項匯入你登記的帳戶",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "由住宿組造冊匯入同學(於政大網頁-在校學生-個人基本資料)登記之帳戶。",
+          "verified": true,
+          "start": 892,
+          "end": 927
+        }
+      ],
+      "why": "E1 說由住宿組造冊匯入同學登記的帳戶。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        159,
+        174
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c8",
+      "answer_span": "住宿保證金是 1,000 元",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "每位住宿生需繳納「住宿保證金」1,000元",
+          "verified": true,
+          "start": 3818,
+          "end": 3839
+        }
+      ],
+      "why": "E2 寫明住宿保證金1,000元。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        175,
+        189
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

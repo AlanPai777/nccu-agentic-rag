@@ -1,0 +1,92 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "填寫「離宿暨退還住宿保證金申請表」",
+      "status": "supported",
+      "evidence": [
+        {"item": "E1", "quote": "填寫列印『離宿暨退還「住宿保證金」申請表』"}
+      ],
+      "why": "E1 的作業流程第一步就是填寫列印這份離宿暨退還住宿保證金申請表。"
+    },
+    {
+      "id": "c2",
+      "answer_span": "表單編號 QP-M03-01-05",
+      "status": "supported",
+      "evidence": [
+        {"item": "E3", "quote": "表單編號：QP-M03-01-05"}
+      ],
+      "why": "E3 表單全文寫明表單編號為 QP-M03-01-05。"
+    },
+    {
+      "id": "c3",
+      "answer_span": "下載連結：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+      "status": "supported",
+      "evidence": [
+        {"item": "E3", "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05", "from": "sources"}
+      ],
+      "why": "該網址在 E3 的 sources 裡，label 是離宿暨退還保證金申請表。"
+    },
+    {
+      "id": "c4",
+      "answer_span": "先到住宿組",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據的流程是先到宿舍服務台檢查寢室簽章，之後才到住宿組，沒有先到住宿組的說法，順序相反。"
+    },
+    {
+      "id": "c5",
+      "answer_span": "（行政大樓二樓）",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據寫住宿組在行政大樓 3 樓，沒有二樓的說法。"
+    },
+    {
+      "id": "c6",
+      "answer_span": "辦理退宿，之後再請宿舍服務台檢查寢室",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據是先請宿舍服務台檢查寢室，再到住宿組辦理，答案把順序顛倒。"
+    },
+    {
+      "id": "c7",
+      "answer_span": "檢查寢室後一個月內，持表到住宿組",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據寫的是檢查寢室後三天內持表到住宿組，不是一個月內。"
+    },
+    {
+      "id": "c8",
+      "answer_span": "聯絡人：陳哲良（分機 62223）",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據中陳哲良（行政專員）的分機是 62222，沒有 62223。"
+    },
+    {
+      "id": "c9",
+      "answer_span": "款項會直接領現金",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據寫由住宿組造冊匯入學生登記的帳戶，沒有領現金的說法。"
+    },
+    {
+      "id": "c10",
+      "answer_span": "住宿保證金是 500 元",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據寫住宿保證金為 1,000 元；500 元是延後退宿費，不是保證金。"
+    },
+    {
+      "id": "c11",
+      "answer_span": "沒有依程序辦理的人，保證金可以退一半",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據寫未依退離宿程序辦理者保證金不予退還，沒有退一半的說法。"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  }
+}

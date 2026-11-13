@@ -1,0 +1,58 @@
+# 來源：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05
+# 檔案：output/osa/extracted_supplementary.jsonl
+# 資料日期：2026-08（output/ 快照；表單 QP-M03-01-05）
+# 以下為該筆記錄的 text 欄位全文（逐字複本）
+
+表單編號：QP-M03-01-05
+保存年限：1年
+致：住宿輔導組 □學士班宿舍 □碩博士班宿舍
+TO : Student Housing Service Section Undergraduate Dorm Graduate Dorm
+離宿流程：宿舍區管理人員檢查寢室➔三天內至住宿組辦理退費(持本表及宿費收據)
+Procedure for moving out of the dorms：Resident Hall service counter (to inspect the room) ➔Student Housing Service Section
+(within 3 days of inspection, bring your receipt for dorm payment to process your exit record, dorm fee reimbursement, or dorm deposit refund)
+注意：1. 僅退住宿保證金者可不交宿費收據；「宿費繳費收據」若遺失，可請出納組補發。
+2.由住宿組造冊匯入同學(於政大網頁-在校學生-個人基本資料)登記之帳戶。
+3. 僑生及外籍生因離宿後即出國、帳戶已結清無法領取者，另再填『僑外生退住宿保證金轉入代領人帳戶領據』
+辦理，外籍交換生請向相關系所辦理退還「住宿保證金」。
+Note：1. It is not necessary to hand in the receipt for dormitory fee if you apply only for the deposit. If you have lost your receipt,
+you may get a copy at the Cashier Office.
+2. The refund will be deposited directly into the students’ bank account (as registered in the student information file) by the
+Student Housing Service Section.
+3. Oversea Chinese Students and Foreign students who are not able to receive refund through the above method due to the
+reasons of immediate departure after moving out of the dorm or bank account being closed already, may fill out the form
+of ”Application for overseas Chinese and foreign students requesting transfer of funds to an alternative account” to apply for the deposit
+refund. Exchange students should go to the office of their departments to apply for a dorm deposit refund.
+
+| （ ）學年度住宿生離宿暨退還「住宿保證金」申請表 Application for Leaving the Dorm/Deposit Return 申請日期(Date)： |  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 系所 Department |  |  | 學號 Student ID No. |  |  |  | 姓名 Name |  |  |
+| 性別 Sex | □ 男Male □ 女Female |  | 退宿寢號 Dorm/Room No. |  |  |  | 電話 Tel |  |  |
+|  |  |  |  |  |  |  | E-mail |  |  |
+| 房間人數 Room Type | □ 一人房single room □ 三人房3-person room □ 二人房double room □ 四人房4-person room |  |  |  |  | 學生身份 Student Category |  |  | □台生Local student □僑生Overseas Chinese □一般外籍生Foreign student □交換生 Exchange student □陸生 Mainland China students |
+| 退宿原因 (可複選) Reason for leaving (you may choose more than one) | □住宿期滿 Exceeding the maximum number of terms allowed living in the dorm. □休退學 Discontinuing studies. □轉學 Transferring to another school □畢業 Graduating □註銷學籍 Canceling student registration |  |  | □去與親友同住 Moving in with friends/relatives □校外覓得合適租屋 Renting an apt off-campus □宿舍設施過於簡陋 Dorm facilities too inferior □與室友相處不易 Unable to get along with roommates □作息時間和室友不同 Rest hours are different than roommates |  |  |  |  | □住宿違規滿十點，勒令退宿 Accumulated 10 penalty points □宿舍位置偏遠出入不易 The dorms are too out of the way; coming and going is difficult □其他(請說明) Other (please explain) |
+| 受委託人簽章Signature of Applicant / Sponsor： 電話 Tel： 受委託人學號 Sponsor’s Student No.: 系級Department: E-mail： 以下由宿舍管理人員填寫 The section below is for the dorm management. |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  | 住宿保證金 |  |  |  |  |
+|  |  |  |  |  | 扣款金額 |  |  |  |  |
+|  |  | 項目 Item |  |  |  |  |  | 備 註 Add notes |  |
+|  |  |  |  |  | Dorm deposit |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  | subtractions |  |  |  |  |
+|  |  | 1、財產損失 Property Damage |  |  |  |  |  |  |  |
+|  |  | 2、垃圾清理 Removal of |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |
+| 寢室檢查 |  | trash/cleanness of area |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |
+|  |  | 3、延遲搬 Extension of dorm stay |  |  |  |  |  |  |  |
+| Room Inspection |  |  |  |  |  |  |  |  |  |
+|  |  | 4、其他 Other |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |
+|  |  | 扣款總金額 |  |  |  |  |  | 扣款金額若超過住宿保證金1000元以上，另 |  |
+|  |  | Total amount subtracted from |  |  |  |  |  | 予追繳。If the amount of subtractions |  |
+|  |  |  |  |  |  |  |  | exceeds the original deposit of NT$1,000, |  |
+|  |  | deposit |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  | you will be asked to pay the difference. |  |
+|  |  | 檢查人員簽名： 管理人員 或舍顧 |  |  |  |  |  |  |  |
+|  |  | 日期： |  |  |  |  |  |  |  |
+| 住宿組處理欄 |  | □ 登錄宿舍管理系統 |  |  |  |  |  |  |  |
+|  |  | □ 退宿費：2/3、1/2、不退 □退住宿保證金 |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |

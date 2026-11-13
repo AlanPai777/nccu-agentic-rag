@@ -44,7 +44,7 @@ def text_of(rel: str) -> str:
     """來源檔的純文字（相對 evaluation/registry/）；教務處頁面的 html 連結寫成 [文字](網址)。"""
     if rel not in _TEXT:
         raw = (HERE / rel).read_text(encoding="utf-8")
-        if rel.endswith(("aca_leave_page.html", "aca_transfer_page.html")):
+        if rel.endswith(("aca_leave_page.html", "aca_transfer_page.html", "osa_exit_procedure.html")):
             from gold_check import html_to_text
             _TEXT[rel] = html_to_text(raw)
         else:

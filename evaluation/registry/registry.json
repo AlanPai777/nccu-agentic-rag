@@ -12062,7 +12062,7 @@
             {
               "source": "snapshot",
               "asof": "corpus",
-              "file": "sources/snapshot/aca_leave_page.txt",
+              "file": "sources/snapshot/moltke_forms.txt",
               "quote": "委託書"
             }
           ]
@@ -12188,7 +12188,7 @@
             {
               "source": "snapshot",
               "asof": "corpus",
-              "file": "sources/snapshot/aca_transfer_page.txt",
+              "file": "sources/snapshot/moltke_forms.txt",
               "quote": "轉系所申請書"
             }
           ]
@@ -12257,7 +12257,7 @@
             {
               "source": "snapshot",
               "asof": "corpus",
-              "file": "sources/snapshot/aca_transfer_page.txt",
+              "file": "sources/snapshot/moltke_forms.txt",
               "quote": "學分認定申請書"
             }
           ]
@@ -12288,6 +12288,87 @@
         "asof": "2026-11-13",
         "file": "sources/live/moltke_QP-T01-05-06.headers.txt",
         "quote": "Location: login.formservice?viewdetail=QP-T01-05-06",
+        "result": "302 轉到同一站台的登入頁，沒有跟隨；看不到表單內容，連結本身仍然有效"
+      }
+    },
+    {
+      "id": "QP-M03-01-05",
+      "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+      "names": [
+        {
+          "kind": "name",
+          "value": "離宿暨退還保證金申請表-學期中/末搬離宿舍(中文.English) Application for Leaving the Dorm/Deposit Return",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/moltke_forms.txt",
+              "quote": "離宿暨退還保證金申請表-學期中/末搬離宿舍(中文.English) Application for Leaving the Dorm/Deposit Return"
+            }
+          ]
+        },
+        {
+          "kind": "name",
+          "value": "離宿暨退還保證金申請表",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/moltke_forms.txt",
+              "quote": "離宿暨退還保證金申請表"
+            }
+          ]
+        },
+        {
+          "kind": "name",
+          "value": "退離宿暨退還「住宿保證金」申請表",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/osa_exit_procedure.txt",
+              "quote": "退離宿暨退還「住宿保證金」申請表"
+            }
+          ]
+        },
+        {
+          "kind": "name",
+          "value": "離宿暨退還「住宿保證金」申請表",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/osa_exit_procedure.txt",
+              "quote": "離宿暨退還「住宿保證金」申請表"
+            }
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/moltke_forms.txt",
+          "quote": "url: https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05"
+        },
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/osa_exit_procedure.txt",
+          "quote": "[請下載填寫： 『退離宿暨退還「住宿保證金」申請表』](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05)"
+        },
+        {
+          "source": "live",
+          "asof": "2026-11-13",
+          "file": "sources/live/osa_exit_procedure.html",
+          "quote": "[請下載填寫： 『退離宿暨退還「住宿保證金」申請表』](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05)"
+        }
+      ],
+      "live_check": {
+        "source": "live",
+        "asof": "2026-11-13",
+        "file": "sources/live/moltke_QP-M03-01-05.headers.txt",
+        "quote": "Location: login.formservice?viewdetail=QP-M03-01-05",
         "result": "302 轉到同一站台的登入頁，沒有跟隨；看不到表單內容，連結本身仍然有效"
       }
     }
