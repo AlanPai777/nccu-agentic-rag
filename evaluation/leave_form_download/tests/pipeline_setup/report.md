@@ -97,6 +97,6 @@
 ## 後續
 
 - 問題 1 已用結構化來源處理（上面），`complete_direct`、`aca_link_only` 都已用新規則重做確認。
-- **提示詞與稽核不一致（新發現，待決定）**：提示詞原文是「Do not run shell commands **other than** reading that one file and writing your one output file」，字面上允許用 shell 讀輸入檔、寫輸出檔；稽核卻規定只准 Read、Write、交回報告。3 個違規的子代理做的事（heredoc 寫輸出檔、用 Python 檢查自己的檔案）都符合提示詞的字面，不符合稽核的字面。要統一：(a) 提示詞改成「只准用 Read 讀輸入檔、Write 寫輸出檔，不要用 Bash」（提示詞版本要升，舊的記錄不改）；或 (b) 稽核放寬成 Bash 指令只碰輸入檔與輸出檔就算過（需要解析指令，較脆弱）。我傾向 (a)。
+- **提示詞與稽核不一致（已處理，使用者選 A）**：`isolated-v2` 提示詞原文是「Do not run shell commands **other than** reading that one file and writing your one output file」，字面上允許用 shell 讀輸入檔、寫輸出檔；稽核卻只准 Read、Write、交回報告。3 個違規的子代理做的事（heredoc 寫輸出檔、用 Python 檢查自己的檔案）符合提示詞的字面，不符合稽核的字面。已把提示詞改成 `isolated-v3`：只准用 Read 讀輸入檔、Write 寫輸出檔，明講不准 Bash（包括寫檔、檢查引句、確認 JSON 能不能解析）。本報告裡所有子代理都是用 `isolated-v2` 跑的，記錄原樣保留；v3 有沒有讓 Bash 消失，要看下一次的子代理。
 - `complete`、`complete_direct` 第一次的稽核違規：已決定接受並標註。
 - Context 層對資源類題目的召回（gold 的依據句在教務處頁面、系統只讀了表單）：沒有處理，待決定。

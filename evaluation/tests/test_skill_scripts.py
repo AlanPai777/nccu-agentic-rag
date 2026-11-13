@@ -65,6 +65,13 @@ class PrepareIsolatedDirTest(unittest.TestCase):
         self.assertNotIn("{INPUT_FILE}", r.stdout)
         self.assertNotIn("{OUTPUT_FILE}", r.stdout)
         self.assertIn("ONLY the single input file", r.stdout)
+        self.assertIn("isolated-v3", r.stdout)
+        # 提示詞與稽核一致：只准 Read 與 Write，明講不准 Bash，舊的「other than reading … writing」那句已經拿掉
+        self.assertIn("Use only the Read tool", r.stdout)
+        self.assertIn("only the Write tool", r.stdout)
+        self.assertIn("Do not use Bash", r.stdout)
+        self.assertNotIn("other than reading that one file", r.stdout)
+        self.assertNotIn("isolated-v2", r.stdout)
 
     def test_an_input_that_mentions_gold_is_refused(self):
         d = tmpdir(self)
