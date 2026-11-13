@@ -1,0 +1,45 @@
+{
+  "query_id": "leave_form_download",
+  "run_id": "aca_link_only",
+  "query": "休學申請表在哪裡下載",
+  "task": "對每個 keypoint 判斷答案：relevant / irrelevant / wrong，並指出直接陳述它的主張編號（見 trace.json）。",
+  "answer_text": "休學申請書的名稱是「休學/保留學籍申請書」，表單編號 QP-T01-03-02。請到教務處「休學-保留學籍-退學-提早復學」頁面的「相關法規與表單」下載：https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+  "gold_content": "休學申請書的名稱是「休學/保留學籍申請書」，表單編號 QP-T01-03-02，下載連結：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+  "keypoints": [
+    {
+      "id": "K1",
+      "text": "休學申請書的表單編號是 QP-T01-03-02"
+    },
+    {
+      "id": "K2",
+      "text": "休學申請書的下載連結是 https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02"
+    }
+  ],
+  "notes": {},
+  "output_file": "judge.json",
+  "output_format": {
+    "keypoints": [
+      {
+        "id": "K1",
+        "verdict": "relevant | irrelevant | wrong | not_applicable",
+        "claims": [
+          "c1"
+        ],
+        "reason": "一句話說明"
+      }
+    ],
+    "judge": {
+      "model": "",
+      "prompt_version": "",
+      "note": ""
+    },
+    "rules": [
+      "relevant：答案裡有與這個 keypoint 相關且一致的陳述（不必每個細節都一樣，最重要的資訊一致即可）。",
+      "irrelevant：答案沒有提到，或只說資訊不足。",
+      "wrong：答案對這個 keypoint 給了具體但不同的內容。",
+      "not_applicable：只用在有適用條件的 keypoint（text 寫「答案若…」）。答案沒有滿足條件（例如根本沒列承辦人）時判 not_applicable，不計入分母；滿足條件才判 relevant 或 wrong。",
+      "claims 列出 trace.json 裡直接陳述這個 keypoint 的主張編號；沒提到就留空陣列。同一個主張可以同時連到多個 keypoint。",
+      "每個 keypoint 都要有一筆。"
+    ]
+  }
+}

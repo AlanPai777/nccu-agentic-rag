@@ -1,6 +1,6 @@
 # 流程測試（pipeline_setup）：休學申請表下載題（資源類），用假設的答案讓整條評測管線跑一次
 
-**日期**：2026-11-13（同日第二輪：加了第 5 個案例 `complete_direct`，確認問題 1；第三輪：用結構化來源修好問題 1，重做 `complete_direct` 的隔離回推）
+**日期**：2026-11-13（同日第二輪：加了第 5 個案例 `complete_direct`，確認問題 1；第三輪：用結構化來源修好問題 1，重做 `complete_direct` 的隔離回推；第四輪：重做 `aca_link_only`，確認 c4）
 **這不是系統的真實答案，下面的分數不能當評測結果。** 目的：檢查整條管線在第一題資源類題目上走不走得通，以及找出這類題目特有的問題。
 答案是 Claude Code 寫的（`answers/`），證據用 `output/` 裡真實的快照（教務處頁面、moltke 表單原文）。`model`／`system_version`／`label` 都標「假設」。
 不放 `runs/`，所以 `list_runs.py` 與之後的彙整都讀不到。`make_runs.py` 沒有單元測試。
@@ -37,7 +37,7 @@
 - `complete`：子代理用 Bash 跑了一段 Python，打開輸入檔與它自己的輸出檔，逐字檢查 `answer_span` 與引句是否在輸入檔裡。
 - `complete_direct`：子代理沒有用 Write 工具，改用 Bash 的 heredoc（`cat > <輸出檔> <<'EOF'`）把 trace 寫進**被指定的輸出檔**，再用一行 Python 檢查那個檔案能不能被解析。**呼叫次數仍然是 3 次**（Read、Bash、交回報告），所以只看次數看不出來，稽核看的是工具名稱。
 
-兩者都只碰了被允許的輸入檔與輸出檔，沒有讀 gold、鑰匙或任何其他檔案，**隔離的實質沒有被破壞**；它們的 trace 也都由 `check` 驗證通過。這兩份標「稽核 FAIL（字面違規）」。這個工作到目前為止用過的 10 個子代理（第 2 題三個、`tampered_v2` 一個、本題六個，含 `complete_direct` 重做的那一個），8 個完全照規矩，2 個用了 Bash（`complete`、`complete_direct` 第一次）。
+兩者都只碰了被允許的輸入檔與輸出檔，沒有讀 gold、鑰匙或任何其他檔案，**隔離的實質沒有被破壞**；它們的 trace 也都由 `check` 驗證通過。這兩份標「稽核 FAIL（字面違規）」。這個工作到目前為止用過的 11 個子代理（第 2 題三個、`tampered_v2` 一個、本題七個，含 `complete_direct` 與 `aca_link_only` 重做的兩個），8 個完全照規矩，3 個用了 Bash：`complete`（Python 逐字檢查）、`complete_direct` 第一次與 `aca_link_only` 重做（都是 heredoc 寫輸出檔再用一行 Python 確認能解析）。
 
 ## 結果（只供看流程，不是評測結果）
 
@@ -73,7 +73,8 @@
 分工：「網址有沒有出現過」是確定的事，交給程式；「網址對應什麼」需要理解，交給子代理看 label。這樣編造的網址（差一個字元）會被程式確定退回，T5 的陷阱不會重現（引句必須是完整網址，不能只引網址裡的字）。
 
 **結果**：`complete_direct` 重做（新的子代理，只拿修改後的 `trace_input.json`，提示詞不變、規則在輸入檔裡，稽核 PASS：3 次呼叫）：c3 引 `sources` 裡的完整網址，label 是「休學/保留學籍申請書」，`check` 通過；**有依據比例從 0.67 回到 1.00，K2 不再被列為答對但沒依據**。
-**沒有處理的**：(a) 其他四個案例的 `trace_input.json`／`trace.json` 是修改前產生的（9 條規則、沒有 `sources`），原樣保留；`aca_link_only` 的 c4 若用新規則重做，應該改引 `sources`，這次沒有重做。(b) Context 句子召回仍是 0.50。(c) 只改了評測這一側；系統的答案本來就是對的。
+**`aca_link_only` 重做（第四輪）**：c4（答案裡的教務處頁面網址）修改前拿標頭行當引句（灌水），修改後改引 `sources` 裡的完整網址（`from: sources`，label 是頁面名稱），`check` 通過。**分數沒有變**（有依據 4/4＝1.00、答案為單位 P 0.25、Completeness 0.50），變的是 c4 現在是用正當的方式得到的。修改前的檔案原樣收在 `aca_link_only/first_run_before_sources/`。
+**沒有處理的**：(a) `complete`、`wrong_form`、`verbose` 三個案例的 `trace_input.json`／`trace.json` 是修改前產生的（9 條規則、沒有 `sources`），原樣保留。(b) Context 句子召回仍是 0.50。(c) 只改了評測這一側；系統的答案本來就是對的。
 測試：`test_stage3_prepare.py`（多個標記、`get_form`／`get_page` 的 label、純網址來源行、去重、沒有標記的項目）、`test_stage3_check.py`（完整網址有效並保留 label、差一個字元的網址無效且 supported 降級、路徑裡的字不能支持其他主張、網址的一部分無效、正規化、未知 `from` 值、舊的 `trace_input`（沒有 `sources`）不當掉、一般引句不變）、`test_skill_scripts.py`（`verify_run` 接受 `from: sources`、拒絕其他值）。
 
 ### 2. 子代理的行為有些微變異
@@ -95,6 +96,7 @@
 
 ## 後續
 
-- 問題 1 已用結構化來源處理（上面）。可選：用新規則重做 `aca_link_only`，確認 c4 會改引 `sources`（需要再開一個子代理，使用者批准）。
+- 問題 1 已用結構化來源處理（上面），`complete_direct`、`aca_link_only` 都已用新規則重做確認。
+- **提示詞與稽核不一致（新發現，待決定）**：提示詞原文是「Do not run shell commands **other than** reading that one file and writing your one output file」，字面上允許用 shell 讀輸入檔、寫輸出檔；稽核卻規定只准 Read、Write、交回報告。3 個違規的子代理做的事（heredoc 寫輸出檔、用 Python 檢查自己的檔案）都符合提示詞的字面，不符合稽核的字面。要統一：(a) 提示詞改成「只准用 Read 讀輸入檔、Write 寫輸出檔，不要用 Bash」（提示詞版本要升，舊的記錄不改）；或 (b) 稽核放寬成 Bash 指令只碰輸入檔與輸出檔就算過（需要解析指令，較脆弱）。我傾向 (a)。
 - `complete`、`complete_direct` 第一次的稽核違規：已決定接受並標註。
 - Context 層對資源類題目的召回（gold 的依據句在教務處頁面、系統只讀了表單）：沒有處理，待決定。
