@@ -22,7 +22,7 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-QUESTION = HERE.parents[1]                  # evaluation/resumption
+QUESTION = HERE.parents[1]                  # evaluation/leave_of_absence
 ROOT = HERE.parents[3]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "evaluation"))
