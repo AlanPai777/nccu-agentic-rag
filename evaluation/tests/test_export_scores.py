@@ -149,6 +149,37 @@ class TestReferencesAndAlternatives(unittest.TestCase):
         self.assertEqual(row["ground_truth"]["keypoints"][0]["acceptable_expressions"], ["25學分", "二十五學分"])
         self.assertIsNone(row["ground_truth"]["keypoints"][0]["alternatives"])
 
+    def test_ground_truth_answer_tags(self):
+        """標籤：登記表人員／分機 → replaceable（附一組代表與全部寫法）；其餘 hard → fixed；semantic 不另標；樓層、連結不算可替換。"""
+        import registry_lib
+        reg = registry_lib.load()
+        gold = {"keypoints": [
+            {"id": "K1", "text": "要寫註冊組聯絡人", "kind": "hard", "required": True, "registry": {"office": "registrar", "need": "who"}},
+            {"id": "K2", "text": "註冊組在四樓", "kind": "hard", "required": True, "registry": {"office": "registrar", "need": "floor"}},
+            {"id": "K3", "text": "表單編號 QP-T01-04-21", "kind": "hard", "required": True},
+            {"id": "K4", "text": "須經雙方同意", "kind": "semantic", "required": False}]}
+        a = {l["id"]: l for l in export_scores.ground_truth_answer(gold, reg)}
+        self.assertEqual([a[k]["tag"] for k in ("K1", "K2", "K3", "K4")], ["replaceable", "fixed", "fixed", "semantic"])
+        self.assertEqual(len(a["K1"]["forms"]), len(registry_lib.office(reg, "registrar")["staff"]))
+        self.assertIn(a["K1"]["example"], a["K1"]["forms"])
+        self.assertIn("姓名須對上分機", a["K1"]["rule"])
+        self.assertNotIn("forms", a["K2"])
+        self.assertEqual(a["K4"]["required"], False)
+
+    def test_cashier_extensions_pair_names_and_explain_the_exceptions(self):
+        import registry_lib
+        gold = json.loads((HERE.parent / "cashier_contact" / "gold.json").read_text(encoding="utf-8"))
+        a = {l["id"]: l for l in export_scores.ground_truth_answer(gold, registry_lib.load())}
+        self.assertEqual([a[k]["tag"] for k in ("K1", "K2", "K3")], ["fixed", "replaceable", "fixed"])
+        self.assertEqual(a["K2"]["example"], "劉桂芬 / 組長  62120")                    # 現場確認的那組當代表
+        self.assertEqual(len(a["K2"]["forms"]), 12)
+        forms = {f.split("  ")[-1][:5]: f for f in a["K2"]["forms"]}
+        self.assertIn("無人員對應", forms["62119"])                                   # 通知單列的線路，沒有人名，K3 不適用
+        self.assertTrue(forms["62119"].startswith("62119"))
+        self.assertIn("鄭雅玲", forms["62173"])
+        self.assertIn("待補", forms["62173"])
+        self.assertEqual(a["K3"]["applies_if"], "answer_names_contact_person")
+
 
 class TestPreviewExport(unittest.TestCase):
     """11 題的預覽案例（真實檔案）：每題一行、題號 1–11、第 1 題是真實 run、其餘是假設答案、階段 3 的值都有。"""

@@ -20,7 +20,7 @@ evaluation/dashboard/export_scores.py
   evidence         {rate, supported, claims, unsupported}     有依據的主張比例
   rouge            {p, r, f}
   context          {sentence: {p, r, f}, words: {p, r, f}}
-  ground_truth     {content, keypoints: [{id, text, required, kind}]}
+  ground_truth     {content, answer: [{id, text, tag: replaceable|fixed|semantic, example, forms, rule}], keypoints: [...], references}
   prediction       {content}
   responses        {keypoints: [{id, text, verdict, reason, claims}], claims: [{id, answer_span, status, why}], funnel, warnings, disagreements, ungrounded}
   routing          {expected: gold 的 query_type, router: 系統當次判斷的類型（prediction 的 trace.query_type）}
@@ -63,15 +63,9 @@ def registry_alternatives(spec: dict, reg: dict) -> dict | None:
     try:
         if need == "who":
             o = registry_lib.office(reg, spec["office"])
-            items = []
-            for e in o["staff"]:
-                names = []
-                for n in e["names"]:
-                    if n["value"] not in names:
-                        names.append(n["value"])
-                titles = [t["value"] for t in e["titles"]]
-                items.append(" / ".join(names + [t for t in titles if t not in names]) + f"  {e['ext'] or '—'}")
-            return {"summary": f"any one of {len(items)} registered staff of {o['name']}, with the matching extension", "items": items}
+            items = [_staff_item(e) for e in o["staff"]]
+            example = next((i for i, e in enumerate(o["staff"]) if e.get("status") == "both"), 0)    # 代表組：現場與快照都有的人員優先
+            return {"summary": f"any one of {len(items)} registered staff of {o['name']}, with the matching extension", "items": items, "example": example}
         if need == "floor":
             o = registry_lib.office(reg, spec["office"])
             items = [" / ".join(f["accepted"]) for f in o["floors"] if not spec.get("unit") or spec["unit"] in f["units"]]
@@ -86,6 +80,63 @@ def registry_alternatives(spec: dict, reg: dict) -> dict | None:
     except (KeyError, StopIteration):
         return None
     return None
+
+
+def _staff_item(e: dict) -> str:
+    names = []
+    for n in e["names"]:
+        if n["value"] not in names:
+            names.append(n["value"])
+    titles = [t["value"] for t in e["titles"]]
+    return " / ".join(names + [t for t in titles if t not in names]) + f"  {e['ext'] or '—'}"
+
+
+def extension_alternatives(gold: dict) -> dict | None:
+    """沒有用登記表、直接把允許分機寫在 gold 的題目（出納組電話）：人員與分機成對，沒有人名的號碼寫明原因。"""
+    av = gold.get("allowed_values") or {}
+    exts = av.get("extension") or []
+    if not exts:
+        return None
+    by_ext = {p["extension"]: p for p in av.get("extension_by_person", [])}
+    items, example = [], None
+    for e in exts:
+        p = by_ext.get(e["value"])
+        text = f"{p['name']} / {p['title']}  {e['value']}" if p else str(e["value"])
+        if e.get("short_note"):
+            text += f"（{e['short_note']}）"
+        elif not p:
+            text += "（無人員對應）"
+        items.append(text)
+        if example is None and p and e.get("status") == "live_confirmed":
+            example = len(items) - 1
+    return {"summary": "", "items": items, "example": example if example is not None else 0}
+
+
+def ground_truth_answer(gold: dict, reg: dict) -> list[dict]:
+    """完整的標準答案：每個 keypoint 一行，並標明能不能換。
+    replaceable：登記表人員或分機（任一組皆可，姓名須對上分機）；fixed：hard 且沒有替代組（數字、表單編號、連結、順序）；
+    semantic：語意相符即可（淡灰小字，不另標）。"""
+    out = []
+    for k in gold.get("keypoints", []):
+        alt = None
+        if k.get("registry"):
+            alt = registry_alternatives(k["registry"], reg)
+            if alt and k["registry"].get("need") != "who":
+                alt = None                       # 樓層、連結、代表線只是寫法不同，不是換人，不算「可替換」
+        elif k.get("value_check") == "extension":
+            alt = extension_alternatives(gold)
+        if alt and len(alt["items"]) > 1:
+            tag = "replaceable"
+        elif k.get("kind") == "hard":
+            tag, alt = "fixed", None
+        else:
+            tag, alt = "semantic", None
+        line = {"id": k["id"], "text": k["text"], "tag": tag, "required": k.get("required"), "applies_if": k.get("applies_if")}
+        if alt:
+            ex = alt.get("example", 0)
+            line.update(example=alt["items"][ex], forms=alt["items"], rule="姓名須對上分機，配錯即錯")
+        out.append(line)
+    return out
 
 
 def _title(text: str) -> str:
@@ -177,6 +228,7 @@ def build_row(entry: dict, root: Path = EVAL) -> dict:
                                                         "source_url": r.get("source_url")} for r in (k.get("references") or [])],
                                         "alternatives": registry_alternatives(k["registry"], reg) if k.get("registry") else None,
                                         "applies_if": k.get("applies_if")} for k in gt_kps],
+                         "answer": ground_truth_answer(gold, reg),
                          "references": list(gt_refs.values())},
         "prediction": {"content": pred.get("answer_body"), "references": pred_refs},
         "responses": {

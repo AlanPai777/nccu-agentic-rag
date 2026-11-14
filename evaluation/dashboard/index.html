@@ -147,6 +147,16 @@ tr:last-child > td { border-bottom: 0; }
 .kp-line { margin: 0 0 0.9rem; overflow-wrap: anywhere; }
 .kp-line .kid { font-weight: 700; margin-right: 0.5rem; }
 .alts { color: var(--accent-color); }
+.gt-tag { display: inline-block; margin-left: 0.4rem; padding: 0 0.45rem; border-radius: 0.3rem; font-size: 0.72rem; font-family: var(--font-text); white-space: nowrap; border: 1px solid var(--border-color); }
+.gt-tag.fixed { color: var(--text-color); }
+.gt-tag.rep { color: var(--accent-color); border-color: var(--accent-color); }
+.gt-sem { color: var(--muted); font-size: 0.85rem; }
+.gt-opt { margin-left: 0.4rem; font-size: 0.7rem; color: var(--muted); }
+.gt-example { margin: 0.2rem 0 0 1.6rem; }
+.gt-rule { margin-top: 0.3rem; font-size: 0.8rem; color: var(--muted); }
+.gt-legend { margin-bottom: 0.8rem; font-size: 0.8rem; color: var(--muted); }
+.gt-line { margin-bottom: 0.6rem; }
+
 details > summary { cursor: pointer; color: var(--accent-color); font-size: 0.8rem; margin-top: 0.25rem; }
 details.ref-item { background: var(--text-box); border-radius: 0.5rem; padding: 0.6rem 1rem; margin-bottom: 0.5rem; }
 details.ref-item > summary { margin: 0; color: var(--text-color); font-size: 0.9rem; }
@@ -364,6 +374,25 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
   function ids(list) { return list.length ? esc(list.join(', ')) : '<span>None</span>'; }
   function srcLabel(s) { return (s.kind === 'live' ? 'live' : 'snapshot') + (s.as_of ? ' ' + String(s.as_of).replace(/（.*$/, '') : ''); }
   function shortUrl(u) { try { return decodeURIComponent(String(u || '').replace(/^https?:\/\//, '')); } catch (e) { return String(u || ''); } }
+  function gtAnswerHtml(lines) {
+    var h = '<div class="detail-section"><div class="detail-title">Ground Truth (' + lines.length + ') &mdash; complete reference answer</div><div class="detail-text detail-line">';
+    h += '<div class="gt-legend"><span class="gt-tag fixed">不可替換</span> must match exactly &nbsp; <span class="gt-tag rep">可替換</span> any registered staff, the name must match the extension &nbsp; <span class="gt-sem">gray</span> wording may differ</div>';
+    lines.forEach(function (l) {
+      var cond = l.applies_if ? '<span class="tag">if: ' + esc(l.applies_if) + '</span>' : '';
+      var opt = l.required === false ? '<span class="gt-opt">選答</span>' : '';
+      var inner = '';
+      if (l.tag === 'replaceable') {
+        inner = esc(l.text) + '<div class="gt-example">' + esc(l.example) + '<span class="gt-tag rep">可替換</span></div>' +
+          '<details><summary>可接受的寫法（' + l.forms.length + '）</summary><ul class="references-list">' + l.forms.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul><div class="gt-rule">' + esc(l.rule) + '</div></details>';
+      } else if (l.tag === 'fixed') {
+        inner = esc(l.text) + '<span class="gt-tag fixed">不可替換</span>';
+      } else {
+        inner = '<span class="gt-sem">' + esc(l.text) + '</span>';
+      }
+      h += '<div class="kp-line gt-line"><span class="kid">' + esc(l.id) + '</span>' + inner + cond + opt + '</div>';
+    });
+    return h + '</div></div>';
+  }
   function detailHtml(r) {
     var rt = r.routing || {}, diff = rt.router != null && rt.expected != null && rt.router !== rt.expected;
     var h = '<div class="details-content">';
@@ -371,7 +400,8 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
     h += '<div class="detail-section"><div class="detail-title">Full Query</div><div class="detail-text">' + esc(r.query.content) + '</div></div>';
     h += '<div class="detail-section"><div class="detail-title">Prediction Content</div><div class="detail-text">' + esc(r.prediction && r.prediction.content || 'N/A') + '</div></div>';
     var gt = r.ground_truth || {};
-    h += '<div class="detail-section"><div class="detail-title">Ground Truth Content (summary)</div><div class="detail-text">' + esc(gt.content || 'N/A') + '</div></div>';
+    if (gt.answer && gt.answer.length) h += gtAnswerHtml(gt.answer);
+    else h += '<div class="detail-section"><div class="detail-title">Ground Truth Content</div><div class="detail-text">' + esc(gt.content || 'N/A') + '</div></div>';
     // complete reference answer: every keypoint, accepted alternatives in parentheses
     var kps = gt.keypoints || [];
     h += '<div class="detail-section"><div class="detail-title">Ground Truth Keypoints (' + kps.length + ') &mdash; complete reference answer, accepted alternatives in ( )</div><div class="detail-text detail-line">';
