@@ -277,6 +277,7 @@ def main():
         ],
     }
     out = HERE / "gold.json"
+    import sys as _sys; _sys.path.insert(0, str(Path(__file__).resolve().parents[1])); import reference_answer; reference_answer.attach(gold, Path(__file__).resolve().parent)  # 畫面用的完整參考答案（reference_answer.txt）
     out.write_text(json.dumps(gold, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"已寫入 {out.relative_to(ROOT)}")
     print(f"快照原文複本：{len(SNAP)} 份（{SNAP_DIR.relative_to(ROOT)}）；現場 PDF 文字 {sum(1 for v in LIVE.values() if v[2] == 'pdf')} 份")

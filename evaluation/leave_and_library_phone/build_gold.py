@@ -71,6 +71,7 @@ def main() -> int:
         ],
     }
     out = HERE / "gold.json"
+    import sys as _sys; _sys.path.insert(0, str(Path(__file__).resolve().parents[1])); import reference_answer; reference_answer.attach(gold, Path(__file__).resolve().parent)  # 畫面用的完整參考答案（reference_answer.txt）
     out.write_text(json.dumps(gold, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     problems = gold_check.validate_gold(out)
     if problems:

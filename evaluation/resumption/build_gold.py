@@ -200,6 +200,7 @@ def main() -> int:
         ],
     }
     out = HERE / "gold.json"
+    import sys as _sys; _sys.path.insert(0, str(Path(__file__).resolve().parents[1])); import reference_answer; reference_answer.attach(gold, Path(__file__).resolve().parent)  # 畫面用的完整參考答案（reference_answer.txt）
     out.write_text(json.dumps(gold, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"已寫入 {out.relative_to(ROOT)}（{len(keypoints)} 個 keypoint，其中 {sum(1 for k in keypoints if k.get('registry'))} 個引用登記表）")
     print("引句驗證通過：" + "、".join(f"{k} {len(v)} 條" for k, v in REFS.items()))

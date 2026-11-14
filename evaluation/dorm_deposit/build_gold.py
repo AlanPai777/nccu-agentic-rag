@@ -194,10 +194,15 @@ def main() -> int:
             "選擇性：K8、K9、K13、K14、K17、K22、K23；條件式：K15（提到僑生或外籍生）、K16（提到外籍交換生）、K22、K23。「必要」目前不影響評分（議題 F8、F9）。",
             "K10（7 日內）列為必要：它回答「什麼時候要搬」；K12（1,000 元）用 hard（數字），寫成「1,000」「1000」「一千」都算。",
             "不收：學期前退宿（QP-M03-01-04，取消／放棄下學期住宿，另一個流程，不是搬離宿舍；使用者決定 2026-11-13）、暑宿費退費、宿費退費比例（2/3、1/2、不退）。",
+            "【已知限制，見設計文件 F21】學期中與學期末只寫成一份：頁面的學期末流程只寫到宿舍服務台簽章，表單通則是「檢查寢室後三天內到住宿組」；K3、K4 照表單通則，"
+            "一份只描述學期末（填表、服務台簽章、期末前一週內可轉交）的答案會被判 K3、K4 irrelevant，雖然那是頁面學期末的寫法；等真實 run 再決定要不要拆成條件式。",
+            "【已知限制，見設計文件 F22】K10（7 日內）列必要，但只適用畢業、休學、退學、轉學的住宿生；一般搬離的答案不提 7 日，Completeness 會被扣。例：只寫一般流程的答案 K10 irrelevant，寫了「畢業生要在 7 日內」的答案 K10 relevant。",
+            "【已知限制，見設計文件 F23】順序（K3）只有 Keypoint 判斷能抓，規則版無感；例：直接到住宿組、跳過宿舍服務台的答案，規則版 Accuracy 仍有 4/5。",
             "moltke 的表單連結現場回 302 轉登入頁（2026-11-13，curl，沒有跟隨），連結本身有效、看不到表單內容；表單內容以快照為準。記錄見 sources/live/live_check.md 與登記表。",
         ],
     }
     out = HERE / "gold.json"
+    import sys as _sys; _sys.path.insert(0, str(Path(__file__).resolve().parents[1])); import reference_answer; reference_answer.attach(gold, Path(__file__).resolve().parent)  # 畫面用的完整參考答案（reference_answer.txt）
     out.write_text(json.dumps(gold, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"已寫入 {out.relative_to(ROOT)}（{len(keypoints)} 個 keypoint，其中 {sum(1 for k in keypoints if k.get('registry'))} 個引用登記表）")
     print(f"引句驗證通過：{len(REFS)} 個 keypoint，{sum(len(v) for v in REFS.values())} 條")

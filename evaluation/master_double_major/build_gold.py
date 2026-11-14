@@ -185,10 +185,15 @@ def main() -> int:
             "時間（K12）用 semantic（使用者決定）：寫成「4 月底到 5 月初」「每年四、五月之交」都由 Keypoint 判斷。",
             "不收：115 學年度年度公告的具體日期（4/30–5/6）、修課學分規定（雙主修至少四分之三、輔系至少三分之二）、放棄修讀、抵免學分、延長修業、學位授予、學分費、修讀他校雙主修輔系（都不是「需要經過哪些單位審核」）。",
             "這題的依據都在專屬頁面與專屬表單（沒有用到 FAQ 那類大而雜的頁面），所以「沒讀到」的風險比第 8 題低（第 8 題的 7 日內、保證金金額主要在 FAQ）。",
+            "【留意】「三段連續審核」是照表單的簽核流程表寫的（所屬學系所 → 申請學系所 → 教務處註冊組）；但表單說明 5 與頁面寫的是「各學系所審核完畢後公告核准名單，名單送交教務處後，教務處仍會審查基本資格」，"
+            "也就是教務處這一站實際上是對名單批次審查。兩種寫法都在來源裡，答案寫「送教務處註冊組簽核」或「名單送教務處後審查」都算對（K4、K9）。",
+            "【留意】申請學系所這一站的表單欄位還有「准予修讀，適用規定：____學年度必修／輔系科目表」，這題沒收（只收「決定准予或不准修讀」，K3）；之後要補的話加成選擇性 keypoint。",
+            "【留意】註冊組聯絡人與樓層（K22、K23）列為必要，是延續前面幾題；但這個流程的來源沒有指定哪一位承辦人，答案只寫流程、沒寫註冊組聯絡人，Completeness 會被扣（例：`wrong_order` 與 `skip_home` 的 K22、K23 都是 miss）。",
             "moltke 的表單連結現場回 302 轉登入頁（2026-11-13，curl，沒有跟隨），連結本身有效、看不到表單內容；表單內容以快照為準。記錄見 sources/live/live_check.md 與登記表。",
         ],
     }
     out = HERE / "gold.json"
+    import sys as _sys; _sys.path.insert(0, str(Path(__file__).resolve().parents[1])); import reference_answer; reference_answer.attach(gold, Path(__file__).resolve().parent)  # 畫面用的完整參考答案（reference_answer.txt）
     out.write_text(json.dumps(gold, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"已寫入 {out.relative_to(ROOT)}（{len(keypoints)} 個 keypoint，其中 {sum(1 for k in keypoints if k.get('registry'))} 個引用登記表）")
     print(f"引句驗證通過：{len(REFS)} 個 keypoint，{sum(len(v) for v in REFS.values())} 條")

@@ -147,15 +147,15 @@ tr:last-child > td { border-bottom: 0; }
 .kp-line { margin: 0 0 0.9rem; overflow-wrap: anywhere; }
 .kp-line .kid { font-weight: 700; margin-right: 0.5rem; }
 .alts { color: var(--accent-color); }
-.gt-tag { display: inline-block; margin-left: 0.4rem; padding: 0 0.45rem; border-radius: 0.3rem; font-size: 0.72rem; font-family: var(--font-text); white-space: nowrap; border: 1px solid var(--border-color); }
-.gt-tag.fixed { color: var(--text-color); }
-.gt-tag.rep { color: var(--accent-color); border-color: var(--accent-color); }
-.gt-sem { color: var(--muted); font-size: 0.85rem; }
-.gt-opt { margin-left: 0.4rem; font-size: 0.7rem; color: var(--muted); }
-.gt-example { margin: 0.2rem 0 0 1.6rem; }
-.gt-rule { margin-top: 0.3rem; font-size: 0.8rem; color: var(--muted); }
-.gt-legend { margin-bottom: 0.8rem; font-size: 0.8rem; color: var(--muted); }
-.gt-line { margin-bottom: 0.6rem; }
+.gt-tag { display: inline-block; margin-left: 0.4rem; padding: 0 0.45rem; border-radius: 0.3rem; font-size: 0.72rem; font-family: var(--font-text); white-space: nowrap; border: 1px solid var(--border-color); color: var(--text-color); background: none; line-height: 1.5; vertical-align: baseline; }
+.gt-tag.rep { color: var(--accent-color); border-color: var(--accent-color); cursor: pointer; }
+.gt-tag.legend { cursor: default; }
+.gt-rep { color: var(--accent-color); }
+.gt-opt { color: var(--muted); font-size: 0.8rem; }
+.gt-forms { display: block; margin: 0.4rem 0 0.4rem 1.2rem; padding: 0.5rem 0.8rem; border-left: 2px solid var(--accent-color); background: var(--details-bg); font-family: var(--font-text); white-space: normal; }
+.gt-forms[hidden] { display: none; }
+.gt-rule { display: block; margin-top: 0.3rem; font-size: 0.8rem; color: var(--muted); }
+.gt-legend { margin-bottom: 0.6rem; font-size: 0.8rem; color: var(--muted); }
 
 details > summary { cursor: pointer; color: var(--accent-color); font-size: 0.8rem; margin-top: 0.25rem; }
 details.ref-item { background: var(--text-box); border-radius: 0.5rem; padding: 0.6rem 1rem; margin-bottom: 0.5rem; }
@@ -374,24 +374,14 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
   function ids(list) { return list.length ? esc(list.join(', ')) : '<span>None</span>'; }
   function srcLabel(s) { return (s.kind === 'live' ? 'live' : 'snapshot') + (s.as_of ? ' ' + String(s.as_of).replace(/（.*$/, '') : ''); }
   function shortUrl(u) { try { return decodeURIComponent(String(u || '').replace(/^https?:\/\//, '')); } catch (e) { return String(u || ''); } }
-  function gtAnswerHtml(lines) {
-    var h = '<div class="detail-section"><div class="detail-title">Ground Truth (' + lines.length + ') &mdash; complete reference answer</div><div class="detail-text detail-line">';
-    h += '<div class="gt-legend"><span class="gt-tag fixed">不可替換</span> must match exactly &nbsp; <span class="gt-tag rep">可替換</span> any registered staff, the name must match the extension &nbsp; <span class="gt-sem">gray</span> wording may differ</div>';
-    lines.forEach(function (l) {
-      var cond = l.applies_if ? '<span class="tag">if: ' + esc(l.applies_if) + '</span>' : '';
-      var opt = l.required === false ? '<span class="gt-opt">選答</span>' : '';
-      var inner = '';
-      if (l.tag === 'replaceable') {
-        inner = esc(l.text) + '<div class="gt-example">' + esc(l.example) + '<span class="gt-tag rep">可替換</span></div>' +
-          '<details><summary>可接受的寫法（' + l.forms.length + '）</summary><ul class="references-list">' + l.forms.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul><div class="gt-rule">' + esc(l.rule) + '</div></details>';
-      } else if (l.tag === 'fixed') {
-        inner = esc(l.text) + '<span class="gt-tag fixed">不可替換</span>';
-      } else {
-        inner = '<span class="gt-sem">' + esc(l.text) + '</span>';
-      }
-      h += '<div class="kp-line gt-line"><span class="kid">' + esc(l.id) + '</span>' + inner + cond + opt + '</div>';
-    });
-    return h + '</div></div>';
+  function gtAnswerHtml(segs) {
+    var body = segs.map(function (g) {
+      if (g.t === 'fixed') return '<span class="gt-fixed">' + esc(g.v) + '</span><span class="gt-tag fixed">不可替換</span>';
+      if (g.t === 'rep') return '<span class="gt-rep">' + esc(g.v) + '</span><button type="button" class="gt-tag rep">可替換</button><span class="gt-forms" hidden><b>可接受的寫法（' + g.forms.length + '）</b><ul class="references-list">' + g.forms.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul><span class="gt-rule">' + esc(g.rule) + '</span></span>';
+      if (g.t === 'opt') return '<span class="gt-opt">' + esc(g.v) + '</span>';
+      return esc(g.v);
+    }).join('');
+    return '<div class="detail-section"><div class="detail-title">Ground Truth Content &mdash; reference answer</div><div class="gt-legend"><span class="gt-tag fixed" style="margin-left:0">不可替換</span> must match exactly &nbsp; <span class="gt-tag rep legend" style="margin-left:0">可替換</span> any registered staff or extension, the name must match the extension (click the tag to see them all) &nbsp; plain text: wording may differ</div><div class="detail-text">' + body + '</div></div>';
   }
   function detailHtml(r) {
     var rt = r.routing || {}, diff = rt.router != null && rt.expected != null && rt.router !== rt.expected;
@@ -477,6 +467,7 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
     if (e.target.closest('#adv-toggle')) { document.body.classList.toggle('show-adv'); render(); return; }
     var th = e.target.closest('th[data-sort]');
     if (th) { var id = th.getAttribute('data-sort'); if (sort.id === id) sort.dir = -sort.dir; else { sort.id = id; sort.dir = id === 'q' ? 1 : -1; } render(); return; }
+    var gt = e.target.closest('button.gt-tag.rep'); if (gt) { var f = gt.nextElementSibling; if (f) f.hidden = !f.hidden; return; }
     var tr = e.target.closest('tr.qrow');
     if (tr && !e.target.closest('details')) {                       // expand / collapse one row without redrawing the table
       var rid = tr.getAttribute('data-id'), d = document.getElementById('details-' + rid), btn = tr.querySelector('.expand-btn');

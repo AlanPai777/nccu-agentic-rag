@@ -22,7 +22,9 @@ import unicodedata
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "registry"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 import registry_lib  # noqa: E402
+import reference_answer  # noqa: E402
 
 
 def norm(s: str) -> str:
@@ -50,6 +52,125 @@ def source_text(question_dir: Path) -> str:
     for p in sorted((question_dir / "sources" / "live").glob("*.html")):
         parts.append(html_to_text(p.read_text(encoding="utf-8", errors="ignore")))
     return norm("\n".join(parts))
+
+
+_EXT = re.compile(r"(?<!\d)\d{5,6}(?!\d)")
+
+
+def keypoint_people(gold: dict, k: dict, reg: dict | None) -> list[dict] | None:
+    """可替換的 keypoint 允許哪些人與分機：[{"names": {姓名…}, "ext": 分機}]；不是人員／分機型的 keypoint 回傳 None。"""
+    spec = k.get("registry")
+    if spec and spec.get("need") == "who":
+        try:
+            o = registry_lib.office(reg, spec["office"])
+        except KeyError:
+            return None
+        return [{"names": {n["value"] for n in e["names"]}, "ext": e["ext"]} for e in o["staff"]]
+    if k.get("value_check") == "extension":
+        av = gold.get("allowed_values") or {}
+        by_ext = {p["extension"]: p for p in av.get("extension_by_person", [])}
+        out = []
+        for e in av.get("extension", []):
+            p = by_ext.get(e["value"])
+            out.append({"names": {p["name"]} if p else set(), "ext": e["value"]})
+        return out
+    return None
+
+
+def _fixed_corpus(gold: dict, reg: dict | None) -> str:
+    """不可替換的片語必須出現在這些地方：keypoint 的文字、引句、可接受寫法，或登記表的連結、樓層、電話。"""
+    parts = []
+    for k in gold.get("keypoints", []):
+        parts.append(k.get("text", ""))
+        parts += [r.get("text", "") for r in k.get("references", []) or []]
+        parts += k.get("acceptable_expressions", []) or []
+        spec = k.get("registry")
+        if spec and reg:
+            try:
+                if spec["need"] == "form_link":
+                    f = next(x for x in reg["forms"] if x["id"] == spec["form"])
+                    parts += [f["url"], f["id"]]
+                elif spec["need"] == "floor":
+                    parts += [a for f in registry_lib.office(reg, spec["office"])["floors"] for a in f["accepted"]]
+                elif spec["need"] == "line":
+                    parts += [ln["value"] for ln in registry_lib.office(reg, spec["office"])["lines"]]
+            except (KeyError, StopIteration):
+                pass
+    return norm("\n".join(parts))
+
+
+def _coverage(gold: dict, reg: dict | None, segs: list[dict]) -> list[str]:
+    """每個 hard keypoint 的值都要出現在答案裡（漏寫就建置失敗）：可接受寫法之一、登記表人員的可替換片語、樓層、連結、電話。語意類由人檢查。"""
+    plain = norm("".join(sg["v"] for sg in segs if sg["t"] != "opt"))
+    digits = re.sub(r"\D", "", plain)
+    rep_kps = {sg["kp"] for sg in segs if sg["t"] == "rep"}
+    out = []
+    for k in gold.get("keypoints", []):
+        if k.get("kind") != "hard" or k.get("value_check") == "extension_pairs":
+            continue
+        kid, spec = k.get("id"), k.get("registry")
+        if spec and reg:
+            try:
+                if spec["need"] == "who":
+                    ok = kid in rep_kps
+                elif spec["need"] == "floor":
+                    ok = any(norm(a) in plain for f in registry_lib.office(reg, spec["office"])["floors"]
+                             if not spec.get("unit") or spec["unit"] in f["units"] for a in f["accepted"])
+                elif spec["need"] == "form_link":
+                    ok = norm(next(x for x in reg["forms"] if x["id"] == spec["form"])["url"]) in plain
+                elif spec["need"] == "line":
+                    ln = next(x for x in registry_lib.office(reg, spec["office"])["lines"] if x.get("key") == spec.get("key"))
+                    ok = re.sub(r"\D", "", ln["value"])[-8:] in digits
+                else:
+                    continue
+            except (KeyError, StopIteration):
+                continue
+        elif k.get("value_check") == "extension":
+            ok = kid in rep_kps
+        elif k.get("acceptable_expressions"):
+            ok = any(norm(a) in plain for a in k["acceptable_expressions"])
+        else:
+            continue
+        if not ok:
+            out.append(f"reference_answer：漏了 hard keypoint {kid} 的值（{k.get('text', '')[:40]}…）")
+    return out
+
+
+def check_reference_answer(gold: dict, reg: dict | None) -> list[str]:
+    """reference_answer（畫面用的完整參考答案）的標記檢查：標記合法、不可替換的片語有依據、可替換的人員與分機對得上。"""
+    text = gold.get("reference_answer")
+    if text is None:
+        return []
+    try:
+        segs = reference_answer.parse(text)
+    except ValueError as e:
+        return [f"reference_answer：{e}"]
+    problems = _coverage(gold, reg, segs)
+    kps = {k.get("id"): k for k in gold.get("keypoints", [])}
+    corpus = None
+    for sg in segs:
+        if sg["t"] == "fixed":
+            corpus = corpus if corpus is not None else _fixed_corpus(gold, reg)
+            if norm(sg["v"]) not in corpus:
+                problems.append(f"reference_answer：不可替換的片語沒有依據（不在任何 keypoint 的文字、引句或可接受寫法裡）：{sg['v']!r}")
+        elif sg["t"] == "rep":
+            k = kps.get(sg["kp"])
+            people = keypoint_people(gold, k, reg) if k else None
+            if people is None:
+                problems.append(f"reference_answer：可替換的 {sg['kp']} 不是人員或分機型的 keypoint：{sg['v']!r}")
+                continue
+            exts = _EXT.findall(sg["v"])
+            if not exts:
+                problems.append(f"reference_answer：可替換的片語沒有分機：{sg['v']!r}")
+            all_names = set().union(*(p["names"] for p in people))
+            said = {n for n in all_names if n in sg["v"]}           # 片語裡寫了哪些登記的姓名
+            for ext in exts:
+                match = [p for p in people if p["ext"] == ext]
+                if not match:
+                    problems.append(f"reference_answer：分機 {ext} 不在 {sg['kp']} 的允許集合：{sg['v']!r}")
+                elif said and not (said & set().union(*(p["names"] for p in match))):
+                    problems.append(f"reference_answer：分機 {ext} 旁邊的姓名 {sorted(said)} 對不上登記的人員：{sg['v']!r}")
+    return problems
 
 
 def validate_gold(gold_path: Path) -> list[str]:
@@ -108,6 +229,9 @@ def validate_gold(gold_path: Path) -> list[str]:
             problems.append(f"禁止值 {d['value']} 同時在允許集合裡")
         if norm(d["reference"]["text"]) not in src:
             problems.append(f"禁止值 {d['value']} 的引文不在來源原文裡")
+    if gold.get("reference_answer") is not None and reg is None:
+        reg = registry_lib.load()
+    problems += check_reference_answer(gold, reg)
     return problems
 
 

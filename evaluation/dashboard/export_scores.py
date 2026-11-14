@@ -20,7 +20,7 @@ evaluation/dashboard/export_scores.py
   evidence         {rate, supported, claims, unsupported}     有依據的主張比例
   rouge            {p, r, f}
   context          {sentence: {p, r, f}, words: {p, r, f}}
-  ground_truth     {content, answer: [{id, text, tag: replaceable|fixed|semantic, example, forms, rule}], keypoints: [...], references}
+  ground_truth     {content, answer: 片段清單 [{t: text|fixed|rep|opt, v, kp, forms, rule}]（沒有 reference_answer 時 null）, keypoints: [...], references}
   prediction       {content}
   responses        {keypoints: [{id, text, verdict, reason, claims}], claims: [{id, answer_span, status, why}], funnel, warnings, disagreements, ungrounded}
   routing          {expected: gold 的 query_type, router: 系統當次判斷的類型（prediction 的 trace.query_type）}
@@ -35,6 +35,7 @@ EVAL = HERE.parent
 sys.path.insert(0, str(EVAL))
 sys.path.insert(0, str(EVAL / "registry"))
 import registry_lib  # noqa: E402
+import reference_answer  # noqa: E402
 import score_programmatic  # noqa: E402   與規則版、階段 3 用同一個比對（norm）
 DEFAULT_CASES = HERE / "sample" / "preview_cases.json"
 DEFAULT_OUT = HERE / "sample" / "preview_hypothetical.jsonl"
@@ -112,31 +113,22 @@ def extension_alternatives(gold: dict) -> dict | None:
     return {"summary": "", "items": items, "example": example if example is not None else 0}
 
 
-def ground_truth_answer(gold: dict, reg: dict) -> list[dict]:
-    """完整的標準答案：每個 keypoint 一行，並標明能不能換。
-    replaceable：登記表人員或分機（任一組皆可，姓名須對上分機）；fixed：hard 且沒有替代組（數字、表單編號、連結、順序）；
-    semantic：語意相符即可（淡灰小字，不另標）。"""
-    out = []
-    for k in gold.get("keypoints", []):
-        alt = None
-        if k.get("registry"):
-            alt = registry_alternatives(k["registry"], reg)
-            if alt and k["registry"].get("need") != "who":
-                alt = None                       # 樓層、連結、代表線只是寫法不同，不是換人，不算「可替換」
-        elif k.get("value_check") == "extension":
-            alt = extension_alternatives(gold)
-        if alt and len(alt["items"]) > 1:
-            tag = "replaceable"
-        elif k.get("kind") == "hard":
-            tag, alt = "fixed", None
-        else:
-            tag, alt = "semantic", None
-        line = {"id": k["id"], "text": k["text"], "tag": tag, "required": k.get("required"), "applies_if": k.get("applies_if")}
-        if alt:
-            ex = alt.get("example", 0)
-            line.update(example=alt["items"][ex], forms=alt["items"], rule="姓名須對上分機，配錯即錯")
-        out.append(line)
-    return out
+def ground_truth_answer(gold: dict, reg: dict) -> list[dict] | None:
+    """gold 的 reference_answer（完整參考答案）展開成片段：text／fixed（不可替換）／rep（可替換，附全部可接受的寫法與規則）／opt（選答）。
+    沒有 reference_answer 的 gold 回傳 None，頁面改顯示原本的 content。"""
+    text = gold.get("reference_answer")
+    if text is None:
+        return None
+    kps = {k["id"]: k for k in gold.get("keypoints", [])}
+    segs = reference_answer.parse(text)
+    for sg in segs:
+        if sg["t"] != "rep":
+            continue
+        k = kps[sg["kp"]]
+        alt = registry_alternatives(k["registry"], reg) if k.get("registry") else extension_alternatives(gold)
+        sg["forms"] = alt["items"]
+        sg["rule"] = "姓名須對上分機，配錯即錯"
+    return segs
 
 
 def _title(text: str) -> str:
