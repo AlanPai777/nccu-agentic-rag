@@ -146,9 +146,13 @@ def build_row(entry: dict, root: Path = EVAL) -> dict:
     if gold is None:
         raise FileNotFoundError(f"找不到 {qdir / 'gold.json'}")
     scores = _read(case / "scores.json") or _read(case / "scores.stage2.json")
-    if scores is None:
-        raise FileNotFoundError(f"找不到 {case} 的 scores.json 或 scores.stage2.json")
     pred = _read(case / "prediction.json") or {}
+    status = pred.get("status", "ok")
+    if scores is None:
+        if status in ("timeout", "error"):
+            scores = {}                      # 逾時或出錯的 run 沒有答案：整列指標留空，儀表板標出狀態
+        else:
+            raise FileNotFoundError(f"找不到 {case} 的 scores.json 或 scores.stage2.json")
     judge = _read(case / "judge.json")
     trace = _read(case / "trace.json")
 
@@ -233,6 +237,11 @@ def build_row(entry: dict, root: Path = EVAL) -> dict:
             "disagreements": scores.get("disagreements", []),
             "ungrounded": scores.get("ungrounded_correct_keypoints", []),
         },
+        "status": status,
+        "run": {"run_id": pred.get("run_id"), "label": pred.get("label"), "model": pred.get("model"),
+                "system_version": pred.get("system_version"), "started_at": pred.get("started_at"), "live": pred.get("live"),
+                "browser": pred.get("browser"), "elapsed_seconds": pred.get("elapsed_seconds"), "status": status,
+                "failure": ((pred.get("failure") or {}).get("log_tail") or "")[-300:] if status != "ok" else None},
         "routing": {"expected": gold.get("query_type"), "router": (pred.get("trace") or {}).get("query_type")},
     }
     return row

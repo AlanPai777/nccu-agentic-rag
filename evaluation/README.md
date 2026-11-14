@@ -51,7 +51,7 @@
 | 階段 | 指令 | 做什麼 | 需要核准 |
 |---|---|---|---|
 | 0 建 gold | `python evaluation/cashier_contact/build_gold.py` | 從來源原文建 `gold.json`，每條引句逐字驗證，找不到就中止、不寫檔 | 上網查證官網前要使用者批准 |
-| 1 跑系統 | `python evaluation/run_system.py evaluation/cashier_contact/gold.json --label "…"` | 跑一次 `agentic_rag`（`live=False`），存 `runs/<run_id>/prediction.json`（答案與系統讀到的內容）；`--label` 選填 | **會呼叫 ollama-cloud，要使用者指示才跑** |
+| 1 跑系統 | `python evaluation/run_system.py evaluation/cashier_contact/gold.json --label "…"` | 跑一次 `agentic_rag`，存 `runs/<run_id>/prediction.json`（答案與系統讀到的內容）；`--label` 選填；預設 `live=False`，`--live on` 才查現場（會連 nccu.edu.tw，`--browser off` 關瀏覽器），`--run-id` 指定資料夾名 | **會呼叫 ollama-cloud，要使用者指示才跑；`--live on` 另外要使用者批准連 nccu.edu.tw** |
 | 2 程式計算 | `python evaluation/score_programmatic.py <gold> <run_dir>/prediction.json` | ROUGE-L、規則版 Accuracy、Context 的 Sentence／Words P／R／F1、漏斗前半 | 無，離線 |
 | 3 準備 | `python evaluation/stage3.py prepare <gold> <run_dir>` | 產生 `trace_input.json`（答案正文＋答案模型實際看到的證據，**不含 gold**）與 `judge_input.json` | 無，離線 |
 | 3 回推（隔離） | 只把 `trace_input.json` 複製到全新的空資料夾，交給新的子代理，寫出 `trace.json` | 答案拆成原子主張，為每個主張找證據；做法見 `cashier_contact/tests/README.md` | 開子代理要使用者同意 |
@@ -87,6 +87,7 @@ python evaluation/compare_tests.py evaluation/cashier_contact/tests/tampered_v1 
 | 檔案 | 用途 |
 |---|---|
 | `run_system.py` | 階段 1：跑系統並存 prediction；`split_answer` 也在這裡 |
+| `batch.py` | 真實批次（設計稿 13.18）：`plan`／`run`／`status`／`export`。`run` 沒有 `--run` 一律預演；每題一個子程序、單題逾時預設 600 秒（連 Chromium 一起殺）、402 整批停下、`--resume` 接續（逾時與出錯的題目不重跑，除非 `--retry-failed`）；跑完離線計分並出 `summary.md`，`export` 產生 `dashboard.jsonl` 與 `report.md`；輸出在 `evaluation/batches/batchNN/`。不呼叫 Claude、不開子代理。題目與順序在 `batch_questions.json` |
 | `score_programmatic.py` | 階段 2 |
 | `stage3.py` | 階段 3：`prepare`、`check`、`score`；`OUTPUT_FORMAT` 是給判斷者的格式與規則 |
 | `compare_tests.py` | 隔離回推結果與鑰匙的比對 |

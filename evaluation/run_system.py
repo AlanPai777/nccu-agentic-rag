@@ -8,12 +8,15 @@ agentic_rag，把答案與「讀進 context 的頁面原文」存成 prediction.
 resource_node / contact_node 注入的內容（CLI 的 _render_messages 跳過了 HumanMessage，
 但 state 裡有），這裡只是把它們存下來。
 
-只跑 live=False（固定快照），不對 nccu.edu.tw 發任何請求。LIVE_BROWSER=off 與
-LANGFUSE_TRACING_ENABLED=false 在 import 系統之前設好。
+預設 live=False（固定快照），不對 nccu.edu.tw 發任何請求；`--live on` 才查現場（先靜態，檢查不過才用
+Chromium 渲染，`--browser off` 可關掉瀏覽器）。**--live on 會對 nccu.edu.tw 送請求，要使用者這一輪明說才能用。**
+LIVE_BROWSER=off 在 import 時先設好（測試只 import 這個檔，不會啟動 Chromium）；只有 `--live on` 且瀏覽器沒關時，
+main() 才拿掉它。LANGFUSE_TRACING_ENABLED=false 在 import 系統之前設好。
 
 用法（在專案根目錄）：
   python evaluation/run_system.py evaluation/cashier_contact/gold.json
   python evaluation/run_system.py evaluation/cashier_contact/gold.json --label "修正前，試做"
+  python evaluation/run_system.py evaluation/cashier_contact/gold.json --live on          # 查現場（會連 nccu.edu.tw）
 輸出：
   <gold 所在資料夾>/runs/<run_id>/prediction.json
 run_id 是資料夾名，同時寫在 prediction.json 裡；時間、模型、版本、標籤也都在檔案裡，不放進路徑。
@@ -216,6 +219,11 @@ def main():
     ap.add_argument("gold", help="gold.json 路徑（題目取自其中的 query）")
     ap.add_argument("--query", default=None, help="改用這個問法（預設用 gold 的 query）")
     ap.add_argument("--label", default="", help="這次 run 的人看得懂的名字（例如「修正前，試做」）；選填，寫進 prediction.json")
+    ap.add_argument("--live", choices=["on", "off"], default="off",
+                    help="on = 查現場（會對 nccu.edu.tw 送請求，要使用者批准）；預設 off = 固定快照")
+    ap.add_argument("--browser", choices=["on", "off"], default=None,
+                    help="現場讀取時要不要允許 Chromium 渲染；預設：live on 時開、live off 時關")
+    ap.add_argument("--run-id", default=None, help="指定 run 資料夾名（批次腳本先取號用）；預設自動取下一個流水號")
     ap.add_argument("--reprocess", default=None, metavar="PREDICTION_JSON",
                     help="不重跑系統：把既有的 prediction.json 的 context 重新整理（不呼叫 LLM、不上網），結果另存 prediction.reprocessed.json")
     args = ap.parse_args()
@@ -234,14 +242,27 @@ def main():
     gold = json.loads(gold_path.read_text(encoding="utf-8"))
     query = args.query or gold["query"]
 
+    live_on = args.live == "on"
+    browser_on = (args.browser == "on") if args.browser else live_on
     live_env = os.environ.get("LIVE_FETCH")
-    print(f"[run_system] LIVE_FETCH={live_env!r}, 這題用 live=False（不查現場）", file=sys.stderr)
+    if live_on:
+        # LIVE_FETCH=off（或無法辨識）是總開關：請求再怎麼要求也不查現場。靜默退回快照會讓這次 run 名不符實，所以直接停。
+        from rag.live.config import live_enabled
+        if not live_enabled(True):
+            sys.exit(f"[run_system] 要求 --live on，但 LIVE_FETCH={live_env!r} 是總開關（off 或無法辨識），系統不會查現場。"
+                     "請把 LIVE_FETCH 清空或設成 on 再跑。")
+        if browser_on:
+            os.environ.pop("LIVE_BROWSER", None)       # 拿掉 import 時設的 off，讓 Chromium 能在需要時啟動
+        print(f"[run_system] live=True（會對 nccu.edu.tw 送請求），瀏覽器渲染 {'開' if browser_on else '關'}，"
+              f"LIVE_FETCH={live_env!r}", file=sys.stderr)
+    else:
+        print(f"[run_system] LIVE_FETCH={live_env!r}, 這題用 live=False（不查現場）", file=sys.stderr)
 
     import agentic_rag  # noqa: E402  (env 必須先設好)
     from rag.llm_client import get_active_model
 
     started = dt.datetime.now().astimezone()
-    final_state = agentic_rag.run(query, live=False)
+    final_state = agentic_rag.run(query, live=live_on)
     finished = dt.datetime.now().astimezone()
 
     answer_raw = final_state.get("answer") or ""
@@ -250,8 +271,10 @@ def main():
     context, checks = enrich_contact_context(context)
 
     runs_dir = gold_path.parent / "runs"
-    run_id = new_run_id(runs_dir)
+    run_id = args.run_id or new_run_id(runs_dir)
     prediction = {
+        "status": "ok",
+        "elapsed_seconds": round((finished - started).total_seconds(), 1),
         "query_id": gold["query_id"],
         "query": query,
         "run_id": run_id,
@@ -260,7 +283,8 @@ def main():
         "finished_at": finished.isoformat(timespec="seconds"),
         "system_version": git_rev(),
         "model": get_active_model(),
-        "live": False,
+        "live": live_on,
+        "browser": browser_on,
         "live_fetch_env": live_env,
         "answer_raw": answer_raw,
         "answer_body": body,

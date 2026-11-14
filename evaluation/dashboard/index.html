@@ -356,7 +356,7 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
       list.forEach(function (r) {
         var id = r.query.query_id, open = !!openRows[id];
         h += '<tr class="qrow" data-id="' + id + '"><td><button class="expand-btn" type="button" aria-expanded="' + open + '" aria-label="Expand Q' + id + '">' + (open ? '▼' : '▶') + '</button></td>' +
-          '<td class="qcell"><span class="qid">Q' + id + '</span>' + esc(r.query.short) + '</td>';
+          '<td class="qcell"><span class="qid">Q' + id + '</span>' + esc(r.query.short) + (r.status && r.status !== 'ok' ? ' <span class="chip wrong">' + esc(r.status) + '</span>' : '') + '</td>';
         COLS.forEach(function (c) { h += cell(r, c); });
         h += '</tr><tr class="details-row' + (open ? ' open' : '') + '" id="details-' + id + '" data-filled="' + (open ? '1' : '0') + '"><td colspan="' + span + '">' + (open ? detailHtml(r) : '') + '</td></tr>';
       });
@@ -388,6 +388,10 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
     var h = '<div class="details-content">';
     h += '<div class="routing"><span>Expected type: <b>' + esc(rt.expected || '—') + '</b></span><span>Router classified as: <b class="' + (diff ? 'diff' : '') + '">' + esc(rt.router || '—') + '</b></span></div>';
     h += '<div class="detail-section"><div class="detail-title">Full Query</div><div class="detail-text">' + esc(r.query.content) + '</div></div>';
+    if (r.run) {
+      var ru = r.run, bits = [ru.run_id, ru.label, ru.model, ru.system_version, ru.started_at, ru.live == null ? null : 'live ' + (ru.live ? 'on' : 'off') + (ru.live ? ' / browser ' + (ru.browser ? 'on' : 'off') : ''), ru.elapsed_seconds == null ? null : ru.elapsed_seconds + ' s'].filter(Boolean);
+      h += '<div class="detail-section"><div class="detail-title">Run</div><div class="detail-text">' + esc(bits.join(' · ')) + (ru.status && ru.status !== 'ok' ? '\n' + esc('This run has no answer: ' + ru.status + (ru.failure ? ' — ' + ru.failure : '')) : '') + '</div></div>';
+    }
     h += '<div class="detail-section"><div class="detail-title">Prediction Content</div><div class="detail-text">' + esc(r.prediction && r.prediction.content || 'N/A') + '</div></div>';
     var gt = r.ground_truth || {};
     if (gt.answer && gt.answer.length) h += gtAnswerHtml(gt.answer);
