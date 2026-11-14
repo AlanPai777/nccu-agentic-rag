@@ -1,0 +1,16 @@
+{
+  "note": "Preview only: which case of each question stands in for 'this run'. Q1 is the real trial run (run01, 2026-11-09, before the D24 fix); every other row is a pipeline_setup case with a hypothetical answer written by Claude Code. Not evaluation results.",
+  "cases": [
+    {"id": 1,  "question": "cashier_contact",           "short": "出納組電話",         "group": "Factual Questions",                 "dir": "runs/run01"},
+    {"id": 2,  "question": "course_limit",              "short": "選課上限",           "group": "Factual Questions",                 "dir": "tests/pipeline_setup/partial"},
+    {"id": 3,  "question": "leave_form_download",       "short": "休學申請表下載",     "group": "Factual Questions",                 "dir": "tests/pipeline_setup/complete"},
+    {"id": 4,  "question": "resumption",                "short": "復學",               "group": "Cross-Office Procedural Questions", "dir": "tests/pipeline_setup/complete"},
+    {"id": 5,  "question": "leave_of_absence",          "short": "休學",               "group": "Cross-Office Procedural Questions", "dir": "tests/pipeline_setup/live_names"},
+    {"id": 6,  "question": "leave_and_library_phone",   "short": "休學加圖書館電話",   "group": "Cross-Office Procedural Questions", "dir": "tests/pipeline_setup/complete"},
+    {"id": 7,  "question": "master_transfer",           "short": "轉系所",             "group": "Cross-Office Procedural Questions", "dir": "tests/pipeline_setup/complete"},
+    {"id": 8,  "question": "dorm_deposit",              "short": "退宿保證金",         "group": "Cross-Office Procedural Questions", "dir": "tests/pipeline_setup/wrong_order"},
+    {"id": 9,  "question": "master_double_major",       "short": "雙主修輔系",         "group": "Cross-Office Procedural Questions", "dir": "tests/pipeline_setup/complete"},
+    {"id": 10, "question": "overseas_exchange_credit",  "short": "出國交換抵免",       "group": "Cross-Office Procedural Questions", "dir": "tests/pipeline_setup/complete"},
+    {"id": 11, "question": "cross_school_double_major", "short": "跨校雙主修",         "group": "Cross-Office Procedural Questions", "dir": "tests/pipeline_setup/complete"}
+  ]
+}
