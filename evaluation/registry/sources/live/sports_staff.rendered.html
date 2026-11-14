@@ -1,0 +1,2030 @@
+<!DOCTYPE .jsp PUBLIC "-//W3C//DTD .jsp 1.0 Transitional//EN" "http://www.w3.org/TR/.jsp1/DTD/.jsp1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/in.dwt" codeOutsideHTMLIsLocked="false" --><head>
+
+
+<title>國立政治大學體育室</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"><!--讓ie在切換瀏覽器模式時 文件模式會使用最新的版本-->
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<!--RWD用-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--RWD用-->
+
+<!--android 手機板主題顏色用 更改網址列顏色-->
+<meta name="theme-color" content="var(--primary_color)">
+<!--android 手機板主題顏色用-->
+
+<meta name="format-detection" content="telephone=no"><!--取消行動版 safari 自動偵測數字成電話號碼-->
+
+<title>國立政治大學體育室</title>
+
+<link rel="shortcut icon" href="../images/favicon.png"><!--電腦版icon-->
+<link rel="apple-touch-icon" href="../images/icon.png"><!--手機版icon  57x57px-->
+<link rel="apple-touch-icon" sizes="72x72" href="../images/icon-72.png"><!--手機版icon  72x72px-->
+<link rel="apple-touch-icon" sizes="114x114" href="../images/icon%402.png"><!--手機版icon  114x114px-->
+
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../css/style_header.css">
+<link rel="stylesheet" type="text/css" href="../css/style_footer.css">
+
+
+<!-- 版本更新 jQuery by Judy 20250729 start -->
+
+<!--google material icon-->
+<link rel="stylesheet" href="../icon_fonts/material_icons/material_icons.css">
+<link rel="stylesheet" href="../icon_fonts/material_icons/material_symbols_outlined.css">  <!-- 為了弱掃留原始檔案 -->
+<!-- <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"> -->
+
+<!-- jQuery版本3.7.1 -->
+<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" type="text/javascript"></script> -->
+<script src="../js/jquery/jquery-3.7.1.min.js" type="text/javascript"></script>  <!-- 為了弱掃留原始檔案 -->
+<!-- jQuery 遷移插件_簡化從舊版本jQuery的轉換3.5.2-->
+<!-- <script src="https://code.jquery.com/jquery-migrate-3.5.2.min.js" type="text/javascript"></script> -->
+<script src="../js/jquery/jquery-migrate-3.5.2.min.js" type="text/javascript"></script>  <!-- 為了弱掃留原始檔案 -->
+
+<!-- 版本更新 jQuery by Judy 20250729 end -->
+
+
+<script src="../js/common.js" type="text/javascript"></script><!--JavaScript共用區-->
+
+
+    
+<script>
+
+	$(function(){
+		$(".Lang").children("a").click(function(e) {
+			$(".Lang").children("a").not(this).siblings(".nL_in_area").slideUp();
+			$(".nL_in_area").slideToggle(500);
+			//$(this).siblings(".nL_in_area").slideToggle();
+			e.stopPropagation();
+		});
+		$(window).click(function(e){
+			$(".nL_in_area").slideUp(500);
+			e.stopPropagation();
+		})
+	});
+
+</script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <title></title>
+    <script>
+// 		$(document).ready(function () {
+// 			$.get("https://ogweb.nccu.edu.tw/LibInCount/GetGymIOCount.ashx",
+// 				function (response) {
+// 					$("#count").html(response);});
+// 					console.log(response);
+			
+// 		});
+// $(document).ready(function () {
+//     $.get("https://ogweb.nccu.edu.tw/LibInCount/GetGymIOCount.ashx", function (response) {
+//         $("#count").html(response);
+//         console.log(response); // ✅ 放這裡才有值
+//     });
+// });
+$(document).ready(function () {
+    $.ajax({
+        url: "../include/testapicall.jsp",  // 改成實際 JSP 路徑
+        type: "GET",
+        dataType: "text",
+        timeout: 5000,
+        success: function(response) {
+            if(response.startsWith("ERROR:")) {
+//                 $("#count").html("取得人數失敗");
+                console.error(response);
+            } else {
+                $("#count").html(response);
+                console.log("取得人數:", response);
+            }
+        },
+        error: function(xhr, status, error) {
+//             $("#count").html("取得人數失敗");
+            console.error("Ajax 錯誤:", status, error);
+        }
+    });
+});
+    </script>
+<meta name="Robots" content="index , follow">
+    <meta name="revisit-after" content="7 days">
+    <meta name="keywords" content="國立政治大學體育室">
+    <meta name="copyright" content="國立政治大學體育室">
+    <meta name="description" content="國立政治大學體育室">
+    <!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-QRWFEE9F6Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-QRWFEE9F6Z');
+</script><meta property="og:url" content="https://sports.nccu.edu.tw/web/about/staff.jsp">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="國立政治大學體育室">
+    <meta property="og:description" content="國立政治大學體育室">
+<!-- 行政人員 --> <!--  20250729  -->
+<link rel="stylesheet" href="../css/style_nav/style_about/style_staff.css">
+	
+</head>
+
+<body>
+	
+    
+    <!--版頭-->
+<script>
+//換語系
+function change_lang(input){
+	$("#web_lang").val(input);
+}
+
+</script>
+<!--Google站內搜尋-->
+<script>
+var searchID = '';
+function checkform(F){	
+	if(F.as_q.value==""){
+		alert("null")
+		return false;
+	}else if(searchID != ""){
+		var element = google.search.cse.element.getElement('search');
+        element.execute(F.as_q.value);
+		return false;
+	}else{
+		return true;
+	}
+}
+</script>
+
+<div style="display:none;">
+</div>
+
+ <!--版頭-->
+    <header class="header" id="top">
+    
+    	<div class="wrap">
+        	
+            <!--手機menu按鍵-->
+            <div class="menu_btn">
+                <span>
+                </span>
+                <span>
+                </span>
+                <span>
+                </span>
+            </div>
+            
+            <!--版頭區塊_上-->
+            <div class="headerRight_topArea">
+                
+                <!--語系+搜尋 pc-->
+                <div class="headerRight pc">              
+                   
+                    <!--語系區塊-->
+                    <div class="Lang_area">
+                    
+                        <div class="Lang">
+                        <a href="javascript:void(0)">繁體中文</a>
+                        </div>    
+        
+                        <div class="nL_in_area">
+                         <div class="nL_in">
+                                <a href="../index/index.jsp?lang=en">English</a>
+                            </div>                        
+                           </div>                        
+                          
+                    </div>
+                    
+                    <!--搜尋區塊-->
+                    <div class="search_area">
+<form method="get" name="searchform" action="https://www.google.com/search" target="_blank" onsubmit="javascript:return checkform(this);"> 
+                        <div class="search_inArea" id="search_in">
+                            <input type="hidden" name="sitesearch" value="https://sports.nccu.edu.tw/web">
+                            <input type="text" name="as_q" id="as_q" value="" placeholder="搜尋">
+                            <!--<label onclick="location='../search/search.html'">-->
+                            <label>
+                                <i class="material-icons"></i>
+                                <input type="submit" value="">
+                            </label>
+                        </div>
+</form>
+                    </div>
+                    
+                    <!--即時人數區塊-->
+                    <div class="visit_bg">
+                        <div class="visit_list">
+                            <div id="visit_content">
+                                健身教室即時人數
+                                <span id="count">0</span>
+                                人
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="clearfloat">
+                    </div> -->
+                    
+                </div>  
+                
+                
+                <!--版頭_其他區塊-->
+                <div class="header_otherBg">
+                    
+                     
+                    <!--首頁上方快速連結區-->
+                    <div class="htlink_area">   
+
+                        <div class="header_top_link">
+                            <a href="../video/video.jsp">影片專區</a>
+                        </div> 
+
+                        <div class="header_top_link">
+                            <a href="../index/index.jsp">體育室首頁</a>
+                        </div>  
+                          
+                        <div class="header_top_link">
+                            <a href="../about/about.jsp">體育館位置</a>
+                        </div> 
+                          
+                        <div class="header_top_link">
+                            <a href="https://www.nccu.edu.tw/app/home.php" target="_blank">
+                                政大首頁
+                            </a>
+                        </div> 
+                          
+                        <!-- <div class="clearfloat">
+                        </div> -->
+                                    
+                    </div>             
+    
+                    <div class="clearfloat">
+                    </div>   
+                </div>  
+            </div>   
+            
+            <!--logo-->
+            <div class="logo">
+                <a href="../index/index.jsp">
+                    <img src="../images/logo.png">
+                </a>
+            </div>
+          
+            <div class="clearfloat">
+            </div> 
+       	</div>  
+      
+      
+        <!--版頭區塊_右半部-->
+        <div class="header_rightArea">
+            <div class="wrap">
+    
+               <div class="headerRight mobile">              
+                   
+                    <!--語系區塊-->
+                    <div class="Lang_area">
+                
+                    <div class="Lang">
+                        <a href="javascript:void(0)">繁體中文</a>
+                    </div>    
+    
+                    <div class="nL_in_area">
+                    
+                        <div class="nL_in">
+                            <a href="#">English</a>
+                        </div>                        
+                        
+                    </div>                          
+                      
+                </div>
+                    
+                    <!--搜尋區塊-->
+                    <div class="search_area">
+<form method="get" name="searchform" action="https://www.google.com/search" target="_blank" onsubmit="javascript:return checkform(this);">                     
+                        <div class="search_inArea" id="search_in">
+                            <input type="hidden" name="sitesearch" value="https://sports.nccu.edu.tw/web">
+                            <input type="text" name="as_q" id="as_q" value="" placeholder="搜尋">
+                            <label>
+                                <i class="material-icons"></i>
+                                <input type="submit" value="">
+                            </label>
+                        </div>
+</form>
+                    </div>
+                    
+                    
+                    <div class="clearfloat">
+                    </div>
+                </div>  
+ <!--主按鍵-->
+               <div class="navbar">
+
+                   <!--關於我們-->
+                   <div class="nav">
+                       <a href="javascript:void(0)">
+                           <div class="nav_tw">關於我們</div>
+                           <div class="nav_en">About Us</div>
+                       </a>
+
+                       <!--主按鍵_下拉選單 PC版-->
+                       <div class="navOpen pc">
+                           <div class="navOpenBg">
+  <div class="navOpenList">
+                                   <a href="../about/about.jsp?cp_id=CP1754637245399">
+                                       體育館位置</a>
+                               </div>
+<div class="navOpenList">
+                                   <a href="../about/about.jsp?cp_id=CP1754637230673">
+                                       政大體育室介紹</a>
+                               </div>
+<!--                                <div class="navOpenList"> -->
+<!--                                    <a href="../about/location.jsp"> -->
+<!--                                        體育館位置 -->
+<!--                                    </a> -->
+<!--                                </div> -->
+                               <div class="navOpenList">
+                                   <a href="../about/teacher.jsp">
+                                       體育教師
+                                   </a>
+                               </div>
+                               <div class="navOpenList">
+                                   <a href="../about/staff.jsp">
+                                       行政人員
+                                   </a>
+                               </div>
+                           </div>
+                       </div>
+
+                       <!--主按鍵_下拉選單 mobile版-->
+                       <div class="navOpen mobile">
+                           <div class="navOpenBg">
+<div class="navOpenList">
+                                   <a href="../about/about.jsp?cp_id=CP1754637245399">
+                                       體育館位置</a>
+                               </div>
+<div class="navOpenList">
+                                   <a href="../about/about.jsp?cp_id=CP1754637230673">
+                                       政大體育室介紹</a>
+                               </div>
+<!--                                <div class="navOpenList"> -->
+<!--                                    <a href="../about/location.jsp"> -->
+<!--                                        體育館位置 -->
+<!--                                    </a> -->
+<!--                                </div> -->
+                               <div class="navOpenList">
+                                   <a href="../about/teacher.jsp">
+                                       體育教師
+                                   </a>
+                               </div>
+                               <div class="navOpenList">
+                                   <a href="../about/staff.jsp">
+                                       行政人員
+                                   </a>
+                               </div>
+                           </div>
+                       </div>
+
+                   </div>
+
+                   <!--體育課程-->
+                   <div class="nav">
+                       <a href="javascript:void(0)">
+                           <div class="nav_tw">體育課程</div>
+                           <div class="nav_en">Courses</div>
+                       </a>
+
+                       <!--主按鍵_下拉選單 PC版-->
+                       <div class="navOpen pc">
+                           <div class="navOpenBg">
+                               <div class="navOpenList">
+                                   <a href="../courses/courses.jsp">
+                                       選課規定
+                                   </a>
+                               </div>
+                               
+     <div class="navOpenList">
+                                   <a href="../courses/download.jsp?dm_id=DM1754649103769">
+                                       課程列表</a>
+                               </div>
+     <div class="navOpenList">
+                            <a href="https://qrysub.nccu.edu.tw/" target="_blank">
+                                全校課程查詢
+                            </a>
+                        </div>
+         </div>
+                       </div>
+
+                       <!--主按鍵_下拉選單 mobile版-->
+                       <div class="navOpen mobile">
+                           <div class="navOpenBg">
+                               <div class="navOpenList">
+                                   <a href="../courses/courses.jsp">
+                                       選課規定
+                                   </a>
+                               </div>
+   <div class="navOpenList">
+                                   <a href="../courses/download.jsp?dm_id=DM1754649103769">
+                                       課程列表</a>
+                               </div>
+     <div class="navOpenList">
+                                   <a href="https://i.nccu.edu.tw/Login.aspx?ReturnUrl=%2f" target="_blank">
+                                       全校課程查詢
+                                   </a>
+                               </div>
+                           </div>
+                       </div>
+
+                   </div>
+
+                   <!--學術活動-->
+                   <div class="nav">
+                       <a href="javascript:void(0)">
+                           <div class="nav_tw">學術活動</div>
+                           <div class="nav_en">Research</div>
+                       </a>
+
+                       <!--主按鍵_下拉選單 PC版-->
+                       <div class="navOpen pc">
+                           <div class="navOpenBg">
+  <div class="navOpenList">
+                                   <a href="../research/research.jsp?dm_id=DM1597038259446">
+                                       「政大體育研究」邀稿</a>
+                               </div>
+  <div class="navOpenList">
+                                   <a href="../research/research.jsp?dm_id=DM1588061306241">
+                                       運動論述園地</a>
+                               </div>
+  <div class="navOpenList">
+                                   <a href="../research/research_journal.jsp">
+                                       體育研究期刊
+                                   </a>
+                               </div>
+   <!--                                <div class="navOpenList"> -->
+<!--                                    <a href="../research/research.jsp">運動論述園地</a> -->
+<!--                                </div> -->
+                           </div>
+                       </div>
+
+                       <!--主按鍵_下拉選單 mobile版-->
+                       <div class="navOpen mobile">
+                           <div class="navOpenBg">
+ <div class="navOpenList">
+                                   <a href="../research/research.jsp?dm_id=DM1597038259446">
+                                       「政大體育研究」邀稿</a>
+                               </div>
+  <div class="navOpenList">
+                                   <a href="../research/research.jsp?dm_id=DM1588061306241">
+                                       運動論述園地</a>
+                               </div>
+  <div class="navOpenList">
+                                   <a href="../research/research_journal.jsp">
+                                       體育研究期刊
+                                   </a>
+                               </div>
+   <!--                                <div class="navOpenList"> -->
+<!--                                    <a href="../research/research.jsp">運動論述園地</a> -->
+<!--                                </div> -->
+                           </div>
+                       </div>
+
+                   </div>
+
+                   <!--運動場館-->
+                   <div class="nav">
+                       <a href="javascript:void(0)">
+                           <div class="nav_tw">運動場館</div>
+                           <div class="nav_en">Venue</div>
+                       </a>
+
+                       <!--主按鍵_下拉選單 PC版-->
+                       <div class="navOpen pc">
+                           <div class="navOpenBg">
+ <div class="navOpenList">
+                                   <a href="../venue/venue.jsp?dm_id=DM1588061669153">
+                                      體育館</a>
+                               </div>
+<div class="navOpenList">
+                                   <a href="../venue/venue.jsp?dm_id=DM1593402589097">
+                                      健身教室(服務台：29393091轉62199)</a>
+                               </div>
+<div class="navOpenList">
+                                   <a href="../venue/venue.jsp?dm_id=DM1588061659439">
+                                      游泳館(服務台：29393091轉62960)</a>
+                               </div>
+<div class="navOpenList">
+                                   <a href="../venue/venue.jsp?dm_id=DM1588061649711">
+                                      網球場</a>
+                               </div>
+<div class="navOpenList">
+                                   <a href="../venue/venue.jsp?dm_id=DM1588061640069">
+                                      田徑場</a>
+                               </div>
+<div class="navOpenList">
+                                   <a href="../venue/venue.jsp?dm_id=DM1591934615159">
+                                      環山運動園區</a>
+                               </div>
+<div class="navOpenList">
+                                   <a href="../venue/venue.jsp?dm_id=DM1588061630462">
+                                      道南河濱公園</a>
+                               </div>
+<div class="navOpenList">
+                                   <a href="../venue/venue.jsp?dm_id=DM1591934607833">
+                                      健行步道</a>
+                               </div>
+</div>
+                       </div>
+
+                       <!--主按鍵_下拉選單 mobile版-->
+                       <div class="navOpen mobile">
+                           <div class="navOpenBg">
+ <div class="navOpenList">
+                                   <a href="../venue/venue.jsp?dm_id=DM1588061669153">
+                                      體育館</a>
+                               </div>
+<div class="navOpenList">
+                                   <a href="../venue/venue.jsp?dm_id=DM1593402589097">
+                                      健身教室(服務台：29393091轉62199)</a>
+                               </div>
+<div class="navOpenList">
+                                   <a href="../venue/venue.jsp?dm_id=DM1588061659439">
+                                      游泳館(服務台：29393091轉62960)</a>
+                               </div>
+<div class="navOpenList">
+                                   <a href="../venue/venue.jsp?dm_id=DM1588061649711">
+                                      網球場</a>
+                               </div>
+<div class="navOpenList">
+                                   <a href="../venue/venue.jsp?dm_id=DM1588061640069">
+                                      田徑場</a>
+                               </div>
+<div class="navOpenList">
+                                   <a href="../venue/venue.jsp?dm_id=DM1591934615159">
+                                      環山運動園區</a>
+                               </div>
+<div class="navOpenList">
+                                   <a href="../venue/venue.jsp?dm_id=DM1588061630462">
+                                      道南河濱公園</a>
+                               </div>
+<div class="navOpenList">
+                                   <a href="../venue/venue.jsp?dm_id=DM1591934607833">
+                                      健行步道</a>
+                               </div>
+</div>
+                       </div>
+
+                   </div>
+
+                   <!--運動競賽-->
+                   <div class="nav">
+                       <a href="javascript:void(0)">
+                           <div class="nav_tw">運動競賽</div>
+                           <div class="nav_en">Competition</div>
+                       </a>
+
+                       <!--主按鍵_下拉選單 PC版-->
+                       <div class="navOpen pc">
+                           <div class="navOpenBg">
+  <div class="navOpenList">
+                                   <a href="../competition/competition.jsp?dm_id=DM1695182063101">
+                                       運動資訊公告</a>
+                               </div>
+   <div class="navOpenList">
+                                   <a href="../competition/competition.jsp?dm_id=DM1714367098583">
+                                       校外體育獎勵金申請</a>
+                               </div>
+   <div class="navOpenList">
+                                   <a href="../competition/competition.jsp?dm_id=DM1731039307398">
+                                       校外徵選資訊</a>
+                               </div>
+   <div class="navOpenList">
+                                   <a href="../competition/competition.jsp?dm_id=DM1694133504494">
+                                       校園馬拉松</a>
+                               </div>
+   <div class="navOpenList">
+                                   <a href="../competition/competition.jsp?dm_id=DM1694133533229">
+                                       台聯大運動會</a>
+                               </div>
+   <div class="navOpenList">
+                                   <a href="../competition/competition.jsp?dm_id=DM1694133519534">
+                                       校慶運動會</a>
+                               </div>
+   <div class="navOpenList">
+                                   <a href="../competition/competition.jsp?dm_id=DM1694133565729">
+                                       系際盃</a>
+                               </div>
+   </div>
+                       </div>
+
+                       <!--主按鍵_下拉選單 mobile版-->
+                       <div class="navOpen mobile">
+                           <div class="navOpenBg">
+  <div class="navOpenList">
+                                   <a href="../competition/competition.jsp?dm_id=DM1695182063101">
+                                       運動資訊公告</a>
+                               </div>
+   <div class="navOpenList">
+                                   <a href="../competition/competition.jsp?dm_id=DM1714367098583">
+                                       校外體育獎勵金申請</a>
+                               </div>
+   <div class="navOpenList">
+                                   <a href="../competition/competition.jsp?dm_id=DM1731039307398">
+                                       校外徵選資訊</a>
+                               </div>
+   <div class="navOpenList">
+                                   <a href="../competition/competition.jsp?dm_id=DM1694133504494">
+                                       校園馬拉松</a>
+                               </div>
+   <div class="navOpenList">
+                                   <a href="../competition/competition.jsp?dm_id=DM1694133533229">
+                                       台聯大運動會</a>
+                               </div>
+   <div class="navOpenList">
+                                   <a href="../competition/competition.jsp?dm_id=DM1694133519534">
+                                       校慶運動會</a>
+                               </div>
+   <div class="navOpenList">
+                                   <a href="../competition/competition.jsp?dm_id=DM1694133565729">
+                                       系際盃</a>
+                               </div>
+   </div>
+                       </div>
+
+                   </div>
+
+                   <!--運動代表隊-->
+                   <div class="nav">
+                       <a href="javascript:void(0)">
+                           <div class="nav_tw">運動代表隊</div>
+                           <div class="nav_en">Teams</div>
+                       </a>
+
+                       <!--主按鍵_下拉選單 PC版-->
+                       <div class="navOpen pc">
+                           <div class="navOpenBg">
+                           
+  <div class="navOpenList">
+                                   <a href="../teams/teams.jsp?dm_id=DM1592958988616">
+                                       運動代表隊一覽</a>
+                               </div>
+ <div class="navOpenList">
+                                   <a href="../teams/teams2.jsp?dm_id=DM1790819234774">
+                                       代表隊參賽競賽章程</a>
+                               </div>
+	<div class="navOpenList">
+                                   <a href="../teams/teams2.jsp?dm_id=DM1767681668370">
+                                       代表隊規章辦法與相關表單</a>
+                               </div>
+	</div>
+                       </div>
+
+                       <!--主按鍵_下拉選單 mobile版-->
+                       <div class="navOpen mobile">
+                           <div class="navOpenBg">
+  <div class="navOpenList">
+                                   <a href="../teams/teams.jsp?dm_id=DM1592958988616">
+                                       運動代表隊一覽</a>
+                               </div>
+ <div class="navOpenList">
+                                   <a href="../teams/teams2.jsp?dm_id=DM1790819234774">
+                                       代表隊參賽競賽章程</a>
+                               </div>
+	<div class="navOpenList">
+                                   <a href="../teams/teams2.jsp?dm_id=DM1767681668370">
+                                       代表隊規章辦法與相關表單</a>
+                               </div>
+	</div>
+                       </div>
+
+                   </div>
+
+                   <!--法令規章-->
+                   <div class="nav">
+                       <a href="javascript:void(0)">
+                           <div class="nav_tw">法令規章</div>
+                           <div class="nav_en">Regulations</div>
+                       </a>
+
+                       <!--主按鍵_下拉選單 PC版-->
+                       <div class="navOpen pc">
+                           <div class="navOpenBg">
+    <div class="navOpenList">
+                                   <a href="../regulations/regulations.jsp?dm_id=DM1731034572275">
+                                       體育場館</a>
+                               </div>
+     <div class="navOpenList">
+                                   <a href="../regulations/regulations.jsp?dm_id=DM1588133299876">
+                                       體育教學</a>
+                               </div>
+     <div class="navOpenList">
+                                   <a href="../regulations/regulations.jsp?dm_id=DM1588133294864">
+                                       體育活動</a>
+                               </div>
+     <div class="navOpenList">
+                                   <a href="../regulations/regulations.jsp?dm_id=DM1597128889212">
+                                       教評會議</a>
+                               </div>
+     </div>
+                       </div>
+
+                       <!--主按鍵_下拉選單 mobile版-->
+                       <div class="navOpen mobile">
+                           <div class="navOpenBg">
+    <div class="navOpenList">
+                                   <a href="../regulations/regulations.jsp?dm_id=DM1731034572275">
+                                       體育場館</a>
+                               </div>
+     <div class="navOpenList">
+                                   <a href="../regulations/regulations.jsp?dm_id=DM1588133299876">
+                                       體育教學</a>
+                               </div>
+     <div class="navOpenList">
+                                   <a href="../regulations/regulations.jsp?dm_id=DM1588133294864">
+                                       體育活動</a>
+                               </div>
+     <div class="navOpenList">
+                                   <a href="../regulations/regulations.jsp?dm_id=DM1597128889212">
+                                       教評會議</a>
+                               </div>
+     </div>
+                       </div>
+
+                   </div>
+
+<div class="clearfloat">
+                   </div>
+               </div>
+				
+            </div>
+        </div>
+    </header><!--main-->
+    <main class="main" style="min-height: 2914px;">
+    
+    	<!--內頁banner-->
+    	<div class="inBanner">
+			<img src="/uploads/sub_banner/tw/inBanner.png" width="" height="">
+        </div>
+        
+        <!--主內容區塊-->
+        <div class="main_contentBg">
+        	<div class="wrap">
+				<!-- InstanceBeginEditable name="main_contentBg" -->
+            
+                <!--左側-->
+                <div class="left">
+                
+                    <!--左側標題-->
+                    <div class="left_title">
+                        關於我們
+                        <span>About Us</span>
+                    </div>
+                    
+                    <!--左側選單區塊-->
+                    <div class="left_listBg">
+                        
+ <div class="left_list "><!--當前模式時class內加active-->
+                            <a href="about.jsp?cp_id=CP1754637245399">
+                                體育館位置</a>
+                        </div>
+   <div class="left_list "><!--當前模式時class內加active-->
+                            <a href="about.jsp?cp_id=CP1754637230673">
+                                政大體育室介紹</a>
+                        </div>
+   <!--                         <div class="left_list"> -->
+<!--                             <a href="location.jsp"> -->
+<!--                                 體育館位置 -->
+<!--                             </a> -->
+<!--                         </div> -->
+                        
+                        <div class="left_list">
+                            <a href="teacher.jsp">
+                                體育教師
+                            </a>
+                        </div>
+                        
+                        <div class="left_list active">
+                            <a href="staff.jsp">
+                                行政人員
+                            </a>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                
+                <!--右側-->
+                <div class="right">
+                
+                    <!--右側標題-->
+                    <div class="right_title">
+                        行政人員
+                    </div>
+                    
+                    
+                    <!--右側內容區塊-->
+                    <div class="right_contentBg">
+                        
+<div class="TeacherArea"> 
+  
+                            <!--教師成員分類標題-->
+                            <div class="teacherListTit">
+                            	<div class="title_icon">
+                                    <img src="images/title_icon.svg">
+                                </div>
+                                體育室</div>        
+            
+                            <!--教師成員列表-->
+                            <div class="teacher_list_area">
+                   
+                                <!--清單-->
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/1150804ai_謝明輝網頁.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>主任</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>謝明輝</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機67479或專線02-29387087</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>minghui@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>綜理體育室業務</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ </div>
+                            
+                    	</div>
+  <div class="TeacherArea"> 
+  
+                            <!--教師成員分類標題-->
+                            <div class="teacherListTit">
+                            	<div class="title_icon">
+                                    <img src="images/title_icon.svg">
+                                </div>
+                                體育教學組</div>        
+            
+                            <!--教師成員列表-->
+                            <div class="teacher_list_area">
+                   
+                                <!--清單-->
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/1100902_大頭照_洪鈺釗.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>組長</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>洪鈺釗</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62197或專線02-29387087</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>yuchao@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>統籌體育教學組事宜</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/鴻傑.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>助教</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>吳鴻傑</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62198或專線02-29387087</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>missu@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>體育教學、人事及教務相關業務</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ </div>
+                            
+                    	</div>
+  <div class="TeacherArea"> 
+  
+                            <!--教師成員分類標題-->
+                            <div class="teacherListTit">
+                            	<div class="title_icon">
+                                    <img src="images/title_icon.svg">
+                                </div>
+                                體育活動組</div>        
+            
+                            <!--教師成員列表-->
+                            <div class="teacher_list_area">
+                   
+                                <!--清單-->
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/cache.115083_4edf04cd.jpg.w120_h111.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>組長</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>林貴彬</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62191或專線02-29396808</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>vip@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>統籌體育活動組事宜</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/569412.jpg.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>組員</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>陳彥豪</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62964或專線02-29387087</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>lhden@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>體育場館管理與借用、場館設備修繕、體育室資訊管理</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/kaoyuju.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>行政專員</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>高鈺茹</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62192或專線02-29387087</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>yukao@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>體育活動競賽、運動代表隊及學務相關業務</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/月芳大頭照電子檔.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>行政專員</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>張月芳</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62966專線02-29396808</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>huhap@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>體育室經費、器材採購與管理、工讀生、公文等管理</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/1090901_大頭照_賞芳如.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>行政專員</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>賞芳如</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62961</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>paley217@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>游泳館管理員</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/1090901_大頭照_葉一龍.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>一級技術組員</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>葉一龍</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62960</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>jimmy73@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>游泳館救生員兼副管理員</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/1090901_大頭照_蕭薔.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>技術組員</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>蕭薔</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62960</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>mary882@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>游泳館救生員</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/1090901_大頭照_張翊綸.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>技術組員</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>張翊倫</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62960</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>swimer@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>游泳館救生員</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/1090901_大頭照_王筱渝.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>技術組員</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>王筱渝</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62960</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>shinoyu@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>游泳館救生員</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/力勳2.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>一級技術組員</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>朱力勳</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62199</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>cls@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>健身房管理、維修、售票與指導</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/S__79208452.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>一級技術組員</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>陳敬</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62199</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>troy1007@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>健身房管理、維修、售票與指導</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/359095.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>一級技術組員</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>吳禹寰</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62199</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>wusaoj@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>健身房管理、維修、售票與指導</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/星哥.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>技術助理</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>陳華星</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62750</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span></span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>體育館管理員</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/小馬.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>兼任助理(專案)</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>馬念琪</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機67197</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span></span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>體育室辦公室助理</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ </div>
+                            
+                    	</div>
+  <div class="TeacherArea"> 
+  
+                            <!--教師成員分類標題-->
+                            <div class="teacherListTit">
+                            	<div class="title_icon">
+                                    <img src="images/title_icon.svg">
+                                </div>
+                                專案計畫</div>        
+            
+                            <!--教師成員列表-->
+                            <div class="teacher_list_area">
+                   
+                                <!--清單-->
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/孫秉宏教練.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>副教授</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>孫秉宏</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62752</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>stansun@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>教師兼政大雄鷹籃球隊總監</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/范耿祥.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>計畫專任助理(助理教練)</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>范耿祥</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62752</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span></span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>政大雄鷹籃球隊助理教練</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/王昱中.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>計畫專任助理(體能教練)</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>王昱中</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62752</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>yuchung@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>政大雄鷹籃球隊助理教練</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ <div class="teacher_list">
+                                
+                                    <div class="teacherListBorder">  
+                                        
+                                        <!--上方-->                  
+                                        <div class="teacher_list_in">
+                                            
+                                            <!--圖片-->
+                                            <div class="tL_img">
+                                                <a href="javascript:void(0);">
+                                                    <img src="/uploads/staff/tw/廖期新.jpg">
+                                                </a>
+                                            </div>
+                                            
+                                            <!--右半邊-->
+                                            <div class="tL_right">
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    職稱：<span>計畫專任助理(運動防護師)</span>
+                                                </div>        
+         
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    姓名：<span>廖期新</span>
+                                                </div>                                 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    電話：<span>分機62752</span>
+                                                </div> 
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    Email：<span>attim@nccu.edu.tw</span>
+                                                </div>     
+            
+                                                <!--標題-->
+                                                <div class="tLR_tit">
+                                                    負責業務：<span>政大雄鷹籃球隊助理教練</span>
+                                                </div>                                   
+                     
+                                            </div>
+                                            
+                                            <div class="clearfloat">
+                                            </div>
+                                        </div>
+          
+                                    </div>                            
+                                    
+                                </div>   
+ </div>
+                            
+                    	</div>
+  </div>
+                    
+                </div>
+                
+            
+                <!-- InstanceEndEditable -->
+                <div class="clearfloat">
+                </div>
+        	</div>
+        </div>
+    </main>
+    
+    
+    
+    <!--footer-->
+	<footer class="footer">
+    
+    	<!--浮動top鍵--><!--js在common.js內-->
+        <div class="topBtn" style="bottom: -70px;">
+            <a href="#top">
+            	<span>TOP</span>
+            </a>
+        </div>
+        
+        <!--footer社群資訊-->
+        <div class="wrap">
+            <div class="footer_Community_Area">
+            
+            	<div class="footer_Community">
+                	<a target="_blank" href="https://www.facebook.com/nccupeo/">
+                        <img src="../images/fb_icon.png">
+                        <span>政大體育室粉絲專頁</span> 
+                    </a>
+                </div>
+            
+            	<div class="footer_Community">
+                	<a target="_blank" href="https://www.facebook.com/nccugriffins">
+                        <img src="../images/fb_icon.png">
+                        <span>政大雄鷹會粉絲專頁</span> 
+                    </a>
+                </div>
+                  
+            </div>  
+        </div>          
+        
+        <!--footer資訊-->
+        <div class="footer_inArea">
+            <div class="wrap">
+                <span>電話：(02)2939-6808</span>  
+                <span>傳真：(02)2938-7207</span>  
+                <span>地址：116-05 台北市文山區指南路二段64號</span>  
+                <span>E-Mail：gymil@nccu.edu.tw</span>    
+            </div>  
+        </div>    
+        
+        <!--copyright-->     
+        <div class="copyright">
+        	<div class="wrap">
+        		© 2019 <a href="https://www.geneinfo.com.tw/" target="view_blank">Greatest Idea Strategy Co.,Ltd</a> All rights reserved.
+        	</div>  
+        </div>              
+ 
+    </footer>
+    
+    
+
+
+
+</body><!-- InstanceEnd --></html>

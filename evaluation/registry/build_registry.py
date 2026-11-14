@@ -351,13 +351,15 @@ FORMS = [  # (編號, 在教務處頁面上的連結文字, 現場 302 標頭檔
     ("QP-T01-05-06", "碩士轉系所學分認定申請書", "moltke_QP-T01-05-06.headers.txt", "transfer"),
     ("QP-M03-01-05", "請下載填寫： 『退離宿暨退還「住宿保證金」申請表』", "moltke_QP-M03-01-05.headers.txt", "dorm", "osa"),
     ("QP-T01-03-08", "國立政治大學碩、博士班學生修讀雙主修輔系申請表", "moltke_QP-T01-03-08.headers.txt", "double"),
+    ("QP-T01-04-05", "國內/出國交換選課學分抵免申請表", None, "credit"),
 ]
+CREDIT_PAGE = "https://aca.nccu.edu.tw/zh/服務項目/成績-抵免/學分抵免（含新生及出國）-整合"
 DOUBLE_PAGE = "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系"
 EXIT_PAGE = "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序"
 # 頁面正文用的簡稱（逐字出現在列出這份表單的頁面裡），指的就是這份表單
 FORM_ALIASES = {"QP-T01-02-05": ["委託書"], "QP-T01-05-05": ["轉系所申請書"], "QP-T01-05-06": ["學分認定申請書"],
                 "QP-M03-01-05": ["離宿暨退還保證金申請表", "退離宿暨退還「住宿保證金」申請表", "離宿暨退還「住宿保證金」申請表"],
-                "QP-T01-03-08": ["雙主修輔系申請表"]}
+                "QP-T01-03-08": ["雙主修輔系申請表"], "QP-T01-04-05": ["國內/出國交換選課學分抵免申請表"]}
 
 
 def build_forms(problems: Problems) -> list[dict]:
@@ -367,7 +369,8 @@ def build_forms(problems: Problems) -> list[dict]:
     tlive_page = "sources/live/aca_transfer_page.html"
     _, epage_rel = snapshot_from_corpus("osa", EXIT_PAGE, "osa_exit_procedure.txt")
     _, dpage_rel = snapshot_from_corpus("aca", DOUBLE_PAGE, "aca_double_major_page.txt")
-    pages = {"leave": (page_rel, live_page), "transfer": (tpage_rel, tlive_page), "dorm": (epage_rel, "sources/live/osa_exit_procedure.html"),
+    _, cpage_rel = snapshot_from_corpus("aca", CREDIT_PAGE, "aca_credit_page.txt")
+    pages = {"credit": (cpage_rel, "sources/live/aca_credit_page.html"), "leave": (page_rel, live_page), "transfer": (tpage_rel, tlive_page), "dorm": (epage_rel, "sources/live/osa_exit_procedure.html"),
              "double": (dpage_rel, "sources/live/aca_double_major_page.html")}
     recs = {}
     for sub in ("aca", "osa"):
@@ -632,9 +635,114 @@ def build_library(problems: Problems) -> dict:
             "note": "申請書只寫「總圖或分館借還書櫃檯」，沒有樓層；人員只記典藏閱覽組（流通業務）；電話線來自各組聯絡資訊頁"}
 
 
+# --- 第 10 題（出國交換學分抵免）新增的單位：通識教育中心、體育室、外文中心 ------------------------------
+GEC_URL = "https://aca.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C-%E9%80%9A%E8%AD%98"
+GEC_NEWS_URL = "https://aca.nccu.edu.tw/zh/最新消息/通識教育中心-3/5318-課程地圖使用情況與滿意度調查"
+SPORTS_URL = "https://sports.nccu.edu.tw/web/about/staff.jsp"
+FLC_URL = "https://flc.nccu.edu.tw/zh_tw/About/Administrative"
+
+
+def _strip_link(name: str) -> str:
+    return re.sub(r"^\[(.*?)\]\(.*\)$", r"\1", name.strip())
+
+
+def build_gec(problems: Problems) -> dict:
+    """通識教育中心：教務處人員頁，格式與註冊組相同（一列從「一、」開始）。"""
+    what = "通識教育中心"
+    rec, snap_rel, snap_asof = snapshot_from_index(GEC_URL, "aca_staff_gec.txt")
+    live_rel = "sources/live/aca_staff_gec.rendered.html"
+    l_asof = live_asof("aca_staff_gec.render.json")
+    snap_rows = [{**r, "name": _strip_link(r["name"])} for r in parse_registrar_snapshot(rec["text"])]
+    live_rows = parse_registrar_live((HERE / live_rel).read_text(encoding="utf-8"))
+    if len(snap_rows) != len(live_rows):
+        problems.add(f"{what}：快照 {len(snap_rows)} 列，現場 {len(live_rows)} 列，列數不同")
+    staff = []
+    for k, (s_, l_) in enumerate(zip(snap_rows, live_rows), 1):
+        w = f"{what}第 {k} 列"
+        if s_["ext"] != l_["ext"]:
+            problems.add(f"{w}：快照分機 {s_['ext']}，現場分機 {l_['ext']}")
+        if norm(s_["name"])[0] != norm(l_["label"])[0]:
+            problems.add(f"{w}：快照姓名 {s_['name']} 與現場 {l_['label']} 姓氏不同")
+        e = {"ext": s_["ext"] or l_["ext"], "row": k, "names": [], "titles": []}
+        add_form(e["names"], "full", norm(s_["name"]), src("snapshot", snap_rel, snap_asof, s_["name"], problems, w))
+        add_form(e["names"], "surname_title", norm(l_["label"]), src("live", live_rel, l_asof, l_["label"], problems, w))
+        add_form(e["titles"], "title", norm(s_["title"]), src("snapshot", snap_rel, snap_asof, s_["title"], problems, w), key="kind")
+        add_form(e["titles"], "title", norm(l_["label"])[1:], src("live", live_rel, l_asof, l_["label"], problems, w), key="kind")
+        if e["ext"]:
+            e["ext_sources"] = [x for x in (src("snapshot", snap_rel, snap_asof, e["ext"], problems, w), src("live", live_rel, l_asof, e["ext"], problems, w)) if x]
+        staff.append(finish(e))
+    _, news_rel = snapshot_from_corpus("aca", GEC_NEWS_URL, "aca_gec_news_5318.txt")
+    news_quote = "教務處通識教育中心（行政大樓4樓）"
+    footer_snap = re.search(r"\d{5,6}[^\n]*?號\s*行政大樓四樓", rec["text"])
+    if not footer_snap:
+        problems.add(f"{what}樓層：快照人員頁找不到行政大樓四樓")
+    floor_sources = [x for x in (
+        src("snapshot", snap_rel, snap_asof, footer_snap.group(0) if footer_snap else "行政大樓四樓", problems, what + "樓層"),
+        src("live", live_rel, l_asof, "行政大樓四樓", problems, what + "樓層"),
+        src("snapshot", news_rel, "corpus", news_quote, problems, what + "樓層"),
+        src("live", "sources/live/gec_news_5318.html", "2026-11-14", news_quote, problems, what + "樓層")) if x]
+    floors = [{"value": "行政大樓四樓", "accepted": ["行政大樓四樓", "四樓", "4樓"], "units": ["通識教育中心"], "sources": floor_sources}]
+    return {"name": "通識教育中心", "aliases": ["通識教育中心", "通識中心"], "parent": "教務處", "floors": floors, "lines": [], "staff": staff,
+            "note": "教務處二級單位（gecenter.nccu.edu.tw/about：隸屬於教務處之二級行政單位）。人員頁與註冊組同一頁面格式；樓層出處有二：人員頁頁尾（教務處地址，與教務處同層）與明寫「教務處通識教育中心（行政大樓4樓）」的新聞頁"}
+
+
+SPORTS_RE = re.compile(r"職稱：\s*(\S+)\s+姓名：\s*(\S+)\s+電話：\s*分機\s*(\d{5})")
+
+
+def parse_sports(text: str) -> list[dict]:
+    return [{"title": m.group(1), "name": m.group(2), "ext": m.group(3)} for m in SPORTS_RE.finditer(text)]
+
+
+def build_sports(problems: Problems) -> dict:
+    """體育室行政人員頁：全部人員都登錄（含游泳館、健身房、籃球隊人員；同一分機可有多人）。"""
+    what = "體育室"
+    rec, snap_rel, snap_asof = snapshot_from_index(SPORTS_URL, "sports_staff.txt")
+    live_rel = "sources/live/sports_staff.rendered.html"
+    l_asof = live_asof("sports_staff.render.json")
+    snap_rows = parse_sports(rec["text"])
+    live_rows = parse_sports(BeautifulSoup((HERE / live_rel).read_text(encoding="utf-8"), "html.parser").get_text(" "))
+    if len(snap_rows) != len(live_rows):
+        problems.add(f"{what}：快照 {len(snap_rows)} 筆，現場 {len(live_rows)} 筆，筆數不同")
+    staff = merge_people(problems, what, snap_rows, live_rows, snap_rel, snap_asof, live_rel, l_asof)
+    return {"name": "體育室", "aliases": ["體育室"], "parent": "", "floors": [], "lines": [], "staff": staff,
+            "note": "全部登錄（21 人，一個分機可有多人）；與抵免相關的是體育教學組（洪鈺釗、吳鴻傑），其餘為活動組、場館、籃球隊人員。頁面沒有樓層"}
+
+
+FLC_ROW_RE = re.compile(r"(?:人事綜合|課程教務|推廣教育|總務資訊|雙語計畫)\s+([\u4e00-\u9fff]{2,4})(助教|專員)\s+(\d{5})")
+
+
+def parse_flc(text: str) -> list[dict]:
+    t = re.sub(r"\s+", " ", text)
+    rows = [{"name": m.group(1), "title": m.group(2), "ext": m.group(3)} for m in FLC_ROW_RE.finditer(t)]
+    d = re.search(r"([\u4e00-\u9fff]{2,4})副教授\]?(?:\([^)]*\))?.*?校內分機：(\d{5})", t)
+    if d:
+        rows.insert(0, {"name": d.group(1), "title": "副教授（中心主任）", "ext": d.group(2)})
+    return rows
+
+
+def build_flc(problems: Problems) -> dict:
+    what = "外文中心"
+    rec, snap_rel, snap_asof = snapshot_from_index(FLC_URL, "flc_staff.txt")
+    live_rel = "sources/live/flc_staff.rendered.html"
+    l_asof = live_asof("flc_staff.render.json")
+    snap_rows = parse_flc(rec["text"])
+    live_rows = parse_flc(BeautifulSoup((HERE / live_rel).read_text(encoding="utf-8"), "html.parser").get_text(" "))
+    for r in snap_rows + live_rows:
+        r["title"] = r["title"].replace("（中心主任）", "")
+    staff = merge_people(problems, what, snap_rows, live_rows, snap_rel, snap_asof, live_rel, l_asof)
+    both = lambda q: [x for x in (src("snapshot", snap_rel, snap_asof, q, problems, what + "樓層"), src("live", live_rel, l_asof, q, problems, what + "樓層")) if x]  # noqa: E731
+    floors = [
+        {"value": "國際大樓五樓", "accepted": ["國際大樓五樓", "國際大樓5樓", "五樓", "5樓"], "units": ["外文中心"], "sources": both("中心辦公室位於位於國際大樓(圖上A37) 5樓")},
+        {"value": "國際大樓360506室", "accepted": ["360506", "國際大樓360506室"], "units": ["外文中心"], "sources": both("國際大樓360506室")},
+    ]
+    return {"name": "外文中心", "aliases": ["外文中心", "外國語文學院外文中心"], "parent": "", "floors": floors, "lines": [], "staff": staff,
+            "note": "頁面兩處說法並存：中心主任的辦公室寫「國際大樓360506室」，交通位置寫「辦公室位於國際大樓 5 樓，大樓正門口位於 3 樓」。兩者都收，答案不必選哪一個；正門的 3 樓不是辦公室樓層，不收。快照與現場之間推廣教育的分機由 67103 變 63471，現場另多雙語計畫廖芳君專員"}
+
+
 OFFICES = {"registrar": build_registrar, "soa": build_soa, "oic": build_oic,
            **{u[0]: make_ga_builder(u) for u in GA_UNITS},
-           "dorm": build_dorm, "indigenous": build_indigenous, "library": build_library}
+           "dorm": build_dorm, "indigenous": build_indigenous, "library": build_library,
+           "gec": build_gec, "sports": build_sports, "flc": build_flc}
 
 
 def main() -> int:

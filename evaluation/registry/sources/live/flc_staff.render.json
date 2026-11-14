@@ -1,0 +1,14 @@
+{
+  "url": "https://flc.nccu.edu.tw/zh_tw/About/Administrative",
+  "ok": true,
+  "status": 200,
+  "error": "",
+  "detail": "",
+  "elapsed_seconds": 3.48,
+  "requests": 56,
+  "requests_nccu": 39,
+  "fetched_at": "2026-11-14T12:18:52+08:00",
+  "tool": "rag.live.browser.PlaywrightBackend",
+  "settle_ms": 2000,
+  "user_agent": "Chromium default (not set; no email)"
+}

@@ -1,0 +1,14 @@
+HTTP/2 301 
+server: nginx
+date: Sat, 14 Nov 2026 05:03:52 GMT
+content-type: text/html; charset=UTF-8
+location: https://gecenter.nccu.edu.tw/student-zone/gec-credit-waiver/credits-from-overseas-exchange-programs/
+x-redirect-by: WordPress
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+referrer-policy: no-referrer-when-downgrade
+cache-control: no-cache
+alt-svc: h3=":443"; ma=86400
+x-protocol: HTTP/2.0
+strict-transport-security: max-age=31536000; includeSubDomains
+

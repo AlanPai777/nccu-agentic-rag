@@ -1,0 +1,218 @@
+{
+  "keypoints": [
+    {
+      "id": "K1",
+      "verdict": "relevant",
+      "claims": [
+        "c1",
+        "c2"
+      ],
+      "reason": "表單名稱與編號 QP-T01-04-05"
+    },
+    {
+      "id": "K2",
+      "verdict": "relevant",
+      "claims": [
+        "c3"
+      ],
+      "reason": "下載連結"
+    },
+    {
+      "id": "K3",
+      "verdict": "relevant",
+      "claims": [
+        "c5"
+      ],
+      "reason": "送到就讀系所辦公室"
+    },
+    {
+      "id": "K4",
+      "verdict": "relevant",
+      "claims": [
+        "c5"
+      ],
+      "reason": "連同出國學年期成績單正本"
+    },
+    {
+      "id": "K5",
+      "verdict": "relevant",
+      "claims": [
+        "c5"
+      ],
+      "reason": "連同課程大綱"
+    },
+    {
+      "id": "K6",
+      "verdict": "relevant",
+      "claims": [
+        "c4"
+      ],
+      "reason": "次學期三分之一基準日前"
+    },
+    {
+      "id": "K7",
+      "verdict": "relevant",
+      "claims": [
+        "c6"
+      ],
+      "reason": "要先行送審"
+    },
+    {
+      "id": "K8",
+      "verdict": "relevant",
+      "claims": [
+        "c7"
+      ],
+      "reason": "體育→體育室"
+    },
+    {
+      "id": "K9",
+      "verdict": "relevant",
+      "claims": [
+        "c9"
+      ],
+      "reason": "一般通識→通識教育中心"
+    },
+    {
+      "id": "K10",
+      "verdict": "relevant",
+      "claims": [
+        "c12"
+      ],
+      "reason": "外文通識→外文中心"
+    },
+    {
+      "id": "K11",
+      "verdict": "relevant",
+      "claims": [
+        "c13"
+      ],
+      "reason": "其他科目由就讀系所審查認定"
+    },
+    {
+      "id": "K12",
+      "verdict": "relevant",
+      "claims": [
+        "c14"
+      ],
+      "reason": "審核後送註冊組複查"
+    },
+    {
+      "id": "K13",
+      "verdict": "relevant",
+      "claims": [
+        "c15"
+      ],
+      "reason": "簽請教務長核定"
+    },
+    {
+      "id": "K14",
+      "verdict": "relevant",
+      "claims": [
+        "c16"
+      ],
+      "reason": "登錄成績總表"
+    },
+    {
+      "id": "K15",
+      "verdict": "relevant",
+      "claims": [
+        "c14",
+        "c15",
+        "c16"
+      ],
+      "reason": "審查單位審核在前，再註冊組複查、教務長核定、登錄"
+    },
+    {
+      "id": "K16",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K17",
+      "verdict": "relevant",
+      "claims": [
+        "c8"
+      ],
+      "reason": "體育抵免以四門為限"
+    },
+    {
+      "id": "K18",
+      "verdict": "relevant",
+      "claims": [
+        "c11"
+      ],
+      "reason": "成績證明蓋「與正本相符」戳記"
+    },
+    {
+      "id": "K19",
+      "verdict": "relevant",
+      "claims": [
+        "c10"
+      ],
+      "reason": "核心通識不得抵免"
+    },
+    {
+      "id": "K20",
+      "verdict": "relevant",
+      "claims": [
+        "c17"
+      ],
+      "reason": "註冊組組長王揚忠 63273"
+    },
+    {
+      "id": "K21",
+      "verdict": "relevant",
+      "claims": [
+        "c18"
+      ],
+      "reason": "註冊組在行政大樓四樓"
+    },
+    {
+      "id": "K22",
+      "verdict": "relevant",
+      "claims": [
+        "c19"
+      ],
+      "reason": "通識中心吳睿芸 63872"
+    },
+    {
+      "id": "K23",
+      "verdict": "relevant",
+      "claims": [
+        "c20"
+      ],
+      "reason": "通識中心在行政大樓四樓"
+    },
+    {
+      "id": "K24",
+      "verdict": "relevant",
+      "claims": [
+        "c21"
+      ],
+      "reason": "體育室吳鴻傑 62198"
+    },
+    {
+      "id": "K25",
+      "verdict": "relevant",
+      "claims": [
+        "c22"
+      ],
+      "reason": "外文中心吳沛瀅 62396"
+    },
+    {
+      "id": "K26",
+      "verdict": "relevant",
+      "claims": [
+        "c23"
+      ],
+      "reason": "外文中心在國際大樓五樓"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "judge-v1",
+    "note": "Claude Code 本 session 判斷（流程測試：答案也是 Claude Code 寫的，判斷不獨立；Keypoint 判斷依設計會看 gold）。主張編號取自子代理的隔離回推 trace.json"
+  }
+}

@@ -1,0 +1,614 @@
+{
+  "query_id": "overseas_exchange_credit",
+  "query": "出國交換學分抵免，體育、通識、外文通識分別送哪個單位",
+  "query_variants": [],
+  "query_type": "procedure",
+  "data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；QP-T01-04-05 為 201909 修訂 8 版）",
+    "live": "2026-11-14（現場）（教務處頁面、辦法 PDF 與通識中心頁面，curl；moltke 表單連結沒有送請求）；各單位聯絡人與樓層的現場依據在 evaluation/registry/"
+  },
+  "content": "出國交換回國後，學生要在出國選課學年期的次學期三分之一基準日前，填「國內／出國交換選課學分抵免申請表」（表單編號 QP-T01-04-05，https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05），連同出國學年期成績單正本與課程大綱等相關文件，送到就讀系所辦公室。科目如須校內相關開課單位審查，要先行送審：體育課程由「體育室」審查，一般通識（含書院通識）由「通識教育中心」審查，外文通識由「外文中心」審查（由就讀系所送請審定）；其他科目由就讀系所審查認定。各單位審核後，送教務處註冊組複查，簽請教務長核定，再登錄於學生的成績總表。體育必修課程的抵免以四門為限。",
+  "keypoints": [
+    {
+      "id": "K1",
+      "text": "申請表是「國內／出國交換選課學分抵免申請表」，表單編號 QP-T01-04-05",
+      "required": true,
+      "kind": "hard",
+      "references": [
+        {
+          "text": "表單編號:QP-T01-04-05",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-04-05 為 201909 修訂 8 版）"
+        },
+        {
+          "text": "[國內/出國交換選課學分抵免申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05)",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/成績-抵免/學分抵免（含新生及出國）-整合",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "[國內/出國交換選課學分抵免申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05)",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/成績-抵免/學分抵免（含新生及出國）-整合",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        }
+      ],
+      "acceptable_expressions": [
+        "QP-T01-04-05"
+      ]
+    },
+    {
+      "id": "K2",
+      "text": "申請表的下載連結是 https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_form_link",
+      "registry": {
+        "need": "form_link",
+        "form": "QP-T01-04-05",
+        "mention": "always"
+      }
+    },
+    {
+      "id": "K3",
+      "text": "申請書送到就讀系所辦公室（由系所辦理抵免申請）",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "逕至各系所辦公室送件申請",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/成績-抵免/學分抵免（含新生及出國）-整合",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "逕至各系所辦公室送件申請",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/成績-抵免/學分抵免（含新生及出國）-整合",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        },
+        {
+          "text": "向就讀系辦理學分抵免申請",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-04-05 為 201909 修訂 8 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K4",
+      "text": "要附出國學年期成績單正本（國外大學的正式成績單或成績證明書）",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "併同出國學年期成績單正本乙份",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/成績-抵免/學分抵免（含新生及出國）-整合",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "併同出國學年期成績單正本乙份",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/成績-抵免/學分抵免（含新生及出國）-整合",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        },
+        {
+          "text": "應出具於交換大學修習之全部科目含學分數之正式成績單或成績證明書",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-04-05 為 201909 修訂 8 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K5",
+      "text": "要附課程大綱等相關文件",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "課程大綱等相關文件",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/成績-抵免/學分抵免（含新生及出國）-整合",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "課程大綱等相關文件",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/成績-抵免/學分抵免（含新生及出國）-整合",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        },
+        {
+          "text": "各審查單位得要求學生檢附課程大綱，始予受理",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "各審查單位得要求學生檢附課程大綱，始予受理",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K6",
+      "text": "時限：出國選課學年期的次學期三分之一基準日前辦理",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "申請出國選課學年期之次學期三分之一基準日前辦理",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/成績-抵免/學分抵免（含新生及出國）-整合",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "申請出國選課學年期之次學期三分之一基準日前辦理",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/成績-抵免/學分抵免（含新生及出國）-整合",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        },
+        {
+          "text": "於次學期三分之一基準日前向就讀系辦理學分抵免申請",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-04-05 為 201909 修訂 8 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K7",
+      "text": "科目如須校內相關開課單位審查（體育、通識、外文通識等），要先行送審",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "擬申請抵免科目如須校內相關開課單位審查（如中文通識、外文通識、體育、一般通識及雙主修輔系課程），應先行送審",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/成績-抵免/學分抵免（含新生及出國）-整合",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "擬申請抵免科目如須校內相關開課單位審查（如中文通識、外文通識、體育、一般通識及雙主修輔系課程），應先行送審",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/成績-抵免/學分抵免（含新生及出國）-整合",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K8",
+      "text": "體育課程抵免由體育室審查",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "體育課程由體育室審查",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "體育課程由體育室審查",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        },
+        {
+          "text": "將由就讀系所送請體育室、通識教育中心及外文中心審定",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-04-05 為 201909 修訂 8 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K9",
+      "text": "一般通識（含書院通識）抵免由通識教育中心審查",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "一般通識及書院通識由通識教育中心審查",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "一般通識及書院通識由通識教育中心審查",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        },
+        {
+          "text": "將由就讀系所送請體育室、通識教育中心及外文中心審定",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-04-05 為 201909 修訂 8 版）"
+        },
+        {
+          "text": "於次學期三分之一基準日前洽通識教育中心辦理",
+          "source_url": "https://gecenter.nccu.edu.tw/student-zone/gec-credit-waiver/credits-from-overseas-exchange-programs",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "於次學期三分之一基準日前洽通識教育中心辦理",
+          "source_url": "https://gecenter.nccu.edu.tw/student-zone/gec-credit-waiver/credits-from-overseas-exchange-programs/",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        },
+        {
+          "text": "經通識教育中心審查通過者，即可將交換學校所修課程抵免為本校一般通識學分",
+          "source_url": "https://gecenter.nccu.edu.tw/faq/qa38",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K10",
+      "text": "外文通識抵免由外文中心審查",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "外文通識由外文中心審查",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "外文通識由外文中心審查",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        },
+        {
+          "text": "將由就讀系所送請體育室、通識教育中心及外文中心審定",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-04-05 為 201909 修訂 8 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K11",
+      "text": "其他科目是否抵免、列入畢業學分，由就讀系所審查認定",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "所修科目、學分數應否抵免列入畢業最低學分總數內計算，由就讀系所自行認定",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-04-05 為 201909 修訂 8 版）"
+        },
+        {
+          "text": "專業課程由學生就讀學系所審查",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "專業課程由學生就讀學系所審查",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K12",
+      "text": "各單位審核後，送教務處註冊組複查",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "本項各類抵免學分經相關單位審核後，送交教務處註冊組複查，簽請教務長核定後，於學生學業成績總表登錄",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "本項各類抵免學分經相關單位審核後，送交教務處註冊組複查，簽請教務長核定後，於學生學業成績總表登錄",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        },
+        {
+          "text": "送交各系所審查後由註冊組核辦",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-04-05 為 201909 修訂 8 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K13",
+      "text": "註冊組複查後，簽請教務長核定",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "本項各類抵免學分經相關單位審核後，送交教務處註冊組複查，簽請教務長核定後，於學生學業成績總表登錄",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "本項各類抵免學分經相關單位審核後，送交教務處註冊組複查，簽請教務長核定後，於學生學業成績總表登錄",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K14",
+      "text": "教務長核定後，抵免的科目登錄於學生的成績總表",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "本項各類抵免學分經相關單位審核後，送交教務處註冊組複查，簽請教務長核定後，於學生學業成績總表登錄",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "本項各類抵免學分經相關單位審核後，送交教務處註冊組複查，簽請教務長核定後，於學生學業成績總表登錄",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        },
+        {
+          "text": "經審查「同意抵免」之科目於教務處核定後登錄於本校成績總表",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-04-05 為 201909 修訂 8 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K15",
+      "text": "審查單位（體育室、通識教育中心、外文中心）審核在前，再由註冊組複查、教務長核定、登錄成績總表",
+      "required": true,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "本項各類抵免學分經相關單位審核後，送交教務處註冊組複查，簽請教務長核定後，於學生學業成績總表登錄",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "本項各類抵免學分經相關單位審核後，送交教務處註冊組複查，簽請教務長核定後，於學生學業成績總表登錄",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        },
+        {
+          "text": "經審查「同意抵免」之科目於教務處核定後登錄於本校成績總表",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-04-05 為 201909 修訂 8 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K16",
+      "text": "體育、通識、外文通識是由就讀系所送請各自的審查單位審定（體育室、通識教育中心、外文中心）",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "本項各類抵免學分經相關單位審核後，送交教務處註冊組複查，簽請教務長核定後，於學生學業成績總表登錄",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "本項各類抵免學分經相關單位審核後，送交教務處註冊組複查，簽請教務長核定後，於學生學業成績總表登錄",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        },
+        {
+          "text": "將由就讀系所送請體育室、通識教育中心及外文中心審定",
+          "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照；QP-T01-04-05 為 201909 修訂 8 版）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K17",
+      "text": "體育必修課程抵免以四門為限",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "體育必修課程得申請抵免，以四門為限",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "體育必修課程得申請抵免，以四門為限",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law06A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K18",
+      "text": "向通識教育中心申請時，國外學校的成績證明要先到系所或國合處蓋「與正本相符」戳記",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "國外學校含有及格成績之成績證明，回國後須至系所或國合處蓋「與正本相符」戳記",
+          "source_url": "https://gecenter.nccu.edu.tw/student-zone/gec-credit-waiver/credits-from-overseas-exchange-programs",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "國外學校含有及格成績之成績證明，回國後須至系所或國合處蓋「與正本相符」戳記",
+          "source_url": "https://gecenter.nccu.edu.tw/student-zone/gec-credit-waiver/credits-from-overseas-exchange-programs/",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K19",
+      "text": "通識抵免的對象是一般通識課程，核心通識不得抵免",
+      "required": false,
+      "kind": "semantic",
+      "references": [
+        {
+          "text": "欲抵免之政大課程大綱，須為近十年內開設之一般通識課程（核心通識不得抵免）",
+          "source_url": "https://gecenter.nccu.edu.tw/student-zone/gec-credit-waiver/credits-from-overseas-exchange-programs",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "欲抵免之政大課程大綱，須為近十年內開設之一般通識課程（核心通識不得抵免）",
+          "source_url": "https://gecenter.nccu.edu.tw/student-zone/gec-credit-waiver/credits-from-overseas-exchange-programs/",
+          "source_kind": "live",
+          "as_of": "2026-11-14（現場）"
+        },
+        {
+          "text": "核心與書院通識皆不可拿來認抵",
+          "source_url": "https://gecenter.nccu.edu.tw/faq/qa38",
+          "source_kind": "snapshot",
+          "as_of": "2026-08（output/ 快照）"
+        }
+      ],
+      "acceptable_expressions": []
+    },
+    {
+      "id": "K20",
+      "text": "答案要寫出教務處註冊組的聯絡人：註冊組任何一位的姓名或職稱加分機",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_who",
+      "registry": {
+        "office": "registrar",
+        "need": "who"
+      }
+    },
+    {
+      "id": "K21",
+      "text": "註冊組在行政大樓四樓",
+      "required": true,
+      "kind": "hard",
+      "value_check": "registry_floor",
+      "registry": {
+        "office": "registrar",
+        "need": "floor"
+      }
+    },
+    {
+      "id": "K22",
+      "text": "答案提到通識教育中心時，要寫出通識教育中心的聯絡人：通識教育中心任何一位的姓名或職稱加分機",
+      "required": false,
+      "kind": "hard",
+      "value_check": "registry_who",
+      "registry": {
+        "office": "gec",
+        "need": "who",
+        "conditional": true
+      },
+      "applies_if": "答案提到通識教育中心"
+    },
+    {
+      "id": "K23",
+      "text": "通識教育中心在行政大樓四樓（與教務處同層）",
+      "required": false,
+      "kind": "hard",
+      "value_check": "registry_floor",
+      "registry": {
+        "office": "gec",
+        "need": "floor",
+        "conditional": true
+      },
+      "applies_if": "答案提到通識教育中心"
+    },
+    {
+      "id": "K24",
+      "text": "答案提到體育室時，要寫出體育室的聯絡人：體育室任何一位的姓名或職稱加分機",
+      "required": false,
+      "kind": "hard",
+      "value_check": "registry_who",
+      "registry": {
+        "office": "sports",
+        "need": "who",
+        "conditional": true
+      },
+      "applies_if": "答案提到體育室"
+    },
+    {
+      "id": "K25",
+      "text": "答案提到外文中心時，要寫出外文中心的聯絡人：外文中心任何一位的姓名或職稱加分機",
+      "required": false,
+      "kind": "hard",
+      "value_check": "registry_who",
+      "registry": {
+        "office": "flc",
+        "need": "who",
+        "conditional": true
+      },
+      "applies_if": "答案提到外文中心"
+    },
+    {
+      "id": "K26",
+      "text": "外文中心辦公室在國際大樓（五樓，或寫辦公室 360506 室）",
+      "required": false,
+      "kind": "hard",
+      "value_check": "registry_floor",
+      "registry": {
+        "office": "flc",
+        "need": "floor",
+        "conditional": true
+      },
+      "applies_if": "答案提到外文中心"
+    }
+  ],
+  "source_conflicts": "來源優先順序：表單 > 辦法 > 教務處頁面。三者沒有互相矛盾的事實，但「誰送審」的寫法不同：教務處頁面寫學生要「先行送審」（如須校內相關開課單位審查），表單附註 3 寫「將由就讀系所送請體育室、通識教育中心及外文中心審定」，辦法第 7 條只寫各類課程由哪個單位審查。通識教育中心專屬頁面寫「學生…洽通識教育中心辦理」。四處的寫法不同（先行送審、由就讀系所送請、洽通識教育中心辦理），使用者的判斷是它們說的是同一件事（哪類科目由哪個單位審查），所以 K8–K10 只考「由哪個單位審查」，不規定誰負責送；誰送審單獨成 K16（選擇性，只依表單附註 3）。",
+  "notes": [
+    "條件分岔：體育、一般通識、外文通識三類各自走不同的審查單位（K8、K9、K10），三個都必要。題目就是問這三類，所以沒有用 applies_if（用了的話，答案漏掉某一類反而會從分母拿掉，變成獎勵漏答）；只有聯絡人與樓層才是有條件的（議題 F8）。",
+    "題目的「通識」解讀為一般通識（含書院通識）；中文通識只當留意，不收。",
+    "順序：K15 專門考「審查單位審核在前，再由註冊組複查、教務長核定、登錄」；來源（辦法第 7 條）只寫到「經相關單位審核後，送註冊組複查，簽請教務長核定後登錄」，系所與審查單位之間誰先誰後，來源沒有定論（見 source_conflicts），所以 K15 只考審查單位與教務處之間的先後（議題 F2、F23）。",
+    "註冊組的聯絡人與樓層（K20、K21）列為必要，延續前面幾題；三個審查單位的聯絡人與樓層（K22–K26）是選擇性，而且是有條件的：答案提到該單位才要求，沒提到就從分母拿掉。",
+    "聯絡人與樓層的登記方式：登記表登錄各單位人員頁的全部人員，答案寫任何一位的姓名或職稱加正確分機都算（既有做法）。體育室 21 人裡多數是游泳館、健身房、籃球隊人員，業務與抵免無關；與抵免相關的是體育教學組（洪鈺釗、吳鴻傑）。這個落差目前不處理，登記為議題 F25。",
+    "外文中心的樓層：頁面兩處說法並存（主任辦公室「國際大樓360506室」，交通位置「辦公室位於國際大樓 5 樓，大樓正門口位於 3 樓」），兩種都收；正門的 3 樓不是辦公室樓層，不收。通識教育中心沒有專屬樓層欄，樓層出處是人員頁頁尾（教務處地址）與明寫「教務處通識教育中心（行政大樓4樓）」的新聞頁；體育室頁面沒有樓層，不收。",
+    "【事實補充，不是衝突】通識教育中心專屬頁面比教務處頁面更具體：向通識中心申請的國外成績證明須先到系所或國合處蓋「與正本相符」戳記（K18，選擇性），欲抵免的政大課程限一般通識、核心通識不得抵免（K19，選擇性）。教務處頁面與表單寫的是「成績單正本」（K4），那是一般性的收件要求，兩者可以同時成立。體育室與外文中心在語料裡沒有對應的專屬頁面，這兩類只能靠表單、辦法與教務處頁面。",
+    "【解讀，未驗證】整張表填完後由誰送到教務處註冊組：辦法第 7 條是被動句（經相關單位審核後，送交教務處註冊組複查），表單寫「送交各系所審查後由註冊組核辦」，三個來源都沒有主詞。使用者的推測是學生自己送（系所認定的必修也要一併送），不寫入 keypoint；答案寫「學生送」或「系所轉送」都不判錯（K12 只問有沒有送註冊組複查）。",
+    "中文通識：辦法第 7 條寫由中文系審查，表單附註 3 寫赴大陸地區交換的學生經審查單位中文系簽核同意逐案審查（2013-10-18）；審查單位都是中文系，題目沒問中文通識，不收。",
+    "不收：新生抵免、暑期交換、國內交換、雙聯學位（law91A 是雙聯學位的作業原則，不是抵免辦法）、中文通識、成績以 EX 字樣登錄（辦法第 7 條，使用者決定先不收）、逾期未辦理的處理（不抵免切結、成績總表註記）、抵免學分上限（博碩士二分之一、學士班三分之一）、學分班。",
+    "moltke 的表單連結沒有送現場請求（其他題已驗證一律 302 轉登入頁）；連結以教務處現場頁面（2026-11-14）列出的為準，表單內容以快照為準。記錄見 sources/live/live_check.md 與登記表。"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "url": "https://sports.nccu.edu.tw/web/about/staff.jsp",
+  "ok": true,
+  "status": 200,
+  "error": "",
+  "detail": "",
+  "elapsed_seconds": 3.04,
+  "requests": 65,
+  "requests_nccu": 37,
+  "fetched_at": "2026-11-14T12:18:44+08:00",
+  "tool": "rag.live.browser.PlaywrightBackend",
+  "settle_ms": 2000,
+  "user_agent": "Chromium default (not set; no email)"
+}

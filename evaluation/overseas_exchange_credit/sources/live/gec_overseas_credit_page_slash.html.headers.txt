@@ -1,0 +1,16 @@
+HTTP/2 200 
+server: nginx
+date: Sat, 14 Nov 2026 05:06:40 GMT
+content-type: text/html; charset=UTF-8
+vary: Accept-Encoding
+link: <https://gecenter.nccu.edu.tw/wp-json/>; rel="https://api.w.org/"
+link: <https://gecenter.nccu.edu.tw/wp-json/wp/v2/pages/383>; rel="alternate"; title="JSON"; type="application/json"
+link: <https://gecenter.nccu.edu.tw/?p=383>; rel=shortlink
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+referrer-policy: no-referrer-when-downgrade
+cache-control: no-cache
+alt-svc: h3=":443"; ma=86400
+x-protocol: HTTP/2.0
+strict-transport-security: max-age=31536000; includeSubDomains
+

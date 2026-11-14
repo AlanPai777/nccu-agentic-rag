@@ -11972,6 +11972,2109 @@
         }
       ],
       "note": "申請書只寫「總圖或分館借還書櫃檯」，沒有樓層；人員只記典藏閱覽組（流通業務）；電話線來自各組聯絡資訊頁"
+    },
+    "gec": {
+      "name": "通識教育中心",
+      "aliases": [
+        "通識教育中心",
+        "通識中心"
+      ],
+      "parent": "教務處",
+      "floors": [
+        {
+          "value": "行政大樓四樓",
+          "accepted": [
+            "行政大樓四樓",
+            "四樓",
+            "4樓"
+          ],
+          "units": [
+            "通識教育中心"
+          ],
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_gec.txt",
+              "quote": "116011台北市文山區指南路二段64號 行政大樓四樓"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/aca_staff_gec.rendered.html",
+              "quote": "行政大樓四樓"
+            },
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/aca_gec_news_5318.txt",
+              "quote": "教務處通識教育中心（行政大樓4樓）"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/gec_news_5318.html",
+              "quote": "教務處通識教育中心（行政大樓4樓）"
+            }
+          ]
+        }
+      ],
+      "lines": [],
+      "staff": [
+        {
+          "ext": "62846",
+          "row": 1,
+          "names": [
+            {
+              "form": "full",
+              "value": "馬藹萱",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_gec.txt",
+                  "quote": "馬藹萱"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "馬藹萱主任",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/aca_staff_gec.rendered.html",
+                  "quote": "馬藹萱主任"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "主任",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_gec.txt",
+                  "quote": "主任"
+                }
+              ]
+            },
+            {
+              "kind": "title",
+              "value": "藹萱主任",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/aca_staff_gec.rendered.html",
+                  "quote": "馬藹萱主任"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_gec.txt",
+              "quote": "62846"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/aca_staff_gec.rendered.html",
+              "quote": "62846"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62858",
+          "row": 2,
+          "names": [
+            {
+              "form": "full",
+              "value": "楊乃樺",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_gec.txt",
+                  "quote": "楊乃樺"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "楊編審",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/aca_staff_gec.rendered.html",
+                  "quote": "楊編審"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "編審",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_gec.txt",
+                  "quote": "編審"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/aca_staff_gec.rendered.html",
+                  "quote": "楊編審"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_gec.txt",
+              "quote": "62858"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/aca_staff_gec.rendered.html",
+              "quote": "62858"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63871",
+          "row": 3,
+          "names": [
+            {
+              "form": "full",
+              "value": "張皓雅",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_gec.txt",
+                  "quote": "張皓雅"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "張行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/aca_staff_gec.rendered.html",
+                  "quote": "張行政專員"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_gec.txt",
+                  "quote": "行政專員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/aca_staff_gec.rendered.html",
+                  "quote": "張行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_gec.txt",
+              "quote": "63871"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/aca_staff_gec.rendered.html",
+              "quote": "63871"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62857",
+          "row": 4,
+          "names": [
+            {
+              "form": "full",
+              "value": "林淑貞",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_gec.txt",
+                  "quote": "林淑貞"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "林行政專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/aca_staff_gec.rendered.html",
+                  "quote": "林行政專員"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_gec.txt",
+                  "quote": "行政專員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/aca_staff_gec.rendered.html",
+                  "quote": "林行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_gec.txt",
+              "quote": "62857"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/aca_staff_gec.rendered.html",
+              "quote": "62857"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62847",
+          "row": 5,
+          "names": [
+            {
+              "form": "full",
+              "value": "張惟喬",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_gec.txt",
+                  "quote": "張惟喬"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "張行政組員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/aca_staff_gec.rendered.html",
+                  "quote": "張行政組員"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "一級行政組員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_gec.txt",
+                  "quote": "一級行政組員"
+                }
+              ]
+            },
+            {
+              "kind": "title",
+              "value": "行政組員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/aca_staff_gec.rendered.html",
+                  "quote": "張行政組員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_gec.txt",
+              "quote": "62847"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/aca_staff_gec.rendered.html",
+              "quote": "62847"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62856",
+          "row": 6,
+          "names": [
+            {
+              "form": "full",
+              "value": "蕭苑樵",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_gec.txt",
+                  "quote": "蕭苑樵"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "蕭計畫助理",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/aca_staff_gec.rendered.html",
+                  "quote": "蕭計畫助理"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "計畫專任助理",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_gec.txt",
+                  "quote": "計畫專任助理"
+                }
+              ]
+            },
+            {
+              "kind": "title",
+              "value": "計畫助理",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/aca_staff_gec.rendered.html",
+                  "quote": "蕭計畫助理"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_gec.txt",
+              "quote": "62856"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/aca_staff_gec.rendered.html",
+              "quote": "62856"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63872",
+          "row": 7,
+          "names": [
+            {
+              "form": "full",
+              "value": "吳睿芸",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_gec.txt",
+                  "quote": "吳睿芸"
+                }
+              ]
+            },
+            {
+              "form": "surname_title",
+              "value": "吳計畫助理",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/aca_staff_gec.rendered.html",
+                  "quote": "吳計畫助理"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "計畫專任助理",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/aca_staff_gec.txt",
+                  "quote": "計畫專任助理"
+                }
+              ]
+            },
+            {
+              "kind": "title",
+              "value": "計畫助理",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/aca_staff_gec.rendered.html",
+                  "quote": "吳計畫助理"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/aca_staff_gec.txt",
+              "quote": "63872"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/aca_staff_gec.rendered.html",
+              "quote": "63872"
+            }
+          ],
+          "status": "both"
+        }
+      ],
+      "note": "教務處二級單位（gecenter.nccu.edu.tw/about：隸屬於教務處之二級行政單位）。人員頁與註冊組同一頁面格式；樓層出處有二：人員頁頁尾（教務處地址，與教務處同層）與明寫「教務處通識教育中心（行政大樓4樓）」的新聞頁"
+    },
+    "sports": {
+      "name": "體育室",
+      "aliases": [
+        "體育室"
+      ],
+      "parent": "",
+      "floors": [],
+      "lines": [],
+      "staff": [
+        {
+          "ext": "67479",
+          "row": 1,
+          "names": [
+            {
+              "form": "full",
+              "value": "謝明輝",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "謝明輝"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "謝明輝"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "主任",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "主任"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "主任"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "67479"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "67479"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62197",
+          "row": 2,
+          "names": [
+            {
+              "form": "full",
+              "value": "洪鈺釗",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "洪鈺釗"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "洪鈺釗"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "組長",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "組長"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "組長"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62197"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62197"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62198",
+          "row": 3,
+          "names": [
+            {
+              "form": "full",
+              "value": "吳鴻傑",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "吳鴻傑"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "吳鴻傑"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "助教",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "助教"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "助教"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62198"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62198"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62191",
+          "row": 4,
+          "names": [
+            {
+              "form": "full",
+              "value": "林貴彬",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "林貴彬"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "林貴彬"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "組長",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "組長"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "組長"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62191"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62191"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62964",
+          "row": 5,
+          "names": [
+            {
+              "form": "full",
+              "value": "陳彥豪",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "陳彥豪"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "陳彥豪"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "組員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "組員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "組員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62964"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62964"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62192",
+          "row": 6,
+          "names": [
+            {
+              "form": "full",
+              "value": "高鈺茹",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "高鈺茹"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "高鈺茹"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "行政專員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62192"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62192"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62966",
+          "row": 7,
+          "names": [
+            {
+              "form": "full",
+              "value": "張月芳",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "張月芳"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "張月芳"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "行政專員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62966"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62966"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62961",
+          "row": 8,
+          "names": [
+            {
+              "form": "full",
+              "value": "賞芳如",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "賞芳如"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "賞芳如"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "行政專員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "行政專員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "行政專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62961"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62961"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62960",
+          "row": 9,
+          "names": [
+            {
+              "form": "full",
+              "value": "葉一龍",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "葉一龍"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "葉一龍"
+                }
+              ]
+            },
+            {
+              "form": "full",
+              "value": "蕭薔",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "蕭薔"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "蕭薔"
+                }
+              ]
+            },
+            {
+              "form": "full",
+              "value": "張翊倫",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "張翊倫"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "張翊倫"
+                }
+              ]
+            },
+            {
+              "form": "full",
+              "value": "王筱渝",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "王筱渝"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "王筱渝"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "一級技術組員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "一級技術組員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "一級技術組員"
+                }
+              ]
+            },
+            {
+              "kind": "title",
+              "value": "技術組員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "技術組員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "技術組員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62960"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62960"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62960"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62960"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62960"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62960"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62960"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62960"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62199",
+          "row": 10,
+          "names": [
+            {
+              "form": "full",
+              "value": "朱力勳",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "朱力勳"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "朱力勳"
+                }
+              ]
+            },
+            {
+              "form": "full",
+              "value": "陳敬",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "陳敬"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "陳敬"
+                }
+              ]
+            },
+            {
+              "form": "full",
+              "value": "吳禹寰",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "吳禹寰"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "吳禹寰"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "一級技術組員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "一級技術組員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "一級技術組員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62199"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62199"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62199"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62199"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62199"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62199"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62750",
+          "row": 11,
+          "names": [
+            {
+              "form": "full",
+              "value": "陳華星",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "陳華星"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "陳華星"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "技術助理",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "技術助理"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "技術助理"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62750"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62750"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "67197",
+          "row": 12,
+          "names": [
+            {
+              "form": "full",
+              "value": "馬念琪",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "馬念琪"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "馬念琪"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "兼任助理(專案)",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "兼任助理(專案)"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "兼任助理(專案)"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "67197"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "67197"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62752",
+          "row": 13,
+          "names": [
+            {
+              "form": "full",
+              "value": "孫秉宏",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "孫秉宏"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "孫秉宏"
+                }
+              ]
+            },
+            {
+              "form": "full",
+              "value": "范耿祥",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "范耿祥"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "范耿祥"
+                }
+              ]
+            },
+            {
+              "form": "full",
+              "value": "王昱中",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "王昱中"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "王昱中"
+                }
+              ]
+            },
+            {
+              "form": "full",
+              "value": "廖期新",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "廖期新"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "廖期新"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "副教授",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "副教授"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "副教授"
+                }
+              ]
+            },
+            {
+              "kind": "title",
+              "value": "計畫專任助理(助理教練)",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "計畫專任助理(助理教練)"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "計畫專任助理(助理教練)"
+                }
+              ]
+            },
+            {
+              "kind": "title",
+              "value": "計畫專任助理(體能教練)",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "計畫專任助理(體能教練)"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "計畫專任助理(體能教練)"
+                }
+              ]
+            },
+            {
+              "kind": "title",
+              "value": "計畫專任助理(運動防護師)",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/sports_staff.txt",
+                  "quote": "計畫專任助理(運動防護師)"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/sports_staff.rendered.html",
+                  "quote": "計畫專任助理(運動防護師)"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62752"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62752"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62752"
+            },
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/sports_staff.txt",
+              "quote": "62752"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62752"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62752"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62752"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/sports_staff.rendered.html",
+              "quote": "62752"
+            }
+          ],
+          "status": "both"
+        }
+      ],
+      "note": "全部登錄（21 人，一個分機可有多人）；與抵免相關的是體育教學組（洪鈺釗、吳鴻傑），其餘為活動組、場館、籃球隊人員。頁面沒有樓層"
+    },
+    "flc": {
+      "name": "外文中心",
+      "aliases": [
+        "外文中心",
+        "外國語文學院外文中心"
+      ],
+      "parent": "",
+      "floors": [
+        {
+          "value": "國際大樓五樓",
+          "accepted": [
+            "國際大樓五樓",
+            "國際大樓5樓",
+            "五樓",
+            "5樓"
+          ],
+          "units": [
+            "外文中心"
+          ],
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/flc_staff.txt",
+              "quote": "中心辦公室位於位於國際大樓(圖上A37) 5樓"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/flc_staff.rendered.html",
+              "quote": "中心辦公室位於位於國際大樓(圖上A37) 5樓"
+            }
+          ]
+        },
+        {
+          "value": "國際大樓360506室",
+          "accepted": [
+            "360506",
+            "國際大樓360506室"
+          ],
+          "units": [
+            "外文中心"
+          ],
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/flc_staff.txt",
+              "quote": "國際大樓360506室"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/flc_staff.rendered.html",
+              "quote": "國際大樓360506室"
+            }
+          ]
+        }
+      ],
+      "lines": [],
+      "staff": [
+        {
+          "ext": "67698",
+          "row": 1,
+          "names": [
+            {
+              "form": "full",
+              "value": "朱容萱",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/flc_staff.txt",
+                  "quote": "朱容萱"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/flc_staff.rendered.html",
+                  "quote": "朱容萱"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "副教授",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/flc_staff.txt",
+                  "quote": "副教授"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/flc_staff.rendered.html",
+                  "quote": "副教授"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/flc_staff.txt",
+              "quote": "67698"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/flc_staff.rendered.html",
+              "quote": "67698"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "67144",
+          "row": 2,
+          "names": [
+            {
+              "form": "full",
+              "value": "高筱嘉",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/flc_staff.txt",
+                  "quote": "高筱嘉"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/flc_staff.rendered.html",
+                  "quote": "高筱嘉"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "助教",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/flc_staff.txt",
+                  "quote": "助教"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/flc_staff.rendered.html",
+                  "quote": "助教"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/flc_staff.txt",
+              "quote": "67144"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/flc_staff.rendered.html",
+              "quote": "67144"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62396",
+          "row": 3,
+          "names": [
+            {
+              "form": "full",
+              "value": "吳沛瀅",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/flc_staff.txt",
+                  "quote": "吳沛瀅"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/flc_staff.rendered.html",
+                  "quote": "吳沛瀅"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "助教",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/flc_staff.txt",
+                  "quote": "助教"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/flc_staff.rendered.html",
+                  "quote": "助教"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/flc_staff.txt",
+              "quote": "62396"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/flc_staff.rendered.html",
+              "quote": "62396"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "67103",
+          "row": 4,
+          "names": [
+            {
+              "form": "full",
+              "value": "傅肇元",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/flc_staff.txt",
+                  "quote": "傅肇元"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "助教",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/flc_staff.txt",
+                  "quote": "助教"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/flc_staff.txt",
+              "quote": "67103"
+            }
+          ],
+          "status": "snapshot-only"
+        },
+        {
+          "ext": "62392",
+          "row": 5,
+          "names": [
+            {
+              "form": "full",
+              "value": "林易珊",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/flc_staff.txt",
+                  "quote": "林易珊"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/flc_staff.rendered.html",
+                  "quote": "林易珊"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "助教",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/flc_staff.txt",
+                  "quote": "助教"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/flc_staff.rendered.html",
+                  "quote": "助教"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/flc_staff.txt",
+              "quote": "62392"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/flc_staff.rendered.html",
+              "quote": "62392"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "62368",
+          "row": 6,
+          "names": [
+            {
+              "form": "full",
+              "value": "鄭浩傑",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/flc_staff.txt",
+                  "quote": "鄭浩傑"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/flc_staff.rendered.html",
+                  "quote": "鄭浩傑"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "專員",
+              "sources": [
+                {
+                  "source": "snapshot",
+                  "asof": "2026-08-25",
+                  "file": "sources/snapshot/flc_staff.txt",
+                  "quote": "專員"
+                },
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/flc_staff.rendered.html",
+                  "quote": "專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "snapshot",
+              "asof": "2026-08-25",
+              "file": "sources/snapshot/flc_staff.txt",
+              "quote": "62368"
+            },
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/flc_staff.rendered.html",
+              "quote": "62368"
+            }
+          ],
+          "status": "both"
+        },
+        {
+          "ext": "63471",
+          "row": 7,
+          "names": [
+            {
+              "form": "full",
+              "value": "傅肇元",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/flc_staff.rendered.html",
+                  "quote": "傅肇元"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "助教",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/flc_staff.rendered.html",
+                  "quote": "助教"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/flc_staff.rendered.html",
+              "quote": "63471"
+            }
+          ],
+          "status": "live-only"
+        },
+        {
+          "ext": "63266",
+          "row": 8,
+          "names": [
+            {
+              "form": "full",
+              "value": "廖芳君",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/flc_staff.rendered.html",
+                  "quote": "廖芳君"
+                }
+              ]
+            }
+          ],
+          "titles": [
+            {
+              "kind": "title",
+              "value": "專員",
+              "sources": [
+                {
+                  "source": "live",
+                  "asof": "2026-11-14",
+                  "file": "sources/live/flc_staff.rendered.html",
+                  "quote": "專員"
+                }
+              ]
+            }
+          ],
+          "ext_sources": [
+            {
+              "source": "live",
+              "asof": "2026-11-14",
+              "file": "sources/live/flc_staff.rendered.html",
+              "quote": "63266"
+            }
+          ],
+          "status": "live-only"
+        }
+      ],
+      "note": "頁面兩處說法並存：中心主任的辦公室寫「國際大樓360506室」，交通位置寫「辦公室位於國際大樓 5 樓，大樓正門口位於 3 樓」。兩者都收，答案不必選哪一個；正門的 3 樓不是辦公室樓層，不收。快照與現場之間推廣教育的分機由 67103 變 63471，現場另多雙語計畫廖芳君專員"
     }
   },
   "forms": [
@@ -12428,6 +14531,70 @@
         "quote": "Location: login.formservice?viewdetail=QP-T01-03-08",
         "result": "302 轉到同一站台的登入頁，沒有跟隨；看不到表單內容，連結本身仍然有效"
       }
+    },
+    {
+      "id": "QP-T01-04-05",
+      "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05",
+      "names": [
+        {
+          "kind": "name",
+          "value": "國內/出國交換選課學分抵免申請書",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/moltke_forms.txt",
+              "quote": "國內/出國交換選課學分抵免申請書"
+            }
+          ]
+        },
+        {
+          "kind": "name",
+          "value": "Application Form for Overseas or Domestic Exchange Class Credit",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/moltke_forms.txt",
+              "quote": "Application Form for Overseas or Domestic Exchange Class Credit"
+            }
+          ]
+        },
+        {
+          "kind": "name",
+          "value": "國內/出國交換選課學分抵免申請表",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/aca_credit_page.txt",
+              "quote": "國內/出國交換選課學分抵免申請表"
+            }
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/moltke_forms.txt",
+          "quote": "url: https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05"
+        },
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/aca_credit_page.txt",
+          "quote": "[國內/出國交換選課學分抵免申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05)"
+        },
+        {
+          "source": "live",
+          "asof": "2026-11-13",
+          "file": "sources/live/aca_credit_page.html",
+          "quote": "[國內/出國交換選課學分抵免申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05)"
+        }
+      ],
+      "live_check": null,
+      "live_note": "沒有對這個網址送過現場請求（未經批准）；連結以教務處現場頁面（2026-11-13）上列出的為準"
     }
   ]
 }

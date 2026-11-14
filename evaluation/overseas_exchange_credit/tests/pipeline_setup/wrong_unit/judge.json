@@ -1,0 +1,200 @@
+{
+  "keypoints": [
+    {
+      "id": "K1",
+      "verdict": "relevant",
+      "claims": [
+        "c1",
+        "c2"
+      ],
+      "reason": "表單名稱與編號"
+    },
+    {
+      "id": "K2",
+      "verdict": "relevant",
+      "claims": [
+        "c3"
+      ],
+      "reason": "下載連結"
+    },
+    {
+      "id": "K3",
+      "verdict": "relevant",
+      "claims": [
+        "c5"
+      ],
+      "reason": "送到就讀系所辦公室"
+    },
+    {
+      "id": "K4",
+      "verdict": "relevant",
+      "claims": [
+        "c5"
+      ],
+      "reason": "成績單正本"
+    },
+    {
+      "id": "K5",
+      "verdict": "relevant",
+      "claims": [
+        "c5"
+      ],
+      "reason": "課程大綱"
+    },
+    {
+      "id": "K6",
+      "verdict": "relevant",
+      "claims": [
+        "c4"
+      ],
+      "reason": "次學期三分之一基準日前"
+    },
+    {
+      "id": "K7",
+      "verdict": "relevant",
+      "claims": [
+        "c6"
+      ],
+      "reason": "要先行送審"
+    },
+    {
+      "id": "K8",
+      "verdict": "wrong",
+      "claims": [
+        "c7"
+      ],
+      "reason": "寫成體育送通識教育中心審查，標準是體育室"
+    },
+    {
+      "id": "K9",
+      "verdict": "wrong",
+      "claims": [
+        "c8"
+      ],
+      "reason": "寫成一般通識送外文中心審查，標準是通識教育中心"
+    },
+    {
+      "id": "K10",
+      "verdict": "wrong",
+      "claims": [
+        "c9"
+      ],
+      "reason": "寫成外文通識送體育室審查，標準是外文中心"
+    },
+    {
+      "id": "K11",
+      "verdict": "relevant",
+      "claims": [
+        "c10"
+      ],
+      "reason": "其他科目由就讀系所審查認定"
+    },
+    {
+      "id": "K12",
+      "verdict": "relevant",
+      "claims": [
+        "c11"
+      ],
+      "reason": "送註冊組複查"
+    },
+    {
+      "id": "K13",
+      "verdict": "relevant",
+      "claims": [
+        "c11"
+      ],
+      "reason": "簽請教務長核定"
+    },
+    {
+      "id": "K14",
+      "verdict": "relevant",
+      "claims": [
+        "c11"
+      ],
+      "reason": "登錄成績總表"
+    },
+    {
+      "id": "K15",
+      "verdict": "relevant",
+      "claims": [
+        "c11"
+      ],
+      "reason": "各單位審核後才送註冊組複查"
+    },
+    {
+      "id": "K16",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K17",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K18",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K19",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K20",
+      "verdict": "relevant",
+      "claims": [
+        "c12"
+      ],
+      "reason": "註冊組組長王揚忠 63273"
+    },
+    {
+      "id": "K21",
+      "verdict": "relevant",
+      "claims": [
+        "c13"
+      ],
+      "reason": "註冊組在行政大樓四樓"
+    },
+    {
+      "id": "K22",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K23",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K24",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K25",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    },
+    {
+      "id": "K26",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "judge-v1",
+    "note": "Claude Code 本 session 判斷（流程測試：答案也是 Claude Code 寫的，判斷不獨立；Keypoint 判斷依設計會看 gold）。主張編號取自子代理的隔離回推 trace.json"
+  }
+}

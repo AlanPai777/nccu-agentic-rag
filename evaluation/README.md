@@ -100,5 +100,6 @@ python evaluation/compare_tests.py evaluation/cashier_contact/tests/tampered_v1 
 | `master_transfer/` | 碩士班轉系所需要經過哪些單位同意（並行雙處室）：`gold.json`（29 個 keypoint；原系所與轉入系所兩邊同意、教務處三道簽章、規定與日期，日期用 semantic，表單連結與註冊組聯絡人引用登記表）、`build_gold.py`、`sources/`（含現場 curl 與 `live_check.md`）、`tests/pipeline_setup/`（5 份假設答案的流程測試，`report.md`，不是評測結果） |
 | `dorm_deposit/` | 搬離宿舍如何辦理退還住宿保證金（鏈式依賴）：`gold.json`（23 個 keypoint；填表 → 宿舍服務台檢查寢室簽章 → 三天內到住宿組 → 匯款，順序用專門的 keypoint 考；表單連結與住宿組、出納組聯絡人引用登記表）、`build_gold.py`、`sources/`（含現場 curl 與 `live_check.md`）、`tests/pipeline_setup/`（5 份假設答案的流程測試，`report.md`，不是評測結果） |
 | `master_double_major/` | 碩士班雙主修輔系申請需要經過哪些單位審核（三段連續審核）：`gold.json`（23 個 keypoint；所屬學系所 → 申請學系所 → 教務處註冊組，順序與各站簽核人用專門的 keypoint 考；表單連結與註冊組聯絡人引用登記表）、`build_gold.py`、`sources/`（含現場 curl、辦法 PDF 與 `live_check.md`）、`tests/pipeline_setup/`（5 份假設答案的流程測試，`report.md`，不是評測結果） |
+| `overseas_exchange_credit/` | 出國交換學分抵免，體育、通識、外文通識分別送哪個單位（條件分岔）：`gold.json`（26 個 keypoint；體育→體育室、一般通識→通識教育中心、外文通識→外文中心三個必要，順序用 K15；表單連結、註冊組與三個審查單位的聯絡人與樓層引用登記表）、`build_gold.py`、`sources/`（含現場 curl、動態抓取的人員頁、辦法 PDF 與 `live_check.md`）、`tests/pipeline_setup/`（5 份假設答案的流程測試，`report.md`，不是評測結果） |
 | `cashier_contact/` | 出納組：`gold.json`、`build_gold.py`、`sources/`（來源原文複本與官網查證記錄）、`runs/`（每次 run）、`tests/`（隔離回推材料） |
 | `tests/` | 評測程式的單元測試與 fixtures |

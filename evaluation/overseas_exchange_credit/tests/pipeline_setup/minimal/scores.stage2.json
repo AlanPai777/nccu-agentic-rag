@@ -1,0 +1,381 @@
+{
+  "query_id": "overseas_exchange_credit",
+  "run_id": "minimal",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；QP-T01-04-05 為 201909 修訂 8 版）",
+    "live": "2026-11-14（現場）（教務處頁面、辦法 PDF 與通識中心頁面，curl；moltke 表單連結沒有送請求）；各單位聯絡人與樓層的現場依據在 evaluation/registry/"
+  },
+  "system_version": "hypothetical",
+  "rouge_l": {
+    "p": 0.6,
+    "r": 0.0486,
+    "f": 0.09
+  },
+  "accuracy": {
+    "hard_keypoints": 4,
+    "hit": 0,
+    "accuracy": 0.0,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "context_chars": 18621,
+    "sentence": {
+      "p": 0.0363,
+      "r": 1.0,
+      "f": 0.0701
+    },
+    "words": {
+      "p": 0.1143,
+      "r": 0.9758,
+      "f": 0.2046
+    },
+    "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）"
+  },
+  "keypoints": {
+    "accuracy_rule": [
+      {
+        "id": "K1",
+        "kind": "hard",
+        "verdict": "miss",
+        "matched_expressions": []
+      },
+      {
+        "id": "K2",
+        "kind": "hard",
+        "form": "QP-T01-04-05",
+        "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05",
+        "verdict": "miss",
+        "applies_if": null
+      },
+      {
+        "id": "K3",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K4",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K5",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K6",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K7",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K8",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K9",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K10",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K11",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K12",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K13",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K14",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K15",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K16",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K17",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K18",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K19",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K20",
+        "kind": "hard",
+        "office": "registrar",
+        "matched": [],
+        "representative_line": [],
+        "pair_mismatches": [],
+        "verdict": "miss",
+        "applies_if": null
+      },
+      {
+        "id": "K21",
+        "kind": "hard",
+        "office": "registrar",
+        "unit": null,
+        "expected": [
+          "行政大樓四樓"
+        ],
+        "verdict": "miss",
+        "applies_if": null
+      },
+      {
+        "id": "K22",
+        "kind": "hard",
+        "office": "gec",
+        "verdict": "not_applicable",
+        "note": "答案沒有提到這個單位，不適用，不計入",
+        "applies_if": "答案提到通識教育中心"
+      },
+      {
+        "id": "K23",
+        "kind": "hard",
+        "office": "gec",
+        "verdict": "not_applicable",
+        "note": "答案沒有提到這個單位，不適用，不計入",
+        "applies_if": "答案提到通識教育中心"
+      },
+      {
+        "id": "K24",
+        "kind": "hard",
+        "office": "sports",
+        "verdict": "not_applicable",
+        "note": "答案沒有提到這個單位，不適用，不計入",
+        "applies_if": "答案提到體育室"
+      },
+      {
+        "id": "K25",
+        "kind": "hard",
+        "office": "flc",
+        "verdict": "not_applicable",
+        "note": "答案沒有提到這個單位，不適用，不計入",
+        "applies_if": "答案提到外文中心"
+      },
+      {
+        "id": "K26",
+        "kind": "hard",
+        "office": "flc",
+        "verdict": "not_applicable",
+        "note": "答案沒有提到這個單位，不適用，不計入",
+        "applies_if": "答案提到外文中心"
+      }
+    ],
+    "funnel_stage2": [
+      {
+        "id": "K1",
+        "in_context": true,
+        "matched_reference": "[國內/出國交換選課學分抵免申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05)",
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K2",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K3",
+        "in_context": true,
+        "matched_reference": "逕至各系所辦公室送件申請",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K4",
+        "in_context": true,
+        "matched_reference": "應出具於交換大學修習之全部科目含學分數之正式成績單或成績證明書",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K5",
+        "in_context": true,
+        "matched_reference": "各審查單位得要求學生檢附課程大綱，始予受理",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K6",
+        "in_context": true,
+        "matched_reference": "於次學期三分之一基準日前向就讀系辦理學分抵免申請",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K7",
+        "in_context": true,
+        "matched_reference": "擬申請抵免科目如須校內相關開課單位審查（如中文通識、外文通識、體育、一般通識及雙主修輔系課程），應先行送審",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K8",
+        "in_context": true,
+        "matched_reference": "將由就讀系所送請體育室、通識教育中心及外文中心審定",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K9",
+        "in_context": true,
+        "matched_reference": "將由就讀系所送請體育室、通識教育中心及外文中心審定",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K10",
+        "in_context": true,
+        "matched_reference": "將由就讀系所送請體育室、通識教育中心及外文中心審定",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K11",
+        "in_context": true,
+        "matched_reference": "所修科目、學分數應否抵免列入畢業最低學分總數內計算，由就讀系所自行認定",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K12",
+        "in_context": true,
+        "matched_reference": "本項各類抵免學分經相關單位審核後，送交教務處註冊組複查，簽請教務長核定後，於學生學業成績總表登錄",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K13",
+        "in_context": true,
+        "matched_reference": "本項各類抵免學分經相關單位審核後，送交教務處註冊組複查，簽請教務長核定後，於學生學業成績總表登錄",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K14",
+        "in_context": true,
+        "matched_reference": "本項各類抵免學分經相關單位審核後，送交教務處註冊組複查，簽請教務長核定後，於學生學業成績總表登錄",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K15",
+        "in_context": true,
+        "matched_reference": "本項各類抵免學分經相關單位審核後，送交教務處註冊組複查，簽請教務長核定後，於學生學業成績總表登錄",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K16",
+        "in_context": true,
+        "matched_reference": "本項各類抵免學分經相關單位審核後，送交教務處註冊組複查，簽請教務長核定後，於學生學業成績總表登錄",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K17",
+        "in_context": true,
+        "matched_reference": "體育必修課程得申請抵免，以四門為限",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K18",
+        "in_context": true,
+        "matched_reference": "國外學校含有及格成績之成績證明，回國後須至系所或國合處蓋「與正本相符」戳記",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K19",
+        "in_context": true,
+        "matched_reference": "欲抵免之政大課程大綱，須為近十年內開設之一般通識課程（核心通識不得抵免）",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K20",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K21",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K22",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "not_applicable"
+      },
+      {
+        "id": "K23",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "not_applicable"
+      },
+      {
+        "id": "K24",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "not_applicable"
+      },
+      {
+        "id": "K25",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "not_applicable"
+      },
+      {
+        "id": "K26",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "not_applicable"
+      }
+    ],
+    "contact_funnel": []
+  }
+}

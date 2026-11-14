@@ -1,0 +1,6 @@
+# 來源：https://gecenter.nccu.edu.tw/faq/qa38
+# 檔案：output/gecenter/extracted_texts.jsonl
+# 資料日期：2026-08（output/ 快照）
+# 以下為該筆記錄的 text 欄位全文（逐字複本）
+
+依據[國立政治大學學生出國選修課程實施辦法](https://oic.nccu.edu.tw/Upload/FileManager/4fd69618-9214-4e09-8d0d-fedd22618293.pdf)，你可以在交換學期結束後，提出交換學校所修習之正式成績單或成績證明書，於次學期三分之一基準日前辦理學分抵免申請。你需要在課程查詢系統內找到本校「名稱或課綱相同或相近」的一般通識課程（核心與書院通識皆不可拿來認抵）。課程條件以交換當學期開設為主、但交換該年度算起十年內的通識課程皆可。抵免科目及學分數請參考本校[學生抵免學分辦法](https://aca.nccu.edu.tw/images/download/rulesdata/law06A.pdf)第六條。提出申請後，經通識教育中心審查通過者，即可將交換學校所修課程抵免為本校一般通識學分。
