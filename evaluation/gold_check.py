@@ -26,7 +26,7 @@ import registry_lib  # noqa: E402
 
 
 def norm(s: str) -> str:
-    return re.sub(r"[\s|]+", "", unicodedata.normalize("NFKC", s or ""))
+    return re.sub(r"[\s|\ue000-\uf8ff]+", "", unicodedata.normalize("NFKC", s or ""))  # 私用區字元（U+E000–U+F8FF，表單簽核欄的字型符號，肉眼看不到）不算內容，兩邊都拿掉
 
 
 _ANCHOR_RE = re.compile(r'(?is)<a\b[^>]*?\bhref\s*=\s*"([^"]*)"[^>]*>(.*?)</a>')

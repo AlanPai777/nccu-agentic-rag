@@ -42,8 +42,9 @@ _PAIR_WINDOW = 12                                    # 人名後多少字內的�
 
 
 def norm(s: str) -> str:
-    """比對用正規化：NFKC、去掉所有空白與表格線（與 build_gold.py 驗證引句時相同）。"""
-    return re.sub(r"[\s|]+", "", unicodedata.normalize("NFKC", s or ""))
+    """比對用正規化：NFKC、去掉所有空白與表格線，以及私用區字元（U+E000–U+F8FF，表單簽核欄的字型符號，肉眼看不到，不算內容）。
+    與 gold_check.py、build_gold.py 驗證引句時相同。"""
+    return re.sub(r"[\s|\ue000-\uf8ff]+", "", unicodedata.normalize("NFKC", s or ""))
 
 
 def prf(p: float, r: float) -> float:

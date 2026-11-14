@@ -1,0 +1,521 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "申請須經原就讀學校與加修學校雙方同意",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "申請之時，須經學生所在學校與申請加修雙主修學校同意。",
+          "verified": true,
+          "start": 490,
+          "end": 516
+        }
+      ],
+      "why": "辦法第二條說須經學生所在學校與加修學校同意。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        38,
+        56
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "審核是兩校各兩站、共四站連續進行",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "原就讀學校 | 主修學系",
+          "verified": true,
+          "start": 1309,
+          "end": 1321
+        },
+        {
+          "item": "E2",
+          "quote": "註冊組 | 承辦人 | 組 長",
+          "verified": true,
+          "start": 1401,
+          "end": 1416
+        },
+        {
+          "item": "E2",
+          "quote": "加 修 學 校 | 加修學系",
+          "verified": true,
+          "start": 1425,
+          "end": 1439
+        }
+      ],
+      "why": "簽核流程表依順序列出原就讀學校的主修學系與註冊組、加修學校的加修學系與註冊組共四站。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        21,
+        37
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "原就讀學校（政大）的主修學系：先同意學生加修他校性質不同的學系（承辦人、單位主管簽章）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "原就讀學校 | 主修學系 | 是否同意學生加修他校性質不同學系為輔系/雙主修",
+          "verified": true,
+          "start": 1309,
+          "end": 1347
+        },
+        {
+          "item": "E2",
+          "quote": "承辦人 | 單位主管",
+          "verified": true,
+          "start": 1379,
+          "end": 1389
+        }
+      ],
+      "why": "表單第一站為原就讀學校主修學系，辦理內容為是否同意加修，簽章為承辦人與單位主管。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        62,
+        105
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "政大註冊組：接著由原就讀學校的註冊組審核（承辦人、組長）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "註冊組 | 承辦人 | 組 長",
+          "verified": true,
+          "start": 1401,
+          "end": 1416
+        }
+      ],
+      "why": "表單原就讀學校第二站為註冊組，簽章為承辦人與組長。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        110,
+        138
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "聯絡人：註冊組組長王揚忠（分機 63273）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "王揚忠（組長）分機 63273",
+          "verified": true,
+          "start": 160,
+          "end": 175
+        }
+      ],
+      "why": "聯絡資訊列出王揚忠為組長，分機 63273。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        139,
+        161
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c6",
+      "answer_span": "註冊組在行政大樓四樓",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "行政大樓四樓",
+          "verified": true,
+          "start": 117,
+          "end": 123
+        }
+      ],
+      "why": "聯絡資訊中註冊組位置為行政大樓四樓。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        162,
+        172
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c7",
+      "answer_span": "加修學校的加修學系：審查後決定准予或不准修讀（承辦人、單位主管）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "□准予修讀，適用規定",
+          "verified": true,
+          "start": 1442,
+          "end": 1452
+        },
+        {
+          "item": "E2",
+          "quote": "□不准修讀，意見",
+          "verified": true,
+          "start": 1465,
+          "end": 1473
+        }
+      ],
+      "why": "表單加修學校加修學系欄為准予修讀或不准修讀，簽章為承辦人與單位主管。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        177,
+        209
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c8",
+      "answer_span": "加修學校的註冊組：最後由加修學校的註冊組審核（承辦人、組長）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "加 修 學 校 | 加修學系",
+          "verified": true,
+          "start": 1425,
+          "end": 1439
+        },
+        {
+          "item": "E2",
+          "quote": "註冊組 | 承辦人 | 組 長",
+          "verified": true,
+          "start": 1401,
+          "end": 1416
+        }
+      ],
+      "why": "表單加修學校部分最後一列為註冊組，簽章為承辦人與組長。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        214,
+        244
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c9",
+      "answer_span": "對象是學士班學生，碩博士班不開放",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "碩博士班不開放雙主修及輔系(含本校生跨校)",
+          "verified": true,
+          "start": 179,
+          "end": 200
+        },
+        {
+          "item": "E3",
+          "quote": "開放四校學士班學生於系統內申請跨校修讀雙主修",
+          "verified": true,
+          "start": 466,
+          "end": 488
+        }
+      ],
+      "why": "網頁與辦法皆限學士班，碩博士班不開放。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        255,
+        271
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c10",
+      "answer_span": "一年級下學期起至三年級止，申請當學期須註冊在學",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "學士班以一年級下學期起至三年級止，學生得申請台聯大跨校雙主修及輔系，且申請學生當學期須註冊在學",
+          "verified": true,
+          "start": 334,
+          "end": 381
+        }
+      ],
+      "why": "申請資格原文如此。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        272,
+        295
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c11",
+      "answer_span": "只能申請與本系性質不同的學系",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "僅限申請修讀與本系性質不同之學系",
+          "verified": true,
+          "start": 249,
+          "end": 265
+        }
+      ],
+      "why": "申請原則原文如此。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        299,
+        313
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c12",
+      "answer_span": "申請表是「台灣聯合大學系統學士班學生跨校修讀輔系／雙主修申請表」",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "台灣聯合大學系統學士班學生跨校修讀輔系/雙主修申請表",
+          "verified": true,
+          "start": 88,
+          "end": 114
+        }
+      ],
+      "why": "表單全文標題相同，僅斜線全形半形不同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        317,
+        349
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c13",
+      "answer_span": "表單編號 QP-T01-04-21",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "[台灣聯合大學系統學士班學生跨校修讀輔系/雙主修申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21)",
+          "verified": true,
+          "start": 1765,
+          "end": 1870
+        },
+        {
+          "item": "E2",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "台灣聯合大學系統學士班學生跨校修讀輔系雙主修申請表"
+        }
+      ],
+      "why": "網頁把此申請表連到編號 QP-T01-04-21 的表單，E2 sources 也以該網址對應申請表。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        350,
+        367
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c14",
+      "answer_span": "下載連結：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "台灣聯合大學系統學士班學生跨校修讀輔系雙主修申請表"
+        }
+      ],
+      "why": "該網址在 sources 中，label 為跨校修讀輔系雙主修申請表。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        368,
+        448
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c15",
+      "answer_span": "要繳交中文歷年成績單",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "中文歷年成績單",
+          "verified": true,
+          "start": 1092,
+          "end": 1099
+        }
+      ],
+      "why": "申請表繳交文件欄列有中文歷年成績單。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        450,
+        460
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c16",
+      "answer_span": "原則每年 5 月底公告、7 月受理申請、8 月下旬公布榜單",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "原則每年5月底公告相關訊息，並於7月接受申請，8月下旬公布榜單",
+          "verified": true,
+          "start": 401,
+          "end": 432
+        }
+      ],
+      "why": "作業期間原文如此。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        469,
+        498
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c17",
+      "answer_span": "審查結果由註冊組公告在網頁，自行查詢",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "審查結果由註冊組公告於註冊組網頁，請學生於公告時間自行至網頁查詢。",
+          "verified": true,
+          "start": 359,
+          "end": 392
+        }
+      ],
+      "why": "申請表說明第 3 點如此。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        499,
+        517
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c18",
+      "answer_span": "上限（含校內）是一個雙主修及二個輔系",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "台聯大學生跨校修讀輔系及雙主修之上限(含校內輔系及雙主修)為一個雙主修及二個輔系",
+          "verified": true,
+          "start": 175,
+          "end": 215
+        }
+      ],
+      "why": "申請表說明第 2 點如此。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        521,
+        539
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c19",
+      "answer_span": "政大學生若申請外校雙主修通過，會自動放棄現在修習的雙主修",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "若申請外校雙主修通過，則自願自動放棄現正修習雙主修資格",
+          "verified": true,
+          "start": 601,
+          "end": 628
+        }
+      ],
+      "why": "申請表政大學生注意事項第 1 點如此。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        540,
+        568
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c20",
+      "answer_span": "跨校修讀的雙主修不得以他校雙主修學系畢業",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "本校學生跨校修讀雙主修不得以他校雙主修學系畢業",
+          "verified": true,
+          "start": 493,
+          "end": 516
+        }
+      ],
+      "why": "網頁標註原文如此。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        569,
+        589
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

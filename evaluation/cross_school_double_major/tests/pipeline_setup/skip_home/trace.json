@@ -1,0 +1,89 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "只要通過加修學校的審核就可以，不需要經過政大自己的主修學系與註冊組同意",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據的簽核流程列有原就讀學校的主修學系與註冊組，且要求所屬及申請修讀的校系雙方同意，與答案相反。"
+    },
+    {
+      "id": "c2",
+      "answer_span": "加修學校的加修學系：審查後決定准予或不准修讀（承辦人、單位主管）。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "□准予修讀，適用規定：＿ ＿學年度必修科目表 □不准修讀，意見："
+        }
+      ],
+      "why": "表單簽核流程的加修學系列有准予修讀、不准修讀，簽章為承辦人與單位主管。"
+    },
+    {
+      "id": "c3",
+      "answer_span": "加修學校的註冊組：最後審核（承辦人、組長）。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "註冊組 | 承辦人 | 組 長"
+        }
+      ],
+      "why": "加修學校註冊組為流程最後一列，由承辦人與組長簽章；「最後」是依列的順序推得。"
+    },
+    {
+      "id": "c4",
+      "answer_span": "對象是學士班學生，碩博士班不開放",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "碩博士班不開放雙主修及輔系(含本校生跨校)"
+        }
+      ],
+      "why": "頁面說明辦理學士班跨校雙主修輔系，碩博士班不開放。"
+    },
+    {
+      "id": "c5",
+      "answer_span": "只能申請與本系性質不同的學系",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "僅限申請修讀與本系性質不同之學系"
+        }
+      ],
+      "why": "申請原則明載僅限申請與本系性質不同之學系。"
+    },
+    {
+      "id": "c6",
+      "answer_span": "申請表是表單編號 QP-T01-04-21",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "[台灣聯合大學系統學士班學生跨校修讀輔系/雙主修申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21)"
+        }
+      ],
+      "why": "申請表連結的編號為 QP-T01-04-21。"
+    },
+    {
+      "id": "c7",
+      "answer_span": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21",
+          "from": "sources"
+        }
+      ],
+      "why": "該網址在 sources 中，label 為跨校修讀輔系雙主修申請表。"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  }
+}

@@ -14595,6 +14595,46 @@
       ],
       "live_check": null,
       "live_note": "沒有對這個網址送過現場請求（未經批准）；連結以教務處現場頁面（2026-11-13）上列出的為準"
+    },
+    {
+      "id": "QP-T01-04-21",
+      "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21",
+      "names": [
+        {
+          "kind": "name",
+          "value": "台灣聯合大學系統學士班學生跨校修讀輔系雙主修申請表",
+          "sources": [
+            {
+              "source": "snapshot",
+              "asof": "corpus",
+              "file": "sources/snapshot/moltke_forms.txt",
+              "quote": "台灣聯合大學系統學士班學生跨校修讀輔系雙主修申請表"
+            }
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/moltke_forms.txt",
+          "quote": "url: https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21"
+        },
+        {
+          "source": "snapshot",
+          "asof": "corpus",
+          "file": "sources/snapshot/aca_cross_school_page.txt",
+          "quote": "[台灣聯合大學系統學士班學生跨校修讀輔系/雙主修申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21)"
+        },
+        {
+          "source": "live",
+          "asof": "2026-11-13",
+          "file": "sources/live/aca_cross_school_page.html",
+          "quote": "[台灣聯合大學系統學士班學生跨校修讀輔系/雙主修申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21)"
+        }
+      ],
+      "live_check": null,
+      "live_note": "沒有對這個網址送過現場請求（未經批准）；連結以教務處現場頁面（2026-11-13）上列出的為準"
     }
   ]
 }

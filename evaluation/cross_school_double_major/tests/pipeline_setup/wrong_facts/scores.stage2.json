@@ -1,0 +1,310 @@
+{
+  "query_id": "cross_school_double_major",
+  "run_id": "wrong_facts",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；QP-T01-04-21 製表日期 20230331）",
+    "live": "2026-11-14（現場）（教務處專區頁與辦法 PDF，curl；moltke 表單連結沒有送請求）；註冊組聯絡人與樓層的現場依據在 evaluation/registry/"
+  },
+  "system_version": "hypothetical",
+  "rouge_l": {
+    "p": 0.3276,
+    "r": 0.095,
+    "f": 0.1473
+  },
+  "accuracy": {
+    "hard_keypoints": 4,
+    "hit": 0,
+    "accuracy": 0.0,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "context_chars": 7833,
+    "sentence": {
+      "p": 0.0795,
+      "r": 1.0,
+      "f": 0.1474
+    },
+    "words": {
+      "p": 0.1785,
+      "r": 1.0,
+      "f": 0.3029
+    },
+    "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）"
+  },
+  "keypoints": {
+    "accuracy_rule": [
+      {
+        "id": "K1",
+        "kind": "hard",
+        "verdict": "miss",
+        "matched_expressions": []
+      },
+      {
+        "id": "K2",
+        "kind": "hard",
+        "form": "QP-T01-04-21",
+        "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21",
+        "verdict": "miss",
+        "applies_if": null
+      },
+      {
+        "id": "K3",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K4",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K5",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K6",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K7",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K8",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K9",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K10",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K11",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K12",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K13",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K14",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K15",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K16",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K17",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K18",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K19",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K20",
+        "kind": "hard",
+        "office": "registrar",
+        "matched": [],
+        "representative_line": [],
+        "pair_mismatches": [],
+        "verdict": "miss",
+        "applies_if": null
+      },
+      {
+        "id": "K21",
+        "kind": "hard",
+        "office": "registrar",
+        "unit": null,
+        "expected": [
+          "行政大樓四樓"
+        ],
+        "verdict": "miss",
+        "applies_if": null
+      }
+    ],
+    "funnel_stage2": [
+      {
+        "id": "K1",
+        "in_context": true,
+        "matched_reference": "[台灣聯合大學系統學士班學生跨校修讀輔系/雙主修申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21)",
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K2",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K3",
+        "in_context": true,
+        "matched_reference": "台灣聯合大學系統學士班學生跨校修讀輔系/雙主修申請表",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K4",
+        "in_context": true,
+        "matched_reference": "學士班以一年級下學期起至三年級止，學生得申請台聯大跨校雙主修及輔系，且申請學生當學期須註冊在學",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K5",
+        "in_context": true,
+        "matched_reference": "僅限申請修讀與本系性質不同之學系，並須經所屬及申請修讀之校系雙方同意",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K6",
+        "in_context": true,
+        "matched_reference": "申請之時，須經學生所在學校與申請加修雙主修學校同意",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K7",
+        "in_context": true,
+        "matched_reference": "原就讀學校 | 主修學系 | 是否同意學生加修他校性質不同學系為輔系/雙主修",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K8",
+        "in_context": true,
+        "matched_reference": "不同意，原因： | | 承辦人 | 單位主管 | 註冊組 | 承辦人 | 組 長",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K9",
+        "in_context": true,
+        "matched_reference": "加 修 學 校 | 加修學系 | □准予修讀，適用規定：＿ ＿學年度必修科目表 □不准修讀，意見：",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K10",
+        "in_context": true,
+        "matched_reference": "不准修讀，意見： | | 承辦人 | 單位主管 | 註冊組 | 承辦人 | 組 長",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K11",
+        "in_context": true,
+        "matched_reference": "加 修 學 校 | 加修學系 | □准予修讀，適用規定：＿ ＿學年度必修科目表 □不准修讀，意見：",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K12",
+        "in_context": true,
+        "matched_reference": "加 修 學 校 | 加修學系 | □准予修讀，適用規定：＿ ＿學年度必修科目表 □不准修讀，意見：",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K13",
+        "in_context": true,
+        "matched_reference": "不准修讀，意見： | | 承辦人 | 單位主管 | 註冊組 | 承辦人 | 組 長",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K14",
+        "in_context": true,
+        "matched_reference": "繳 交 文 件 | □ 中文歷年成績單 □其他規定資料",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K15",
+        "in_context": true,
+        "matched_reference": "審查結果由註冊組公告於註冊組網頁，請學生於公告時間自行至網頁查詢",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K16",
+        "in_context": true,
+        "matched_reference": "若申請外校雙主修通過，則自願自動放棄現正修習雙主修資格",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K17",
+        "in_context": true,
+        "matched_reference": "台聯大學生跨校修讀輔系及雙主修之上限(含校內輔系及雙主修)為一個雙主修及二個輔系",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K18",
+        "in_context": true,
+        "matched_reference": "原則每年5月底公告相關訊息，並於7月接受申請，8月下旬公布榜單",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K19",
+        "in_context": true,
+        "matched_reference": "本校學生跨校修讀雙主修不得以他校雙主修學系畢業",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K20",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K21",
+        "in_context": null,
+        "matched_reference": null,
+        "rule_verdict": "miss"
+      }
+    ],
+    "contact_funnel": []
+  }
+}

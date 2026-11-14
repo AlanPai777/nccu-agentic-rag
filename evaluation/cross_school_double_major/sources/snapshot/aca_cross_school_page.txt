@@ -1,0 +1,118 @@
+# 來源：https://aca.nccu.edu.tw/zh/專區業務/newbie-2/150-跨校修讀雙主修輔系/4963-跨校修讀雙主修輔系
+# 檔案：output/aca/extracted_texts.jsonl
+# 資料日期：2026-08（output/ 快照）
+# 以下為該筆記錄的 text 欄位全文（逐字複本）
+
+跨校修讀雙主修輔系			
+
+ 
+
+ 
+
+依本校109學年度第2學期第1次教務會議決議，本校加入台聯大合作辦理學士班跨校雙主 修輔系作業，碩博士班不開放雙主修及輔系(含本校生跨校)。
+
+本校自111學年度起參加台聯大修讀雙主修輔系相關作業。
+
+ 
+
+ 
+
+ 
+
+(一)申請原則：僅限申請修讀與本系性質不同之學系，並須經所屬及申請修讀之校系雙方同意。性質之認定由學生所在學校及申請雙主修及輔系之學校相關學系認定。
+
+ 
+
+ 
+
+ 
+
+(二)申請資格：學士班以一年級下學期起至三年級止，學生得申請台聯大跨校雙主修及輔系，且申請學生當學期須註冊在學。
+
+ 
+
+ 
+
+ 
+
+(三)作業期間：原則每年5月底公告相關訊息，並於7月接受申請，8月下旬公布榜單。
+
+ 
+
+ 
+
+ 
+
+(四)修讀、放棄、學分採計及取得資格證書之呈現依本校修讀雙主修、輔系辦法規定辦理。
+
+     ※本校學生跨校修讀雙主修不得以他校雙主修學系畢業※
+
+ 
+
+ 
+
+ 
+
+相關法規： [台灣聯合大學系統學生跨校修讀雙主修辦法](https://aca.nccu.edu.tw/db/upload/%E5%8F%B0%E7%81%A3%E8%81%AF%E5%90%88%E5%A4%A7%E5%AD%B8%E7%B3%BB%E7%B5%B1%E5%AD%B8%E7%94%9F%E8%B7%A8%E6%A0%A1%E4%BF%AE%E8%AE%80%E9%9B%99%E4%B8%BB%E4%BF%AE%E8%BE%A6%E6%B3%95.pdf)、[台灣聯合大學系統學生跨校修讀輔系辦法](https://aca.nccu.edu.tw/db/upload/%E5%8F%B0%E7%81%A3%E8%81%AF%E5%90%88%E5%A4%A7%E5%AD%B8%E7%B3%BB%E7%B5%B1%E5%AD%B8%E7%94%9F%E8%B7%A8%E6%A0%A1%E4%BF%AE%E8%AE%80%E8%BC%94%E7%B3%BB%E8%BE%A6%E6%B3%95.pdf)
+
+ 
+
+115學年度台灣聯合大學系統學士班學生跨校修讀輔系雙主修申請資訊公告
+
+(一)申請時間：
+
+115年7月1日(三)至115年7月23日(四)下午5點截止。
+
+非上班時間、例假日、本校共同暑休日及逾期後皆不受理收件。
+
+審查結果公告日期：115年8月31日(一)
+
+(二)[115學年度國立政治大學接受台灣聯合大學系統學生申請跨校雙主修輔系學系一覽表](https://aca.nccu.edu.tw/db/upload/115學年度國立政治大學接受台灣聯合大學系統學生申請跨校雙主修輔系學系一覽表.pdf)
+
+ 
+
+(三)台聯大他校雙主修、輔系資訊
+
+　(1) [國立中央大學](https://pdc.adm.ncu.edu.tw/p/412-1019-1935.php?Lang=zh-tw)
+
+　(2) [國立清華大學](https://registra.site.nthu.edu.tw/p/406-1211-307945,r219.php?Lang=zh-tw)
+
+　(3) [國立陽明交通大學](https://reurl.cc/X291zg)
+
+(四)
+
+依112年12月4日台灣聯合大學系統112年度第3次四校教務長會議決議：凡通過台聯大系統轉校生可否保留原申請台聯大系統跨校輔系、雙主修資格，應由學生重新向轉入學校學系申請，再由轉入學校發文通知加修學校重啟審查作業。
+
+請務必於跨校雙輔核准名單公佈後一週內提出申請，逾期不再受理。
+
+例：小華原為A大學生，通過台聯大系統轉校，轉至清華大學。後因小華在A大時，曾申請台聯大系統跨校輔系、雙主修，目前已通過取得修習B大輔系、雙主修資格。但小華已轉出A大，應於跨校輔系、雙主修核准名單公佈後一週內重新向轉入學校（清大）申請，再由清大發文給欲加修學校重啟審查。
+
+(五)表格下載
+
+[台灣聯合大學系統學士班學生跨校修讀輔系/雙主修申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21)
+
+[台灣聯合大學系統學士班學生放棄跨校修讀輔系/雙主修申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-22)
+
+[台灣聯合大學系統學士班學生跨校修讀輔系/雙主修畢業資格審查表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-23)
+
+ 
+
+114學年度台聯大系統跨校修讀雙主修輔系申請結果公告
+
+核定名單如[附件](https://aca.nccu.edu.tw/db/upload/114學年台聯大系統學校學生跨校修讀本校雙主修輔系申請案-核定結果(去識別化公告名單).pdf)，後續請同學依校際選課程序辦理選課事宜。
+
+The approved list of Inter-School Academic Minors/Inter-School Academic Double Majors under the University System of Taiwan (UST) in Academic Year 2025
+
+The approved list is [attached](https://aca.nccu.edu.tw/db/upload/114學年台聯大系統學校學生跨校修讀本校雙主修輔系申請案-核定結果(去識別化公告名單).pdf)(pdf), please follow the  inter-university  course selection procedures for course registration.
+
+ 
+
+114學年度台聯大系統跨校修讀雙主修輔系申請結果公告
+
+核定名單如[附件](https://aca.nccu.edu.tw/db/upload/114學年本校學生跨校修讀台聯大系統學校雙主修輔系申請案-核定結果(去識別化公告名單).pdf)，後續請同學依校際選課程序辦理選課事宜。
+
+The approved list of Inter-School Academic Minors/Inter-School Academic Double Majors under the University System of Taiwan (UST) in Academic Year 2025
+
+The approved list is [attached](https://aca.nccu.edu.tw/db/upload/114學年本校學生跨校修讀台聯大系統學校雙主修輔系申請案-核定結果(去識別化公告名單).pdf)(pdf), please follow the inter-university course selection procedures for course registration.
+
+116011台北市文山區指南路二段64號 行政大樓四樓 聯絡我們

@@ -34,7 +34,7 @@ NEEDS = ("who", "floor", "form_link", "line")
 
 
 def norm(s: str) -> str:
-    return re.sub(r"\s+", "", unicodedata.normalize("NFKC", s or ""))
+    return re.sub(r"[\s\ue000-\uf8ff]+", "", unicodedata.normalize("NFKC", s or ""))  # 私用區字元（U+E000–U+F8FF，表單簽核欄的字型符號，肉眼看不到）不算內容，兩邊都拿掉
 
 
 _TEXT: dict[str, str] = {}
@@ -44,7 +44,7 @@ def text_of(rel: str) -> str:
     """來源檔的純文字（相對 evaluation/registry/）；教務處頁面的 html 連結寫成 [文字](網址)。"""
     if rel not in _TEXT:
         raw = (HERE / rel).read_text(encoding="utf-8")
-        if rel.endswith(("aca_leave_page.html", "aca_transfer_page.html", "osa_exit_procedure.html", "aca_double_major_page.html", "aca_credit_page.html")):
+        if rel.endswith(("aca_leave_page.html", "aca_transfer_page.html", "osa_exit_procedure.html", "aca_double_major_page.html", "aca_credit_page.html", "aca_cross_school_page.html")):
             from gold_check import html_to_text
             _TEXT[rel] = html_to_text(raw)
         else:

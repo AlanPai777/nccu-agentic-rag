@@ -1,0 +1,120 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "審核是兩校各兩站、共四站",
+      "status": "supported",
+      "evidence": [
+        {"item": "E2", "quote": "原就讀學校 | 主修學系"},
+        {"item": "E2", "quote": "加 修 學 校 | 加修學系"}
+      ],
+      "why": "簽核流程表列出原就讀學校的主修學系、註冊組與加修學校的加修學系、註冊組，兩校各兩站共四站。"
+    },
+    {
+      "id": "c2",
+      "answer_span": "申請須經原就讀學校與加修學校雙方同意",
+      "status": "supported",
+      "evidence": [
+        {"item": "E1", "quote": "並須經所屬及申請修讀之校系雙方同意"}
+      ],
+      "why": "網頁說明須經所屬及申請修讀之校系雙方同意。"
+    },
+    {
+      "id": "c3",
+      "answer_span": "1. 加修學校的加修學系：先審查，決定准予或不准修讀（承辦人、單位主管）。",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據的簽核表把原就讀學校主修學系列在前、加修學系列在後，沒有說加修學系是第一站；排在第一站的說法沒有依據。"
+    },
+    {
+      "id": "c4",
+      "answer_span": "2. 加修學校的註冊組（承辦人、組長）。",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據表中加修學校註冊組排在最後，不是第二站；順序與證據不符。"
+    },
+    {
+      "id": "c5",
+      "answer_span": "3. 原就讀學校（政大）的主修學系：同意學生加修他校性質不同的學系（承辦人、單位主管）。",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據表中原就讀學校主修學系列在最前面，不是第三站；順序與證據不符。"
+    },
+    {
+      "id": "c6",
+      "answer_span": "4. 政大註冊組（承辦人、組長）。",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據表中原就讀學校註冊組緊接主修學系，排第二，不是最後一站；順序與證據不符。"
+    },
+    {
+      "id": "c7",
+      "answer_span": "聯絡人：註冊組組長王揚忠（分機 63273）",
+      "status": "supported",
+      "evidence": [
+        {"item": "E4", "quote": "王揚忠（組長）分機 63273"}
+      ],
+      "why": "聯絡資訊列出王揚忠為組長，分機 63273。"
+    },
+    {
+      "id": "c8",
+      "answer_span": "註冊組在行政大樓四樓",
+      "status": "supported",
+      "evidence": [
+        {"item": "E4", "quote": "行政大樓四樓"}
+      ],
+      "why": "聯絡資訊寫註冊組在行政大樓四樓。"
+    },
+    {
+      "id": "c9",
+      "answer_span": "對象是學士班學生，碩博士班不開放",
+      "status": "supported",
+      "evidence": [
+        {"item": "E1", "quote": "碩博士班不開放雙主修及輔系(含本校生跨校)"},
+        {"item": "E1", "quote": "學士班以一年級下學期起至三年級止"}
+      ],
+      "why": "網頁寫學士班可申請，碩博士班不開放。"
+    },
+    {
+      "id": "c10",
+      "answer_span": "一年級下學期起至三年級止",
+      "status": "supported",
+      "evidence": [
+        {"item": "E1", "quote": "學士班以一年級下學期起至三年級止"}
+      ],
+      "why": "網頁的申請資格寫明一年級下學期起至三年級止。"
+    },
+    {
+      "id": "c11",
+      "answer_span": "只能申請與本系性質不同的學系",
+      "status": "supported",
+      "evidence": [
+        {"item": "E1", "quote": "僅限申請修讀與本系性質不同之學系"}
+      ],
+      "why": "網頁的申請原則明確寫僅限申請與本系性質不同之學系。"
+    },
+    {
+      "id": "c12",
+      "answer_span": "申請表是表單編號 QP-T01-04-21",
+      "status": "supported",
+      "evidence": [
+        {"item": "E1", "quote": "台灣聯合大學系統學士班學生跨校修讀輔系/雙主修申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21)"}
+      ],
+      "why": "網頁把申請表連結到表單編號 QP-T01-04-21。"
+    },
+    {
+      "id": "c13",
+      "answer_span": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21",
+      "status": "supported",
+      "evidence": [
+        {"item": "E2", "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21", "from": "sources"}
+      ],
+      "why": "此網址在 E2 sources 裡，標籤是跨校修讀輔系雙主修申請表。"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  }
+}

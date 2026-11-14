@@ -352,7 +352,9 @@ FORMS = [  # (編號, 在教務處頁面上的連結文字, 現場 302 標頭檔
     ("QP-M03-01-05", "請下載填寫： 『退離宿暨退還「住宿保證金」申請表』", "moltke_QP-M03-01-05.headers.txt", "dorm", "osa"),
     ("QP-T01-03-08", "國立政治大學碩、博士班學生修讀雙主修輔系申請表", "moltke_QP-T01-03-08.headers.txt", "double"),
     ("QP-T01-04-05", "國內/出國交換選課學分抵免申請表", None, "credit"),
+    ("QP-T01-04-21", "台灣聯合大學系統學士班學生跨校修讀輔系/雙主修申請表", None, "cross"),
 ]
+CROSS_PAGE = "https://aca.nccu.edu.tw/zh/專區業務/newbie-2/150-跨校修讀雙主修輔系/4963-跨校修讀雙主修輔系"
 CREDIT_PAGE = "https://aca.nccu.edu.tw/zh/服務項目/成績-抵免/學分抵免（含新生及出國）-整合"
 DOUBLE_PAGE = "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系"
 EXIT_PAGE = "https://osa.nccu.edu.tw/tw/住宿輔導組/宿舍申請與床位資訊/退離宿程序"
@@ -370,7 +372,8 @@ def build_forms(problems: Problems) -> list[dict]:
     _, epage_rel = snapshot_from_corpus("osa", EXIT_PAGE, "osa_exit_procedure.txt")
     _, dpage_rel = snapshot_from_corpus("aca", DOUBLE_PAGE, "aca_double_major_page.txt")
     _, cpage_rel = snapshot_from_corpus("aca", CREDIT_PAGE, "aca_credit_page.txt")
-    pages = {"credit": (cpage_rel, "sources/live/aca_credit_page.html"), "leave": (page_rel, live_page), "transfer": (tpage_rel, tlive_page), "dorm": (epage_rel, "sources/live/osa_exit_procedure.html"),
+    _, xpage_rel = snapshot_from_corpus("aca", CROSS_PAGE, "aca_cross_school_page.txt")
+    pages = {"cross": (xpage_rel, "sources/live/aca_cross_school_page.html"), "credit": (cpage_rel, "sources/live/aca_credit_page.html"), "leave": (page_rel, live_page), "transfer": (tpage_rel, tlive_page), "dorm": (epage_rel, "sources/live/osa_exit_procedure.html"),
              "double": (dpage_rel, "sources/live/aca_double_major_page.html")}
     recs = {}
     for sub in ("aca", "osa"):

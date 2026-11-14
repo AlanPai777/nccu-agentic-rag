@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Date: Sat, 14 Nov 2026 06:09:24 GMT
+Server: Apache
+X-Powered-By: PHP/8.3.36
+Set-Cookie: [redacted]
+Expires: Wed, 17 Aug 2005 00:00:00 GMT
+Last-Modified: Sat, 14 Nov 2026 06:09:24 GMT
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+Pragma: no-cache
+X-Content-Type-Options: nosniff
+Transfer-Encoding: chunked
+Content-Type: text/html; charset=utf-8
+

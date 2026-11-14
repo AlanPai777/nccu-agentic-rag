@@ -1,0 +1,157 @@
+{
+  "keypoints": [
+    {
+      "id": "K1",
+      "verdict": "relevant",
+      "claims": [
+        "c6"
+      ],
+      "reason": "表單編號 QP-T01-04-21"
+    },
+    {
+      "id": "K2",
+      "verdict": "relevant",
+      "claims": [
+        "c7"
+      ],
+      "reason": "下載連結"
+    },
+    {
+      "id": "K3",
+      "verdict": "relevant",
+      "claims": [
+        "c4"
+      ],
+      "reason": "學士班，碩博士班不開放"
+    },
+    {
+      "id": "K4",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到（或只提到一部分）"
+    },
+    {
+      "id": "K5",
+      "verdict": "relevant",
+      "claims": [
+        "c5"
+      ],
+      "reason": "性質不同的學系"
+    },
+    {
+      "id": "K6",
+      "verdict": "wrong",
+      "claims": [
+        "c1"
+      ],
+      "reason": "明寫只要通過加修學校的審核、不需要政大同意，與標準（須經原就讀學校與加修學校雙方同意）相反"
+    },
+    {
+      "id": "K7",
+      "verdict": "wrong",
+      "claims": [
+        "c1"
+      ],
+      "reason": "明寫不需要政大自己的主修學系同意"
+    },
+    {
+      "id": "K8",
+      "verdict": "wrong",
+      "claims": [
+        "c1"
+      ],
+      "reason": "明寫不需要政大註冊組同意"
+    },
+    {
+      "id": "K9",
+      "verdict": "relevant",
+      "claims": [
+        "c2"
+      ],
+      "reason": "加修學系審查"
+    },
+    {
+      "id": "K10",
+      "verdict": "relevant",
+      "claims": [
+        "c3"
+      ],
+      "reason": "加修學校註冊組審核"
+    },
+    {
+      "id": "K11",
+      "verdict": "wrong",
+      "claims": [
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "reason": "只有加修學校兩站，少了原就讀學校兩站，與標準的四站連續審核不同"
+    },
+    {
+      "id": "K12",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到（或只提到一部分）"
+    },
+    {
+      "id": "K13",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到（或只提到一部分）"
+    },
+    {
+      "id": "K14",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到（或只提到一部分）"
+    },
+    {
+      "id": "K15",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到（或只提到一部分）"
+    },
+    {
+      "id": "K16",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到（或只提到一部分）"
+    },
+    {
+      "id": "K17",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到（或只提到一部分）"
+    },
+    {
+      "id": "K18",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到（或只提到一部分）"
+    },
+    {
+      "id": "K19",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到（或只提到一部分）"
+    },
+    {
+      "id": "K20",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到（或只提到一部分）"
+    },
+    {
+      "id": "K21",
+      "verdict": "irrelevant",
+      "claims": [],
+      "reason": "答案沒有提到（或只提到一部分）"
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "judge-v1",
+    "note": "Claude Code 本 session 判斷（流程測試：答案也是 Claude Code 寫的，判斷不獨立；Keypoint 判斷依設計會看 gold）。主張編號取自子代理的隔離回推 trace.json"
+  }
+}
