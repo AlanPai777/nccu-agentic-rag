@@ -298,7 +298,7 @@ class EndToEndOfflineTest(unittest.TestCase):
         report = (bd / "report.md").read_text(encoding="utf-8")
         self.assertIn("live 與轉址觀察", report)
         self.assertIn("## 總表", report)
-        self.assertIn("| 1 | 出納組電話 | run01 | ok |", report)
+        self.assertIn("| 1 | 出納組電話 | run01 |", report)
         self.assertFalse((bd / "dashboard_all.jsonl").exists())              # no cases_all.json: nothing extra is written
         # a cases_all.json (the eleven-question list that borrows runs from another batch) drives the table and dashboard_all.jsonl too
         batch._write(bd / "cases_all.json", {"note": "t", "cases": [{"id": 1, "question": "cashier_contact", "short": "出納組電話",
@@ -306,6 +306,50 @@ class EndToEndOfflineTest(unittest.TestCase):
         self.assertEqual(batch.cmd_export("batch01", root=root, batches=root / "batches", say=lambda s: None), 0)
         self.assertEqual(len((bd / "dashboard_all.jsonl").read_text(encoding="utf-8").splitlines()), 1)
         self.assertIn("來自 `cases_all.json`", (bd / "report.md").read_text(encoding="utf-8"))
+
+
+class AttemptsTest(unittest.TestCase):
+    """「第幾次」：只算 live 開的真實 run；live 關的早期 run 另計，不算在內。"""
+
+    def make(self, preds):
+        q = tmpdir(self) / "q"
+        for name, pred in preds.items():
+            write(q / "runs" / name / "prediction.json", pred)
+        return q
+
+    def test_counts_only_live_runs_and_marks_the_one_used(self):
+        q = self.make({"run01": {"live": False}, "run02": {"live": True, "status": "error"}, "run03": {"live": True, "status": "ok"}})
+        a = batch.attempts_of(q, "run03")
+        self.assertEqual((a["n"], a["total"], a["offline"]), (2, 2, 1))
+        self.assertEqual(a["history"], [("run02", "error", False), ("run03", "ok", True)])
+        self.assertEqual(batch.attempt_text(a), "第 2 次（共 2 次）")
+        self.assertIn("run02 error、run03 ok（用這個）", batch.attempt_text(a, short=False))
+        self.assertIn("1 個 live 關的早期 run 不算", batch.attempt_text(a, short=False))
+
+    def test_a_single_run_is_attempt_one_of_one(self):
+        a = batch.attempts_of(self.make({"run01": {"live": True}}), "run01")
+        self.assertEqual((a["n"], a["total"]), (1, 1))
+
+    def test_a_run_that_is_not_live_has_no_attempt_number(self):
+        a = batch.attempts_of(self.make({"run01": {"live": False}}), "run01")
+        self.assertIsNone(a["n"])
+        self.assertIn("不是 live 真實 run", batch.attempt_text(a))
+
+    def test_the_report_table_and_each_question_say_which_attempt(self):
+        root = tmpdir(self)
+        (root / "cashier_contact").mkdir()
+        shutil.copy(helpers.GOLD, root / "cashier_contact" / "gold.json")
+        shutil.copytree(helpers.EVAL / "cashier_contact" / "runs" / "run01", root / "cashier_contact" / "runs" / "run01")
+        write(root / "batch_questions.json", {"questions": [{"id": 1, "question": "cashier_contact", "short": "出納組電話", "group": "Factual Questions"}]})
+        m = {"batch_id": "batch01", "created_at": "t", "git": {"commit": "x"}, "live": True, "browser": True, "timeout_seconds": 600, "model": "m",
+             "questions": [{"id": 1, "question": "cashier_contact", "run_id": "run01", "status": "ok", "elapsed_seconds": 14.0}]}
+        bd = root / "batches" / "batch01"
+        batch._write(bd / "manifest.json", m)
+        batch.cmd_export("batch01", root=root, batches=root / "batches", say=lambda s: None)
+        report = (bd / "report.md").read_text(encoding="utf-8")
+        self.assertIn("| 第幾次 |", report)
+        self.assertRegex(report, r"\| 1 \| 出納組電話 \| run01 \| 第 \d+ 次（共 \d+ 次）|\| 1 \| 出納組電話 \| run01 \| —（不是 live 真實 run）")
+        self.assertIn("- 第幾次：", report)
 
 
 class CliSafetyTest(unittest.TestCase):

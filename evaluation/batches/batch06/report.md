@@ -8,20 +8,21 @@
 
 ## 總表
 
-| Q | 題目 | run | 狀態 | Completeness | Hallucination | Irrelevance | Sentence R | 有依據比例 | 規則 Accuracy | 不計分 |
-|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | 出納組電話 | run06 | ok | 1.00 | 0.00 | 0.00 | 1.00 | 1.00 | 3/3 |  |
-| 2 | 選課上限 | run01 | ok | 1.00 | 0.00 | 0.00 | 1.00 | 0.95 | 5/5 |  |
-| 3 | 休學申請表下載 | run01 | ok | 1.00 | 0.00 | 0.00 | 1.00 | 0.97 | 2/2 |  |
-| 4 | 復學 | run01 | ok | 0.88 | 0.00 | 0.12 | 1.00 | 1.00 | 7/9 |  |
-| 5 | 休學 | run01 | ok | 0.68 | 0.00 | 0.32 | 0.88 | 0.95 | 10/16 |  |
-| 6 | 休學加圖書館電話 | run01 | ok | 0.51 | 0.00 | 0.49 | 0.79 | 1.00 | 14/23 |  |
-| 7 | 轉系所 | run02 | ok | 0.63 | 0.00 | 0.37 | 0.96 | 0.89 | 5/5 | K10、K11 |
-| 8 | 退宿保證金 | run02 | ok | 0.78 | 0.00 | 0.22 | 0.83 | 1.00 | 4/7 |  |
-| 9 | 雙主修輔系 | run02 | ok | 0.74 | 0.00 | 0.26 | 0.91 | 0.95 | 3/4 |  |
-| 10 | 出國交換抵免 | run01 | ok | 0.65 | 0.04 | 0.31 | 0.73 | 0.96 | 5/9 |  |
-| 11 | 跨校雙主修 | run02 | ok | 0.67 | 0.00 | 0.33 | 0.81 | 0.86 | 3/4 |  |
+| Q | 題目 | run | 第幾次 | 狀態 | Completeness | Hallucination | Irrelevance | Sentence R | 有依據比例 | 規則 Accuracy | 不計分 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 出納組電話 | run06 | 第 5 次（共 5 次） | ok | 1.00 | 0.00 | 0.00 | 1.00 | 1.00 | 3/3 |  |
+| 2 | 選課上限 | run01 | 第 1 次（共 1 次） | ok | 1.00 | 0.00 | 0.00 | 1.00 | 0.95 | 5/5 |  |
+| 3 | 休學申請表下載 | run01 | 第 1 次（共 1 次） | ok | 1.00 | 0.00 | 0.00 | 1.00 | 0.97 | 2/2 |  |
+| 4 | 復學 | run01 | 第 1 次（共 1 次） | ok | 0.88 | 0.00 | 0.12 | 1.00 | 1.00 | 7/9 |  |
+| 5 | 休學 | run01 | 第 1 次（共 1 次） | ok | 0.68 | 0.00 | 0.32 | 0.88 | 0.95 | 10/16 |  |
+| 6 | 休學加圖書館電話 | run01 | 第 1 次（共 1 次） | ok | 0.51 | 0.00 | 0.49 | 0.79 | 1.00 | 14/23 |  |
+| 7 | 轉系所 | run02 | 第 2 次（共 2 次） | ok | 0.63 | 0.00 | 0.37 | 0.96 | 0.89 | 5/5 | K10、K11 |
+| 8 | 退宿保證金 | run02 | 第 2 次（共 2 次） | ok | 0.78 | 0.00 | 0.22 | 0.83 | 1.00 | 4/7 |  |
+| 9 | 雙主修輔系 | run02 | 第 2 次（共 2 次） | ok | 0.74 | 0.00 | 0.26 | 0.91 | 0.95 | 3/4 |  |
+| 10 | 出國交換抵免 | run01 | 第 1 次（共 1 次） | ok | 0.65 | 0.04 | 0.31 | 0.73 | 0.96 | 5/9 |  |
+| 11 | 跨校雙主修 | run02 | 第 2 次（共 2 次） | ok | 0.67 | 0.00 | 0.33 | 0.81 | 0.86 | 3/4 |  |
 
+- **第幾次**：這題用的 run 是第幾次 live 真實 run（只算 live 開的 run；每個 run 保留在 `evaluation/<題>/runs/`）。同一題多次跑的原因見下面「每題」。每題報告用的是該題**最新的一次** live run，之前的 run 都保留。第 1 次以外是重跑：Q1 共 5 次 live run（run02–run06，batch01–batch05）是修聯絡人索引與頁尾問題的過程中逐次跑的（run01 是 live 關的早期 run，不算）；Q7、Q11 在 F36、F37 修好後重跑，Q8、Q9 第一次因 F35 出錯、修好後重跑（原因見 plan 的 F35–F39 與下面各題）。
 - 每題用哪個 run、指標版本：2026-11-15.excluded-keypoints；Q1 等不在這批 manifest 裡的題目來自 `cases_all.json`。各題的 run 不一定同一次跑（有重跑的題目用重跑的 run，見 manifest 的 reruns）。
 - 規則 Accuracy 與 Claude 判斷的 Completeness 是兩個獨立判斷；已知規則版有樓層與分機的誤判（議題 F34、F38），數字偏低。
 - 「不計分」欄是 gold 標了 excluded 的 keypoint（議題 F39），不進任何分母。
@@ -29,20 +30,24 @@
 ## 每題
 
 ### Q2 course_limit — ok（run01，61.3 秒）
+- 第幾次：第 1 次（共 1 次）：run01 ok（用這個）
 - 階段 3 已算分：Completeness 1.0、Hallucination 0.0；漏斗 [{"id": "K1", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict": "relevant"}, {"id": "K2", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict"
 - 現場讀取：live_changed×2、live_same×2
 
 ### Q3 leave_form_download — ok（run01，68.3 秒）
+- 第幾次：第 1 次（共 1 次）：run01 ok（用這個）
 - 階段 3 已算分：Completeness 1.0、Hallucination 0.0；漏斗 [{"id": "K1", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict": "relevant"}, {"id": "K2", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict"
 - 現場讀取：live_changed×7、live_same×2
 
 ### Q4 resumption — ok（run01，83.3 秒）
+- 第幾次：第 1 次（共 1 次）：run01 ok（用這個）
 - 階段 3 已算分：Completeness 0.875、Hallucination 0.0；漏斗 [{"id": "K1", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict": "relevant"}, {"id": "K2", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict"
 - disagreement：{"keypoint": "K15", "rule": "wrong", "claude": "relevant", "claude_reason": "答案寫註冊組聯絡人鄧編審 63277、王組長 63273，與登記表一致（規則版把後面清單編號的數字接在分機後面，誤判配對，見 disagreements）", "rule_detail": {}}
 - disagreement：{"keypoint": "K17", "rule": "wrong", "claude": "relevant", "claude_reason": "答案寫生僑組盧翠婷（組長）63010、黃信翰（一級行政專員）63011，與登記表一致", "rule_detail": {}}
 - 現場讀取：live_changed×7、live_same×5
 
 ### Q5 leave_of_absence — ok（run01，74.0 秒）
+- 第幾次：第 1 次（共 1 次）：run01 ok（用這個）
 - 階段 3 已算分：Completeness 0.6833、Hallucination 0.0；漏斗 [{"id": "K1", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict": "relevant"}, {"id": "K2", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict"
 - disagreement：{"keypoint": "K49", "rule": "wrong", "claude": "relevant", "claude_reason": "答案寫註冊組王組長分機 63273", "rule_detail": {}}
 - disagreement：{"keypoint": "K51", "rule": "wrong", "claude": "relevant", "claude_reason": "答案寫出納組劉桂芬（組長）分機 62120", "rule_detail": {}}
@@ -52,11 +57,13 @@
 - 現場讀取：live_changed×7、live_same×5
 
 ### Q6 leave_and_library_phone — ok（run01，96.9 秒）
+- 第幾次：第 1 次（共 1 次）：run01 ok（用這個）
 - 階段 3 已算分：Completeness 0.5075、Hallucination 0.0；漏斗 [{"id": "K1", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict": "relevant"}, {"id": "K2", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict"
 - disagreement：{"keypoint": "K51", "rule": "wrong", "claude": "relevant", "claude_reason": "答案寫出納組劉桂芬 62120、余淑娟 62123", "rule_detail": {}}
 - disagreement：{"keypoint": "K53", "rule": "wrong", "claude": "relevant", "claude_reason": "答案寫住宿組趙紀綱（組長）62500", "rule_detail": {}}
 
 ### Q7 master_transfer — ok（run02，34.0 秒）
+- 第幾次：第 2 次（共 2 次）：run01 ok、run02 ok（用這個）
 - 重跑（2026-11-15，F35–F37 修好後，git 7dd5427）：重跑以驗證 F36（下載連結行）；第一次 run01 的 K25 連結用了資管系的 PDF；run01 保留；K10、K11 不計分（議題 F39，gold 標 excluded）：答案把申請期間寫成生效學期的說法，與官方字面不同、現實中很可能相符；run02 的分數用 2026-11-15.excluded-keypoints 版（Completeness 0.63、Hallucination 0），run01 仍是舊版、K10、K11 照常計分
 - 階段 3 已算分：Completeness 0.6296、Hallucination 0.0；漏斗 [{"id": "K1", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict": "relevant"}, {"id": "K2", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict"
 - 不計分：K10（F39，gold 沒說明「上學期／下學期」是申請所在的學期還是生效學期，答案兩種說法都可能；先不計分；判 wrong）
@@ -64,6 +71,7 @@
 - 現場讀取：live_changed×2、live_same×2
 
 ### Q8 dorm_deposit — ok（run02，53.3 秒）
+- 第幾次：第 2 次（共 2 次）：run01 error、run02 ok（用這個）
 - 重跑（2026-11-15，F35–F37 修好後，git 7dd5427）：第一次 run01 因 F35（表單快取種類混用）出錯，修好後重跑；run01 保留
 - 階段 3 已算分：Completeness 0.7826、Hallucination 0.0；漏斗 [{"id": "K1", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict": "relevant"}, {"id": "K2", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict"
 - disagreement：{"keypoint": "K21", "rule": "wrong", "claude": "relevant", "claude_reason": "答案列出住宿組趙紀綱（組長）分機 62500、徐廷芝分機 62228，都在允許集合內", "rule_detail": {}}
@@ -71,17 +79,20 @@
 - 現場讀取：live_changed×2、live_same×2
 
 ### Q9 master_double_major — ok（run02，45.6 秒）
+- 第幾次：第 2 次（共 2 次）：run01 error、run02 ok（用這個）
 - 重跑（2026-11-15，F35–F37 修好後，git 7dd5427）：第一次 run01 因 F35（表單快取種類混用）出錯，修好後重跑；run01 保留
 - 階段 3 已算分：Completeness 0.7391、Hallucination 0.0；漏斗 [{"id": "K1", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict": "relevant"}, {"id": "K2", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict"
 - disagreement：{"keypoint": "K23", "rule": "miss", "claude": "relevant", "claude_reason": "答案寫註冊組在行政大樓 4 樓", "rule_detail": {}}
 - 現場讀取：live_changed×2、live_same×1
 
 ### Q10 overseas_exchange_credit — ok（run01，74.8 秒）
+- 第幾次：第 1 次（共 1 次）：run01 ok（用這個）
 - 階段 3 已算分：Completeness 0.6538、Hallucination 0.0385；漏斗 [{"id": "K1", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict": "relevant"}, {"id": "K2", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict"
 - disagreement：{"keypoint": "K23", "rule": "miss", "claude": "relevant", "claude_reason": "答案在通識教育中心那一項寫「教務處（行政大樓 4 樓）」，4 樓一致，但這句沒有證據支持（證據只把 4 樓放在註冊組底下）", "rule_detail": {}}
 - 現場讀取：live_changed×5、live_same×5
 
 ### Q11 cross_school_double_major — ok（run02，39.9 秒）
+- 第幾次：第 2 次（共 2 次）：run01 ok、run02 ok（用這個）
 - 重跑（2026-11-15，F35–F37 修好後，git 7dd5427）：重跑以驗證 F37（改寫後再用原問題搜尋）；第一次 run01 找錯頁面（Completeness 0.33）；run01 保留
 - 階段 3 已算分：Completeness 0.6667、Hallucination 0.0；漏斗 [{"id": "K1", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict": "relevant"}, {"id": "K2", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict"
 - disagreement：{"keypoint": "K21", "rule": "miss", "claude": "relevant", "claude_reason": "答案寫註冊組在行政大樓 4 樓", "rule_detail": {}}

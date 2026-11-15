@@ -329,23 +329,54 @@ def live_observations(pred: dict) -> dict:
     return {"states": states, "moved": moved}
 
 
+def attempts_of(qdir: Path, run_name: str) -> dict:
+    """這題用的 run 是第幾次 live 真實 run。只算 live 開的 run（prediction.json 的 live 為 True）；live 關的早期 run 另計，不算在內。
+    回傳 {n, total, offline, history}；history 是每個 run 的 (run_id, 狀態, 是不是用的這個)。"""
+    live, offline = [], 0
+    for d in sorted((qdir / "runs").glob("run*")):
+        pred = _read(d / "prediction.json")
+        if pred is None:
+            continue
+        if pred.get("live") is True:
+            live.append((d.name, pred.get("status") or "ok"))
+        else:
+            offline += 1
+    names = [n for n, _ in live]
+    return {"n": (names.index(run_name) + 1) if run_name in names else None, "total": len(live), "offline": offline,
+            "history": [(n, st, n == run_name) for n, st in live]}
+
+
+def attempt_text(a: dict, short: bool = True) -> str:
+    if a["n"] is None:
+        return "—（不是 live 真實 run）"
+    base = f"第 {a['n']} 次（共 {a['total']} 次）"
+    if short:
+        return base
+    hist = "、".join(f"{n} {st}" + ("（用這個）" if used else "") for n, st, used in a["history"])
+    return base + f"：{hist}" + (f"；另有 {a['offline']} 個 live 關的早期 run 不算" if a["offline"] else "")
+
+
 def summary_table(batch_dir: Path, manifest: dict, root: Path = EVAL) -> list[str]:
     """每題一列的總表。有 cases_all.json（把別批的 run 補進來的 11 題清單，例如 Q1）就用它，否則用這批 manifest 的題目。"""
     import dashboard.export_scores as ex
     spec = _read(batch_dir / "cases_all.json") or cases_from_manifest(manifest, root)
     f = lambda x: "—" if x is None else f"{x:.2f}"
     L = ["## 總表", "",
-         "| Q | 題目 | run | 狀態 | Completeness | Hallucination | Irrelevance | Sentence R | 有依據比例 | 規則 Accuracy | 不計分 |",
-         "|---|---|---|---|---|---|---|---|---|---|---|"]
+         "| Q | 題目 | run | 第幾次 | 狀態 | Completeness | Hallucination | Irrelevance | Sentence R | 有依據比例 | 規則 Accuracy | 不計分 |",
+         "|---|---|---|---|---|---|---|---|---|---|---|---|"]
     versions = set()
     for c in spec["cases"]:
         r = ex.build_row(c, root)
         acc, ev = r.get("accuracy"), r.get("evidence") or {}
         excl = "、".join(x["id"] for x in (r.get("responses") or {}).get("excluded") or []) or ""
         versions.add(r.get("metrics_version"))
-        L.append(f"| {r['query']['query_id']} | {r['query']['short']} | {r['run_id'] or '—'} | {r['status']} | {f(r['completeness'])} | {f(r['hallucination'])} | "
+        att = attempts_of(root / c["question"], r["run_id"])
+        L.append(f"| {r['query']['query_id']} | {r['query']['short']} | {r['run_id'] or '—'} | {attempt_text(att)} | {r['status']} | {f(r['completeness'])} | {f(r['hallucination'])} | "
                  f"{f(r['irrelevance'])} | {f(r['Sentences_Recall'])} | {f(ev.get('rate'))} | {(str(acc['hit']) + '/' + str(acc['total'])) if acc else '—'} | {excl} |")
-    L += ["", f"- 每題用哪個 run、指標版本：{'、'.join(sorted(v for v in versions if v)) or '（沒有算分）'}；Q1 等不在這批 manifest 裡的題目來自 `cases_all.json`。"
+    L += ["", "- **第幾次**：這題用的 run 是第幾次 live 真實 run（只算 live 開的 run；每個 run 保留在 `evaluation/<題>/runs/`）。同一題多次跑的原因見下面「每題」。"
+          "每題報告用的是該題**最新的一次** live run，之前的 run 都保留。第 1 次以外是重跑：Q1 共 5 次 live run（run02–run06，batch01–batch05）是修聯絡人索引與頁尾問題的過程中逐次跑的（run01 是 live 關的早期 run，不算）；"
+          "Q7、Q11 在 F36、F37 修好後重跑，Q8、Q9 第一次因 F35 出錯、修好後重跑（原因見 plan 的 F35–F39 與下面各題）。",
+          f"- 每題用哪個 run、指標版本：{'、'.join(sorted(v for v in versions if v)) or '（沒有算分）'}；Q1 等不在這批 manifest 裡的題目來自 `cases_all.json`。"
           "各題的 run 不一定同一次跑（有重跑的題目用重跑的 run，見 manifest 的 reruns）。",
           "- 規則 Accuracy 與 Claude 判斷的 Completeness 是兩個獨立判斷；已知規則版有樓層與分機的誤判（議題 F34、F38），數字偏低。",
           "- 「不計分」欄是 gold 標了 excluded 的 keypoint（議題 F39），不進任何分母。", ""]
@@ -369,6 +400,8 @@ def write_report(batch_dir: Path, manifest: dict, root: Path = EVAL) -> Path:
     for e in manifest["questions"]:
         qdir = root / e["question"]
         L.append(f"### Q{e['id']} {e['question']} — {e['status']}" + (f"（{e['run_id']}，{e['elapsed_seconds']} 秒）" if e.get("run_id") else ""))
+        if e.get("run_id"):
+            L.append(f"- 第幾次：{attempt_text(attempts_of(qdir, e['run_id']), short=False)}")
         if e.get("note"):
             L.append(f"- {e['note']}")
         if e["status"] == "ok":
