@@ -65,7 +65,11 @@ LIVE = {
     "L3": ("https://nccuga.nccu.edu.tw/zh/關於我們/聯絡資訊", "nccuga_contact_info.html"),
     # 2026-11-14 補查（經使用者批准）：115-1 註冊通知單的 PDF 文字（pdfplumber 擷取，與 .pdf 同目錄）
     "L4": ("https://aca.nccu.edu.tw/db/upload/115-1註冊通知單_中文版.pdf", "aca_notice_115-1.txt"),
+    # 2026-11-15：出納組新人員頁（nccuga，F19 搬家後；2026-11-13 用系統的 Playwright 後端渲染，副本與 .render.json 取自登記表的 sources/live/）。
+    # K3 的現場引用用它：gold 的事實以新網站為準，引用只是「這個事實的出處」，不再拿來和系統的文字逐字比對（in_context 由 Claude 判斷）。
+    "L5": ("https://nccuga.nccu.edu.tw/zh/人員職掌選單/出納組_", "ga_cashier.rendered.html"),
 }
+LIVE_AS_OF_BY_SRC = {"L5": "2026-11-13（現場，Chromium 渲染）"}
 
 SNAP_AS_OF = "2026-08（output/ 快照；校務頁面 2026-08-19）"
 LIVE_AS_OF = "2026-11-09（現場）"
@@ -189,7 +193,7 @@ def main():
             "text": r["text"],
             "source_url": src_url[r["src"]],
             "source_kind": r["kind"],
-            "as_of": SNAP_AS_OF if r["kind"] == "snapshot" else LIVE_AS_OF,
+            "as_of": SNAP_AS_OF if r["kind"] == "snapshot" else LIVE_AS_OF_BY_SRC.get(r["src"], LIVE_AS_OF),
         }
 
     gold = {
@@ -236,6 +240,10 @@ def main():
                 "references": [
                     {"text": q, "source_url": src_url["S2"], "source_kind": "snapshot", "as_of": SNAP_AS_OF}
                     for _, _, _, q in PEOPLE
+                ] + [
+                    # 新網站（現場）的同一句：新人員頁沒有這個人（例如 62173 現場是「待補」）就沒有現場引用，只留快照那一條
+                    ref({"text": q, "src": "L5", "kind": "live"})
+                    for _, _, _, q in PEOPLE if norm(q) in norm(src_text["L5"])
                 ],
                 "acceptable_expressions": [],
             },

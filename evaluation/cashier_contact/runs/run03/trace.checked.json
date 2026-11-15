@@ -1,0 +1,109 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "出納組位於行政大樓 5 樓",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "行政大樓 5 樓",
+          "verified": true,
+          "start": 117,
+          "end": 125
+        }
+      ],
+      "why": "證據列出出納組的地點為行政大樓 5 樓。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        0,
+        13
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "辦公室分機為 62123",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "行政大樓 5 樓",
+          "verified": true,
+          "start": 117,
+          "end": 125
+        },
+        {
+          "item": "E1",
+          "quote": "分機 62123",
+          "verified": true,
+          "start": 126,
+          "end": 134
+        }
+      ],
+      "why": "證據在出納組辦公室資訊列出分機 62123。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        14,
+        26
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "劉桂芬（組長）分機 62120",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "劉桂芬（組長）分機 62120",
+          "verified": true,
+          "start": 141,
+          "end": 156
+        }
+      ],
+      "why": "證據中同一人、同職稱、同分機。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        40,
+        55
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "余淑娟（一級行政組員）分機 62123",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "余淑娟（一級行政組員）分機 62123",
+          "verified": true,
+          "start": 443,
+          "end": 462
+        }
+      ],
+      "why": "證據中同一人、同職稱、同分機。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        58,
+        77
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

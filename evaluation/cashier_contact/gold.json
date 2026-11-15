@@ -149,6 +149,66 @@
           "source_url": "https://cashier.nccu.edu.tw/PageStaffing?fid=7994",
           "source_kind": "snapshot",
           "as_of": "2026-08（output/ 快照；校務頁面 2026-08-19）"
+        },
+        {
+          "text": "劉桂芬 組長 校內分機 62120",
+          "source_url": "https://nccuga.nccu.edu.tw/zh/人員職掌選單/出納組_",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場，Chromium 渲染）"
+        },
+        {
+          "text": "徐士雲 編審 校內分機 62172",
+          "source_url": "https://nccuga.nccu.edu.tw/zh/人員職掌選單/出納組_",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場，Chromium 渲染）"
+        },
+        {
+          "text": "張錦虹 組員 校內分機 62125",
+          "source_url": "https://nccuga.nccu.edu.tw/zh/人員職掌選單/出納組_",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場，Chromium 渲染）"
+        },
+        {
+          "text": "江幸霓 組員 校內分機 62122",
+          "source_url": "https://nccuga.nccu.edu.tw/zh/人員職掌選單/出納組_",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場，Chromium 渲染）"
+        },
+        {
+          "text": "張佩雯 行政專員 校內分機 62126",
+          "source_url": "https://nccuga.nccu.edu.tw/zh/人員職掌選單/出納組_",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場，Chromium 渲染）"
+        },
+        {
+          "text": "蕭毓璇 行政專員 校內分機 62127",
+          "source_url": "https://nccuga.nccu.edu.tw/zh/人員職掌選單/出納組_",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場，Chromium 渲染）"
+        },
+        {
+          "text": "吳慧玲 一級行政組員 校內分機 62121",
+          "source_url": "https://nccuga.nccu.edu.tw/zh/人員職掌選單/出納組_",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場，Chromium 渲染）"
+        },
+        {
+          "text": "余淑娟 一級行政組員 校內分機 62123",
+          "source_url": "https://nccuga.nccu.edu.tw/zh/人員職掌選單/出納組_",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場，Chromium 渲染）"
+        },
+        {
+          "text": "行政組員 校內分機 63071",
+          "source_url": "https://nccuga.nccu.edu.tw/zh/人員職掌選單/出納組_",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場，Chromium 渲染）"
+        },
+        {
+          "text": "林瓊蓮 兼任助理 校內分機 62124",
+          "source_url": "https://nccuga.nccu.edu.tw/zh/人員職掌選單/出納組_",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場，Chromium 渲染）"
         }
       ],
       "acceptable_expressions": []

@@ -59,6 +59,7 @@ LIVE = {   # 代號: (網址, 檔名, as_of, 是不是 html)
     "L1": (PAGE_URL, "osa_exit_procedure.html", LIVE_AS_OF, True),
     "L2": (FAQ_URL, "osa_faq.html", LIVE_AS_OF, True),
     "L3": (NOTICE_URL, "aca_notice_115_1.pdf.txt", LIVE_AS_OF, False),
+    "L4": (REFUND_URL, "osa_refund_standard.html", LIVE_AS_OF, True),   # 2026-11-15：退費標準頁的現場副本（2026-11-13，取自 leave_of_absence/sources/live），K17 的現場引用
 }
 
 
@@ -202,6 +203,10 @@ def main() -> int:
         ],
     }
     out = HERE / "gold.json"
+    import sys as _sys; _sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    import live_refs  # 2026-11-15：現場引用以新網站為準，快照引用的原文若逐字在現場來源裡，就補一條現場引用（只新增）
+    _live_added = live_refs.add_live_references(gold, LIVE_DIR, [(v[0], v[1], v[2]) for v in LIVE.values()])
+    print("補現場引用的 keypoint：", _live_added or "無")
     import sys as _sys; _sys.path.insert(0, str(Path(__file__).resolve().parents[1])); import reference_answer; reference_answer.attach(gold, Path(__file__).resolve().parent)  # 畫面用的完整參考答案（reference_answer.txt）
     out.write_text(json.dumps(gold, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"已寫入 {out.relative_to(ROOT)}（{len(keypoints)} 個 keypoint，其中 {sum(1 for k in keypoints if k.get('registry'))} 個引用登記表）")

@@ -164,6 +164,12 @@
           "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
           "source_kind": "snapshot",
           "as_of": "2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）"
+        },
+        {
+          "text": "經就讀學系所核章後，併同其他申請資料送申請雙輔學系所審查",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
         }
       ],
       "acceptable_expressions": []
@@ -464,6 +470,18 @@
           "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law131A.pdf",
           "source_kind": "snapshot",
           "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "同時申請同一學系為雙主修及輔系，經學系審查已符合雙主修修讀資格時，即以雙主修錄取",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "學生同時申請同一學系為雙主修及輔系，經學系審查已符合雙主修修讀資格時，即以雙主修錄取",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law131A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
         }
       ],
       "acceptable_expressions": []
@@ -485,6 +503,18 @@
           "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law131A.pdf",
           "source_kind": "snapshot",
           "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "申請修讀輔系，以不得修習前已取得學位之學系所（學程）為原則，但經申請修讀學系所（學程）同意者，不在此限",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "學生申請修讀輔系，以不得修習前已取得學位之學系所（學程）為原則，但經申請修讀學系所（學程）同意者，不在此限",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law131A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
         }
       ],
       "acceptable_expressions": []
@@ -512,6 +542,18 @@
           "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law131A.pdf",
           "source_kind": "snapshot",
           "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "經核定同意後即自動放棄原有之雙主修或輔系修讀資格，且不得再申請回復",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "經核定同意後即自動放棄原有之雙主修或輔系修讀資格，且不得再申請回復",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/碩博士班雙修輔系",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
         }
       ],
       "acceptable_expressions": []

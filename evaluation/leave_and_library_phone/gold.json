@@ -67,6 +67,18 @@
           "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
           "source_kind": "snapshot",
           "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "申請休學，得由學校一次核准一學期至二學年",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "得由學校一次核准一學期至二學年",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
         }
       ],
       "acceptable_expressions": [],
@@ -95,6 +107,18 @@
           "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
           "source_kind": "snapshot",
           "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "休學累計以二學年為原則",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "休學累計以二學年為原則",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
         }
       ],
       "acceptable_expressions": [],
@@ -123,6 +147,18 @@
           "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
           "source_kind": "snapshot",
           "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "得專案報請校長核准",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "得專案報請校長核准",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
         }
       ],
       "acceptable_expressions": [],
@@ -151,6 +187,18 @@
           "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
           "source_kind": "snapshot",
           "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "申請延長休學以一次為原則",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "申請延長休學以一次為原則",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
         }
       ],
       "acceptable_expressions": [],
@@ -179,6 +227,18 @@
           "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
           "source_kind": "snapshot",
           "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "請准休學學生，其休學期間之修課紀錄予以刪除",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
+        },
+        {
+          "text": "請准休學學生，其休學期間之修課紀錄予以刪除",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
         }
       ],
       "acceptable_expressions": [],
@@ -362,6 +422,12 @@
           "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
           "source_kind": "snapshot",
           "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "依說明至系所及各處室蓋章後",
+          "source_url": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "source_kind": "live",
+          "as_of": "2026-11-13（現場）"
         }
       ],
       "acceptable_expressions": [],

@@ -14,8 +14,8 @@
     },
     "keypoint": {
       "model": "claude-sonnet-5-5",
-      "prompt_version": "judge-v1",
-      "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json（稽核 PASS：只讀輸入檔、只寫輸出檔）"
+      "prompt_version": "judge-v2",
+      "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json（稽核 PASS：只讀輸入檔、只寫輸出檔）；2026-11-15 補 in_context 判斷（新流程驗證用，只有答案沒答對的 keypoint 需要）"
     }
   },
   "rouge_l": {
@@ -23,6 +23,7 @@
     "r": 0.3077,
     "f": 0.16
   },
+  "metrics_version": "2026-11-15.context-recall-judged",
   "accuracy_rule": {
     "hard_keypoints": 3,
     "hit": 2,
@@ -36,15 +37,39 @@
     "context_chars": 1926,
     "sentence": {
       "p": 0.0067,
-      "r": 0.3333,
-      "f": 0.0132
+      "r": 0.6667,
+      "f": 0.0133,
+      "read": 2,
+      "applicable": 3,
+      "r_source": "Claude 判斷（階段 3）；答對有依據的直接算讀到",
+      "p_source": "字串比對（機械，只供比較）",
+      "f_note": "混合：Recall 為 Claude 判斷、Precision 為字串比對"
     },
     "words": {
       "p": 0.0317,
       "r": 0.625,
       "f": 0.0604
     },
-    "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）"
+    "string_match": [
+      {
+        "id": "K1",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K2",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K3",
+        "found": true,
+        "matched_reference": "行政組員 校內分機 63071"
+      }
+    ],
+    "note": "字串比對的機械指標（Sentence Precision、Words P／R／F1）只供跨 run 比較，不代表系統有沒有讀到；字串比對的逐項結果在 string_match，不用來判斷「有沒有讀到」。",
+    "metrics_version": "2026-11-15.context-recall-judged",
+    "metrics_note": "Context Sentence Recall 由 Claude 判斷（階段 3；答對且有依據的 keypoint 直接算讀到），不是字串比對；分母含引用登記表的 keypoint。Sentence Precision 與 Words 指標是字串比對的機械指標，只供跨 run 比較；Sentence F1 混用兩者。此版本之前的 Context Sentence Recall／F1 不能與之後的直接比較。"
   },
   "keypoint": {
     "relevant": 2,
@@ -81,13 +106,17 @@
     {
       "id": "K1",
       "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
       "stated_correctly": false,
       "grounded": false,
       "verdict": "irrelevant"
     },
     {
       "id": "K2",
-      "in_context": false,
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
       "stated_correctly": true,
       "grounded": true,
       "verdict": "relevant"
@@ -95,57 +124,11 @@
     {
       "id": "K3",
       "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
       "stated_correctly": true,
       "grounded": true,
       "verdict": "relevant"
-    }
-  ],
-  "contact_funnel": [
-    {
-      "keypoint": "K1",
-      "page_has_value": false,
-      "list_has_value": false,
-      "answer_has_value": false,
-      "values_in_page": [],
-      "values_in_list": [],
-      "values_in_answer": [],
-      "stage": "頁面沒有"
-    },
-    {
-      "keypoint": "K2",
-      "page_has_value": true,
-      "list_has_value": true,
-      "answer_has_value": true,
-      "values_in_page": [
-        "62120",
-        "62121",
-        "62122",
-        "62123",
-        "62124",
-        "62125",
-        "62126",
-        "62127",
-        "62172",
-        "62173",
-        "63071"
-      ],
-      "values_in_list": [
-        "62120",
-        "62121",
-        "62122",
-        "62123",
-        "62124",
-        "62125",
-        "62126",
-        "62127",
-        "62172",
-        "63071"
-      ],
-      "values_in_answer": [
-        "62120",
-        "62123"
-      ],
-      "stage": "答案有"
     }
   ],
   "disagreements": [],

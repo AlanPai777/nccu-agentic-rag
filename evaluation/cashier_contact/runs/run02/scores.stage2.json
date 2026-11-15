@@ -1,0 +1,138 @@
+{
+  "query_id": "cashier_contact",
+  "run_id": "run02",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照；校務頁面 2026-08-19）",
+    "live": "2026-11-09（現場）；只確認分機 62120，其餘分機現場無法確認"
+  },
+  "system_version": "b8b7b5f",
+  "rouge_l": {
+    "p": 0.1111,
+    "r": 0.3077,
+    "f": 0.1633
+  },
+  "accuracy": {
+    "hard_keypoints": 3,
+    "hit": 2,
+    "accuracy": 0.6667,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [],
+    "context_chars": 0,
+    "sentence": {
+      "p": 0.0,
+      "r": 0.0,
+      "f": 0.0
+    },
+    "words": {
+      "p": 0.0,
+      "r": 0.0,
+      "f": 0.0
+    },
+    "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）"
+  },
+  "keypoints": {
+    "accuracy_rule": [
+      {
+        "id": "K1",
+        "kind": "hard",
+        "verdict": "miss",
+        "matched_expressions": []
+      },
+      {
+        "id": "K2",
+        "kind": "hard",
+        "extensions_in_answer": [
+          "62120",
+          "62123"
+        ],
+        "verdict": "hit",
+        "matched_expressions": [
+          "62120",
+          "62123"
+        ],
+        "wrong": {
+          "disallowed": [],
+          "unknown_values": []
+        }
+      },
+      {
+        "id": "K3",
+        "kind": "hard",
+        "applies_if": "answer_names_contact_person",
+        "pairs_checked": [
+          {
+            "name": "劉桂芬",
+            "said": "62120",
+            "expected": "62120",
+            "ok": true
+          },
+          {
+            "name": "余淑娟",
+            "said": "62123",
+            "expected": "62123",
+            "ok": true
+          }
+        ],
+        "verdict": "hit"
+      }
+    ],
+    "funnel_stage2": [
+      {
+        "id": "K1",
+        "in_context": false,
+        "matched_reference": null,
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K2",
+        "in_context": false,
+        "matched_reference": null,
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K3",
+        "in_context": false,
+        "matched_reference": null,
+        "rule_verdict": "hit"
+      }
+    ],
+    "contact_funnel": [
+      {
+        "keypoint": "K1",
+        "page_has_value": false,
+        "list_has_value": false,
+        "answer_has_value": false,
+        "values_in_page": [],
+        "values_in_list": [],
+        "values_in_answer": [],
+        "stage": "頁面沒有"
+      },
+      {
+        "keypoint": "K2",
+        "page_has_value": false,
+        "list_has_value": true,
+        "answer_has_value": true,
+        "values_in_page": [],
+        "values_in_list": [
+          "62120",
+          "62121",
+          "62122",
+          "62123",
+          "62124",
+          "62125",
+          "62126",
+          "62127",
+          "62172",
+          "63071"
+        ],
+        "values_in_answer": [
+          "62120",
+          "62123"
+        ],
+        "stage": "頁面沒有"
+      }
+    ]
+  }
+}
