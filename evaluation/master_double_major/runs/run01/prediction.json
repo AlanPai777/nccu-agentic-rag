@@ -1,0 +1,22 @@
+{
+  "status": "error",
+  "elapsed_seconds": 53.7,
+  "query_id": "master_double_major",
+  "run_id": "run01",
+  "label": "batch06",
+  "finished_at": "2026-11-15T19:46:41+08:00",
+  "system_version": "dde1c24",
+  "live": true,
+  "browser": true,
+  "answer_raw": "",
+  "answer_body": "",
+  "stripped": {},
+  "context": [],
+  "checks": {},
+  "trace": {},
+  "failure": {
+    "timeout_seconds": null,
+    "returncode": 1,
+    "log_tail": "m_id, lambda: apply_form(form_id, snap, live))\n  File \"/mnt/d/NCCU_DATA/NCCU-AI-SYSTEM/nccu-academic-rag/rag/live/prefetch.py\", line 105, in form_live\n    return self.reuse(\"form\", form_id, make)\n           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/d/NCCU_DATA/NCCU-AI-SYSTEM/nccu-academic-rag/rag/live/prefetch.py\", line 99, in reuse\n    return make()\n  File \"/mnt/d/NCCU_DATA/NCCU-AI-SYSTEM/nccu-academic-rag/rag/agentic/tools/form.py\", line 45, in <lambda>\n    f = store.form_live(form_id, lambda: apply_form(form_id, snap, live))\n                                         ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/d/NCCU_DATA/NCCU-AI-SYSTEM/nccu-academic-rag/rag/live/hook.py\", line 148, in apply_form\n    live = fetch_form(form_id, get_fetcher())\n  File \"/mnt/d/NCCU_DATA/NCCU-AI-SYSTEM/nccu-academic-rag/rag/live/forms.py\", line 92, in fetch_form\n    d = json.loads(row.text)\n  File \"/usr/lib/python3.14/json/__init__.py\", line 352, in loads\n    return _default_decoder.decode(s)\n           ~~~~~~~~~~~~~~~~~~~~~~~^^^\n  File \"/usr/lib/python3.14/json/decoder.py\", line 345, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/json/decoder.py\", line 363, in raw_decode\n    raise JSONDecodeError(\"Expecting value\", s, err.value) from None\njson.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\nDuring task with name 'resource_node' and id '4820f3ef-5919-0cbd-7947-ac654d567c58'\n"
+  }
+}

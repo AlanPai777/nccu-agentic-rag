@@ -1,0 +1,231 @@
+{
+ "keypoints": [
+  {
+   "id": "K1",
+   "verdict": "relevant",
+   "claims": [
+    "c9"
+   ],
+   "reason": "答案列「國內/出國交換選課學分抵免申請表」，連結網址帶 QP-T01-04-05（編號只出現在連結網址裡）"
+  },
+  {
+   "id": "K2",
+   "verdict": "relevant",
+   "claims": [
+    "c9"
+   ],
+   "reason": "答案的下載連結與標準的連結一致"
+  },
+  {
+   "id": "K3",
+   "verdict": "relevant",
+   "claims": [
+    "c17"
+   ],
+   "reason": "答案寫逕至原就讀系所辦公室送件申請"
+  },
+  {
+   "id": "K4",
+   "verdict": "relevant",
+   "claims": [
+    "c7"
+   ],
+   "reason": "答案寫要附國外大學的正式成績單正本或成績證明書"
+  },
+  {
+   "id": "K5",
+   "verdict": "relevant",
+   "claims": [
+    "c8"
+   ],
+   "reason": "答案寫要附課程大綱等相關證明文件"
+  },
+  {
+   "id": "K6",
+   "verdict": "relevant",
+   "claims": [
+    "c24"
+   ],
+   "reason": "答案寫申請出國選課學年期之次學期三分之一基準日前辦理"
+  },
+  {
+   "id": "K7",
+   "verdict": "relevant",
+   "claims": [
+    "c1",
+    "c10"
+   ],
+   "reason": "答案寫體育、通識、外文通識等科目須先行送至相關開課單位審查"
+  },
+  {
+   "id": "K8",
+   "verdict": "relevant",
+   "claims": [
+    "c2",
+    "c11"
+   ],
+   "reason": "答案寫體育課程送體育室審定"
+  },
+  {
+   "id": "K9",
+   "verdict": "relevant",
+   "claims": [
+    "c4",
+    "c13"
+   ],
+   "reason": "答案寫一般通識課程送通識教育中心審定"
+  },
+  {
+   "id": "K10",
+   "verdict": "relevant",
+   "claims": [
+    "c3",
+    "c12"
+   ],
+   "reason": "答案寫外文通識送外文中心審定"
+  },
+  {
+   "id": "K11",
+   "verdict": "relevant",
+   "claims": [
+    "c18"
+   ],
+   "reason": "答案寫由就讀系所認定科目是否列入畢業最低學分總數計算"
+  },
+  {
+   "id": "K12",
+   "verdict": "relevant",
+   "claims": [
+    "c19"
+   ],
+   "reason": "答案寫經系所審查同意後送至教務處註冊組核辦"
+  },
+  {
+   "id": "K13",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫註冊組複查後簽請教務長核定",
+   "in_context": false,
+   "context_reason": "系統讀到的文字裡沒有「註冊組複查後簽請教務長核定」這句；申請表（#8）的簽核欄有註冊組與教務長兩欄，但沒有這句說明"
+  },
+  {
+   "id": "K14",
+   "verdict": "relevant",
+   "claims": [
+    "c20"
+   ],
+   "reason": "答案寫核定後登錄於成績總表"
+  },
+  {
+   "id": "K15",
+   "verdict": "wrong",
+   "claims": [
+    "c1",
+    "c19",
+    "c20"
+   ],
+   "reason": "順序題：答案的流程是先行送審→系所→教務處註冊組核辦→登錄成績總表，少了教務長核定這一站（依判斷慣例，順序 keypoint 少一站判 wrong）",
+   "in_context": true,
+   "context_quote": "經審查「同意抵免」之科目於教務處核定後登錄於本校成績總表",
+   "context_reason": "系統讀到的申請表（#8）有審查後於教務處核定、再登錄成績總表的順序，答案少寫教務長核定"
+  },
+  {
+   "id": "K16",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案寫的是請申請人先持申請表到對應單位取得審查意見，沒有寫由就讀系所送請審查單位審定（兩者說法不同，但答案沒有明寫相反，判沒提）",
+   "in_context": true,
+   "context_reason": "申請表說明（#8）有這句，答案沒寫（答案依的是教務處頁面的「應先行送審」）",
+   "context_quote": "將由就讀系所送請體育室、通識教育中心及外文中心審定"
+  },
+  {
+   "id": "K17",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫體育必修課程抵免以四門為限",
+   "in_context": false,
+   "context_reason": "系統讀到的文字裡找不到「四門為限」"
+  },
+  {
+   "id": "K18",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫國外成績證明要先蓋「與正本相符」戳記",
+   "in_context": false,
+   "context_reason": "系統讀到的文字裡找不到這句"
+  },
+  {
+   "id": "K19",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫通識抵免對象是一般通識、核心通識不得抵免",
+   "in_context": false,
+   "context_reason": "系統讀到的文字裡沒有「核心通識不得抵免」這句；申請表（#8）寫的是核心／書院通識以曾修本校課程為限，是另一件事"
+  },
+  {
+   "id": "K20",
+   "verdict": "relevant",
+   "claims": [
+    "c22",
+    "c23"
+   ],
+   "reason": "答案寫註冊組王組長 63273、鄧編審 63277，與登記表一致"
+  },
+  {
+   "id": "K21",
+   "verdict": "relevant",
+   "claims": [
+    "c21"
+   ],
+   "reason": "答案寫註冊組在行政大樓 4 樓"
+  },
+  {
+   "id": "K22",
+   "verdict": "relevant",
+   "claims": [
+    "c15"
+   ],
+   "reason": "答案寫通識教育中心的承辦人楊編審分機 62858"
+  },
+  {
+   "id": "K23",
+   "verdict": "relevant",
+   "claims": [
+    "c14"
+   ],
+   "reason": "答案在通識教育中心那一項寫「教務處（行政大樓 4 樓）」，4 樓一致，但這句沒有證據支持（證據只把 4 樓放在註冊組底下）",
+   "in_context": true,
+   "context_quote": "116011台北市文山區指南路二段64號 行政大樓四樓",
+   "context_reason": "系統讀到的通識教育中心人員頁（#2）頁尾寫著「行政大樓四樓」；答案說的 4 樓是對的，只是答案那句沒有證據支持（通識教育中心是教務處底下的單位，與教務處同層）"
+  },
+  {
+   "id": "K24",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案提到體育室，但沒有寫體育室的聯絡人",
+   "in_context": false,
+   "context_reason": "系統沒有查體育室的人員頁，讀到的文字裡沒有體育室的人員與分機"
+  },
+  {
+   "id": "K25",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案提到外文中心，但沒有寫外文中心的聯絡人",
+   "in_context": false,
+   "context_reason": "系統沒有查外文中心的人員頁，讀到的文字裡沒有外文中心的人員與分機"
+  },
+  {
+   "id": "K26",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案提到外文中心，但沒有寫它在國際大樓（360506 室）",
+   "in_context": false,
+   "context_reason": "系統讀到的文字裡找不到外文中心辦公室的位置"
+  }
+ ],
+ "judge": {
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "judge-v2",
+  "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json（稽核 PASS）。K15（順序題少一站）依 judging-rules 的慣例判 wrong；K16 答案的說法與標準不同但沒有明寫相反，判 irrelevant。答案沒寫或寫錯的 keypoint 另判 in_context。"
+ }
+}

@@ -1,0 +1,186 @@
+{
+ "keypoints": [
+  {
+   "id": "K1",
+   "verdict": "wrong",
+   "claims": [
+    "c2"
+   ],
+   "reason": "答案給的是「學士班學生跨校修讀臺北藝術大學輔系申請表」（北藝大輔系的紙本表），不是標準的台聯大跨校修讀輔系／雙主修申請表 QP-T01-04-21",
+   "in_context": false,
+   "context_reason": "系統讀到的是跨校修讀北藝大輔系的頁面（#5，1520 字），沒有讀到台聯大跨校雙主修的頁面與申請表，讀到的文字裡找不到這個事實"
+  },
+  {
+   "id": "K2",
+   "verdict": "wrong",
+   "claims": [
+    "c2"
+   ],
+   "reason": "答案的連結是北藝大輔系申請表的 PDF，不是標準的校務表單服務連結（QP-T01-04-21）",
+   "in_context": false,
+   "context_reason": "系統讀到的是跨校修讀北藝大輔系的頁面（#5，1520 字），沒有讀到台聯大跨校雙主修的頁面與申請表，讀到的文字裡找不到這個事實"
+  },
+  {
+   "id": "K3",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫對象是學士班、碩博士班不開放",
+   "in_context": false,
+   "context_reason": "系統讀到的是跨校修讀北藝大輔系的頁面（#5，1520 字），沒有讀到台聯大跨校雙主修的頁面與申請表，讀到的文字裡找不到這個事實"
+  },
+  {
+   "id": "K4",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫申請資格是一年級下學期起至三年級止",
+   "in_context": false,
+   "context_reason": "系統讀到的是跨校修讀北藝大輔系的頁面（#5，1520 字），沒有讀到台聯大跨校雙主修的頁面與申請表，讀到的文字裡找不到這個事實"
+  },
+  {
+   "id": "K5",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫只能申請與本系性質不同的學系",
+   "in_context": false,
+   "context_reason": "系統讀到的是跨校修讀北藝大輔系的頁面（#5，1520 字），沒有讀到台聯大跨校雙主修的頁面與申請表，讀到的文字裡找不到這個事實"
+  },
+  {
+   "id": "K6",
+   "verdict": "relevant",
+   "claims": [
+    "c1"
+   ],
+   "reason": "答案寫要經過就讀學系、本校註冊組與對端學校三個單位審核，雙方學校都要審"
+  },
+  {
+   "id": "K7",
+   "verdict": "relevant",
+   "claims": [
+    "c3"
+   ],
+   "reason": "答案寫申請表須經學生目前就讀的原學系同意"
+  },
+  {
+   "id": "K8",
+   "verdict": "relevant",
+   "claims": [
+    "c6"
+   ],
+   "reason": "答案寫持經學系同意的申請表送至教務處註冊組"
+  },
+  {
+   "id": "K9",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案只寫對端學校審查，沒有寫加修學校的加修學系審查",
+   "in_context": false,
+   "context_reason": "系統讀到的是跨校修讀北藝大輔系的頁面（#5，1520 字），沒有讀到台聯大跨校雙主修的頁面與申請表，讀到的文字裡找不到這個事實"
+  },
+  {
+   "id": "K10",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫加修學校的註冊組審核",
+   "in_context": false,
+   "context_reason": "系統讀到的是跨校修讀北藝大輔系的頁面（#5，1520 字），沒有讀到台聯大跨校雙主修的頁面與申請表，讀到的文字裡找不到這個事實"
+  },
+  {
+   "id": "K11",
+   "verdict": "wrong",
+   "claims": [
+    "c1"
+   ],
+   "reason": "順序題：標準是原校主修學系→原校註冊組→加修學校加修學系→加修學校註冊組四站，答案只寫就讀學系、本校註冊組、對端學校三個單位，少了加修學校的學系與註冊組兩站（依判斷慣例少一站判 wrong）",
+   "in_context": false,
+   "context_reason": "系統讀到的是跨校修讀北藝大輔系的頁面（#5，1520 字），沒有讀到台聯大跨校雙主修的頁面與申請表，讀到的文字裡找不到這個事實"
+  },
+  {
+   "id": "K12",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫兩個學系的站各有承辦人與單位主管簽核",
+   "in_context": false,
+   "context_reason": "系統讀到的是跨校修讀北藝大輔系的頁面（#5，1520 字），沒有讀到台聯大跨校雙主修的頁面與申請表，讀到的文字裡找不到這個事實"
+  },
+  {
+   "id": "K13",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫兩個註冊組的站各有承辦人與組長簽核",
+   "in_context": false,
+   "context_reason": "系統讀到的是跨校修讀北藝大輔系的頁面（#5，1520 字），沒有讀到台聯大跨校雙主修的頁面與申請表，讀到的文字裡找不到這個事實"
+  },
+  {
+   "id": "K14",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫要繳中文歷年成績單",
+   "in_context": false,
+   "context_reason": "系統讀到的是跨校修讀北藝大輔系的頁面（#5，1520 字），沒有讀到台聯大跨校雙主修的頁面與申請表，讀到的文字裡找不到這個事實"
+  },
+  {
+   "id": "K15",
+   "verdict": "relevant",
+   "claims": [
+    "c12"
+   ],
+   "reason": "答案寫本校於教務處網頁公告申請結果"
+  },
+  {
+   "id": "K16",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫外校雙主修通過會自動放棄校內雙主修（答案寫的是輔系的切結書）",
+   "in_context": false,
+   "context_reason": "系統讀到的是跨校修讀北藝大輔系的頁面（#5，1520 字），沒有讀到台聯大跨校雙主修的頁面與申請表，讀到的文字裡找不到這個事實"
+  },
+  {
+   "id": "K17",
+   "verdict": "relevant",
+   "claims": [
+    "c4"
+   ],
+   "reason": "答案寫申請修讀輔系以二個為限（只涵蓋「二個輔系」這一半，沒有寫一個雙主修）"
+  },
+  {
+   "id": "K18",
+   "verdict": "wrong",
+   "claims": [
+    "c8"
+   ],
+   "reason": "答案寫的作業期間是下學期標準表公告後至 5 月 1 日前、6 月底前公告結果，與標準的 5 月底公告、7 月受理、8 月下旬公布榜單不同（答案說的是北藝大輔系的時程）",
+   "in_context": false,
+   "context_reason": "系統讀到的是跨校修讀北藝大輔系的頁面（#5，1520 字），沒有讀到台聯大跨校雙主修的頁面與申請表，讀到的文字裡找不到這個事實"
+  },
+  {
+   "id": "K19",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫不得以他校的雙主修學系畢業",
+   "in_context": false,
+   "context_reason": "系統讀到的是跨校修讀北藝大輔系的頁面（#5，1520 字），沒有讀到台聯大跨校雙主修的頁面與申請表，讀到的文字裡找不到這個事實"
+  },
+  {
+   "id": "K20",
+   "verdict": "relevant",
+   "claims": [
+    "c9",
+    "c10"
+   ],
+   "reason": "答案寫註冊組鄧編審 63277、王組長 63273，與登記表一致"
+  },
+  {
+   "id": "K21",
+   "verdict": "relevant",
+   "claims": [
+    "c7"
+   ],
+   "reason": "答案寫註冊組在行政大樓 4 樓"
+  }
+ ],
+ "judge": {
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "judge-v2",
+  "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json（稽核 PASS）。答案講的是跨校修讀北藝大輔系，與標準（台聯大跨校雙主修的四站審核）是不同的流程；K11 少兩站、K18 時程不同、K1/K2 表單不同，依判斷慣例判 wrong。系統沒有讀到台聯大雙主修的頁面，所以沒答對的 keypoint 的 in_context 都是 false。"
+ }
+}

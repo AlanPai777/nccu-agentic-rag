@@ -1,0 +1,1054 @@
+{
+  "query_id": "leave_and_library_phone",
+  "run_id": "run01",
+  "system_version": "dde1c24",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；表單版本 202512版）",
+    "live": "2026-11-13（現場）（教務處頁面、退費標準頁、各處室人員頁；人員、樓層、表單連結的現場依據在 evaluation/registry/）",
+    "library_phone": "圖書館各組聯絡資訊頁：快照 2026-08-25、現場 2026-11-13（動態）"
+  },
+  "judges": {
+    "trace": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "isolated-v3",
+      "note": "isolated trace by a subagent that read only trace_input.json"
+    },
+    "keypoint": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "judge-v2",
+      "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json（稽核 PASS）。答案沒寫的 keypoint 另判 in_context：引文取自系統讀到的文字；退費標準頁、退離宿頁、總圖與各分館的圖書館電話頁系統沒有讀到。"
+    }
+  },
+  "rouge_l": {
+    "p": 0.1906,
+    "r": 0.3466,
+    "f": 0.246
+  },
+  "metrics_version": "2026-11-15.context-recall-judged",
+  "accuracy_rule": {
+    "hard_keypoints": 23,
+    "hit": 14,
+    "accuracy": 0.6087,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      2,
+      4,
+      5,
+      10,
+      12,
+      15,
+      17
+    ],
+    "context_chars": 9567,
+    "sentence": {
+      "p": 0.1036,
+      "r": 0.791,
+      "f": 0.1832,
+      "read": 53,
+      "applicable": 67,
+      "r_source": "Claude 判斷（階段 3）；答對有依據的直接算讀到",
+      "p_source": "字串比對（機械，只供比較）",
+      "f_note": "混合：Recall 為 Claude 判斷、Precision 為字串比對"
+    },
+    "words": {
+      "p": 0.2739,
+      "r": 0.9005,
+      "f": 0.42
+    },
+    "string_match": [
+      {
+        "id": "K1",
+        "found": true,
+        "matched_reference": "申請當學期休學者，請於期末考試（休學截止日）前提出，逾期不予受理"
+      },
+      {
+        "id": "K2",
+        "found": true,
+        "matched_reference": "申請休學，得由學校一次核准一學期至二學年"
+      },
+      {
+        "id": "K3",
+        "found": true,
+        "matched_reference": "休學累計以二學年為原則"
+      },
+      {
+        "id": "K4",
+        "found": true,
+        "matched_reference": "期滿因重病或特殊事故需再申請延長休學一學期或一學年者，得專案報請 校長核准"
+      },
+      {
+        "id": "K5",
+        "found": true,
+        "matched_reference": "申請延長休學以一次為原則"
+      },
+      {
+        "id": "K6",
+        "found": true,
+        "matched_reference": "請准休學學生，其休學期間之修課紀錄予以刪除（含國內外校際選課）"
+      },
+      {
+        "id": "K7",
+        "found": true,
+        "matched_reference": "(未成年學生須經法定代理人簽章同意。）"
+      },
+      {
+        "id": "K8",
+        "found": true,
+        "matched_reference": "※轉系(所)經核准公告後，於申辦當學期 休學者，取消其轉系(所)核准資格"
+      },
+      {
+        "id": "K9",
+        "found": true,
+        "matched_reference": "[休學/保留學籍申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)"
+      },
+      {
+        "id": "K10",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K11",
+        "found": true,
+        "matched_reference": "本人攜帶學生證或身分證件正本"
+      },
+      {
+        "id": "K12",
+        "found": true,
+        "matched_reference": "非本人親辦，需附委託書及被委託人身分證件正本"
+      },
+      {
+        "id": "K13",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K14",
+        "found": true,
+        "matched_reference": "會 簽 程 序 【 申 請 者 請 參 閱 本 表 說 明 並 依 序 前 往 辦 理 】"
+      },
+      {
+        "id": "K15",
+        "found": true,
+        "matched_reference": "依說明至系所及各處室蓋章後"
+      },
+      {
+        "id": "K16",
+        "found": true,
+        "matched_reference": "（總圖或分館借還書櫃檯）"
+      },
+      {
+        "id": "K17",
+        "found": true,
+        "matched_reference": "(行政大樓5樓) (確認學生帳戶)"
+      },
+      {
+        "id": "K18",
+        "found": true,
+        "matched_reference": "限住宿生(行政大樓 3 樓)"
+      },
+      {
+        "id": "K19",
+        "found": true,
+        "matched_reference": "(僑生、港澳生、陸生至生僑組)"
+      },
+      {
+        "id": "K20",
+        "found": true,
+        "matched_reference": "(原住民族籍學生至原資中心)"
+      },
+      {
+        "id": "K21",
+        "found": true,
+        "matched_reference": "限國際學生(行政大樓8樓)"
+      },
+      {
+        "id": "K22",
+        "found": true,
+        "matched_reference": "擬准予□休學□保留學籍 計 學年 學期"
+      },
+      {
+        "id": "K23",
+        "found": true,
+        "matched_reference": "註冊組 組 長"
+      },
+      {
+        "id": "K24",
+        "found": true,
+        "matched_reference": "教務長 批 示"
+      },
+      {
+        "id": "K25",
+        "found": true,
+        "matched_reference": "填妥「休學/保留學籍申請書」並依說明至系所及各處室蓋章後，送至教務處註冊組"
+      },
+      {
+        "id": "K26",
+        "found": true,
+        "matched_reference": "畢業、休學、退學或轉學住宿生應於發生 日起7日內(含例假日、且不得超過當學期期 末所定離舍日)向住宿組辦理退離宿手續 後，始得申請退還宿費及住宿保證金"
+      },
+      {
+        "id": "K27",
+        "found": true,
+        "matched_reference": "在台居留事由為「就讀」者，其外僑居留 證將由移民署註銷"
+      },
+      {
+        "id": "K28",
+        "found": true,
+        "matched_reference": "學生需在辦理完休學/保 留學籍手續後10日內離境"
+      },
+      {
+        "id": "K29",
+        "found": true,
+        "matched_reference": "台灣獎學金受獎人獎學金將自休學/保留學 籍生效日之隔月開始停發"
+      },
+      {
+        "id": "K30",
+        "found": true,
+        "matched_reference": "□三個工作天後親自至註冊組承辦人處領取"
+      },
+      {
+        "id": "K31",
+        "found": true,
+        "matched_reference": "□郵寄回申請人（請附足資回郵信封）"
+      },
+      {
+        "id": "K32",
+        "found": true,
+        "matched_reference": "□不需證明書 （自行上iNCCU/校務系統Web入口/學生資訊系統/資訊服務/學年(期)學籍狀態查詢）"
+      },
+      {
+        "id": "K33",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K34",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K35",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K36",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K37",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K38",
+        "found": true,
+        "matched_reference": "退費相關事宜由學務處生僑組承辦"
+      },
+      {
+        "id": "K39",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K40",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K41",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K42",
+        "found": true,
+        "matched_reference": "如因經濟因素申請休學之學生，申請前可洽學務處生僑組申請各種濟助措施"
+      },
+      {
+        "id": "K43",
+        "found": true,
+        "matched_reference": "如因懷孕或終止懷孕等因素申請休學之學生，可與學務處身心健康中心討論相關醫療資源"
+      },
+      {
+        "id": "K44",
+        "found": true,
+        "matched_reference": "電話：8237-7419"
+      },
+      {
+        "id": "K45",
+        "found": true,
+        "matched_reference": "休學、保留學籍期間得於每學期註冊截止日前至總務處出納組臨櫃繳交平安保險費，投保本校學生團體平安保險"
+      },
+      {
+        "id": "K46",
+        "found": true,
+        "matched_reference": "當學期繳費註冊截止日前：申請休學或保留學籍，免繳註冊相關費用"
+      },
+      {
+        "id": "K47",
+        "found": true,
+        "matched_reference": "入學第一學期之繳費註冊截止日後：申請休學或保留學籍，須繳費後始得辦理"
+      },
+      {
+        "id": "K48",
+        "found": true,
+        "matched_reference": "若延誤註冊逾二週仍未完成繳費註冊、休學或保留學籍者，當學年度入學新生即令註銷學籍"
+      },
+      {
+        "id": "K49",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K50",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K51",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K52",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K53",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K54",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K55",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K56",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K57",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K58",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K59",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K60",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K61",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K62",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K63",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K64",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K65",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K66",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K67",
+        "found": null,
+        "matched_reference": null
+      }
+    ],
+    "note": "字串比對的機械指標（Sentence Precision、Words P／R／F1）只供跨 run 比較，不代表系統有沒有讀到；字串比對的逐項結果在 string_match，不用來判斷「有沒有讀到」。",
+    "metrics_version": "2026-11-15.context-recall-judged",
+    "metrics_note": "Context Sentence Recall 由 Claude 判斷（階段 3；答對且有依據的 keypoint 直接算讀到），不是字串比對；分母含引用登記表的 keypoint。Sentence Precision 與 Words 指標是字串比對的機械指標，只供跨 run 比較；Sentence F1 混用兩者。此版本之前的 Context Sentence Recall／F1 不能與之後的直接比較。"
+  },
+  "keypoint": {
+    "relevant": 34,
+    "wrong": 0,
+    "irrelevant": 33,
+    "total": 67,
+    "not_applicable": 0,
+    "completeness": 0.5075,
+    "hallucination": 0.0,
+    "irrelevance": 0.4925
+  },
+  "fact_unit": {
+    "precision": 1.0,
+    "recall": 0.5075,
+    "f1": 0.6733,
+    "note": "P = Relevant ÷ (Relevant + Wrong)；R = Relevant ÷ keypoint 總數"
+  },
+  "claim_unit": {
+    "claims": 34,
+    "correct_claims": 26,
+    "precision": 0.7647,
+    "recall": 0.5075,
+    "f1": 0.6101,
+    "note": "P = 正確陳述某個 keypoint 的主張 ÷ 全部主張；額外但正確的資訊會讓 P 下降，量的是聚焦程度"
+  },
+  "evidence_support": {
+    "rate": 1.0,
+    "supported": 34,
+    "claims": 34,
+    "unsupported_claims": []
+  },
+  "ungrounded_correct_keypoints": [],
+  "funnel": [
+    {
+      "id": "K1",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K2",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K3",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K4",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "得專案報請校長核准",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K5",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "申請延長休學以一次為原則",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K6",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "請准休學學生，其休學期間之修課紀錄予以刪除",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K7",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K8",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "取消其轉系(所)核准資格",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K9",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K10",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K11",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K12",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K13",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K14",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K15",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K16",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K17",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K18",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K19",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "僑生、港澳生、陸生至生僑組",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K20",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K21",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K22",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "擬准予□休學□保留學籍",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K23",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "註冊組 組 長",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K24",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K25",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K26",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "住宿生應於發生 日起7日內",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K27",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "其外僑居留 證將由移民署註銷",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K28",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "學生需在辦理完休學/保 留學籍手續後10日內離境",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K29",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "台灣獎學金受獎人獎學金將自休學/保留學 籍生效日之隔月開始停發",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K30",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K31",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K32",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K33",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K34",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K35",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K36",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K37",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K38",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "退費相關事宜由學務處生僑組承辦",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K39",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K40",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K41",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K42",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "如因經濟因素申請休學之學生，申請前可洽學務處生僑組申請各種濟助措施",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K43",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "如因懷孕或終止懷孕等因素申請休學之學生，可與學務處身心健康中心討論相關醫療資源",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K44",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "電話：8237-7419",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K45",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "休學、保留學籍期間得於每學期註冊截止日前至總務處出納組臨櫃繳交平安保險費",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K46",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "當學期繳費註冊截止日前：申請休學或保留學籍，免繳註冊相關費用",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K47",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "申請休學或保留學籍，須繳費後始得辦理",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K48",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "若延誤註冊逾二週仍未完成繳費註冊、休學或保留學籍者，當學年度入學新生即令註銷學籍",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K49",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K50",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K51",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K52",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K53",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K54",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K55",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K56",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K57",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K58",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K59",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K60",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K61",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K62",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K63",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K64",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K65",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K66",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K67",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    }
+  ],
+  "disagreements": [
+    {
+      "keypoint": "K51",
+      "rule": "wrong",
+      "claude": "relevant",
+      "claude_reason": "答案寫出納組劉桂芬 62120、余淑娟 62123",
+      "rule_detail": {}
+    },
+    {
+      "keypoint": "K53",
+      "rule": "wrong",
+      "claude": "relevant",
+      "claude_reason": "答案寫住宿組趙紀綱（組長）62500",
+      "rule_detail": {}
+    }
+  ],
+  "warnings": []
+}

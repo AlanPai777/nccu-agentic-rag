@@ -1,0 +1,82 @@
+{
+  "note": "batch06（Q2～Q11）加上 Q1 的 run06（batch05）：2026-11-15 真實批次，live 開、Chromium 開，每題一次",
+  "cases": [
+    {
+      "id": 1,
+      "question": "cashier_contact",
+      "short": "出納組電話",
+      "group": "Factual Questions",
+      "dir": "runs/run06"
+    },
+    {
+      "id": 2,
+      "question": "course_limit",
+      "short": "選課上限",
+      "group": "Factual Questions",
+      "dir": "runs/run01"
+    },
+    {
+      "id": 3,
+      "question": "leave_form_download",
+      "short": "休學申請表下載",
+      "group": "Factual Questions",
+      "dir": "runs/run01"
+    },
+    {
+      "id": 4,
+      "question": "resumption",
+      "short": "復學",
+      "group": "Cross-Office Procedural Questions",
+      "dir": "runs/run01"
+    },
+    {
+      "id": 5,
+      "question": "leave_of_absence",
+      "short": "休學",
+      "group": "Cross-Office Procedural Questions",
+      "dir": "runs/run01"
+    },
+    {
+      "id": 6,
+      "question": "leave_and_library_phone",
+      "short": "休學加圖書館電話",
+      "group": "Cross-Office Procedural Questions",
+      "dir": "runs/run01"
+    },
+    {
+      "id": 7,
+      "question": "master_transfer",
+      "short": "轉系所",
+      "group": "Cross-Office Procedural Questions",
+      "dir": "runs/run01"
+    },
+    {
+      "id": 8,
+      "question": "dorm_deposit",
+      "short": "退宿保證金",
+      "group": "Cross-Office Procedural Questions",
+      "dir": "runs/run01"
+    },
+    {
+      "id": 9,
+      "question": "master_double_major",
+      "short": "雙主修輔系",
+      "group": "Cross-Office Procedural Questions",
+      "dir": "runs/run01"
+    },
+    {
+      "id": 10,
+      "question": "overseas_exchange_credit",
+      "short": "出國交換抵免",
+      "group": "Cross-Office Procedural Questions",
+      "dir": "runs/run01"
+    },
+    {
+      "id": 11,
+      "question": "cross_school_double_major",
+      "short": "跨校雙主修",
+      "group": "Cross-Office Procedural Questions",
+      "dir": "runs/run01"
+    }
+  ]
+}

@@ -1,0 +1,248 @@
+{
+ "keypoints": [
+  {
+   "id": "K1",
+   "verdict": "relevant",
+   "claims": [
+    "c9"
+   ],
+   "reason": "答案寫原就讀系所主管審核並簽章「同意轉出」"
+  },
+  {
+   "id": "K2",
+   "verdict": "relevant",
+   "claims": [
+    "c10"
+   ],
+   "reason": "答案寫擬轉入系所主管審核並簽章「同意轉入」，兩邊都要同意"
+  },
+  {
+   "id": "K3",
+   "verdict": "relevant",
+   "claims": [
+    "c12"
+   ],
+   "reason": "答案寫將經兩所主管同意的申請書送至教務處註冊組複核"
+  },
+  {
+   "id": "K4",
+   "verdict": "relevant",
+   "claims": [
+    "c13"
+   ],
+   "reason": "答案寫由註冊組承辦人、組長及教務長簽核（承辦人有列）"
+  },
+  {
+   "id": "K5",
+   "verdict": "relevant",
+   "claims": [
+    "c13"
+   ],
+   "reason": "答案寫註冊組組長簽核"
+  },
+  {
+   "id": "K6",
+   "verdict": "relevant",
+   "claims": [
+    "c13"
+   ],
+   "reason": "答案寫教務長簽核"
+  },
+  {
+   "id": "K7",
+   "verdict": "relevant",
+   "claims": [
+    "c11"
+   ],
+   "reason": "答案寫轉入所不同意時申請書逕送回原系所並通知學生"
+  },
+  {
+   "id": "K8",
+   "verdict": "relevant",
+   "claims": [
+    "c4"
+   ],
+   "reason": "答案寫修業第二學年開始前可申請"
+  },
+  {
+   "id": "K9",
+   "verdict": "relevant",
+   "claims": [
+    "c4"
+   ],
+   "reason": "答案寫以一次為限"
+  },
+  {
+   "id": "K10",
+   "verdict": "relevant",
+   "claims": [
+    "c8"
+   ],
+   "reason": "答案寫上學期 12/1 至 12/31"
+  },
+  {
+   "id": "K11",
+   "verdict": "relevant",
+   "claims": [
+    "c8"
+   ],
+   "reason": "答案寫下學期 6/1 至 6/30"
+  },
+  {
+   "id": "K12",
+   "verdict": "relevant",
+   "claims": [
+    "c5"
+   ],
+   "reason": "答案寫一般研究所學生與在職專班學生不得互轉"
+  },
+  {
+   "id": "K13",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫有學籍分組的系所得申請轉組",
+   "in_context": true,
+   "context_reason": "系統讀到的轉所申請書說明（#5）有，答案沒寫",
+   "context_quote": "系所經報教育部核備有學籍分組者得申請轉組"
+  },
+  {
+   "id": "K14",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫碩士班轉所規定由各所自訂並明列於修業規定中",
+   "in_context": true,
+   "context_reason": "轉所申請書說明（#5）有，答案沒寫",
+   "context_quote": "碩士班辦理轉所之規定，由各所自訂並明列於修業規定中"
+  },
+  {
+   "id": "K15",
+   "verdict": "relevant",
+   "claims": [
+    "c6"
+   ],
+   "reason": "答案寫申請轉所當學期不得休學"
+  },
+  {
+   "id": "K16",
+   "verdict": "relevant",
+   "claims": [
+    "c7"
+   ],
+   "reason": "答案寫核准後辦理休學則轉所自始無效"
+  },
+  {
+   "id": "K17",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案只寫核准後辦理休學則轉所無效，沒有寫轉所核准後不得再申請更改或轉回原所",
+   "in_context": true,
+   "context_reason": "轉所申請書說明（#5）有，答案沒寫",
+   "context_quote": "並不得再申請更改或轉回原所"
+  },
+  {
+   "id": "K18",
+   "verdict": "relevant",
+   "claims": [
+    "c18"
+   ],
+   "reason": "答案寫轉所於新學期生效後，學生應於開學日起二週內…"
+  },
+  {
+   "id": "K19",
+   "verdict": "relevant",
+   "claims": [
+    "c18"
+   ],
+   "reason": "答案寫開學日起二週內填寫學分認定申請書並附成績單"
+  },
+  {
+   "id": "K20",
+   "verdict": "relevant",
+   "claims": [
+    "c18"
+   ],
+   "reason": "答案寫送至轉入系所辦理學分認定審核"
+  },
+  {
+   "id": "K21",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫各所錄取轉所名額以核定招生名額一成為原則",
+   "in_context": false,
+   "context_reason": "系統讀到的文字（轉所申請書、人員頁）裡找不到名額一成的規定，這句在學則裡，系統沒有讀學則"
+  },
+  {
+   "id": "K22",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫陸生轉所要在部定陸生總名額及系所範圍內流用",
+   "in_context": false,
+   "context_reason": "系統讀到的文字裡找不到陸生流用的規定"
+  },
+  {
+   "id": "K23",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫碩士班甄試入學學生、外國學生、僑生是否能轉所由各系所自行規範",
+   "in_context": false,
+   "context_reason": "系統讀到的文字裡找不到這項規定"
+  },
+  {
+   "id": "K24",
+   "verdict": "relevant",
+   "claims": [
+    "c2"
+   ],
+   "reason": "答案寫「碩士班轉系所申請書」（表單編號 QP-T01-05-05）"
+  },
+  {
+   "id": "K25",
+   "verdict": "wrong",
+   "claims": [
+    "c3"
+   ],
+   "reason": "答案的下載連結是 tiipm（科技管理與智慧財產研究所）網站上的轉所申請書 PDF，不是標準的校務表單服務連結（QP-T01-05-05）；答案有寫對表單編號，但連結給了不同的網址",
+   "in_context": true,
+   "context_quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+   "context_reason": "系統讀到了校務表單服務的表單全文（#6，標頭帶正確連結），答案卻選了研究所網站的 PDF 連結"
+  },
+  {
+   "id": "K26",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案提到學分認定申請書，但沒有附它的連結（QP-T01-05-06）",
+   "in_context": false,
+   "context_reason": "系統讀到的文字裡沒有學分認定申請書的連結（QP-T01-05-06），沒有讀到那份表單"
+  },
+  {
+   "id": "K27",
+   "verdict": "relevant",
+   "claims": [
+    "c16",
+    "c17"
+   ],
+   "reason": "答案寫註冊組王組長 63273、鄧編審 63277，與登記表一致"
+  },
+  {
+   "id": "K28",
+   "verdict": "relevant",
+   "claims": [
+    "c15"
+   ],
+   "reason": "答案寫辦理地點行政大樓 4 樓（教務處註冊組）"
+  },
+  {
+   "id": "K29",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫原就讀系所要在每學期結束日前把表單正本送教務處註冊組",
+   "in_context": false,
+   "context_reason": "系統讀到的文字裡找不到這句，轉所申請書說明只寫到「註冊組據以處理學籍等後續事宜」"
+  }
+ ],
+ "judge": {
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "judge-v2",
+  "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json（稽核 PASS）。K25 判 wrong：連結是研究所網站的 PDF，不是標準的校務表單服務連結（c3 有依據，但不是標準的連結，不算正確主張）。答案沒寫的 keypoint 另判 in_context。"
+ }
+}

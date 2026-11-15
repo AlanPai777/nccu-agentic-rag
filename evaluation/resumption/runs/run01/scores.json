@@ -1,0 +1,456 @@
+{
+  "query_id": "resumption",
+  "run_id": "run01",
+  "system_version": "dde1c24",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；表單版本 2024修訂8版）",
+    "live": "2026-11-13（現場）（教務處頁面、註冊通知單 115-1、各處室人員頁；人員、樓層、表單連結的現場依據在 evaluation/registry/）"
+  },
+  "judges": {
+    "trace": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "isolated-v3",
+      "note": "isolated trace by a subagent that read only trace_input.json"
+    },
+    "keypoint": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "judge-v2",
+      "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json（稽核 PASS）。K5、K13、K22 沒寫，另外判了 in_context（系統都讀到了，引文取自 get_page 與表單全文）。"
+    }
+  },
+  "rouge_l": {
+    "p": 0.1931,
+    "r": 0.4975,
+    "f": 0.2782
+  },
+  "metrics_version": "2026-11-15.context-recall-judged",
+  "accuracy_rule": {
+    "hard_keypoints": 9,
+    "hit": 7,
+    "accuracy": 0.7778,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      2,
+      4,
+      6,
+      7,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "context_chars": 37892,
+    "sentence": {
+      "p": 0.0117,
+      "r": 1.0,
+      "f": 0.0231,
+      "read": 24,
+      "applicable": 24,
+      "r_source": "Claude 判斷（階段 3）；答對有依據的直接算讀到",
+      "p_source": "字串比對（機械，只供比較）",
+      "f_note": "混合：Recall 為 Claude 判斷、Precision 為字串比對"
+    },
+    "words": {
+      "p": 0.0495,
+      "r": 0.9684,
+      "f": 0.0942
+    },
+    "string_match": [
+      {
+        "id": "K1",
+        "found": true,
+        "matched_reference": "一、學生休學或保留學籍期滿即應復學，並依規定期限辦妥繳費註冊相關事宜"
+      },
+      {
+        "id": "K2",
+        "found": true,
+        "matched_reference": "二、 提前復學之申請，請於欲復學之當學期加退選結束前（學則第43條）書面提出申請"
+      },
+      {
+        "id": "K3",
+        "found": true,
+        "matched_reference": "[提早復學申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-04)"
+      },
+      {
+        "id": "K4",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K5",
+        "found": true,
+        "matched_reference": "二、如於尚未期滿前擬辦提早復學，應於復學之當學期加退選結束前，本人攜帶學生證或身分證件正本"
+      },
+      {
+        "id": "K6",
+        "found": true,
+        "matched_reference": "（非本人親辦，需附委託書及被委託人身分證件正本），填妥「提早復學申請書」"
+      },
+      {
+        "id": "K7",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K8",
+        "found": true,
+        "matched_reference": "依說明至系所及各處室蓋章後，送至教務處註冊組"
+      },
+      {
+        "id": "K9",
+        "found": true,
+        "matched_reference": "生 僑 組 | (僅男生及僑生需辦理)"
+      },
+      {
+        "id": "K10",
+        "found": true,
+        "matched_reference": "(請繳交歸屬證書正本或體位證書正本或退伍令影本)"
+      },
+      {
+        "id": "K11",
+        "found": true,
+        "matched_reference": "國 際 合 作 事 務 處 | （僅國際學生需辦理）"
+      },
+      {
+        "id": "K12",
+        "found": true,
+        "matched_reference": "註 冊 組 承 辦 人 | 擬 准予 學年第 學期復學。 學士班請加會學士班統籌； |  |  | 註 冊 組 組 長"
+      },
+      {
+        "id": "K13",
+        "found": true,
+        "matched_reference": "學士班請加會學士班統籌"
+      },
+      {
+        "id": "K14",
+        "found": true,
+        "matched_reference": "請至各單位（雙線以上）蓋章完畢後，送註冊組辦理"
+      },
+      {
+        "id": "K15",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K16",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K17",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K18",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K19",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K20",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K21",
+        "found": true,
+        "matched_reference": "完成復學手續後，應依規定期限辦理註冊"
+      },
+      {
+        "id": "K22",
+        "found": true,
+        "matched_reference": "限於第一學期申請（每年 八月），第二學期不得申請入學"
+      },
+      {
+        "id": "K23",
+        "found": true,
+        "matched_reference": "本申請經核准後，即完成復學手續"
+      },
+      {
+        "id": "K24",
+        "found": false,
+        "matched_reference": null
+      }
+    ],
+    "note": "字串比對的機械指標（Sentence Precision、Words P／R／F1）只供跨 run 比較，不代表系統有沒有讀到；字串比對的逐項結果在 string_match，不用來判斷「有沒有讀到」。",
+    "metrics_version": "2026-11-15.context-recall-judged",
+    "metrics_note": "Context Sentence Recall 由 Claude 判斷（階段 3；答對且有依據的 keypoint 直接算讀到），不是字串比對；分母含引用登記表的 keypoint。Sentence Precision 與 Words 指標是字串比對的機械指標，只供跨 run 比較；Sentence F1 混用兩者。此版本之前的 Context Sentence Recall／F1 不能與之後的直接比較。"
+  },
+  "keypoint": {
+    "relevant": 21,
+    "wrong": 0,
+    "irrelevant": 3,
+    "total": 24,
+    "not_applicable": 0,
+    "completeness": 0.875,
+    "hallucination": 0.0,
+    "irrelevance": 0.125
+  },
+  "fact_unit": {
+    "precision": 1.0,
+    "recall": 0.875,
+    "f1": 0.9333,
+    "note": "P = Relevant ÷ (Relevant + Wrong)；R = Relevant ÷ keypoint 總數"
+  },
+  "claim_unit": {
+    "claims": 22,
+    "correct_claims": 18,
+    "precision": 0.8182,
+    "recall": 0.875,
+    "f1": 0.8456,
+    "note": "P = 正確陳述某個 keypoint 的主張 ÷ 全部主張；額外但正確的資訊會讓 P 下降，量的是聚焦程度"
+  },
+  "evidence_support": {
+    "rate": 1.0,
+    "supported": 22,
+    "claims": 22,
+    "unsupported_claims": []
+  },
+  "ungrounded_correct_keypoints": [],
+  "funnel": [
+    {
+      "id": "K1",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K2",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K3",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K4",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K5",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "本人攜帶學生證或身分證件正本",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K6",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K7",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K8",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K9",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K10",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K11",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K12",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K13",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "學士班請加會學士班統籌",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K14",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K15",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K16",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K17",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K18",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K19",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K20",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K21",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K22",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "限於第一學期申請",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K23",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K24",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    }
+  ],
+  "disagreements": [
+    {
+      "keypoint": "K15",
+      "rule": "wrong",
+      "claude": "relevant",
+      "claude_reason": "答案寫註冊組聯絡人鄧編審 63277、王組長 63273，與登記表一致（規則版把後面清單編號的數字接在分機後面，誤判配對，見 disagreements）",
+      "rule_detail": {}
+    },
+    {
+      "keypoint": "K17",
+      "rule": "wrong",
+      "claude": "relevant",
+      "claude_reason": "答案寫生僑組盧翠婷（組長）63010、黃信翰（一級行政專員）63011，與登記表一致",
+      "rule_detail": {}
+    }
+  ],
+  "warnings": []
+}

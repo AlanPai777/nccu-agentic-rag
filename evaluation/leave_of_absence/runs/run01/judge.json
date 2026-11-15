@@ -1,0 +1,504 @@
+{
+ "keypoints": [
+  {
+   "id": "K1",
+   "verdict": "relevant",
+   "claims": [
+    "c32"
+   ],
+   "reason": "答案寫當學期休學者須於期末考試以前辦理，逾期不予受理"
+  },
+  {
+   "id": "K2",
+   "verdict": "relevant",
+   "claims": [
+    "c4"
+   ],
+   "reason": "答案寫一次可申請一學期至二學年"
+  },
+  {
+   "id": "K3",
+   "verdict": "relevant",
+   "claims": [
+    "c4"
+   ],
+   "reason": "答案寫累計以二學年為原則"
+  },
+  {
+   "id": "K4",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫期滿延長休學專案報請校長核准",
+   "in_context": true,
+   "context_reason": "系統讀到的教務處頁面（#5）有這句，答案沒寫",
+   "context_quote": "得專案報請校長核准"
+  },
+  {
+   "id": "K5",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫申請延長休學以一次為原則",
+   "in_context": true,
+   "context_reason": "教務處頁面（#5）有，答案沒寫",
+   "context_quote": "申請延長休學以一次為原則"
+  },
+  {
+   "id": "K6",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫休學期間的修課紀錄予以刪除",
+   "in_context": true,
+   "context_reason": "教務處頁面（#5）有，答案沒寫",
+   "context_quote": "請准休學學生，其休學期間之修課紀錄予以刪除"
+  },
+  {
+   "id": "K7",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫未成年學生須經法定代理人簽章同意",
+   "in_context": true,
+   "context_reason": "申請書表單全文（#6）有，答案沒寫",
+   "context_quote": "未成年學生須經法定代理人簽章同意"
+  },
+  {
+   "id": "K8",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫轉系（所）經核准後於當學期休學者取消核准資格",
+   "in_context": true,
+   "context_reason": "申請書表單全文（#6）有，答案沒寫",
+   "context_quote": "取消其轉系(所)核准資格"
+  },
+  {
+   "id": "K9",
+   "verdict": "relevant",
+   "claims": [
+    "c1"
+   ],
+   "reason": "答案列「休學/保留學籍申請書」，連結網址帶 QP-T01-03-02（編號只出現在連結網址裡）"
+  },
+  {
+   "id": "K10",
+   "verdict": "relevant",
+   "claims": [
+    "c1"
+   ],
+   "reason": "答案的下載連結與標準的連結一致"
+  },
+  {
+   "id": "K11",
+   "verdict": "relevant",
+   "claims": [
+    "c7"
+   ],
+   "reason": "答案寫本人辦理請攜帶學生證或身分證件正本"
+  },
+  {
+   "id": "K12",
+   "verdict": "relevant",
+   "claims": [
+    "c8"
+   ],
+   "reason": "答案寫非本人親辦須附委託書及被委託人身分證件正本"
+  },
+  {
+   "id": "K13",
+   "verdict": "relevant",
+   "claims": [
+    "c8"
+   ],
+   "reason": "答案附了各項證明文件申辦委託書的連結（QP-T01-02-05）"
+  },
+  {
+   "id": "K14",
+   "verdict": "relevant",
+   "claims": [
+    "c9",
+    "c10",
+    "c12"
+   ],
+   "reason": "答案寫「依序完成會簽蓋章（重要順序）」並依序列出系所、圖書館、出納組…"
+  },
+  {
+   "id": "K15",
+   "verdict": "relevant",
+   "claims": [
+    "c9"
+   ],
+   "reason": "答案寫系所簽章：前往所屬系（所）辦公室"
+  },
+  {
+   "id": "K16",
+   "verdict": "relevant",
+   "claims": [
+    "c10"
+   ],
+   "reason": "答案寫圖書館：前往總圖或分館借還書櫃檯"
+  },
+  {
+   "id": "K17",
+   "verdict": "relevant",
+   "claims": [
+    "c12"
+   ],
+   "reason": "答案寫出納組確認學生帳戶"
+  },
+  {
+   "id": "K18",
+   "verdict": "relevant",
+   "claims": [
+    "c14"
+   ],
+   "reason": "答案寫住宿組僅限住宿生"
+  },
+  {
+   "id": "K19",
+   "verdict": "relevant",
+   "claims": [
+    "c17"
+   ],
+   "reason": "答案寫僑生、港澳生、陸生至生僑組"
+  },
+  {
+   "id": "K20",
+   "verdict": "relevant",
+   "claims": [
+    "c19"
+   ],
+   "reason": "答案寫原住民族籍學生至原資中心"
+  },
+  {
+   "id": "K21",
+   "verdict": "relevant",
+   "claims": [
+    "c21"
+   ],
+   "reason": "答案寫國合處僅限國際學生"
+  },
+  {
+   "id": "K22",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案只寫「承辦人受理」，沒有寫註冊組擬准予休學及學年學期",
+   "in_context": true,
+   "context_reason": "申請書表單全文（#6）有，答案沒寫",
+   "context_quote": "擬准予□休學□保留學籍"
+  },
+  {
+   "id": "K23",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫註冊組組長簽章（王組長只當作聯絡人列在「承辦人受理」下）",
+   "in_context": true,
+   "context_reason": "申請書表單全文（#6）有組長簽章欄，答案沒寫",
+   "context_quote": "註冊組 組 長"
+  },
+  {
+   "id": "K24",
+   "verdict": "relevant",
+   "claims": [
+    "c27"
+   ],
+   "reason": "答案寫教務長批示（劉吉軒，教務長）"
+  },
+  {
+   "id": "K25",
+   "verdict": "relevant",
+   "claims": [
+    "c24"
+   ],
+   "reason": "答案寫將完成所有會簽的申請書送至教務處註冊組"
+  },
+  {
+   "id": "K26",
+   "verdict": "relevant",
+   "claims": [
+    "c15"
+   ],
+   "reason": "答案寫住宿生需於發生日起 7 日內辦理退離宿手續（沒寫退還宿費的後半句，重點一致）"
+  },
+  {
+   "id": "K27",
+   "verdict": "relevant",
+   "claims": [
+    "c22"
+   ],
+   "reason": "答案寫外僑居留證將被註銷"
+  },
+  {
+   "id": "K28",
+   "verdict": "relevant",
+   "claims": [
+    "c22"
+   ],
+   "reason": "答案寫手續完畢後 10 日內離境"
+  },
+  {
+   "id": "K29",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫台灣獎學金受獎人的獎學金停發",
+   "in_context": true,
+   "context_reason": "申請書表單全文（#6）有，答案沒寫",
+   "context_quote": "台灣獎學金受獎人獎學金將自休學/保留學 籍生效日之隔月開始停發"
+  },
+  {
+   "id": "K30",
+   "verdict": "relevant",
+   "claims": [
+    "c28"
+   ],
+   "reason": "答案寫三個工作天後親自至註冊組承辦人處領取"
+  },
+  {
+   "id": "K31",
+   "verdict": "relevant",
+   "claims": [
+    "c29"
+   ],
+   "reason": "答案寫附足資回郵信封郵寄"
+  },
+  {
+   "id": "K32",
+   "verdict": "relevant",
+   "claims": [
+    "c30",
+    "c31"
+   ],
+   "reason": "答案寫不需證明書可自行至 iNCCU 學籍狀態查詢"
+  },
+  {
+   "id": "K33",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案只寫依比例退費，沒有寫繳費截止日（含）前完成休學學雜費全額退費",
+   "in_context": false,
+   "context_reason": "系統只讀到教務處頁面與申請書表單，退費標準頁沒讀進來（#5 只有一段按比例退費、由生僑組承辦的概述），找不到各階段退費比例"
+  },
+  {
+   "id": "K34",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫退 2/3 學雜費的條件",
+   "in_context": false,
+   "context_reason": "同 K33：系統沒有讀到退費標準頁的各階段比例，只有「依學期三分之一、三分之二為基準按比例退費」的概述"
+  },
+  {
+   "id": "K35",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫退 1/3 學雜費的條件",
+   "in_context": false,
+   "context_reason": "同 K33：沒有讀到各階段比例的細節"
+  },
+  {
+   "id": "K36",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫逾 2/3 退費基準日不予退還",
+   "in_context": false,
+   "context_reason": "同 K33：系統讀到的文字裡找不到「全數不予退還」"
+  },
+  {
+   "id": "K37",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫學生平安保險費不退費",
+   "in_context": false,
+   "context_reason": "系統讀到的文字只有休學期間可繳交平安保險費（#6），找不到平安保險費不退費這句"
+  },
+  {
+   "id": "K38",
+   "verdict": "relevant",
+   "claims": [
+    "c35"
+   ],
+   "reason": "答案寫詳細退費標準請洽學務處生僑組"
+  },
+  {
+   "id": "K39",
+   "verdict": "relevant",
+   "claims": [
+    "c34"
+   ],
+   "reason": "答案寫已繳費者依基準比例退費至出納組登記帳戶（沒寫「主動」，重點一致）"
+  },
+  {
+   "id": "K40",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫宿費及保證金要填退宿申請表、檢查寢室後到住宿組辦理退費",
+   "in_context": false,
+   "context_reason": "系統沒有讀到住宿組的退離宿頁面，找不到退宿申請表與檢查寢室的說明"
+  },
+  {
+   "id": "K41",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫未登錄帳戶者要攜帶帳戶到出納組登錄",
+   "in_context": false,
+   "context_reason": "系統沒有讀到退費標準頁，找不到這句"
+  },
+  {
+   "id": "K42",
+   "verdict": "relevant",
+   "claims": [
+    "c36"
+   ],
+   "reason": "答案寫經濟因素可洽學務處生僑組申請濟助"
+  },
+  {
+   "id": "K43",
+   "verdict": "relevant",
+   "claims": [
+    "c37"
+   ],
+   "reason": "答案寫懷孕或終止懷孕因素可洽身心健康中心"
+  },
+  {
+   "id": "K44",
+   "verdict": "relevant",
+   "claims": [
+    "c37"
+   ],
+   "reason": "答案寫身心健康中心電話 8237-7419"
+  },
+  {
+   "id": "K45",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫休學期間可到出納組臨櫃繳交平安保險費",
+   "in_context": true,
+   "context_reason": "申請書表單全文（#6）有，答案沒寫",
+   "context_quote": "休學、保留學籍期間得於每學期註冊截止日前至總務處出納組臨櫃繳交平安保險費"
+  },
+  {
+   "id": "K46",
+   "verdict": "relevant",
+   "claims": [
+    "c33"
+   ],
+   "reason": "答案寫繳費註冊截止日前申請免繳註冊相關費用"
+  },
+  {
+   "id": "K47",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫新生及轉學生在入學第一學期繳費註冊截止日後申請休學須繳費",
+   "in_context": true,
+   "context_reason": "教務處頁面（#5）有，答案沒寫",
+   "context_quote": "申請休學或保留學籍，須繳費後始得辦理"
+  },
+  {
+   "id": "K48",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫新生延誤註冊逾二週註銷學籍",
+   "in_context": true,
+   "context_reason": "教務處頁面（#5）有，答案沒寫",
+   "context_quote": "若延誤註冊逾二週仍未完成繳費註冊、休學或保留學籍者，當學年度入學新生即令註銷學籍"
+  },
+  {
+   "id": "K49",
+   "verdict": "relevant",
+   "claims": [
+    "c26"
+   ],
+   "reason": "答案寫註冊組王組長分機 63273"
+  },
+  {
+   "id": "K50",
+   "verdict": "relevant",
+   "claims": [
+    "c24"
+   ],
+   "reason": "答案寫註冊組在行政大樓 4 樓"
+  },
+  {
+   "id": "K51",
+   "verdict": "relevant",
+   "claims": [
+    "c13"
+   ],
+   "reason": "答案寫出納組劉桂芬（組長）分機 62120"
+  },
+  {
+   "id": "K52",
+   "verdict": "relevant",
+   "claims": [
+    "c12"
+   ],
+   "reason": "答案寫出納組在行政大樓 5 樓"
+  },
+  {
+   "id": "K53",
+   "verdict": "relevant",
+   "claims": [
+    "c16"
+   ],
+   "reason": "答案寫住宿組趙紀綱（組長）分機 62500"
+  },
+  {
+   "id": "K54",
+   "verdict": "relevant",
+   "claims": [
+    "c14"
+   ],
+   "reason": "答案寫住宿輔導組在行政大樓 3 樓"
+  },
+  {
+   "id": "K55",
+   "verdict": "relevant",
+   "claims": [
+    "c18"
+   ],
+   "reason": "答案寫生僑組盧翠婷（組長）分機 63010"
+  },
+  {
+   "id": "K56",
+   "verdict": "relevant",
+   "claims": [
+    "c17"
+   ],
+   "reason": "答案寫生活事務暨僑生輔導組在行政大樓 3 樓"
+  },
+  {
+   "id": "K57",
+   "verdict": "relevant",
+   "claims": [
+    "c20"
+   ],
+   "reason": "答案寫原資中心蔡炎龍（中心主任）分機 62200"
+  },
+  {
+   "id": "K58",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案寫了原資中心與聯絡人，但沒有寫原資中心的樓層",
+   "in_context": true,
+   "context_reason": "系統讀到的原資中心人員頁（#15）頁尾有學務處地址「行政大樓三樓」，答案沒寫",
+   "context_quote": "地址：台北市文山區指南路二段64號 行政大樓三樓"
+  },
+  {
+   "id": "K59",
+   "verdict": "relevant",
+   "claims": [
+    "c23"
+   ],
+   "reason": "答案寫國合處陳美芬（國合長）分機 67102"
+  },
+  {
+   "id": "K60",
+   "verdict": "relevant",
+   "claims": [
+    "c21"
+   ],
+   "reason": "答案寫國合處在行政大樓 8 樓"
+  }
+ ],
+ "judge": {
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "judge-v2",
+  "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json（稽核 PASS）。答案沒寫的 keypoint 另判 in_context：K4～K8、K22、K23、K29、K45、K47、K48、K58 系統讀到了（引文取自系統讀到的文字），K33～K37、K40、K41 系統沒有讀到退費標準頁與退離宿頁。"
+ }
+}

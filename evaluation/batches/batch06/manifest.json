@@ -1,0 +1,98 @@
+{
+  "batch_id": "batch06",
+  "created_at": "2026-11-15T19:18:48+08:00",
+  "git": {
+    "commit": "dde1c24",
+    "system_uncommitted": false,
+    "evaluation_uncommitted": true,
+    "run_system_version": "dde1c24"
+  },
+  "live": true,
+  "browser": true,
+  "timeout_seconds": 600,
+  "model": "gemma4:31b-cloud",
+  "questions": [
+    {
+      "id": 2,
+      "question": "course_limit",
+      "run_id": "run01",
+      "status": "ok",
+      "elapsed_seconds": 61.3,
+      "at": "2026-11-15T19:19:51+08:00"
+    },
+    {
+      "id": 3,
+      "question": "leave_form_download",
+      "run_id": "run01",
+      "status": "ok",
+      "elapsed_seconds": 68.3,
+      "at": "2026-11-15T19:22:45+08:00"
+    },
+    {
+      "id": 4,
+      "question": "resumption",
+      "run_id": "run01",
+      "status": "ok",
+      "elapsed_seconds": 83.3,
+      "at": "2026-11-15T19:26:04+08:00"
+    },
+    {
+      "id": 5,
+      "question": "leave_of_absence",
+      "run_id": "run01",
+      "status": "ok",
+      "elapsed_seconds": 74.0,
+      "at": "2026-11-15T19:30:08+08:00"
+    },
+    {
+      "id": 6,
+      "question": "leave_and_library_phone",
+      "run_id": "run01",
+      "status": "ok",
+      "elapsed_seconds": 96.9,
+      "at": "2026-11-15T19:36:10+08:00"
+    },
+    {
+      "id": 7,
+      "question": "master_transfer",
+      "run_id": "run01",
+      "status": "ok",
+      "elapsed_seconds": 41.2,
+      "at": "2026-11-15T19:40:41+08:00"
+    },
+    {
+      "id": 8,
+      "question": "dorm_deposit",
+      "run_id": "run01",
+      "status": "error",
+      "elapsed_seconds": 39.9,
+      "at": "2026-11-15T19:44:15+08:00",
+      "note": "出錯，結束碼 1；見 logs/Q08.log"
+    },
+    {
+      "id": 9,
+      "question": "master_double_major",
+      "run_id": "run01",
+      "status": "error",
+      "elapsed_seconds": 53.7,
+      "at": "2026-11-15T19:46:39+08:00",
+      "note": "出錯，結束碼 1；見 logs/Q09.log"
+    },
+    {
+      "id": 10,
+      "question": "overseas_exchange_credit",
+      "run_id": "run01",
+      "status": "ok",
+      "elapsed_seconds": 74.8,
+      "at": "2026-11-15T19:48:55+08:00"
+    },
+    {
+      "id": 11,
+      "question": "cross_school_double_major",
+      "run_id": "run01",
+      "status": "ok",
+      "elapsed_seconds": 55.0,
+      "at": "2026-11-15T19:53:45+08:00"
+    }
+  ]
+}

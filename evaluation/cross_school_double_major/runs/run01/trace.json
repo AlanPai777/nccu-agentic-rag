@@ -1,0 +1,18 @@
+{
+  "claims": [
+    {"id": "c1", "answer_span": "其審核流程需經過就讀學系、本校註冊組以及對端學校（如北藝大）三個單位的審核", "status": "supported", "evidence": [{"item": "E2", "quote": "填寫紙本申請表，經學系同意後送本校註冊組；註冊組將於截止後一週彙整發函至北藝大審查。"}], "why": "證據描述學系同意、註冊組、北藝大審查三個環節。"},
+    {"id": "c2", "answer_span": "填寫紙本[學士班學生跨校修讀臺北藝術大學輔系申請表]", "status": "supported", "evidence": [{"item": "E2", "quote": "填寫紙本申請表"}, {"item": "E2", "quote": "[學士班學生跨校修讀臺北藝術大學輔系申請表]"}], "why": "證據要填紙本申請表，且有該表名稱。"},
+    {"id": "c3", "answer_span": "申請表須經由學生目前就讀之原學系同意", "status": "supported", "evidence": [{"item": "E2", "quote": "經就讀學系同意後送本校註冊組辦理"}], "why": "證據要求經就讀學系同意。"},
+    {"id": "c4", "answer_span": "申請修讀輔系以二個為限", "status": "supported", "evidence": [{"item": "E2", "quote": "申請修讀輔系以二學系為限。"}], "why": "證據為以二學系為限。"},
+    {"id": "c5", "answer_span": "若已修讀兩個輔系，須另填寫切結書，聲明獲核准後欲放棄之校內輔系，屆時由註冊組於系統維護放棄", "status": "supported", "evidence": [{"item": "E2", "quote": "已修讀二個輔系之學生，須切結聲明如獲北藝大核准修讀後，欲放棄之校內輔系，屆時由註冊組逕行於系統維護放棄。"}], "why": "證據相符。"},
+    {"id": "c6", "answer_span": "持經學系同意之申請表送至教務處註冊組", "status": "supported", "evidence": [{"item": "E2", "quote": "經學系同意後送本校註冊組"}], "why": "證據為學系同意後送註冊組，註冊組屬教務處。"},
+    {"id": "c7", "answer_span": "行政大樓 4 樓", "status": "supported", "evidence": [{"item": "E3", "quote": "註冊組　行政大樓 4 樓"}], "why": "聯絡資訊列註冊組在行政大樓 4 樓。"},
+    {"id": "c8", "answer_span": "每學年度下學期標準表公告後至 5 月 1 日前", "status": "supported", "evidence": [{"item": "E2", "quote": "每學年度下學期申請標準表公告後至五月一日前"}], "why": "證據相符。"},
+    {"id": "c9", "answer_span": "鄧編審（分機 63277 或 63275）", "status": "supported", "evidence": [{"item": "E3", "quote": "鄧編審（）分機 63277"}, {"item": "E3", "quote": "鄧編審（）分機 63275"}], "why": "同一職稱鄧編審列有這兩個分機。"},
+    {"id": "c10", "answer_span": "王組長（分機 63273）", "status": "supported", "evidence": [{"item": "E3", "quote": "王組長（）分機 63273"}], "why": "證據相符。"},
+    {"id": "c11", "answer_span": "註冊組將於截止後一週彙整所有申請，統一發函至北藝大進行最終審查", "status": "supported", "evidence": [{"item": "E2", "quote": "註冊組將於截止後一週彙整發函至北藝大審查。"}], "why": "證據相符，「所有、統一、最終」為輕微改寫。"},
+    {"id": "c12", "answer_span": "本校至遲於 6 月底前，於教務處網頁公告申請結果", "status": "supported", "evidence": [{"item": "E2", "quote": "本校至遲於六月底前於教務處網頁公告本校學生申請結果。"}], "why": "證據相符。"},
+    {"id": "c13", "answer_span": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/跨校雙輔", "status": "supported", "evidence": [{"item": "E2", "quote": "https://aca.nccu.edu.tw/zh/服務項目/雙主修-輔系-學程/跨校雙輔", "from": "sources"}], "why": "網址在 E2 sources，label 為跨校雙輔。"}
+  ],
+  "judge": {"model": "claude-sonnet-5-5", "prompt_version": "isolated-v3", "note": "isolated trace by a subagent that read only trace_input.json"}
+}

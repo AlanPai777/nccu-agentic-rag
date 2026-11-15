@@ -1,0 +1,390 @@
+{
+  "query_id": "cross_school_double_major",
+  "run_id": "run01",
+  "system_version": "dde1c24",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；QP-T01-04-21 製表日期 20230331）",
+    "live": "2026-11-14（現場）（教務處專區頁與辦法 PDF，curl；moltke 表單連結沒有送請求）；註冊組聯絡人與樓層的現場依據在 evaluation/registry/"
+  },
+  "judges": {
+    "trace": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "isolated-v3",
+      "note": "isolated trace by a subagent that read only trace_input.json"
+    },
+    "keypoint": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "judge-v2",
+      "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json（稽核 PASS）。答案講的是跨校修讀北藝大輔系，與標準（台聯大跨校雙主修的四站審核）是不同的流程；K11 少兩站、K18 時程不同、K1/K2 表單不同，依判斷慣例判 wrong。系統沒有讀到台聯大雙主修的頁面，所以沒答對的 keypoint 的 in_context 都是 false。"
+    }
+  },
+  "rouge_l": {
+    "p": 0.1237,
+    "r": 0.24,
+    "f": 0.1633
+  },
+  "metrics_version": "2026-11-15.context-recall-judged",
+  "accuracy_rule": {
+    "hard_keypoints": 4,
+    "hit": 2,
+    "accuracy": 0.5,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      2,
+      4,
+      6
+    ],
+    "context_chars": 3852,
+    "sentence": {
+      "p": 0.0,
+      "r": 0.3333,
+      "f": 0.0,
+      "read": 7,
+      "applicable": 21,
+      "r_source": "Claude 判斷（階段 3）；答對有依據的直接算讀到",
+      "p_source": "字串比對（機械，只供比較）",
+      "f_note": "混合：Recall 為 Claude 判斷、Precision 為字串比對"
+    },
+    "words": {
+      "p": 0.1024,
+      "r": 0.4132,
+      "f": 0.1641
+    },
+    "string_match": [
+      {
+        "id": "K1",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K2",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K3",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K4",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K5",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K6",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K7",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K8",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K9",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K10",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K11",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K12",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K13",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K14",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K15",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K16",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K17",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K18",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K19",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K20",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K21",
+        "found": null,
+        "matched_reference": null
+      }
+    ],
+    "note": "字串比對的機械指標（Sentence Precision、Words P／R／F1）只供跨 run 比較，不代表系統有沒有讀到；字串比對的逐項結果在 string_match，不用來判斷「有沒有讀到」。",
+    "metrics_version": "2026-11-15.context-recall-judged",
+    "metrics_note": "Context Sentence Recall 由 Claude 判斷（階段 3；答對且有依據的 keypoint 直接算讀到），不是字串比對；分母含引用登記表的 keypoint。Sentence Precision 與 Words 指標是字串比對的機械指標，只供跨 run 比較；Sentence F1 混用兩者。此版本之前的 Context Sentence Recall／F1 不能與之後的直接比較。"
+  },
+  "keypoint": {
+    "relevant": 7,
+    "wrong": 4,
+    "irrelevant": 10,
+    "total": 21,
+    "not_applicable": 0,
+    "completeness": 0.3333,
+    "hallucination": 0.1905,
+    "irrelevance": 0.4762
+  },
+  "fact_unit": {
+    "precision": 0.6364,
+    "recall": 0.3333,
+    "f1": 0.4375,
+    "note": "P = Relevant ÷ (Relevant + Wrong)；R = Relevant ÷ keypoint 總數"
+  },
+  "claim_unit": {
+    "claims": 13,
+    "correct_claims": 8,
+    "precision": 0.6154,
+    "recall": 0.3333,
+    "f1": 0.4324,
+    "note": "P = 正確陳述某個 keypoint 的主張 ÷ 全部主張；額外但正確的資訊會讓 P 下降，量的是聚焦程度"
+  },
+  "evidence_support": {
+    "rate": 1.0,
+    "supported": 13,
+    "claims": 13,
+    "unsupported_claims": []
+  },
+  "ungrounded_correct_keypoints": [],
+  "funnel": [
+    {
+      "id": "K1",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "wrong"
+    },
+    {
+      "id": "K2",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "wrong"
+    },
+    {
+      "id": "K3",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K4",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K5",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K6",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K7",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K8",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K9",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K10",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K11",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "wrong"
+    },
+    {
+      "id": "K12",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K13",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K14",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K15",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K16",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K17",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K18",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "wrong"
+    },
+    {
+      "id": "K19",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K20",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K21",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    }
+  ],
+  "disagreements": [],
+  "warnings": []
+}

@@ -1,0 +1,27 @@
+{
+  "claims": [
+    {"id": "c1", "answer_span": "第一至第三學年：每學期最多 25 學分（不得少於 12 學分）。", "status": "supported", "evidence": [{"item": "E9", "quote": "學士班學生第一至第三學年每學期修習學分，不得少於十二學分，不得多於二十五學分"}], "why": "學則第十五條明列第一至第三學年下限12、上限25學分。"},
+    {"id": "c2", "answer_span": "第四學年：每學期最多 25 學分（不得少於 10 學分）。", "status": "supported", "evidence": [{"item": "E9", "quote": "第四學年每學期不得少於十學分，不得多 於二十五學分"}], "why": "學則第十五條明列第四學年下限10、上限25學分。"},
+    {"id": "c3", "answer_span": "具雙主修身分者：31 學分。", "status": "supported", "evidence": [{"item": "E8", "quote": "具雙主修身分者為 31 學"}], "why": "Q&A 載明雙主修身分上限31學分。"},
+    {"id": "c4", "answer_span": "具輔系身分者：28 學分。", "status": "supported", "evidence": [{"item": "E8", "quote": "具輔系身分者為 28 學分"}], "why": "Q&A 載明輔系身分上限28學分。"},
+    {"id": "c5", "answer_span": "無加修學系或未申請超修者：25 學分。", "status": "supported", "evidence": [{"item": "E8", "quote": "無加修學系或未申請超修者為 25 學分"}], "why": "Q&A 載明此類為25學分。"},
+    {"id": "c6", "answer_span": "情況特殊經系主任核可者，得申請超修或減修學分，至多以 6 學分為限。", "status": "supported", "evidence": [{"item": "E9", "quote": "經系主任核可者，得於當學期超修或減修學分"}, {"item": "E9", "quote": "至多以六學分為限"}], "why": "學則載明系主任核可得超修或減修，至多六學分。"},
+    {"id": "c7", "answer_span": "經認定符合運動成績績優學生標準者，每學期得減修學分，但至少應修習 3 學分。", "status": "supported", "evidence": [{"item": "E9", "quote": "學士班學生經申請認定符合本校運動成績績優學生認定標準者，每學期得減修學分，但至少應修習三學分。"}], "why": "學則有相同規定。"},
+    {"id": "c8", "answer_span": "每學期修習學分由各系（所）自定。", "status": "supported", "evidence": [{"item": "E9", "quote": "碩、博士班學生每學期修習學分由各系"}], "why": "學則載明碩博士班學分由各系所自定。"},
+    {"id": "c9", "answer_span": "最多可登記 30 個科目", "status": "supported", "evidence": [{"item": "E8", "quote": "初選階段作業中，最多可登記 30 個科目"}], "why": "Q&A 表格載明。"},
+    {"id": "c10", "answer_span": "「遞補科目 + 登記科目」合計上限為 50 個科目", "status": "supported", "evidence": [{"item": "E8", "quote": "加退選階段「遞補科目+登記科目」合計上限為 50 個科目"}], "why": "Q&A 表格載明。"},
+    {"id": "c11", "answer_span": "學士班合計 5 科為限", "status": "supported", "evidence": [{"item": "E8", "quote": "（學士班5科、碩博士班3科）"}], "why": "加簽科目數上限學士班5科。"},
+    {"id": "c12", "answer_span": "碩博士班合計 3 科為限", "status": "supported", "evidence": [{"item": "E8", "quote": "（學士班5科、碩博士班3科）"}], "why": "加簽科目數上限碩博士班3科。"},
+    {"id": "c13", "answer_span": "外文通識：以一科為限。", "status": "supported", "evidence": [{"item": "E8", "quote": "初選分發外文通識以一科為限"}], "why": "Q&A 載明。"},
+    {"id": "c14", "answer_span": "一般通識（含核心通識）及書院通識：科目數以三科為限（書院通識至多分發一科）。", "status": "supported", "evidence": [{"item": "E8", "quote": "一般通識(含核心通"}, {"item": "E8", "quote": "及書院通識科目數以三科為限（書院通識至多分發一科）"}], "why": "Q&A 載明三科為限、書院通識至多一科。"},
+    {"id": "c15", "answer_span": "中文通識：每學期以一科為限。", "status": "supported", "evidence": [{"item": "E8", "quote": "中文通識每學期以一科為限"}], "why": "Q&A 載明。"},
+    {"id": "c16", "answer_span": "體育必修課程：分發以一科為限", "status": "supported", "evidence": [{"item": "E8", "quote": "體育必修課程分發以一科為限"}], "why": "Q&A 載明。"},
+    {"id": "c17", "answer_span": "四年級學生如需超修，請洽體育室申請", "status": "unsupported", "evidence": [], "why": "證據說超修須於期限內利用網路系統提出申請，體育室只用於相關問題洽詢，非申請窗口。"},
+    {"id": "c18", "answer_span": "教務處註冊組（行政大樓 4 樓）", "status": "supported", "evidence": [{"item": "E10", "quote": "行政大樓 4 樓"}], "why": "聯絡資訊列註冊組位於行政大樓4樓。"},
+    {"id": "c19", "answer_span": "鄧編審（分機 63277 或 63275）", "status": "supported", "evidence": [{"item": "E10", "quote": "鄧編審（）分機 63277"}, {"item": "E10", "quote": "鄧編審（）分機 63275"}], "why": "註冊組名單中鄧編審有這兩個分機。"},
+    {"id": "c20", "answer_span": "王組長（分機 63273）", "status": "supported", "evidence": [{"item": "E10", "quote": "王組長（）分機 63273"}], "why": "註冊組名單中王組長分機63273。"},
+    {"id": "c21", "answer_span": "https://aca.nccu.edu.tw/download/course/選課Q&A_11407.pdf", "status": "supported", "evidence": [{"item": "E8", "quote": "https://aca.nccu.edu.tw/download/course/選課Q&A_11407.pdf", "from": "sources"}], "why": "網址在E8 sources，label為選課Q&A_11407.pdf。"},
+    {"id": "c22", "answer_span": "https://aca.nccu.edu.tw/zh/未分類文章樣板/5546-本校學則有關選課摘錄", "status": "supported", "evidence": [{"item": "E9", "quote": "https://aca.nccu.edu.tw/zh/未分類文章樣板/5546-本校學則有關選課摘錄", "from": "sources"}], "why": "網址在E9 sources，label為本校學則有關選課摘錄。"}
+  ],
+  "judge": {"model": "claude-sonnet-5-5", "prompt_version": "isolated-v3", "note": "isolated trace by a subagent that read only trace_input.json"}
+}
