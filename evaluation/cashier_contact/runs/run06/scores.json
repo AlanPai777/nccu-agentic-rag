@@ -1,0 +1,136 @@
+{
+  "query_id": "cashier_contact",
+  "run_id": "run06",
+  "system_version": "5cc6774+uncommitted",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照；校務頁面 2026-08-19）",
+    "live": "2026-11-09（現場）；只確認分機 62120，其餘分機現場無法確認"
+  },
+  "judges": {
+    "trace": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "isolated-v3",
+      "note": "isolated trace by a subagent that read only trace_input.json"
+    },
+    "keypoint": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "judge-v2",
+      "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json（稽核 PASS：只讀輸入檔、只寫輸出檔）。三個 keypoint 都答對且有依據，in_context 由程式直接算讀到（inferred），不需要另外判斷。"
+    }
+  },
+  "rouge_l": {
+    "p": 0.1538,
+    "r": 0.6154,
+    "f": 0.2462
+  },
+  "metrics_version": "2026-11-15.context-recall-judged",
+  "accuracy_rule": {
+    "hard_keypoints": 3,
+    "hit": 3,
+    "accuracy": 1.0,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      1
+    ],
+    "context_chars": 2065,
+    "sentence": {
+      "p": 0.0174,
+      "r": 1.0,
+      "f": 0.0342,
+      "read": 3,
+      "applicable": 3,
+      "r_source": "Claude 判斷（階段 3）；答對有依據的直接算讀到",
+      "p_source": "字串比對（機械，只供比較）",
+      "f_note": "混合：Recall 為 Claude 判斷、Precision 為字串比對"
+    },
+    "words": {
+      "p": 0.0406,
+      "r": 0.875,
+      "f": 0.0776
+    },
+    "string_match": [
+      {
+        "id": "K1",
+        "found": true,
+        "matched_reference": "(02)2939-3091"
+      },
+      {
+        "id": "K2",
+        "found": true,
+        "matched_reference": "出納組分機 62120"
+      },
+      {
+        "id": "K3",
+        "found": true,
+        "matched_reference": "行政組員 校內分機 63071"
+      }
+    ],
+    "note": "字串比對的機械指標（Sentence Precision、Words P／R／F1）只供跨 run 比較，不代表系統有沒有讀到；字串比對的逐項結果在 string_match，不用來判斷「有沒有讀到」。",
+    "metrics_version": "2026-11-15.context-recall-judged",
+    "metrics_note": "Context Sentence Recall 由 Claude 判斷（階段 3；答對且有依據的 keypoint 直接算讀到），不是字串比對；分母含引用登記表的 keypoint。Sentence Precision 與 Words 指標是字串比對的機械指標，只供跨 run 比較；Sentence F1 混用兩者。此版本之前的 Context Sentence Recall／F1 不能與之後的直接比較。"
+  },
+  "keypoint": {
+    "relevant": 3,
+    "wrong": 0,
+    "irrelevant": 0,
+    "total": 3,
+    "not_applicable": 0,
+    "completeness": 1.0,
+    "hallucination": 0.0,
+    "irrelevance": 0.0
+  },
+  "fact_unit": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "note": "P = Relevant ÷ (Relevant + Wrong)；R = Relevant ÷ keypoint 總數"
+  },
+  "claim_unit": {
+    "claims": 5,
+    "correct_claims": 3,
+    "precision": 0.6,
+    "recall": 1.0,
+    "f1": 0.75,
+    "note": "P = 正確陳述某個 keypoint 的主張 ÷ 全部主張；額外但正確的資訊會讓 P 下降，量的是聚焦程度"
+  },
+  "evidence_support": {
+    "rate": 1.0,
+    "supported": 5,
+    "claims": 5,
+    "unsupported_claims": []
+  },
+  "ungrounded_correct_keypoints": [],
+  "funnel": [
+    {
+      "id": "K1",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K2",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K3",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    }
+  ],
+  "disagreements": [],
+  "warnings": []
+}
