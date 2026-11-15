@@ -1,0 +1,475 @@
+{
+  "query_id": "dorm_deposit",
+  "run_id": "run02",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；表單 QP-M03-01-05）",
+    "live": "2026-11-13（現場）（住宿組「退離宿程序」頁、學務處 FAQ，curl；moltke 表單連結回 302 轉登入頁，沒有跟隨）；住宿組、出納組的聯絡人與樓層的現場依據在 evaluation/registry/"
+  },
+  "system_version": "7dd5427",
+  "metrics_version": "2026-11-15.context-recall-judged",
+  "rouge_l": {
+    "p": 0.1201,
+    "r": 0.425,
+    "f": 0.1873
+  },
+  "accuracy": {
+    "hard_keypoints": 7,
+    "hit": 4,
+    "accuracy": 0.5714,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      2,
+      4,
+      5,
+      7,
+      8
+    ],
+    "context_chars": 14034,
+    "sentence": {
+      "p": 0.0197,
+      "r": null,
+      "f": null,
+      "note": "Recall 與 F1 要等階段 3 的 Claude 判斷（stage3.py score）才算；這裡只有字串比對的 Precision"
+    },
+    "words": {
+      "p": 0.1112,
+      "r": 0.7672,
+      "f": 0.1942
+    },
+    "string_match": [
+      {
+        "id": "K1",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K2",
+        "found": true,
+        "matched_reference": "宿舍區管理人員檢查寢室"
+      },
+      {
+        "id": "K3",
+        "found": true,
+        "matched_reference": "離宿流程：宿舍區管理人員檢查寢室➔三天內至住宿組辦理退費(持本表及宿費收據)"
+      },
+      {
+        "id": "K4",
+        "found": true,
+        "matched_reference": "三天內至住宿組辦理退費(持本表及宿費收據)"
+      },
+      {
+        "id": "K5",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K6",
+        "found": true,
+        "matched_reference": "由住宿組造冊匯入同學(於政大網頁-在校學生-個人基本資料)登記之帳戶"
+      },
+      {
+        "id": "K7",
+        "found": true,
+        "matched_reference": "僅退住宿保證金者可不交宿費收據"
+      },
+      {
+        "id": "K8",
+        "found": true,
+        "matched_reference": "「宿費繳費收據」若遺失，可請出納組補發"
+      },
+      {
+        "id": "K9",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K10",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K11",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K12",
+        "found": true,
+        "matched_reference": "扣款金額若超過住宿保證金1000元以上"
+      },
+      {
+        "id": "K13",
+        "found": true,
+        "matched_reference": "3、延遲搬 Extension of dorm stay"
+      },
+      {
+        "id": "K14",
+        "found": true,
+        "matched_reference": "予追繳。If the amount of subtractions"
+      },
+      {
+        "id": "K15",
+        "found": true,
+        "matched_reference": "僑生及外籍生因離宿後即出國、帳戶已結清無法領取者，另再填"
+      },
+      {
+        "id": "K16",
+        "found": true,
+        "matched_reference": "外籍交換生請向相關系所辦理退還「住宿保證金」"
+      },
+      {
+        "id": "K17",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K18",
+        "found": true,
+        "matched_reference": "表單編號：QP-M03-01-05"
+      },
+      {
+        "id": "K19",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K20",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K21",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K22",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K23",
+        "found": null,
+        "matched_reference": null
+      }
+    ],
+    "note": "字串比對的機械指標（Sentence Precision、Words P／R／F1）只供跨 run 比較，不代表系統有沒有讀到；字串比對的逐項結果在 string_match，不用來判斷「有沒有讀到」。"
+  },
+  "keypoints": {
+    "accuracy_rule": [
+      {
+        "id": "K1",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K2",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K3",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K4",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K5",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K6",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K7",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K8",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K9",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K10",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K11",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K12",
+        "kind": "hard",
+        "verdict": "hit",
+        "matched_expressions": [
+          "1,000"
+        ]
+      },
+      {
+        "id": "K13",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K14",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K15",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K16",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K17",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K18",
+        "kind": "hard",
+        "verdict": "hit",
+        "matched_expressions": [
+          "QP-M03-01-05"
+        ]
+      },
+      {
+        "id": "K19",
+        "kind": "hard",
+        "form": "QP-M03-01-05",
+        "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+        "verdict": "hit",
+        "applies_if": null
+      },
+      {
+        "id": "K20",
+        "kind": "hard",
+        "office": "dorm",
+        "unit": null,
+        "expected": [
+          "行政大樓三樓"
+        ],
+        "verdict": "miss",
+        "applies_if": null
+      },
+      {
+        "id": "K21",
+        "kind": "hard",
+        "office": "dorm",
+        "matched": [
+          {
+            "office": "dorm",
+            "said": "住宿組組長",
+            "ext": "62500"
+          },
+          {
+            "office": "dorm",
+            "said": "趙紀綱",
+            "ext": "62500"
+          },
+          {
+            "office": "dorm",
+            "said": "徐廷芝",
+            "ext": "62228"
+          },
+          {
+            "office": "dorm",
+            "said": "一級行政專員",
+            "ext": "62228"
+          }
+        ],
+        "representative_line": [
+          "63252"
+        ],
+        "pair_mismatches": [
+          {
+            "name": "徐廷芝",
+            "said": "622282",
+            "expected": [
+              "62228"
+            ]
+          }
+        ],
+        "verdict": "wrong",
+        "applies_if": null
+      },
+      {
+        "id": "K22",
+        "kind": "hard",
+        "office": "cashier",
+        "matched": [
+          {
+            "office": "cashier",
+            "said": "劉桂芬",
+            "ext": "62120"
+          },
+          {
+            "office": "cashier",
+            "said": "組長",
+            "ext": "62120"
+          },
+          {
+            "office": "cashier",
+            "said": "余淑娟",
+            "ext": "62123"
+          },
+          {
+            "office": "cashier",
+            "said": "一級行政組員",
+            "ext": "62123"
+          }
+        ],
+        "representative_line": [
+          "62120",
+          "62123"
+        ],
+        "pair_mismatches": [],
+        "verdict": "hit",
+        "applies_if": "答案提到出納組"
+      },
+      {
+        "id": "K23",
+        "kind": "hard",
+        "office": "cashier",
+        "unit": null,
+        "expected": [
+          "行政大樓五樓"
+        ],
+        "verdict": "miss",
+        "applies_if": "答案提到出納組"
+      }
+    ],
+    "funnel_stage2": [
+      {
+        "id": "K1",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K2",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K3",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K4",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K5",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K6",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K7",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K8",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K9",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K10",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K11",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K12",
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K13",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K14",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K15",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K16",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K17",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K18",
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K19",
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K20",
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K21",
+        "rule_verdict": "wrong"
+      },
+      {
+        "id": "K22",
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K23",
+        "rule_verdict": "miss"
+      }
+    ]
+  }
+}

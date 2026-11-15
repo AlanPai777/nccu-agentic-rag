@@ -1,0 +1,338 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "其審核流程需經過原就讀學校（政大）與加修學校兩方的單位審核。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "原就讀學校 | 主修學系",
+          "verified": true,
+          "start": 1391,
+          "end": 1403
+        },
+        {
+          "item": "E3",
+          "quote": "□准予修讀，適用規定：＿ ＿學年度必修科目表 □不准修讀，意見：",
+          "verified": true,
+          "start": 1524,
+          "end": 1556
+        }
+      ],
+      "why": "簽核流程分原就讀學校與加修學校兩段，各有學系與註冊組。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        27,
+        57
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "下載並填寫[台灣聯合大學系統學士班學生跨校修讀輔系雙主修申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21)。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "台灣聯合大學系統學士班學生跨校修讀輔系雙主修申請表"
+        }
+      ],
+      "why": "網址在 sources 中，label 為該申請表。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        105,
+        215
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "申請項目： 勾選「雙主修」。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "□ 輔系 □ 雙主修",
+          "verified": true,
+          "start": 922,
+          "end": 932
+        }
+      ],
+      "why": "表單申請項目欄有雙主修選項。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        234,
+        248
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "加修校系： 選擇欲申請的學校（中央大學、政治大學、清華大學、陽明交通大學之ㄧ）並填寫學系名稱。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "□ 國立中央大學 □ 國立政治大學 □ 國立清華大學 □ 國立陽明交通大學",
+          "verified": true,
+          "start": 1096,
+          "end": 1133
+        },
+        {
+          "item": "E3",
+          "quote": "學系名稱",
+          "verified": true,
+          "start": 1147,
+          "end": 1151
+        }
+      ],
+      "why": "表單加修校系列出四校並有學系名稱欄。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        257,
+        304
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "政大生特別注意： 若申請外校雙主修通過，學生視為自願自動放棄現正修習之雙主修資格。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "(1) 若申請外校雙主修通過，則自願自動放棄現正修習雙主修資格。",
+          "verified": true,
+          "start": 679,
+          "end": 711
+        }
+      ],
+      "why": "表單說明第6點同義。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        313,
+        354
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c6",
+      "answer_span": "準備附件： 需檢附「中文歷年成績單」及其他規定資料。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "□ 中文歷年成績單 □其他規定資料",
+          "verified": true,
+          "start": 1172,
+          "end": 1189
+        }
+      ],
+      "why": "繳交文件欄列出這兩項。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        359,
+        385
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c7",
+      "answer_span": "主修學系審核： 持申請表至目前就讀之主修學系，由學系審核是否同意學生加修他校性質不同學系為雙主修。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "是否同意學生加修他校性質不同學系為輔系/雙主修： □同意 □ 不同意，原因：",
+          "verified": true,
+          "start": 1406,
+          "end": 1444
+        }
+      ],
+      "why": "原就讀學校主修學系負責同意與否。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        408,
+        457
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c8",
+      "answer_span": "註冊組審核： 經主修學系同意後，將表單送至教務處註冊組辦理。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "註冊組 | 承辦人 | 組 長",
+          "verified": true,
+          "start": 1483,
+          "end": 1498
+        },
+        {
+          "item": "E2",
+          "quote": "教務處註冊組",
+          "verified": true,
+          "start": 4747,
+          "end": 4753
+        }
+      ],
+      "why": "簽核順序在主修學系之後為註冊組，承辦單位為教務處註冊組。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        462,
+        492
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c9",
+      "answer_span": "辦理地點： 行政大樓 4 樓",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "行政大樓 4 樓",
+          "verified": true,
+          "start": 117,
+          "end": 125
+        }
+      ],
+      "why": "聯絡資訊列註冊組位於行政大樓 4 樓。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        501,
+        515
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c10",
+      "answer_span": "王組長（組長）分機 63273",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "王組長（）分機 63273",
+          "verified": true,
+          "start": 325,
+          "end": 338
+        }
+      ],
+      "why": "姓名含組長職稱，分機相符。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        542,
+        557
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c11",
+      "answer_span": "鄧編審（承辦人）分機 63277",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據有鄧編審分機 63277，但沒有把他標為承辦人，且另有鄧編審分機 63275。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        570,
+        586
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c12",
+      "answer_span": "加修學系審核： 表單送至加修學校之學系，審核是否准予修讀及適用之必修科目表。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "□准予修讀，適用規定：＿ ＿學年度必修科目表 □不准修讀，意見：",
+          "verified": true,
+          "start": 1524,
+          "end": 1556
+        }
+      ],
+      "why": "加修學系決定准予或不准修讀並填適用必修科目表。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        604,
+        642
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c13",
+      "answer_span": "加修學校註冊組審核： 由該校註冊組進行最終核准。",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據只顯示加修學校註冊組有簽核欄，未說明是最終核准。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        647,
+        671
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c14",
+      "answer_span": "審查結果由註冊組公告於註冊組網頁，請學生於公告時間自行至網頁查詢。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "審查結果由註冊組公告於註冊組網頁，請學生於公告時間自行至網頁查詢。",
+          "verified": true,
+          "start": 441,
+          "end": 474
+        }
+      ],
+      "why": "表單說明第3點逐字相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        686,
+        719
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

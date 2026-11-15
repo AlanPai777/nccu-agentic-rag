@@ -1,0 +1,491 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "碩士班學生申請修讀雙主修或輔系，需經過「所屬學系(所)」、「申請學系(所)」以及「教務處註冊組」三個單位的審核。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "是否同意所屬學生申請修讀雙主修/輔系",
+          "verified": true,
+          "start": 1239,
+          "end": 1257
+        },
+        {
+          "item": "E3",
+          "quote": "□准予修讀，適用規定",
+          "verified": true,
+          "start": 1313,
+          "end": 1323
+        },
+        {
+          "item": "E3",
+          "quote": "教務處註冊組",
+          "verified": true,
+          "start": 1385,
+          "end": 1391
+        }
+      ],
+      "why": "表單簽核流程列出所屬學系、申請學系、教務處註冊組三個簽核單位。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        14,
+        70
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "在申請前，請先至教務處網頁查看目前有開放碩、博士班申請雙主修/輔系的教學單位。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "請務必至教務處網頁查看學校目前有開放碩、博士班學生申請雙主修/輔系的教學單位",
+          "verified": true,
+          "start": 236,
+          "end": 274
+        }
+      ],
+      "why": "申請說明一明確要求。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        102,
+        141
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "碩士班學生自註冊在學第二學期起至第四學期止可申請。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "碩、博士班學生自註冊在學第二學期起至第四學期止可申請修讀雙主修/輔系",
+          "verified": true,
+          "start": 290,
+          "end": 324
+        }
+      ],
+      "why": "說明二涵蓋碩士班學生。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        152,
+        177
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "碩士在職專班學生不開放申請。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "碩士在職專班學生不開放申請",
+          "verified": true,
+          "start": 325,
+          "end": 338
+        }
+      ],
+      "why": "說明二原文。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        186,
+        200
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "限一個同級雙主修及一個同級或向下一級（學士班）輔系。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "申請額度以一個同級雙主修及一個同級或向下一級輔系為限",
+          "verified": true,
+          "start": 397,
+          "end": 423
+        },
+        {
+          "item": "E3",
+          "quote": "碩士班學生可申請修讀碩士班雙主修及碩士班輔系或學士班輔系",
+          "verified": true,
+          "start": 454,
+          "end": 482
+        }
+      ],
+      "why": "說明四的額度規定，碩士班可輔系學士班。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        209,
+        235
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c6",
+      "answer_span": "填寫「國立政治大學碩、博士班學生修讀雙主修輔系申請表」，並於申請截止日前將紙本申請表及相關資料送達申請學系。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "請於申請截止日前將申請表及相關申請資料紙本送達申請學系",
+          "verified": true,
+          "start": 358,
+          "end": 385
+        }
+      ],
+      "why": "說明三要求截止日前將紙本送達申請學系，表單名稱相符。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        258,
+        312
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c7",
+      "answer_span": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-08",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "國立政治大學碩、博士班學生修讀雙主修輔系申請表"
+        }
+      ],
+      "why": "網址在 sources 中，label 為該申請表。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        349,
+        424
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c8",
+      "answer_span": "需明確勾選申請項目（如：碩士班雙主修、碩士班輔系或學士班輔系）。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "□碩士班雙主修(限碩士班學生申請) □碩士班輔系 □學士班輔系 (限碩士班學生申請)",
+          "verified": true,
+          "start": 803,
+          "end": 845
+        }
+      ],
+      "why": "表單申請項目欄有這些勾選項。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        445,
+        477
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c9",
+      "answer_span": "需勾選目前的修讀情形（現有無修讀雙主修/輔系）。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "□現無修讀雙主修 □現無修讀輔系",
+          "verified": true,
+          "start": 867,
+          "end": 883
+        }
+      ],
+      "why": "表單有修讀情形勾選欄。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        486,
+        510
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c10",
+      "answer_span": "申請人須簽名並確認已知悉相關修業規定。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "本人已知悉：",
+          "verified": true,
+          "start": 962,
+          "end": 968
+        },
+        {
+          "item": "E3",
+          "quote": "申請人簽名",
+          "verified": true,
+          "start": 1088,
+          "end": 1093
+        }
+      ],
+      "why": "表單有已知悉聲明與申請人簽名欄。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        519,
+        538
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c11",
+      "answer_span": "所屬學系(所)： 審核是否同意所屬學生申請修讀。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "是否同意所屬學生申請修讀雙主修/輔系",
+          "verified": true,
+          "start": 1239,
+          "end": 1257
+        }
+      ],
+      "why": "簽核欄原文。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        575,
+        599
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c12",
+      "answer_span": "申請學系(所)： 審核是否准予修讀，並決定適用之學年度必修/輔系科目表。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "□准予修讀，適用規定：________學年度必修/輔系科目表",
+          "verified": true,
+          "start": 1313,
+          "end": 1343
+        }
+      ],
+      "why": "簽核欄原文。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        604,
+        640
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c13",
+      "answer_span": "注意：各學系所審核完畢後，會在單位網頁公告核准名單，請學生自行查詢。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "各學系所於審核完畢後單位網頁公告核准修讀名單，請自行前往查詢",
+          "verified": true,
+          "start": 529,
+          "end": 559
+        }
+      ],
+      "why": "說明五原文。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        650,
+        684
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c14",
+      "answer_span": "教務處註冊組： 最終審查基本資格",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "(審查基本資格及維護資料)",
+          "verified": true,
+          "start": 1400,
+          "end": 1413
+        }
+      ],
+      "why": "簽核欄寫註冊組審查基本資格；「最終」僅由順序推得。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        690,
+        706
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c15",
+      "answer_span": "（如申請時間、額度等）",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據只說審查說明一及說明三的基本資格，未說包含申請時間、額度。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        706,
+        717
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c16",
+      "answer_span": "並維護學籍資料。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "(審查基本資格及維護資料)",
+          "verified": true,
+          "start": 1400,
+          "end": 1413
+        }
+      ],
+      "why": "簽核欄寫維護資料，「學籍」為近似。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        717,
+        725
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c17",
+      "answer_span": "若未符資格，將取消錄取。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "如未符資格，將取消錄取",
+          "verified": true,
+          "start": 587,
+          "end": 598
+        }
+      ],
+      "why": "說明五原文。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        725,
+        737
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c18",
+      "answer_span": "行政大樓 4 樓",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "行政大樓 4 樓",
+          "verified": true,
+          "start": 117,
+          "end": 125
+        }
+      ],
+      "why": "聯絡清單註冊組地點。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        750,
+        758
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c19",
+      "answer_span": "王組長 分機 63273",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "王組長（）分機 63273",
+          "verified": true,
+          "start": 325,
+          "end": 338
+        }
+      ],
+      "why": "同一人、職稱、分機相符。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        785,
+        797
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c20",
+      "answer_span": "鄧編審 分機 63277",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "鄧編審（）分機 63277",
+          "verified": true,
+          "start": 345,
+          "end": 358
+        }
+      ],
+      "why": "職稱與分機相符。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        810,
+        822
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

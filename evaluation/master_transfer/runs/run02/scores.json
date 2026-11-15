@@ -1,0 +1,506 @@
+{
+  "query_id": "master_transfer",
+  "run_id": "run02",
+  "system_version": "7dd5427",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；QP-T01-05-05 為 112年11月版）",
+    "live": "2026-11-13（現場）（教務處頁面，curl；兩個 moltke 表單連結回 302 轉登入頁，沒有跟隨）；註冊組聯絡人與樓層的現場依據在 evaluation/registry/"
+  },
+  "judges": {
+    "trace": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "isolated-v3",
+      "note": "isolated trace by a subagent that read only trace_input.json"
+    },
+    "keypoint": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "judge-v2",
+      "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json（稽核 PASS，3 次工具呼叫）。K10、K11 判 wrong：答案把上下學期的申請期間寫反（c5 沒依據）。答案沒寫或判 wrong 的 keypoint 另判 in_context。"
+    }
+  },
+  "rouge_l": {
+    "p": 0.2345,
+    "r": 0.5121,
+    "f": 0.3217
+  },
+  "metrics_version": "2026-11-15.context-recall-judged",
+  "accuracy_rule": {
+    "hard_keypoints": 5,
+    "hit": 5,
+    "accuracy": 1.0,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      2,
+      4,
+      5,
+      7
+    ],
+    "context_chars": 7452,
+    "sentence": {
+      "p": 0.0832,
+      "r": 0.9655,
+      "f": 0.1532,
+      "read": 28,
+      "applicable": 29,
+      "r_source": "Claude 判斷（階段 3）；答對有依據的直接算讀到",
+      "p_source": "字串比對（機械，只供比較）",
+      "f_note": "混合：Recall 為 Claude 判斷、Precision 為字串比對"
+    },
+    "words": {
+      "p": 0.1975,
+      "r": 0.9548,
+      "f": 0.3273
+    },
+    "string_match": [
+      {
+        "id": "K1",
+        "found": true,
+        "matched_reference": "經原肆業所及擬轉入所雙方主管同意，送教務處複核後"
+      },
+      {
+        "id": "K2",
+        "found": true,
+        "matched_reference": "經原肆業所及擬轉入所雙方主管同意，送教務處複核後"
+      },
+      {
+        "id": "K3",
+        "found": true,
+        "matched_reference": "申請案經學生原就讀系所及轉入所同意並送教務處複核後，註冊組據以處理學籍等後續事宜"
+      },
+      {
+        "id": "K4",
+        "found": true,
+        "matched_reference": "擬核准自 學年度第 學期 起轉入 系所(組)"
+      },
+      {
+        "id": "K5",
+        "found": true,
+        "matched_reference": "註冊組組長"
+      },
+      {
+        "id": "K6",
+        "found": true,
+        "matched_reference": "教務長"
+      },
+      {
+        "id": "K7",
+        "found": true,
+        "matched_reference": "(如轉入所不同 意，請逕送回原系所並通知學生。)"
+      },
+      {
+        "id": "K8",
+        "found": true,
+        "matched_reference": "碩士班學生於修業第二學年開始前，得經原肄業所及擬轉入所雙方主管同意，申請轉所，並以一次為限"
+      },
+      {
+        "id": "K9",
+        "found": true,
+        "matched_reference": "並以一次為限"
+      },
+      {
+        "id": "K10",
+        "found": true,
+        "matched_reference": "每學年12月1日至12月31日及6月1日至6月30日"
+      },
+      {
+        "id": "K11",
+        "found": true,
+        "matched_reference": "每學年12月1日至12月31日及6月1日至6月30日"
+      },
+      {
+        "id": "K12",
+        "found": true,
+        "matched_reference": "一般研究所學生與在職專班學生不得互轉"
+      },
+      {
+        "id": "K13",
+        "found": true,
+        "matched_reference": "系所經報教育部同意核備有學籍分組者得申請轉組"
+      },
+      {
+        "id": "K14",
+        "found": true,
+        "matched_reference": "碩士班辦理轉系所之規定，由各系所自訂並明列於修業規定中"
+      },
+      {
+        "id": "K15",
+        "found": true,
+        "matched_reference": "學生申請轉所當學期不得休學"
+      },
+      {
+        "id": "K16",
+        "found": true,
+        "matched_reference": "若於申請核准後，辦理休學者，其轉所自始無效"
+      },
+      {
+        "id": "K17",
+        "found": true,
+        "matched_reference": "並不得再申請更改或轉回原所"
+      },
+      {
+        "id": "K18",
+        "found": true,
+        "matched_reference": "轉所於新學期生效"
+      },
+      {
+        "id": "K19",
+        "found": true,
+        "matched_reference": "學生申請轉系經核准後，於轉系生效當學期開學日起二週內辦理學分認定，請將本表填寫完畢，並附成績單"
+      },
+      {
+        "id": "K20",
+        "found": true,
+        "matched_reference": "請將本表填寫完畢，並附成績單，送轉系系所審核"
+      },
+      {
+        "id": "K21",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K22",
+        "found": true,
+        "matched_reference": "陸生轉系所應在當學年度部定招收陸生之總名額及系所範圍內辦理流用"
+      },
+      {
+        "id": "K23",
+        "found": true,
+        "matched_reference": "碩士班甄試管道入學之學生、外國學生、僑生（含港澳生）是否得以轉系所，由各系所自行規範"
+      },
+      {
+        "id": "K24",
+        "found": true,
+        "matched_reference": "[碩士班轉系所申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05)"
+      },
+      {
+        "id": "K25",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K26",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K27",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K28",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K29",
+        "found": true,
+        "matched_reference": "學生原就讀系所應於每學期結束日前將表單正本送教務處註冊組"
+      }
+    ],
+    "note": "字串比對的機械指標（Sentence Precision、Words P／R／F1）只供跨 run 比較，不代表系統有沒有讀到；字串比對的逐項結果在 string_match，不用來判斷「有沒有讀到」。",
+    "metrics_version": "2026-11-15.context-recall-judged",
+    "metrics_note": "Context Sentence Recall 由 Claude 判斷（階段 3；答對且有依據的 keypoint 直接算讀到），不是字串比對；分母含引用登記表的 keypoint。Sentence Precision 與 Words 指標是字串比對的機械指標，只供跨 run 比較；Sentence F1 混用兩者。此版本之前的 Context Sentence Recall／F1 不能與之後的直接比較。"
+  },
+  "keypoint": {
+    "relevant": 17,
+    "wrong": 2,
+    "irrelevant": 10,
+    "total": 29,
+    "not_applicable": 0,
+    "completeness": 0.5862,
+    "hallucination": 0.069,
+    "irrelevance": 0.3448
+  },
+  "fact_unit": {
+    "precision": 0.8947,
+    "recall": 0.5862,
+    "f1": 0.7083,
+    "note": "P = Relevant ÷ (Relevant + Wrong)；R = Relevant ÷ keypoint 總數"
+  },
+  "claim_unit": {
+    "claims": 19,
+    "correct_claims": 15,
+    "precision": 0.7895,
+    "recall": 0.5862,
+    "f1": 0.6728,
+    "note": "P = 正確陳述某個 keypoint 的主張 ÷ 全部主張；額外但正確的資訊會讓 P 下降，量的是聚焦程度"
+  },
+  "evidence_support": {
+    "rate": 0.8947,
+    "supported": 17,
+    "claims": 19,
+    "unsupported_claims": [
+      "c5",
+      "c13"
+    ]
+  },
+  "ungrounded_correct_keypoints": [],
+  "funnel": [
+    {
+      "id": "K1",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K2",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K3",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K4",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "註冊組承辦人 | 註冊組組長",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K5",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "註冊組承辦人 | 註冊組組長",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K6",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "註冊組組長 |  |  |  | 教務長 |",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K7",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "請逕送回原系所並通知學生",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K8",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K9",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K10",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "上學期為12月1日至12月31日止",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "wrong"
+    },
+    {
+      "id": "K11",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "下學期為6月1日至6月30日止",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "wrong"
+    },
+    {
+      "id": "K12",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K13",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "系所經報教育部核備有學籍分組者得申請轉組",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K14",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "由各所自訂並明列於修業規定中",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K15",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K16",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K17",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "並不得再申請更改或轉回原所",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K18",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K19",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K20",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K21",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K22",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "陸生轉系所應在當學年度部定招收陸生之總名額及系所範圍內辦理流用",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K23",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "碩士班甄試管道入學之學生、外國學生、僑生（含港澳生）是否得以轉系所，由各系所自行規範",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K24",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K25",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K26",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K27",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K28",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K29",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    }
+  ],
+  "disagreements": [],
+  "warnings": []
+}

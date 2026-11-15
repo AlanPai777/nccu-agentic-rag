@@ -1,0 +1,450 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "碩士班轉系所（轉所）需要經過原就讀系所（原肄業所）主管、擬轉入系所主管以及教務處三個單位的同意與複核",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "經原肆業所及擬轉入所雙方主管同意，送教務處複核後",
+          "verified": true,
+          "start": 1190,
+          "end": 1214
+        }
+      ],
+      "why": "證據說明需原所與擬轉入所雙方主管同意並送教務處複核。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        0,
+        50
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "[碩士班轉系所申請書 (QP-T01-05-05)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05)",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-05",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "碩士班轉系所申請書 / Master Student Application Form for Institute Transfer"
+        }
+      ],
+      "why": "該網址在 sources 中，label 為碩士班轉系所申請書。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        98,
+        201
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "需經原就讀系所主管審核並簽章「同意轉出」",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "原就讀系所主管審核意見",
+          "verified": true
+        },
+        {
+          "item": "E3",
+          "quote": "□同意轉出本系所(組)",
+          "verified": true,
+          "start": 1072,
+          "end": 1083
+        }
+      ],
+      "why": "表單有原就讀系所主管審核並簽章同意轉出欄位。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        217,
+        237
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "需經擬轉入系所主管審核並簽章「同意轉入」",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "擬轉入就讀系所主管審核意見",
+          "verified": true
+        },
+        {
+          "item": "E3",
+          "quote": "□同意轉入本系所(組)",
+          "verified": true,
+          "start": 1116,
+          "end": 1127
+        }
+      ],
+      "why": "表單有擬轉入系所主管審核並簽章同意轉入欄位。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        244,
+        264
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "每學年 12月1日至12月31日（申請下學期）或 6月1日至6月30日（申請上學期）",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據寫上學期為12月1日至12月31日、下學期為6月1日至6月30日，答案的學期對應相反。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        288,
+        330
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c6",
+      "answer_span": "僅限一年級學生申請",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "開放一年級學生提出申請",
+          "verified": true,
+          "start": 1113,
+          "end": 1124
+        }
+      ],
+      "why": "證據說開放一年級學生提出申請。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        342,
+        351
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c7",
+      "answer_span": "且於修業第二學年開始前辦理，以一次為限",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "於修業第二學年開始前",
+          "verified": true,
+          "start": 938,
+          "end": 948
+        },
+        {
+          "item": "E2",
+          "quote": "並以一次為限",
+          "verified": true,
+          "start": 971,
+          "end": 977
+        }
+      ],
+      "why": "證據明示第二學年開始前且以一次為限。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        352,
+        371
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c8",
+      "answer_span": "一般研究所學生與在職專班學生不得互轉",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "一般研究所學生與在職專班學生不得互轉",
+          "verified": true,
+          "start": 978,
+          "end": 996
+        }
+      ],
+      "why": "證據逐字相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        383,
+        401
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c9",
+      "answer_span": "申請轉所當學期不得休學，否則轉所自始無效",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "學生申請轉所當學期不得休學，若於申請核准後，辦理休學者，其轉所自始無效",
+          "verified": true,
+          "start": 1331,
+          "end": 1366
+        }
+      ],
+      "why": "證據有相同規定。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        402,
+        422
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c10",
+      "answer_span": "由原就讀系所於每學期結束日前，將表單正本送至教務處註冊組複核",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "學生原就讀系所應於每學期結束日前將表單正本送教務處註冊組據以處理學籍等後續事宜",
+          "verified": true,
+          "start": 1215,
+          "end": 1254
+        }
+      ],
+      "why": "原系所於學期結束前將正本送註冊組；證據說註冊組據以處理學籍，教務處複核，答案把複核與送註冊組略為合併。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        465,
+        495
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c11",
+      "answer_span": "行政大樓 4 樓 註冊組",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "註冊組　行政大樓 4 樓",
+          "verified": true,
+          "start": 113,
+          "end": 125
+        }
+      ],
+      "why": "聯絡清單列註冊組位於行政大樓 4 樓。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        516,
+        528
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c12",
+      "answer_span": "註冊組組長 王組長（分機 63273）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "王組長（）分機 63273",
+          "verified": true,
+          "start": 325,
+          "end": 338
+        }
+      ],
+      "why": "證據有王組長分機 63273，屬註冊組。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        548,
+        567
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c13",
+      "answer_span": "註冊組承辦人 鄧編審（分機 63277）",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據有鄧編審分機 63277，但沒有把鄧編審列為註冊組承辦人，職稱對不上。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        575,
+        595
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c14",
+      "answer_span": "轉所於新學期生效",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "轉所於新學期生效",
+          "verified": true,
+          "start": 1263,
+          "end": 1271
+        }
+      ],
+      "why": "證據逐字相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        627,
+        635
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c15",
+      "answer_span": "學生應於轉所生效當學期開課日起兩週內，填寫",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "學生應於轉所生效當學期開課日起二週內填寫「學分認定申請書」並附成績單",
+          "verified": true,
+          "start": 1272,
+          "end": 1306
+        }
+      ],
+      "why": "證據為二週內填寫學分認定申請書。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        636,
+        657
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c16",
+      "answer_span": "[碩士班轉系所學分認定申請書 (QP-T01-05-06)](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-06)",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-05-06",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "碩士班轉系所學分認定申請書 / Master’s Program Credit Recognition Form for Transfer to Another Department Institute Academic"
+        }
+      ],
+      "why": "該網址在 sources 中，label 為碩士班轉系所學分認定申請書。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        657,
+        764
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c17",
+      "answer_span": "並附上成績單",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "並附成績單",
+          "verified": true,
+          "start": 1301,
+          "end": 1306
+        }
+      ],
+      "why": "證據要求附成績單。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        764,
+        770
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c18",
+      "answer_span": "將申請書送至轉入系所辦理學分認定審核",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "送轉入系所辦理學分認定審核",
+          "verified": true,
+          "start": 1307,
+          "end": 1320
+        }
+      ],
+      "why": "證據相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        780,
+        798
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c19",
+      "answer_span": "於次學期開學日起，至教務處註冊組系所櫃檯處理更新名條",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "學生證請於次學期開學日起至教務處註冊組系所櫃檯處理更新名條",
+          "verified": true,
+          "start": 1592,
+          "end": 1621
+        }
+      ],
+      "why": "證據相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        809,
+        835
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

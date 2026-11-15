@@ -336,7 +336,11 @@ def write_report(batch_dir: Path, manifest: dict, root: Path = EVAL) -> Path:
          f"{'+uncommitted' if manifest['git'].get('system_uncommitted') else ''}；建立：{manifest['created_at']}",
          f"- 指標版本：{_metrics_version()}（Context 句子 Recall 由 Claude 判斷，不是字串比對；Sentence Precision 與 Words 指標仍是字串比對，Sentence F1 混合；此版本之前的 Context 數字不能直接比較）",
          "- 限制：每題只跑一次，LLM 有隨機性；現場頁面會隨時間變，`prediction.json` 是系統當時看到的唯一記錄；"
-         "隔離回推是否真的隔離看每題 `trace.json` 的 judge 註記與稽核結果。", "", "## 每題", ""]
+         "隔離回推是否真的隔離看每題 `trace.json` 的 judge 註記與稽核結果。", ""]
+    rr = manifest.get("reruns")
+    if rr:
+        L += [f"- 重跑（{rr['at']}，{rr['after']} 修好之後，git {rr['git']}）：{'、'.join(rr['questions'])} 改用 run02，{rr['note']}", ""]
+    L += ["## 每題", ""]
     moved_all, state_all = [], {}
     for e in manifest["questions"]:
         qdir = root / e["question"]

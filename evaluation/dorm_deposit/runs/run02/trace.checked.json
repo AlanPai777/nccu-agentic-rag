@@ -1,0 +1,529 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "先由宿舍區管理人員對您的寢室進行檢查。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "宿舍區管理人員檢查寢室",
+          "verified": true,
+          "start": 350,
+          "end": 361
+        }
+      ],
+      "why": "表單流程第一步為宿舍區管理人員檢查寢室。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        52,
+        71
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "檢查項目包含財產損失、垃圾清理及是否延遲搬離。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "1、財產損失 Property Damage",
+          "verified": true,
+          "start": 3326,
+          "end": 3348
+        },
+        {
+          "item": "E3",
+          "quote": "2、垃圾清理 Removal of",
+          "verified": true,
+          "start": 3380,
+          "end": 3397
+        },
+        {
+          "item": "E3",
+          "quote": "3、延遲搬 Extension of dorm stay",
+          "verified": true,
+          "start": 3552,
+          "end": 3580
+        }
+      ],
+      "why": "寢室檢查欄列出財產損失、垃圾清理、延遲搬。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        82,
+        105
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "若扣款金額（如財產損失）超過保證金 1,000 元，將另行追繳。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "扣款金額若超過住宿保證金1000元以上，另",
+          "verified": true,
+          "start": 3756,
+          "end": 3777
+        }
+      ],
+      "why": "表單註明扣款超過保證金1000元另予追繳。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        105,
+        137
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "在寢室檢查後的 三天內，持申請表及相關證明至學務處住宿組辦理退費。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "三天內至住宿組辦理退費(持本表及宿費收據)",
+          "verified": true,
+          "start": 362,
+          "end": 383
+        },
+        {
+          "item": "E2",
+          "quote": "學務處住宿組",
+          "verified": true,
+          "start": 5003,
+          "end": 5009
+        }
+      ],
+      "why": "三天內持本表及收據至住宿組辦理退費。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        163,
+        196
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "【離宿暨退還保證金申請表-學期中/末搬離宿舍】",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "離宿暨退還保證金申請表-學期中/末搬離宿舍",
+          "verified": true,
+          "start": 23,
+          "end": 44
+        }
+      ],
+      "why": "表單名稱相符。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        214,
+        237
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c6",
+      "answer_span": "[點此下載 QP-M03-01-05](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05)",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "離宿暨退還保證金申請表-學期中/末搬離宿舍(中文.English) Application for Leaving the Dorm/Deposit Return"
+        }
+      ],
+      "why": "sources 的網址其 label 為該離宿申請表。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        254,
+        350
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c7",
+      "answer_span": "辦理退費需持宿費收據。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "持本表及宿費收據",
+          "verified": true,
+          "start": 374,
+          "end": 382
+        }
+      ],
+      "why": "辦理退費持本表及宿費收據。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        380,
+        391
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c8",
+      "answer_span": "若僅申請退還「住宿保證金」則可不交收據",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "僅退住宿保證金者可不交宿費收據",
+          "verified": true,
+          "start": 656,
+          "end": 671
+        }
+      ],
+      "why": "證據相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        391,
+        410
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c9",
+      "answer_span": "若收據遺失，請至出納組補發。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "「宿費繳費收據」若遺失，可請出納組補發",
+          "verified": true,
+          "start": 672,
+          "end": 691
+        }
+      ],
+      "why": "證據相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        411,
+        425
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c10",
+      "answer_span": "費用將直接匯入您在「政大網頁 $\\rightarrow$ 在校學生 $\\rightarrow$ 個人基本資料」中登記的帳戶。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "由住宿組造冊匯入同學(於政大網頁-在校學生-個人基本資料)登記之帳戶",
+          "verified": true,
+          "start": 695,
+          "end": 729
+        }
+      ],
+      "why": "匯入登記帳戶，路徑相符（箭頭為格式差異）。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        440,
+        502
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c11",
+      "answer_span": "若因離宿即出國或帳戶已結清，需另填「僑外生退住宿保證金轉入代領人帳戶領據」。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "僑生及外籍生因離宿後即出國、帳戶已結清無法領取者，另再填『僑外生退住宿保證金轉入代領人帳戶領據』",
+          "verified": true,
+          "start": 734,
+          "end": 782
+        }
+      ],
+      "why": "證據相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        539,
+        577
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c12",
+      "answer_span": "外籍交換生： 請直接向所屬相關系所辦理退還。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "外籍交換生請向相關系所辦理退還「住宿保證金」",
+          "verified": true,
+          "start": 786,
+          "end": 808
+        }
+      ],
+      "why": "證據相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        590,
+        612
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c13",
+      "answer_span": "學務處住宿輔導組（受理退費申請）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "致：住宿輔導組",
+          "verified": true,
+          "start": 252,
+          "end": 259
+        },
+        {
+          "item": "E3",
+          "quote": "三天內至住宿組辦理退費",
+          "verified": true,
+          "start": 362,
+          "end": 373
+        }
+      ],
+      "why": "退費在住宿組辦理。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        637,
+        653
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c14",
+      "answer_span": "總機分機： 63252",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "住宿組總機：電話 分機 63252",
+          "verified": true,
+          "start": 131,
+          "end": 148
+        }
+      ],
+      "why": "證據相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        658,
+        669
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c15",
+      "answer_span": "趙紀綱（住宿組組長）分機 62500",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "趙紀綱（住宿組組長）分機 62500",
+          "verified": true,
+          "start": 369,
+          "end": 387
+        }
+      ],
+      "why": "姓名職稱分機一致。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        689,
+        707
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c16",
+      "answer_span": "徐廷芝（一級行政專員）分機 62228",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "徐廷芝（一級行政專員）分機 62228",
+          "verified": true,
+          "start": 512,
+          "end": 531
+        }
+      ],
+      "why": "姓名職稱分機一致。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        716,
+        735
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c17",
+      "answer_span": "出納組（收據補發）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "「宿費繳費收據」若遺失，可請出納組補發",
+          "verified": true,
+          "start": 672,
+          "end": 691
+        }
+      ],
+      "why": "出納組補發收據。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        740,
+        749
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c18",
+      "answer_span": "地點： 行政大樓 5 樓",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "行政大樓 5 樓",
+          "verified": true,
+          "start": 1272,
+          "end": 1280
+        }
+      ],
+      "why": "出納組列於行政大樓5樓。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        754,
+        766
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c19",
+      "answer_span": "總機電話： (02) 2939-3091",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "出納組：電話 (02)2939-3091",
+          "verified": true,
+          "start": 1323,
+          "end": 1343
+        },
+        {
+          "item": "E4",
+          "quote": "學務處：總機電話 02-29393091",
+          "verified": true,
+          "start": 213,
+          "end": 233
+        }
+      ],
+      "why": "號碼相符，出納組的電話；「總機」標示僅由學務處同號碼的條目支持，略有不確定。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        771,
+        791
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c20",
+      "answer_span": "劉桂芬（組長）分機 62120",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "劉桂芬（組長）分機 62120",
+          "verified": true,
+          "start": 1527,
+          "end": 1542
+        }
+      ],
+      "why": "姓名職稱分機一致。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        811,
+        826
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c21",
+      "answer_span": "余淑娟（一級行政組員）分機 62123",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "余淑娟（一級行政組員）分機 62123",
+          "verified": true,
+          "start": 1829,
+          "end": 1848
+        }
+      ],
+      "why": "姓名職稱分機一致。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        835,
+        854
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

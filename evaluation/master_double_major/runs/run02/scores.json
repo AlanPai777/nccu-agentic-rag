@@ -1,0 +1,429 @@
+{
+  "query_id": "master_double_major",
+  "run_id": "run02",
+  "system_version": "7dd5427",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；QP-T01-03-08 為 2025-04-25 版）",
+    "live": "2026-11-13（現場）（教務處頁面與辦法 PDF，curl；moltke 表單連結回 302 轉登入頁，沒有跟隨）；註冊組聯絡人與樓層的現場依據在 evaluation/registry/"
+  },
+  "judges": {
+    "trace": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "isolated-v3",
+      "note": "isolated trace by a subagent that read only trace_input.json"
+    },
+    "keypoint": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "judge-v2",
+      "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json（稽核 PASS，3 次工具呼叫）。答案沒寫的 keypoint 另判 in_context。K20 判 relevant：表單編號只在連結網址裡，沒有以文字寫出。"
+    }
+  },
+  "rouge_l": {
+    "p": 0.1856,
+    "r": 0.3788,
+    "f": 0.2492
+  },
+  "metrics_version": "2026-11-15.context-recall-judged",
+  "accuracy_rule": {
+    "hard_keypoints": 4,
+    "hit": 3,
+    "accuracy": 0.75,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      2,
+      4,
+      5,
+      7
+    ],
+    "context_chars": 5726,
+    "sentence": {
+      "p": 0.0899,
+      "r": 0.913,
+      "f": 0.1637,
+      "read": 21,
+      "applicable": 23,
+      "r_source": "Claude 判斷（階段 3）；答對有依據的直接算讀到",
+      "p_source": "字串比對（機械，只供比較）",
+      "f_note": "混合：Recall 為 Claude 判斷、Precision 為字串比對"
+    },
+    "words": {
+      "p": 0.2359,
+      "r": 0.8867,
+      "f": 0.3727
+    },
+    "string_match": [
+      {
+        "id": "K1",
+        "found": true,
+        "matched_reference": "是否同意所屬學生申請修讀雙主修/輔系"
+      },
+      {
+        "id": "K2",
+        "found": true,
+        "matched_reference": "請於申請截止日前將申請表及相關申請資料紙本送達申請學系"
+      },
+      {
+        "id": "K3",
+        "found": true,
+        "matched_reference": "□准予修讀，適用規定：________學年度必修/輔系科目表 □不准修讀，原因："
+      },
+      {
+        "id": "K4",
+        "found": true,
+        "matched_reference": "名單送交教務處後，仍會就說明一及說明三審查基本資格"
+      },
+      {
+        "id": "K5",
+        "found": true,
+        "matched_reference": "名單送交教務處後，仍會就說明一及說明三審查基本資格"
+      },
+      {
+        "id": "K6",
+        "found": true,
+        "matched_reference": "承辦人 | | 單位主管"
+      },
+      {
+        "id": "K7",
+        "found": true,
+        "matched_reference": "教務處註冊組 | 承辦人 | (審查基本資格及維護資料) | 組長"
+      },
+      {
+        "id": "K8",
+        "found": true,
+        "matched_reference": "各學系所於審核完畢後單位網頁公告核准修讀名單，請自行前往查詢"
+      },
+      {
+        "id": "K9",
+        "found": true,
+        "matched_reference": "名單送交教務處後，仍會就說明一及說明三審查基本資格；如未符資格，將取消錄取"
+      },
+      {
+        "id": "K10",
+        "found": true,
+        "matched_reference": "碩士在職專班學生不開放申請"
+      },
+      {
+        "id": "K11",
+        "found": true,
+        "matched_reference": "碩、博士班學生自註冊在學第二學期起至第四學期止可申請修讀雙主修/輔系"
+      },
+      {
+        "id": "K12",
+        "found": true,
+        "matched_reference": "申請日程依校訂行事曆公告為準"
+      },
+      {
+        "id": "K13",
+        "found": true,
+        "matched_reference": "學生提出申請前，請務必至教務處網頁查看學校目前有開放碩、博士班學生申請雙主修/輔系的教學單位，再向該單位提出申請"
+      },
+      {
+        "id": "K14",
+        "found": true,
+        "matched_reference": "請於申請截止日前將申請表及相關申請資料紙本送達申請學系，逾期不予受理"
+      },
+      {
+        "id": "K15",
+        "found": true,
+        "matched_reference": "申請額度以一個同級雙主修及一個同級或向下一級輔系為限"
+      },
+      {
+        "id": "K16",
+        "found": true,
+        "matched_reference": "碩士班學生可申請修讀碩士班雙主修及碩士班輔系或學士班輔系"
+      },
+      {
+        "id": "K17",
+        "found": true,
+        "matched_reference": "同時申請同一學系為雙主修及輔系，經學系審查已符合雙主修修讀資格時，即以雙主修錄取"
+      },
+      {
+        "id": "K18",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K19",
+        "found": true,
+        "matched_reference": "視同自願放棄原有之雙主修或輔系資格，且不得再申請回復"
+      },
+      {
+        "id": "K20",
+        "found": true,
+        "matched_reference": "QP-T01-03-08"
+      },
+      {
+        "id": "K21",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K22",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K23",
+        "found": null,
+        "matched_reference": null
+      }
+    ],
+    "note": "字串比對的機械指標（Sentence Precision、Words P／R／F1）只供跨 run 比較，不代表系統有沒有讀到；字串比對的逐項結果在 string_match，不用來判斷「有沒有讀到」。",
+    "metrics_version": "2026-11-15.context-recall-judged",
+    "metrics_note": "Context Sentence Recall 由 Claude 判斷（階段 3；答對且有依據的 keypoint 直接算讀到），不是字串比對；分母含引用登記表的 keypoint。Sentence Precision 與 Words 指標是字串比對的機械指標，只供跨 run 比較；Sentence F1 混用兩者。此版本之前的 Context Sentence Recall／F1 不能與之後的直接比較。"
+  },
+  "keypoint": {
+    "relevant": 17,
+    "wrong": 0,
+    "irrelevant": 6,
+    "total": 23,
+    "not_applicable": 0,
+    "completeness": 0.7391,
+    "hallucination": 0.0,
+    "irrelevance": 0.2609
+  },
+  "fact_unit": {
+    "precision": 1.0,
+    "recall": 0.7391,
+    "f1": 0.85,
+    "note": "P = Relevant ÷ (Relevant + Wrong)；R = Relevant ÷ keypoint 總數"
+  },
+  "claim_unit": {
+    "claims": 20,
+    "correct_claims": 17,
+    "precision": 0.85,
+    "recall": 0.7391,
+    "f1": 0.7907,
+    "note": "P = 正確陳述某個 keypoint 的主張 ÷ 全部主張；額外但正確的資訊會讓 P 下降，量的是聚焦程度"
+  },
+  "evidence_support": {
+    "rate": 0.95,
+    "supported": 19,
+    "claims": 20,
+    "unsupported_claims": [
+      "c15"
+    ]
+  },
+  "ungrounded_correct_keypoints": [],
+  "funnel": [
+    {
+      "id": "K1",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K2",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K3",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K4",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K5",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K6",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "|  | 承辦人 |  | 單位主管 |",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K7",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "| 教務處註冊組 | 承辦人 | (審查基本資格及維護資料) | 組長 |",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K8",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K9",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K10",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K11",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K12",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K13",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K14",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K15",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K16",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K17",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "同時申請同一學系為雙主修及輔系，經學系審查已符合雙主修修讀資格時，即以雙主修錄取",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K18",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K19",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "視同自願放棄原有之雙主修或輔系資格，且不得再申請回復",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K20",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K21",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K22",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K23",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    }
+  ],
+  "disagreements": [
+    {
+      "keypoint": "K23",
+      "rule": "miss",
+      "claude": "relevant",
+      "claude_reason": "答案寫註冊組在行政大樓 4 樓",
+      "rule_detail": {}
+    }
+  ],
+  "warnings": []
+}

@@ -1,0 +1,105 @@
+{
+  "query_id": "cross_school_double_major",
+  "run_id": "run02",
+  "task": "回推：把 answer_text 拆成原子主張，為每個主張在 evidence_items 找出支持它的逐字原文；找不到就標 unsupported。",
+  "answer_text": "政大學生申請跨校修讀台灣聯合大學系統（台聯大）雙主修，其審核流程需經過原就讀學校（政大）與加修學校兩方的單位審核。具體辦理步驟如下：\n\n### 辦理流程手冊\n\n第一步：填寫申請表與準備文件\n*   填寫表單： 下載並填寫[台灣聯合大學系統學士班學生跨校修讀輔系雙主修申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21)。\n*   填寫注意：\n    1.  申請項目： 勾選「雙主修」。\n    2.  加修校系： 選擇欲申請的學校（中央大學、政治大學、清華大學、陽明交通大學之ㄧ）並填寫學系名稱。\n    3.  政大生特別注意： 若申請外校雙主修通過，學生視為自願自動放棄現正修習之雙主修資格。\n*   準備附件： 需檢附「中文歷年成績單」及其他規定資料。\n\n第二步：原就讀學校（政大）端審核\n1.  主修學系審核： 持申請表至目前就讀之主修學系，由學系審核是否同意學生加修他校性質不同學系為雙主修。\n2.  註冊組審核： 經主修學系同意後，將表單送至教務處註冊組辦理。\n    *   辦理地點： 行政大樓 4 樓\n    *   聯絡人員：\n        *   王組長（組長）分機 63273\n        *   鄧編審（承辦人）分機 63277\n\n第三步：加修學校端審核\n1.  加修學系審核： 表單送至加修學校之學系，審核是否准予修讀及適用之必修科目表。\n2.  加修學校註冊組審核： 由該校註冊組進行最終核准。\n\n第四步：查詢結果\n*   審查結果由註冊組公告於註冊組網頁，請學生於公告時間自行至網頁查詢。\n\n---\n來源：\n*   [台灣聯合大學系統學士班學生跨校修讀輔系雙主修申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21)\n*   [教務處註冊組人員分機](https://aca.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C-%E8%A8%BB%E5%86%8A)",
+  "stripped_not_scored": {
+    "rationale": [
+      "——選擇原因：負責該單位的最終簽核管理。",
+      "——選擇原因：註冊組第一線承辦人員。"
+    ],
+    "sources": "",
+    "disclosure": "【資料狀態】（由系統依實際抓取結果產生）\n- 已與官網核對，內容已更新：1 頁\n  - https://aca.nccu.edu.tw/zh/人員職掌-註冊（11/15 20:44）\n- 已與官網核對，內容無變動：1 頁\n  - https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21（11/15 20:44）",
+    "evidence_source_lines": [
+      "來源：https://aca.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C-%E8%A8%BB%E5%86%8A"
+    ]
+  },
+  "evidence_items": [
+    {
+      "id": "E1",
+      "kind": "ToolMessage",
+      "tool": "search_texts",
+      "source_url": null,
+      "sources": [],
+      "text": "search_texts('跨校雙主修 審核單位') 找到候選 [aca] 台灣聯合大學系統學士班學生跨校修讀輔系雙主修申請表\nURL: https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21\n(judge通過: 該頁面為台聯大跨校修讀雙主修的申請表，直接對應問題中的程序與規定。)"
+    },
+    {
+      "id": "E2",
+      "kind": "ToolMessage",
+      "tool": "get_page_tool",
+      "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21",
+      "sources": [
+        {
+          "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21",
+          "label": "台灣聯合大學系統學士班學生跨校修讀輔系雙主修申請表"
+        }
+      ],
+      "text": "get_page 取得 4728 字，標題: 台灣聯合大學系統學士班學生跨校修讀輔系雙主修申請表，subdomain: aca\n\n[偵測到表單編號: QP-T01-04-21]\n\n全文：\n表單編號\n\nForm Code\n\nQP-T01-04-21 \n\n表單名稱\n\nForm Title\n\n台灣聯合大學系統學士班學生跨校修讀輔系雙主修申請表 \n\n版本\n\nVersion\n\n \n\n簡易表單編號\n\nShortened Form Code\n\nT421 \n\n修訂日期\n\nDate\n\n2023/05/16 \n\n發行日期\n\nIssued Date\n\n2023/05/16 \n\n修訂會議\n\nMeeting\n\n \n\n業務資訊網址\n\nWebsite\n\n表單描述\n\nForm Description\n\n台灣聯合大學系統(國立中央大學, 國立政治大學, 國立清華大學, 國立陽明交通大學)學士班學生跨校修讀輔系/雙主修申請表 \n\n表單關鍵字\n\nForm Keyword\n\n                    輔系　\n                    雙主修　\n                    跨校\n                     \n                  \n\n表單外部連結\n\n[https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21) \n\n檔案下載\n\nDownload File\n\n                    \n                      \n                      \n                      \t\n                        \n                          \n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                          \n                        \n                        \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                        \n                        \n                          \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                          \n                          \n                          *(odt) [台聯大跨校修讀輔雙申請表](https://moltke.nccu.edu.tw/formservice_SSO/viewFormDetail.jsp#)\n\n                          \n                          \n                        \n                        \n                      \n                      \n                    \n                      \n                      \n                      \t\n                        \n                          \n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                          \n                        \n                        \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                        \n                        \n                          \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                          \n                          \n                          *(pdf) [台聯大跨校修讀輔雙申請表](https://moltke.nccu.edu.tw/formservice_SSO/viewFormDetail.jsp#)\n\n                          \n                          \n                        \n                        \n                      \n                      \n                    \n                     \n                  \n\n承辦單位\n\nUnit\n\n教務處註冊組 \n\nCopyrightc 2026 National Chengchi University. All Rights Reserved."
+    },
+    {
+      "id": "E3",
+      "kind": "HumanMessage",
+      "tool": null,
+      "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21",
+      "sources": [
+        {
+          "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21",
+          "label": "台灣聯合大學系統學士班學生跨校修讀輔系雙主修申請表"
+        }
+      ],
+      "text": "[表單全文，系統偵測到表單編號後自動抓取，請直接引用其中的流程/站點/費用等細節]\n\nget_form 取得表單 台灣聯合大學系統學士班學生跨校修讀輔系雙主修申請表\n\n下載連結：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21\n\n全文：\n台灣聯合大學系統學士班學生跨校修讀輔系/雙主修申請表\n【說明】\n1. 依台灣聯合大學系統公告時間受理申請。相關規定請詳閱台灣聯合大學系統學生跨校修讀輔系/雙主修辦法。\n2. 台聯大學生跨校修讀輔系及雙主修之上限(含校內輔系及雙主修)為一個雙主修及二個輔系。前項申請限加修不同性\n質之學系為輔系或雙主修。學生亦不得申請同一學系為輔系及雙主修(如在學期間同時申請加修A大中文系為輔系及\n雙主修)，以及不得申請兩校同一學系(或性質相近)為輔系及雙主修或兩個輔系(如在學期間申請加修A大中文系雙主\n修或輔系，又同時申請加修B大中文系為輔系)。\n3. 審查結果由註冊組公告於註冊組網頁，請學生於公告時間自行至網頁查詢。\n4. 申請修讀經核准後，符合主修學系畢業資格但尚未修滿輔系或雙主修規定學分，欲放棄修讀者，請填寫「台灣聯合\n大學系統學士班學生放棄跨校修讀輔系/雙主修申請表」，逕送原就讀學校辦理。\n5. 修滿規定學分者，請填寫「台灣聯合大學系統學士班學生跨校修讀輔系/雙主修畢業資格審查表」，併同歷年成績單，依\n表單所列程序審核後，送註冊組彙整並發函至相關學校審查，憑此於畢業時製發證書。\n6. 政大學生另應注意事項如下：\n(1) 若申請外校雙主修通過，則自願自動放棄現正修習雙主修資格。\n(2) 若申請外校輔系通過，則自願自動放棄現正修習輔系＿＿＿＿＿資格。（未修滿兩輔系者免填）\n製表日期：20230331\n\n| 學 號 |  | 姓 名 |  |\n| --- | --- | --- | --- |\n| 就 讀 學 校 |  | 就 讀 學 系 |  |\n| 班別 /年級 |  | 身 份 別 | □一般生□境外生: |\n| 聯 絡 電 話 |  | 電 子 郵 件 |  |\n| 申 請 項 目 | □ 輔系 □ 雙主修 | 申 請 日 期 | 年____月____日 |\n| 現修讀輔系 / 雙 主 修 | □ 現無修讀輔系 □現無修讀雙主修 |  |  |\n|  | □ 輔系__________(1) □ 輔系__________(2) □ 雙主修__________________________ |  |  |\n| 加 修 校 系 | □ 國立中央大學 □ 國立政治大學 □ 國立清華大學 □ 國立陽明交通大學 |  |  |\n|  | 學系名稱 |  |  |\n| 繳 交 文 件 | □ 中文歷年成績單 □其他規定資料 |  |  |\n| 注 意 事 項 | 本人已詳讀台灣聯合大學系統學生跨校修讀輔系/雙主修辦法及修讀學校有關輔系/雙主 修之相關辦法，並願確實遵守修課要求及其他相關規範。 |  |  |\n|  |  |  |  |\n\n| 簽 核 流 程 |  |  |  |  |\n| --- | --- | --- | --- | --- |\n| 順序 | 辦理單位 |  | 辦理內容/簽章 |  |\n|  | 原就讀學校 | 主修學系 | 是否同意學生加修他校性質不同學系為輔系/雙主修： □同意 □ 不同意，原因： |  |\n|  |  |  | 承辦人 | 單位主管 |\n|  |  | 註冊組 | 承辦人 | 組 長 |\n|  | 加 修 學 校 | 加修學系 | □准予修讀，適用規定：＿ ＿學年度必修科目表 □不准修讀，意見： |  |\n|  |  |  | 承辦人 | 單位主管 |\n|  |  | 註冊組 | 承辦人 | 組 長 |\n\n[表單其他決策/資訊項目，答案應涵蓋]\n- 班別 /年級：□一般生□境外生:\n- 申 請 項 目：□ 輔系 □ 雙主修\n- 現修讀輔系 / 雙 主 修：□ 現無修讀輔系 □現無修讀雙主修\n- 加 修 校 系：□ 國立中央大學 □ 國立政治大學 □ 國立清華大學 □ 國立陽明交通大學\n- 繳 交 文 件：□ 中文歷年成績單 □其他規定資料\n- ：是否同意學生加修他校性質不同學系為輔系/雙主修： □同意 □ 不同意，原因：\n- ：□准予修讀，適用規定：＿ ＿學年度必修科目表 □不准修讀，意見：\n\n[偵測到辦公室: 註冊組]"
+    },
+    {
+      "id": "E4",
+      "kind": "contact_list",
+      "tool": null,
+      "source_url": "https://aca.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C-%E8%A8%BB%E5%86%8A",
+      "sources": [
+        {
+          "url": "https://aca.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C-%E8%A8%BB%E5%86%8A",
+          "label": "來源：https://aca.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C-%E8%A8%BB%E5%86%8A"
+        }
+      ],
+      "text": "[辦公室聯絡資訊，以下是內容中提及的全部 1 個辦公室（註冊組），未經相關性篩選——這是完整清單，不代表每一個都跟這題直接相關。是否每個都要寫進最終答案由你根據問題判斷，不要假設清單已經先篩過。]\n\n【各辦公室聯絡資訊】\n  註冊組　行政大樓 4 樓\n    ☎ 聯絡我們：電話 886-2-29393091\n    ☎ 聯絡我們：傳真 886-2-29394044\n    ☎ 教務長室：分機 分機 62162\n    ☎ 註冊組：分機 分機 63279\n    ☎ 課務組：分機 分機 62185\n    ☎ 綜業組：分機 分機 67892\n    ☎ 通識中心：分機 分機 67874\n    ☎ 教發中心：分機 分機 62865\n    • 王組長（）分機 63273\n    • 鄧編審（）分機 63277\n    • 鄧編審（）分機 63275\n    • 陳助教（）分機 63289\n    • 陳助教（）分機 63288\n    • 陳助教（）分機 63286"
+    }
+  ],
+  "output_file": "trace.json",
+  "output_format": {
+    "claims": [
+      {
+        "id": "c1",
+        "answer_span": "答案正文裡的一段逐字原文（這個主張對應的那一小段）",
+        "status": "supported | unsupported",
+        "evidence": [
+          {
+            "item": "E1",
+            "quote": "該證據項目裡的一段逐字原文"
+          },
+          {
+            "item": "E2",
+            "quote": "（網址主張才用）該項目 sources 裡的一個完整網址",
+            "from": "sources"
+          }
+        ],
+        "why": "一句話說明"
+      }
+    ],
+    "judge": {
+      "model": "",
+      "prompt_version": "",
+      "note": ""
+    },
+    "rules": [
+      "把答案拆成原子主張：一個主張只講一件事（總機與分機是兩件事、傳真是另一件）。",
+      "引言、標題、「如下」這類沒有事實內容的字句不要列成主張。",
+      "answer_span 必須逐字取自 answer_text；quote 必須逐字取自該證據項目的 text（網址主張例外，見最後一條）；程式會驗證，找不到會被退回。",
+      "status=supported 要附至少一段 evidence；找不到依據就寫 unsupported，evidence 留空陣列。",
+      "判斷『有沒有依據』只看 evidence_items 裡的文字，不用你自己知道的事。",
+      "把人與職稱、分機配成一對的主張，要證據把「同一個人」配「同樣的職稱與分機」才算 supported；姓名、職稱、分機任一項與證據不同（包含分機是證據裡另一個人的），就是 unsupported。",
+      "一個人的姓名、職稱、分機寫成同一個主張，不要把分機拆出去（拆出去的分機會失去它屬於誰的資訊）。",
+      "只出現在網址或連結位址裡的字，不算該單位職掌等內容的證據。",
+      "各主張的 answer_span 不得互相重疊（一個字最多屬於一個主張）；不要同時列出整句與其中一部分。",
+      "答案裡的網址主張（網址本身就是要說的內容，例如「下載連結：https://…」）可以引用證據項目的 sources：evidence 寫 {\"item\": \"E2\", \"quote\": \"<sources 裡的一個完整網址，逐字>\", \"from\": \"sources\"}。quote 必須等於 sources 裡的一個完整網址（不是網址的一部分），程式會驗證；這個網址對不對得上答案說的東西（例如是不是休學申請書的連結），要看該網址在 sources 裡的 label；網址路徑裡的字仍然不算其他主張的證據（規則 8）；網址不在 sources 裡就是 unsupported。"
+    ]
+  }
+}

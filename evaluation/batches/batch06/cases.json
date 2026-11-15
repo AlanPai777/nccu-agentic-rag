@@ -41,21 +41,21 @@
       "question": "master_transfer",
       "short": "轉系所",
       "group": "Cross-Office Procedural Questions",
-      "dir": "runs/run01"
+      "dir": "runs/run02"
     },
     {
       "id": 8,
       "question": "dorm_deposit",
       "short": "退宿保證金",
       "group": "Cross-Office Procedural Questions",
-      "dir": "runs/run01"
+      "dir": "runs/run02"
     },
     {
       "id": 9,
       "question": "master_double_major",
       "short": "雙主修輔系",
       "group": "Cross-Office Procedural Questions",
-      "dir": "runs/run01"
+      "dir": "runs/run02"
     },
     {
       "id": 10,
@@ -69,7 +69,7 @@
       "question": "cross_school_double_major",
       "short": "跨校雙主修",
       "group": "Cross-Office Procedural Questions",
-      "dir": "runs/run01"
+      "dir": "runs/run02"
     }
   ]
 }

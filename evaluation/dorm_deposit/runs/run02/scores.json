@@ -1,0 +1,435 @@
+{
+  "query_id": "dorm_deposit",
+  "run_id": "run02",
+  "system_version": "7dd5427",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；表單 QP-M03-01-05）",
+    "live": "2026-11-13（現場）（住宿組「退離宿程序」頁、學務處 FAQ，curl；moltke 表單連結回 302 轉登入頁，沒有跟隨）；住宿組、出納組的聯絡人與樓層的現場依據在 evaluation/registry/"
+  },
+  "judges": {
+    "trace": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "isolated-v3",
+      "note": "isolated trace by a subagent that read only trace_input.json"
+    },
+    "keypoint": {
+      "model": "claude-sonnet-5-5",
+      "prompt_version": "judge-v2",
+      "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json（稽核 PASS，3 次工具呼叫）。答案沒寫的 keypoint 另判 in_context。K20 的 in_context 依據是學務處頁尾地址（頁面屬學務處住宿組），不是住宿組自己的樓層欄。"
+    }
+  },
+  "rouge_l": {
+    "p": 0.1201,
+    "r": 0.425,
+    "f": 0.1873
+  },
+  "metrics_version": "2026-11-15.context-recall-judged",
+  "accuracy_rule": {
+    "hard_keypoints": 7,
+    "hit": 4,
+    "accuracy": 0.5714,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      2,
+      4,
+      5,
+      7,
+      8
+    ],
+    "context_chars": 14034,
+    "sentence": {
+      "p": 0.0197,
+      "r": 0.8261,
+      "f": 0.0385,
+      "read": 19,
+      "applicable": 23,
+      "r_source": "Claude 判斷（階段 3）；答對有依據的直接算讀到",
+      "p_source": "字串比對（機械，只供比較）",
+      "f_note": "混合：Recall 為 Claude 判斷、Precision 為字串比對"
+    },
+    "words": {
+      "p": 0.1112,
+      "r": 0.7672,
+      "f": 0.1942
+    },
+    "string_match": [
+      {
+        "id": "K1",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K2",
+        "found": true,
+        "matched_reference": "宿舍區管理人員檢查寢室"
+      },
+      {
+        "id": "K3",
+        "found": true,
+        "matched_reference": "離宿流程：宿舍區管理人員檢查寢室➔三天內至住宿組辦理退費(持本表及宿費收據)"
+      },
+      {
+        "id": "K4",
+        "found": true,
+        "matched_reference": "三天內至住宿組辦理退費(持本表及宿費收據)"
+      },
+      {
+        "id": "K5",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K6",
+        "found": true,
+        "matched_reference": "由住宿組造冊匯入同學(於政大網頁-在校學生-個人基本資料)登記之帳戶"
+      },
+      {
+        "id": "K7",
+        "found": true,
+        "matched_reference": "僅退住宿保證金者可不交宿費收據"
+      },
+      {
+        "id": "K8",
+        "found": true,
+        "matched_reference": "「宿費繳費收據」若遺失，可請出納組補發"
+      },
+      {
+        "id": "K9",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K10",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K11",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K12",
+        "found": true,
+        "matched_reference": "扣款金額若超過住宿保證金1000元以上"
+      },
+      {
+        "id": "K13",
+        "found": true,
+        "matched_reference": "3、延遲搬 Extension of dorm stay"
+      },
+      {
+        "id": "K14",
+        "found": true,
+        "matched_reference": "予追繳。If the amount of subtractions"
+      },
+      {
+        "id": "K15",
+        "found": true,
+        "matched_reference": "僑生及外籍生因離宿後即出國、帳戶已結清無法領取者，另再填"
+      },
+      {
+        "id": "K16",
+        "found": true,
+        "matched_reference": "外籍交換生請向相關系所辦理退還「住宿保證金」"
+      },
+      {
+        "id": "K17",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K18",
+        "found": true,
+        "matched_reference": "表單編號：QP-M03-01-05"
+      },
+      {
+        "id": "K19",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K20",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K21",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K22",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K23",
+        "found": null,
+        "matched_reference": null
+      }
+    ],
+    "note": "字串比對的機械指標（Sentence Precision、Words P／R／F1）只供跨 run 比較，不代表系統有沒有讀到；字串比對的逐項結果在 string_match，不用來判斷「有沒有讀到」。",
+    "metrics_version": "2026-11-15.context-recall-judged",
+    "metrics_note": "Context Sentence Recall 由 Claude 判斷（階段 3；答對且有依據的 keypoint 直接算讀到），不是字串比對；分母含引用登記表的 keypoint。Sentence Precision 與 Words 指標是字串比對的機械指標，只供跨 run 比較；Sentence F1 混用兩者。此版本之前的 Context Sentence Recall／F1 不能與之後的直接比較。"
+  },
+  "keypoint": {
+    "relevant": 18,
+    "wrong": 0,
+    "irrelevant": 5,
+    "total": 23,
+    "not_applicable": 0,
+    "completeness": 0.7826,
+    "hallucination": 0.0,
+    "irrelevance": 0.2174
+  },
+  "fact_unit": {
+    "precision": 1.0,
+    "recall": 0.7826,
+    "f1": 0.878,
+    "note": "P = Relevant ÷ (Relevant + Wrong)；R = Relevant ÷ keypoint 總數"
+  },
+  "claim_unit": {
+    "claims": 21,
+    "correct_claims": 19,
+    "precision": 0.9048,
+    "recall": 0.7826,
+    "f1": 0.8393,
+    "note": "P = 正確陳述某個 keypoint 的主張 ÷ 全部主張；額外但正確的資訊會讓 P 下降，量的是聚焦程度"
+  },
+  "evidence_support": {
+    "rate": 1.0,
+    "supported": 21,
+    "claims": 21,
+    "unsupported_claims": []
+  },
+  "ungrounded_correct_keypoints": [],
+  "funnel": [
+    {
+      "id": "K1",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K2",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K3",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K4",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K5",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K6",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K7",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K8",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K9",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K10",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K11",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K12",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K13",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K14",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K15",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K16",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K17",
+      "in_context": false,
+      "in_context_source": "claude",
+      "context_quote": null,
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K18",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K19",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K20",
+      "in_context": true,
+      "in_context_source": "claude",
+      "context_quote": "地址：台北市文山區指南路二段64號 行政大樓三樓",
+      "stated_correctly": false,
+      "grounded": false,
+      "verdict": "irrelevant"
+    },
+    {
+      "id": "K21",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K22",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    },
+    {
+      "id": "K23",
+      "in_context": true,
+      "in_context_source": "inferred",
+      "context_quote": null,
+      "stated_correctly": true,
+      "grounded": true,
+      "verdict": "relevant"
+    }
+  ],
+  "disagreements": [
+    {
+      "keypoint": "K21",
+      "rule": "wrong",
+      "claude": "relevant",
+      "claude_reason": "答案列出住宿組趙紀綱（組長）分機 62500、徐廷芝分機 62228，都在允許集合內",
+      "rule_detail": {}
+    },
+    {
+      "keypoint": "K23",
+      "rule": "miss",
+      "claude": "relevant",
+      "claude_reason": "答案寫出納組在行政大樓 5 樓",
+      "rule_detail": {}
+    }
+  ],
+  "warnings": []
+}

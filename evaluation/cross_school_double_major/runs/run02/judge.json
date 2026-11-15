@@ -1,0 +1,191 @@
+{
+ "keypoints": [
+  {
+   "id": "K1",
+   "verdict": "relevant",
+   "claims": [
+    "c2"
+   ],
+   "reason": "答案的表單名稱是台灣聯合大學系統學士班學生跨校修讀輔系雙主修申請表；編號 QP-T01-04-21 只在連結網址裡，沒有寫成文字"
+  },
+  {
+   "id": "K2",
+   "verdict": "relevant",
+   "claims": [
+    "c2"
+   ],
+   "reason": "答案的下載連結就是標準的 moltke 連結"
+  },
+  {
+   "id": "K3",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫對象是學士班學生、碩博士班不開放（只有表單名稱帶學士班）",
+   "in_context": false,
+   "context_reason": "系統讀到的文字只有表單名稱「學士班學生」，沒有碩博士班不開放的說法"
+  },
+  {
+   "id": "K4",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫申請資格（學士班一年級下學期起至三年級）",
+   "in_context": false,
+   "context_reason": "在申請表頁與表單全文搜尋「一年級下學期／三年級」，沒有；只有「班別/年級」的填寫欄"
+  },
+  {
+   "id": "K5",
+   "verdict": "relevant",
+   "claims": [
+    "c7"
+   ],
+   "reason": "答案寫審核是否同意學生加修他校性質不同學系"
+  },
+  {
+   "id": "K6",
+   "verdict": "relevant",
+   "claims": [
+    "c1"
+   ],
+   "reason": "答案寫審核需經原就讀學校與加修學校兩方的單位審核"
+  },
+  {
+   "id": "K7",
+   "verdict": "relevant",
+   "claims": [
+    "c7"
+   ],
+   "reason": "答案寫主修學系審核是否同意學生加修他校性質不同學系"
+  },
+  {
+   "id": "K8",
+   "verdict": "relevant",
+   "claims": [
+    "c8"
+   ],
+   "reason": "答案寫經主修學系同意後送教務處註冊組"
+  },
+  {
+   "id": "K9",
+   "verdict": "relevant",
+   "claims": [
+    "c12"
+   ],
+   "reason": "答案寫加修學校的學系審核是否准予修讀"
+  },
+  {
+   "id": "K10",
+   "verdict": "relevant",
+   "claims": [
+    "c13"
+   ],
+   "reason": "答案寫加修學校註冊組審核；c13「最終核准」沒有依據，所以另判 in_context",
+   "in_context": true,
+   "context_reason": "申請表簽核表的加修學校註冊組那一列",
+   "context_quote": "不准修讀，意見： |  |\n|  |  |  | 承辦人 | 單位主管 |\n|  |  | 註冊組 | 承辦人 | 組 長 |",
+   "context_item": 6
+  },
+  {
+   "id": "K11",
+   "verdict": "relevant",
+   "claims": [
+    "c7",
+    "c8",
+    "c12",
+    "c13"
+   ],
+   "reason": "答案的第二步、第三步依序寫原校主修學系、原校註冊組、加修學系、加修學校註冊組四站"
+  },
+  {
+   "id": "K12",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫兩個學系的站各有承辦人與單位主管簽核",
+   "in_context": true,
+   "context_reason": "申請表簽核表有學系的承辦人、單位主管欄",
+   "context_quote": "|  |  |  | 承辦人 | 單位主管 |",
+   "context_item": 6
+  },
+  {
+   "id": "K13",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫兩個註冊組的站各有承辦人與組長簽核",
+   "in_context": true,
+   "context_reason": "申請表簽核表有註冊組的承辦人、組長欄",
+   "context_quote": "註冊組 | 承辦人 | 組 長 |",
+   "context_item": 6
+  },
+  {
+   "id": "K14",
+   "verdict": "relevant",
+   "claims": [
+    "c6"
+   ],
+   "reason": "答案寫需檢附中文歷年成績單"
+  },
+  {
+   "id": "K15",
+   "verdict": "relevant",
+   "claims": [
+    "c14"
+   ],
+   "reason": "答案寫審查結果由註冊組公告於網頁，學生自行查詢"
+  },
+  {
+   "id": "K16",
+   "verdict": "relevant",
+   "claims": [
+    "c5"
+   ],
+   "reason": "答案寫政大生申請外校雙主修通過視為自願放棄現正修習的雙主修資格"
+  },
+  {
+   "id": "K17",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫台聯大跨校修讀的上限（一個雙主修及二個輔系）",
+   "in_context": true,
+   "context_reason": "申請表說明事項第 2 點",
+   "context_quote": "之上限(含校內輔系及雙主修)為一個雙主修及二個輔系",
+   "context_item": 6
+  },
+  {
+   "id": "K18",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫作業期間（5 月底公告、7 月受理、8 月下旬公布）",
+   "in_context": false,
+   "context_reason": "申請表說明事項只寫「依台灣聯合大學系統公告時間受理申請」，沒有五月底、七月、八月下旬"
+  },
+  {
+   "id": "K19",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫政大學生不得以他校的雙主修學系畢業",
+   "in_context": false,
+   "context_reason": "搜尋「畢業」，申請表只有放棄修讀、修滿學分的說明，沒有不得以他校雙主修學系畢業的規定"
+  },
+  {
+   "id": "K20",
+   "verdict": "relevant",
+   "claims": [
+    "c10",
+    "c11"
+   ],
+   "reason": "答案列出註冊組王組長分機 63273（c10 有依據）、鄧編審分機 63277（c11 判沒依據）；至少一位正確，且在允許集合內"
+  },
+  {
+   "id": "K21",
+   "verdict": "relevant",
+   "claims": [
+    "c9"
+   ],
+   "reason": "答案寫註冊組在行政大樓 4 樓"
+  }
+ ],
+ "judge": {
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "judge-v2",
+  "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json（稽核 PASS，3 次工具呼叫）。答案沒寫、或 relevant 但主張沒依據的 keypoint 另判 in_context。K1 判 relevant：表單編號只在連結網址裡，沒有以文字寫出。"
+ }
+}

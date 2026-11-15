@@ -1,0 +1,203 @@
+{
+ "keypoints": [
+  {
+   "id": "K1",
+   "verdict": "relevant",
+   "claims": [
+    "c5",
+    "c6"
+   ],
+   "reason": "答案列出「準備表單：離宿暨退還保證金申請表」並附下載連結，且說持申請表辦理；沒明寫填寫列印，但表單是申請表這件事一致"
+  },
+  {
+   "id": "K2",
+   "verdict": "relevant",
+   "claims": [
+    "c1"
+   ],
+   "reason": "答案寫先由宿舍區管理人員檢查寢室；沒寫持表到服務台與簽章，但檢查寢室由宿舍管理人員做這件事一致"
+  },
+  {
+   "id": "K3",
+   "verdict": "relevant",
+   "claims": [
+    "c1",
+    "c4"
+   ],
+   "reason": "答案寫先檢查寢室，檢查後三天內才到住宿組辦理，順序與 keypoint 一致"
+  },
+  {
+   "id": "K4",
+   "verdict": "relevant",
+   "claims": [
+    "c4",
+    "c7"
+   ],
+   "reason": "答案寫檢查後三天內持申請表至住宿組辦理，並要持宿費收據"
+  },
+  {
+   "id": "K5",
+   "verdict": "relevant",
+   "claims": [
+    "c4"
+   ],
+   "reason": "答案寫至住宿組辦理退費；沒寫退宿註記，但住宿組辦理退費這件事一致"
+  },
+  {
+   "id": "K6",
+   "verdict": "relevant",
+   "claims": [
+    "c10"
+   ],
+   "reason": "答案寫費用匯入個人基本資料登記的帳戶；沒寫住宿組造冊，但匯入登記帳戶一致"
+  },
+  {
+   "id": "K7",
+   "verdict": "relevant",
+   "claims": [
+    "c8"
+   ],
+   "reason": "答案寫只申請退還住宿保證金可不交收據"
+  },
+  {
+   "id": "K8",
+   "verdict": "relevant",
+   "claims": [
+    "c9"
+   ],
+   "reason": "答案寫收據遺失請至出納組補發（沒寫 iNccu，但出納組補發一致）"
+  },
+  {
+   "id": "K9",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫期末離宿日前一週內離宿者可由服務台轉交申請表",
+   "in_context": false,
+   "context_reason": "在系統讀到的申請表頁、表單全文與聯絡頁搜尋「一週／一星期／離宿日／服務台轉交」，只有生活輔導員的工作職掌提到服務台，沒有轉交申請表的規定"
+  },
+  {
+   "id": "K10",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫畢業、休學、退學、轉學要在發生日起 7 日內辦理退離宿",
+   "in_context": false,
+   "context_reason": "搜尋「7日／七日／7天／退離宿」都沒有；表單全文只有勾選離宿原因（休退學、轉學、畢業），沒有 7 日內辦理的規定"
+  },
+  {
+   "id": "K11",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫沒依程序辦理退離宿者保證金不予退還",
+   "in_context": false,
+   "context_reason": "搜尋「不予退還／不退」，只有表單處理欄的「退宿費：2/3、1/2、不退」，不是這條規定"
+  },
+  {
+   "id": "K12",
+   "verdict": "relevant",
+   "claims": [
+    "c3"
+   ],
+   "reason": "答案寫保證金 1,000 元"
+  },
+  {
+   "id": "K13",
+   "verdict": "relevant",
+   "claims": [
+    "c2"
+   ],
+   "reason": "答案寫扣款項目有財產損失、垃圾清理、延遲搬離"
+  },
+  {
+   "id": "K14",
+   "verdict": "relevant",
+   "claims": [
+    "c3"
+   ],
+   "reason": "答案寫扣款超過保證金 1,000 元將另行追繳"
+  },
+  {
+   "id": "K15",
+   "verdict": "relevant",
+   "claims": [
+    "c11"
+   ],
+   "reason": "答案寫僑生及外籍生離宿即出國或帳戶已結清，需另填代領人帳戶領據；沒寫到相關系所辦理，但領據這件事一致"
+  },
+  {
+   "id": "K16",
+   "verdict": "relevant",
+   "claims": [
+    "c12"
+   ],
+   "reason": "答案寫外籍交換生請向所屬相關系所辦理退還"
+  },
+  {
+   "id": "K17",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫宿舍退費問題大學部洽 62222、研究所洽 63251",
+   "in_context": false,
+   "context_reason": "62222、63251 只出現在住宿組成員各自的分機，沒有「大學部洽 62222、研究所洽 63251」這個分工的說法"
+  },
+  {
+   "id": "K18",
+   "verdict": "relevant",
+   "claims": [
+    "c5",
+    "c6"
+   ],
+   "reason": "答案寫表單名稱與編號 QP-M03-01-05（名稱用申請表官方頁面的全名）"
+  },
+  {
+   "id": "K19",
+   "verdict": "relevant",
+   "claims": [
+    "c6"
+   ],
+   "reason": "答案的下載連結就是標準的 moltke 連結"
+  },
+  {
+   "id": "K20",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫住宿組的樓層（只寫出納組在 5 樓）",
+   "in_context": true,
+   "context_reason": "學務處住宿組頁面頁尾有學務處地址行政大樓三樓",
+   "context_quote": "地址：台北市文山區指南路二段64號 行政大樓三樓",
+   "context_item": 8
+  },
+  {
+   "id": "K21",
+   "verdict": "relevant",
+   "claims": [
+    "c13",
+    "c15",
+    "c16"
+   ],
+   "reason": "答案列出住宿組趙紀綱（組長）分機 62500、徐廷芝分機 62228，都在允許集合內"
+  },
+  {
+   "id": "K22",
+   "verdict": "relevant",
+   "claims": [
+    "c17",
+    "c20",
+    "c21"
+   ],
+   "reason": "答案列出出納組劉桂芬分機 62120、余淑娟分機 62123"
+  },
+  {
+   "id": "K23",
+   "verdict": "relevant",
+   "claims": [
+    "c18"
+   ],
+   "reason": "答案寫出納組在行政大樓 5 樓"
+  }
+ ],
+ "judge": {
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "judge-v2",
+  "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json（稽核 PASS，3 次工具呼叫）。答案沒寫的 keypoint 另判 in_context。K20 的 in_context 依據是學務處頁尾地址（頁面屬學務處住宿組），不是住宿組自己的樓層欄。"
+ }
+}

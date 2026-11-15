@@ -55,28 +55,47 @@
     {
       "id": 7,
       "question": "master_transfer",
-      "run_id": "run01",
+      "run_id": "run02",
       "status": "ok",
-      "elapsed_seconds": 41.2,
-      "at": "2026-11-15T19:40:41+08:00"
+      "elapsed_seconds": 34.0,
+      "at": "2026-11-15T20:46:59+08:00",
+      "first_attempt": {
+        "run_id": "run01",
+        "status": "ok",
+        "elapsed_seconds": 41.2,
+        "at": "2026-11-15T19:40:41+08:00"
+      },
+      "note": "重跑（2026-11-15，F35–F37 修好後，git 7dd5427）：重跑以驗證 F36（下載連結行）；第一次 run01 的 K25 連結用了資管系的 PDF；run01 保留"
     },
     {
       "id": 8,
       "question": "dorm_deposit",
-      "run_id": "run01",
-      "status": "error",
-      "elapsed_seconds": 39.9,
-      "at": "2026-11-15T19:44:15+08:00",
-      "note": "出錯，結束碼 1；見 logs/Q08.log"
+      "run_id": "run02",
+      "status": "ok",
+      "elapsed_seconds": 53.3,
+      "at": "2026-11-15T20:37:39+08:00",
+      "note": "重跑（2026-11-15，F35–F37 修好後，git 7dd5427）：第一次 run01 因 F35（表單快取種類混用）出錯，修好後重跑；run01 保留",
+      "first_attempt": {
+        "run_id": "run01",
+        "status": "error",
+        "elapsed_seconds": 39.9,
+        "at": "2026-11-15T19:44:15+08:00"
+      }
     },
     {
       "id": 9,
       "question": "master_double_major",
-      "run_id": "run01",
-      "status": "error",
-      "elapsed_seconds": 53.7,
-      "at": "2026-11-15T19:46:39+08:00",
-      "note": "出錯，結束碼 1；見 logs/Q09.log"
+      "run_id": "run02",
+      "status": "ok",
+      "elapsed_seconds": 45.6,
+      "at": "2026-11-15T20:41:25+08:00",
+      "note": "重跑（2026-11-15，F35–F37 修好後，git 7dd5427）：第一次 run01 因 F35（表單快取種類混用）出錯，修好後重跑；run01 保留",
+      "first_attempt": {
+        "run_id": "run01",
+        "status": "error",
+        "elapsed_seconds": 53.7,
+        "at": "2026-11-15T19:46:39+08:00"
+      }
     },
     {
       "id": 10,
@@ -89,10 +108,29 @@
     {
       "id": 11,
       "question": "cross_school_double_major",
-      "run_id": "run01",
+      "run_id": "run02",
       "status": "ok",
-      "elapsed_seconds": 55.0,
-      "at": "2026-11-15T19:53:45+08:00"
+      "elapsed_seconds": 39.9,
+      "at": "2026-11-15T20:44:20+08:00",
+      "first_attempt": {
+        "run_id": "run01",
+        "status": "ok",
+        "elapsed_seconds": 55.0,
+        "at": "2026-11-15T19:53:45+08:00"
+      },
+      "note": "重跑（2026-11-15，F35–F37 修好後，git 7dd5427）：重跑以驗證 F37（改寫後再用原問題搜尋）；第一次 run01 找錯頁面（Completeness 0.33）；run01 保留"
     }
-  ]
+  ],
+  "reruns": {
+    "at": "2026-11-15",
+    "after": "F35（表單快取種類）、F36（下載連結行）、F37（雙查詢搜尋）",
+    "git": "7dd5427",
+    "questions": [
+      "Q7",
+      "Q8",
+      "Q9",
+      "Q11"
+    ],
+    "note": "Q10 與其他題仍是第一次的 run01；四題的 run01 都保留"
+  }
 }

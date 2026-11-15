@@ -1,0 +1,209 @@
+{
+ "keypoints": [
+  {
+   "id": "K1",
+   "verdict": "relevant",
+   "claims": [
+    "c11"
+   ],
+   "reason": "答案寫所屬學系(所)審核是否同意所屬學生申請"
+  },
+  {
+   "id": "K2",
+   "verdict": "relevant",
+   "claims": [
+    "c6"
+   ],
+   "reason": "答案寫將紙本申請表及相關資料送達申請學系"
+  },
+  {
+   "id": "K3",
+   "verdict": "relevant",
+   "claims": [
+    "c12"
+   ],
+   "reason": "答案寫申請學系(所)審核是否准予修讀"
+  },
+  {
+   "id": "K4",
+   "verdict": "relevant",
+   "claims": [
+    "c14",
+    "c16"
+   ],
+   "reason": "答案寫教務處註冊組審查基本資格並維護學籍資料"
+  },
+  {
+   "id": "K5",
+   "verdict": "relevant",
+   "claims": [
+    "c1",
+    "c11",
+    "c12",
+    "c14"
+   ],
+   "reason": "答案列出所屬學系所、申請學系所、教務處註冊組三站，並寫「依序」且編號 1、2、3"
+  },
+  {
+   "id": "K6",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫所屬與申請學系所各有承辦人與單位主管簽核",
+   "in_context": true,
+   "context_reason": "申請表全文的簽核表有這兩站的承辦人、單位主管欄",
+   "context_quote": "|  | 承辦人 |  | 單位主管 |",
+   "context_item": 6
+  },
+  {
+   "id": "K7",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫註冊組這一站有承辦人與組長簽核（只列聯絡人）",
+   "in_context": true,
+   "context_reason": "申請表全文簽核表的註冊組列",
+   "context_quote": "| 教務處註冊組 | 承辦人 | (審查基本資格及維護資料) | 組長 |",
+   "context_item": 6
+  },
+  {
+   "id": "K8",
+   "verdict": "relevant",
+   "claims": [
+    "c13"
+   ],
+   "reason": "答案寫各學系所審核完畢後在單位網頁公告核准名單"
+  },
+  {
+   "id": "K9",
+   "verdict": "relevant",
+   "claims": [
+    "c14",
+    "c17"
+   ],
+   "reason": "答案寫註冊組最終審查基本資格，未符資格將取消錄取"
+  },
+  {
+   "id": "K10",
+   "verdict": "relevant",
+   "claims": [
+    "c4"
+   ],
+   "reason": "答案寫碩士在職專班學生不開放申請（也寫碩、博士班）"
+  },
+  {
+   "id": "K11",
+   "verdict": "relevant",
+   "claims": [
+    "c3"
+   ],
+   "reason": "答案寫自註冊在學第二學期起至第四學期止"
+  },
+  {
+   "id": "K12",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫申請時間是四月下旬至五月上旬",
+   "in_context": false,
+   "context_reason": "系統讀到的申請表頁只寫「申請日程依校訂行事曆公告為準」，沒有四月下旬至五月上旬"
+  },
+  {
+   "id": "K13",
+   "verdict": "relevant",
+   "claims": [
+    "c2"
+   ],
+   "reason": "答案寫申請前先查看開放碩、博士班申請的教學單位"
+  },
+  {
+   "id": "K14",
+   "verdict": "relevant",
+   "claims": [
+    "c6"
+   ],
+   "reason": "答案寫紙本申請表於截止日前送達申請學系；沒寫逾期不受理，但主要內容一致"
+  },
+  {
+   "id": "K15",
+   "verdict": "relevant",
+   "claims": [
+    "c5"
+   ],
+   "reason": "答案寫限一個同級雙主修及一個同級或向下一級輔系"
+  },
+  {
+   "id": "K16",
+   "verdict": "relevant",
+   "claims": [
+    "c5",
+    "c8"
+   ],
+   "reason": "答案寫碩士班可申請的項目：碩士班雙主修、碩士班輔系或學士班輔系"
+  },
+  {
+   "id": "K17",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫同時申請同系雙主修與輔系時以雙主修錄取",
+   "in_context": true,
+   "context_reason": "申請表頁的說明事項有",
+   "context_quote": "同時申請同一學系為雙主修及輔系，經學系審查已符合雙主修修讀資格時，即以雙主修錄取",
+   "context_item": 5
+  },
+  {
+   "id": "K18",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫輔系原則上不得修習已取得學位的學系所",
+   "in_context": false,
+   "context_reason": "在申請表頁與表單全文搜尋「學位／已取得／不得修習」，沒有這條規定"
+  },
+  {
+   "id": "K19",
+   "verdict": "irrelevant",
+   "claims": [],
+   "reason": "答案沒有寫重新申請其他學系所視同放棄原資格且不得回復",
+   "in_context": true,
+   "context_reason": "申請表全文的聲明事項有",
+   "context_quote": "視同自願放棄原有之雙主修或輔系資格，且不得再申請回復",
+   "context_item": 6
+  },
+  {
+   "id": "K20",
+   "verdict": "relevant",
+   "claims": [
+    "c6",
+    "c7"
+   ],
+   "reason": "答案的表單名稱是碩、博士班學生修讀雙主修輔系申請表；編號 QP-T01-03-08 只在連結網址裡，沒有寫成文字"
+  },
+  {
+   "id": "K21",
+   "verdict": "relevant",
+   "claims": [
+    "c7"
+   ],
+   "reason": "答案的下載連結就是標準的 moltke 連結"
+  },
+  {
+   "id": "K22",
+   "verdict": "relevant",
+   "claims": [
+    "c19",
+    "c20"
+   ],
+   "reason": "答案列出註冊組王組長分機 63273、鄧編審分機 63277，都在允許集合內"
+  },
+  {
+   "id": "K23",
+   "verdict": "relevant",
+   "claims": [
+    "c18"
+   ],
+   "reason": "答案寫註冊組在行政大樓 4 樓"
+  }
+ ],
+ "judge": {
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "judge-v2",
+  "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json（稽核 PASS，3 次工具呼叫）。答案沒寫的 keypoint 另判 in_context。K20 判 relevant：表單編號只在連結網址裡，沒有以文字寫出。"
+ }
+}

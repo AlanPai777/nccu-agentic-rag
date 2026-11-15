@@ -1,0 +1,122 @@
+{
+  "query_id": "dorm_deposit",
+  "run_id": "run02",
+  "task": "回推：把 answer_text 拆成原子主張，為每個主張在 evidence_items 找出支持它的逐字原文；找不到就標 unsupported。",
+  "answer_text": "搬離宿舍辦理退還住宿保證金的具體流程如下：\n\n### 辦理流程\n\n第一步：寢室檢查\n*   操作內容： 先由宿舍區管理人員對您的寢室進行檢查。\n*   注意事項： 檢查項目包含財產損失、垃圾清理及是否延遲搬離。若扣款金額（如財產損失）超過保證金 1,000 元，將另行追繳。\n\n第二步：提交申請與辦理退費\n*   操作內容： 在寢室檢查後的 三天內，持申請表及相關證明至學務處住宿組辦理退費。\n*   準備表單： $\\text{【離宿暨退還保證金申請表-學期中/末搬離宿舍】}$\n    *   下載連結： [點此下載 QP-M03-01-05](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05)\n*   攜帶文件與注意事項：\n    1.  宿費收據： 辦理退費需持宿費收據。若僅申請退還「住宿保證金」則可不交收據；若收據遺失，請至出納組補發。\n    2.  退款方式： 費用將直接匯入您在「政大網頁 $\\rightarrow$ 在校學生 $\\rightarrow$ 個人基本資料」中登記的帳戶。\n    3.  特殊身分辦理：\n        *   僑生及外籍生： 若因離宿即出國或帳戶已結清，需另填「僑外生退住宿保證金轉入代領人帳戶領據」。\n        *   外籍交換生： 請直接向所屬相關系所辦理退還。\n\n---\n\n### 相關辦公室聯絡資訊\n\n1. 學務處住宿輔導組（受理退費申請）\n*   總機分機： 63252\n*   建議聯絡人：\n    *   趙紀綱（住宿組組長）分機 62500\n    *   徐廷芝（一級行政專員）分機 62228\n\n2. 出納組（收據補發）\n*   地點： 行政大樓 5 樓\n*   總機電話： (02) 2939-3091\n*   建議聯絡人：\n    *   劉桂芬（組長）分機 62120\n    *   余淑娟（一級行政組員）分機 62123\n\n來源：\n*   [離宿暨退還保證金申請表-學期中/末搬離宿舍](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05)\n*   [學務處住宿組聯絡資訊](https://osa.nccu.edu.tw/tw/%E4%BD%8F%E5%AE%BF%E8%BC%94%E5%B0%8E%E7%B5%84/%E9%97%9C%E6%96%BC%E6%88%91%E5%80%91/%E6%88%90%E5%93%A1%E4%BB%8B%E7%B4%B9)\n*   [出納組聯絡資訊](https://nccuga.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C%E9%81%B8%E5%96%AE/%E5%87%BA%E7%B4%8D%E7%B5%84_)",
+  "stripped_not_scored": {
+    "rationale": [
+      "—— 選擇原因：住宿組最高主管，負責最終核准。",
+      "—— 選擇原因：住宿組承辦人員，負責第一線受理申請。",
+      "—— 選擇原因：出納組主管，負責 overseeing 財務補發作業。",
+      "—— 選擇原因：出納組承辦人員，負責具體收據補發事宜。"
+    ],
+    "sources": "",
+    "disclosure": "【資料狀態】（由系統依實際抓取結果產生）\n- 已與官網核對，內容已更新：1 頁\n  - https://osa.nccu.edu.tw/tw/住宿輔導組/關於我們/成員介紹（11/15 20:37）\n- 已與官網核對，內容無變動：2 頁\n  - https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05（11/15 20:37）\n  - https://nccuga.nccu.edu.tw/zh/人員職掌選單/出納組_（11/15 20:37）",
+    "evidence_source_lines": [
+      "來源：https://osa.nccu.edu.tw/tw/%E4%BD%8F%E5%AE%BF%E8%BC%94%E5%B0%8E%E7%B5%84/%E9%97%9C%E6%96%BC%E6%88%91%E5%80%91/%E6%88%90%E5%93%A1%E4%BB%8B%E7%B4%B9",
+      "來源：https://nccuga.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C%E9%81%B8%E5%96%AE/%E5%87%BA%E7%B4%8D%E7%B5%84_",
+      "補充來源（樓層、電話）：https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+      "補充來源（樓層、電話）：https://aca.nccu.edu.tw/zh/常用連結/教務處qa/學生證業務"
+    ]
+  },
+  "evidence_items": [
+    {
+      "id": "E1",
+      "kind": "ToolMessage",
+      "tool": "search_texts",
+      "source_url": null,
+      "sources": [],
+      "text": "search_texts('住宿保證金退還') 找到候選 [osa] 離宿暨退還保證金申請表-學期中/末搬離宿舍(中文.English) Application for Leaving the Dorm/Deposit Return\nURL: https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05\n(judge通過: 該頁面直接標明為「離宿暨退還保證金申請表」並包含退費流程，與問題完全匹配。)"
+    },
+    {
+      "id": "E2",
+      "kind": "ToolMessage",
+      "tool": "get_page_tool",
+      "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+      "sources": [
+        {
+          "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "label": "離宿暨退還保證金申請表-學期中/末搬離宿舍(中文.English) Application for Leaving the Dorm/Deposit Return"
+        }
+      ],
+      "text": "get_page 取得 4928 字，標題: 離宿暨退還保證金申請表-學期中/末搬離宿舍(中文.English) Application for Leaving the Dorm/Deposit Return，subdomain: osa\n\n[偵測到表單編號: QP-M03-01-05]\n\n全文：\n表單編號\n\nForm Code\n\nQP-M03-01-05 \n\n表單名稱\n\nForm Title\n\n離宿暨退還保證金申請表-學期中/末搬離宿舍(中文.English) Application for Leaving the Dorm/Deposit Return \n\n版本\n\nVersion\n\n \n\n簡易表單編號\n\nShortened Form Code\n\n306 \n\n修訂日期\n\nDate\n\n \n\n發行日期\n\nIssued Date\n\n \n\n修訂會議\n\nMeeting\n\n \n\n業務資訊網址\n\nWebsite\n\n[http://osa.nccu.edu.tw/modules/tinyd4/index.php?id=16#02](http://osa.nccu.edu.tw/modules/tinyd4/index.php?id=16#02)\n\n表單描述\n\nForm Description\n\n離宿暨退還保證金申請表-學期中/末搬離宿舍(中文.English)\nApplication for Leaving the Dorm/Deposit Return \n\n表單關鍵字\n\nForm Keyword\n\n                    退宿　\n                    保證金　\n                    \n                     \n                  \n\n表單外部連結\n\n[https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05) \n\n檔案下載\n\nDownload File\n\n                    \n                      \n                      \n                      \t\n                        \n                          \n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                          \n                        \n                        \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                        \n                        \n                          \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                          \n                          \n                          *(pdf) [QP-M03-01-05](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05#)\n\n                          \n                          \n                        \n                        \n                      \n                      \n                    \n                      \n                      \n                      \t\n                        \n                          \n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                          \n                        \n                        \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                        \n                        \n                          \n                        \n                        \n                        \n                        \n                      \n                      \t\n                        \n                        \n                        \n                        \n                        \n                        \n                        \n                          \n                          \n                          *(odt) [QP-M03-01-05](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05#)\n\n                          \n                          \n                        \n                        \n                      \n                      \n                    \n                     \n                  \n\n承辦單位\n\nUnit\n\n學務處住宿組 \n\nCopyrightc 2026 National Chengchi University. All Rights Reserved."
+    },
+    {
+      "id": "E3",
+      "kind": "HumanMessage",
+      "tool": null,
+      "source_url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+      "sources": [
+        {
+          "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05",
+          "label": "離宿暨退還保證金申請表-學期中/末搬離宿舍(中文.English) Application for Leaving the Dorm/Deposit Return"
+        }
+      ],
+      "text": "[表單全文，系統偵測到表單編號後自動抓取，請直接引用其中的流程/站點/費用等細節]\n\nget_form 取得表單 離宿暨退還保證金申請表-學期中/末搬離宿舍(中文.English) Application for Leaving the Dorm/Deposit Return\n\n下載連結：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-M03-01-05\n\n全文：\n表單編號：QP-M03-01-05\n保存年限：1年\n致：住宿輔導組 □學士班宿舍 □碩博士班宿舍\nTO : Student Housing Service Section Undergraduate Dorm Graduate Dorm\n離宿流程：宿舍區管理人員檢查寢室➔三天內至住宿組辦理退費(持本表及宿費收據)\nProcedure for moving out of the dorms：Resident Hall service counter (to inspect the room) ➔Student Housing Service Section\n(within 3 days of inspection, bring your receipt for dorm payment to process your exit record, dorm fee reimbursement, or dorm deposit refund)\n注意：1. 僅退住宿保證金者可不交宿費收據；「宿費繳費收據」若遺失，可請出納組補發。\n2.由住宿組造冊匯入同學(於政大網頁-在校學生-個人基本資料)登記之帳戶。\n3. 僑生及外籍生因離宿後即出國、帳戶已結清無法領取者，另再填『僑外生退住宿保證金轉入代領人帳戶領據』\n辦理，外籍交換生請向相關系所辦理退還「住宿保證金」。\nNote：1. It is not necessary to hand in the receipt for dormitory fee if you apply only for the deposit. If you have lost your receipt,\nyou may get a copy at the Cashier Office.\n2. The refund will be deposited directly into the students’ bank account (as registered in the student information file) by the\nStudent Housing Service Section.\n3. Oversea Chinese Students and Foreign students who are not able to receive refund through the above method due to the\nreasons of immediate departure after moving out of the dorm or bank account being closed already, may fill out the form\nof ”Application for overseas Chinese and foreign students requesting transfer of funds to an alternative account” to apply for the deposit\nrefund. Exchange students should go to the office of their departments to apply for a dorm deposit refund.\n\n| （ ）學年度住宿生離宿暨退還「住宿保證金」申請表 Application for Leaving the Dorm/Deposit Return 申請日期(Date)： |  |  |  |  |  |  |  |  |  |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 系所 Department |  |  | 學號 Student ID No. |  |  |  | 姓名 Name |  |  |\n| 性別 Sex | □ 男Male □ 女Female |  | 退宿寢號 Dorm/Room No. |  |  |  | 電話 Tel |  |  |\n|  |  |  |  |  |  |  | E-mail |  |  |\n| 房間人數 Room Type | □ 一人房single room □ 三人房3-person room □ 二人房double room □ 四人房4-person room |  |  |  |  | 學生身份 Student Category |  |  | □台生Local student □僑生Overseas Chinese □一般外籍生Foreign student □交換生 Exchange student □陸生 Mainland China students |\n| 退宿原因 (可複選) Reason for leaving (you may choose more than one) | □住宿期滿 Exceeding the maximum number of terms allowed living in the dorm. □休退學 Discontinuing studies. □轉學 Transferring to another school □畢業 Graduating □註銷學籍 Canceling student registration |  |  | □去與親友同住 Moving in with friends/relatives □校外覓得合適租屋 Renting an apt off-campus □宿舍設施過於簡陋 Dorm facilities too inferior □與室友相處不易 Unable to get along with roommates □作息時間和室友不同 Rest hours are different than roommates |  |  |  |  | □住宿違規滿十點，勒令退宿 Accumulated 10 penalty points □宿舍位置偏遠出入不易 The dorms are too out of the way; coming and going is difficult □其他(請說明) Other (please explain) |\n| 受委託人簽章Signature of Applicant / Sponsor： 電話 Tel： 受委託人學號 Sponsor’s Student No.: 系級Department: E-mail： 以下由宿舍管理人員填寫 The section below is for the dorm management. |  |  |  |  |  |  |  |  |  |\n|  |  |  |  |  | 住宿保證金 |  |  |  |  |\n|  |  |  |  |  | 扣款金額 |  |  |  |  |\n|  |  | 項目 Item |  |  |  |  |  | 備 註 Add notes |  |\n|  |  |  |  |  | Dorm deposit |  |  |  |  |\n|  |  |  |  |  |  |  |  |  |  |\n|  |  |  |  |  | subtractions |  |  |  |  |\n|  |  | 1、財產損失 Property Damage |  |  |  |  |  |  |  |\n|  |  | 2、垃圾清理 Removal of |  |  |  |  |  |  |  |\n|  |  |  |  |  |  |  |  |  |  |\n| 寢室檢查 |  | trash/cleanness of area |  |  |  |  |  |  |  |\n|  |  |  |  |  |  |  |  |  |  |\n|  |  | 3、延遲搬 Extension of dorm stay |  |  |  |  |  |  |  |\n| Room Inspection |  |  |  |  |  |  |  |  |  |\n|  |  | 4、其他 Other |  |  |  |  |  |  |  |\n|  |  |  |  |  |  |  |  |  |  |\n|  |  | 扣款總金額 |  |  |  |  |  | 扣款金額若超過住宿保證金1000元以上，另 |  |\n|  |  | Total amount subtracted from |  |  |  |  |  | 予追繳。If the amount of subtractions |  |\n|  |  |  |  |  |  |  |  | exceeds the original deposit of NT$1,000, |  |\n|  |  | deposit |  |  |  |  |  |  |  |\n|  |  |  |  |  |  |  |  | you will be asked to pay the difference. |  |\n|  |  | 檢查人員簽名： 管理人員 或舍顧 |  |  |  |  |  |  |  |\n|  |  | 日期： |  |  |  |  |  |  |  |\n| 住宿組處理欄 |  | □ 登錄宿舍管理系統 |  |  |  |  |  |  |  |\n|  |  | □ 退宿費：2/3、1/2、不退 □退住宿保證金 |  |  |  |  |  |  |  |\n|  |  |  |  |  |  |  |  |  |  |\n\n[偵測到辦公室: 住宿輔導組, 出納組]"
+    },
+    {
+      "id": "E4",
+      "kind": "contact_list",
+      "tool": null,
+      "source_url": "https://osa.nccu.edu.tw/tw/%E4%BD%8F%E5%AE%BF%E8%BC%94%E5%B0%8E%E7%B5%84/%E9%97%9C%E6%96%BC%E6%88%91%E5%80%91/%E6%88%90%E5%93%A1%E4%BB%8B%E7%B4%B9",
+      "sources": [
+        {
+          "url": "https://osa.nccu.edu.tw/tw/%E4%BD%8F%E5%AE%BF%E8%BC%94%E5%B0%8E%E7%B5%84/%E9%97%9C%E6%96%BC%E6%88%91%E5%80%91/%E6%88%90%E5%93%A1%E4%BB%8B%E7%B4%B9",
+          "label": "補充來源（樓層、電話）：https://aca.nccu.edu.tw/zh/常用連結/教務處qa/學生證業務"
+        },
+        {
+          "url": "https://nccuga.nccu.edu.tw/zh/%E4%BA%BA%E5%93%A1%E8%81%B7%E6%8E%8C%E9%81%B8%E5%96%AE/%E5%87%BA%E7%B4%8D%E7%B5%84_",
+          "label": "[live:src status=live_changed kind=contact checked=2026-11-15T20:37 snap=2026-08-25 tls=0 t=%E4%BD%8F%E5%AE%BF%E8%BC%94%"
+        },
+        {
+          "url": "https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/學生生活事務/休退學暨研究生畢業退費/休-退-學退費標準",
+          "label": "補充來源（樓層、電話）"
+        },
+        {
+          "url": "https://aca.nccu.edu.tw/zh/常用連結/教務處qa/學生證業務",
+          "label": "補充來源（樓層、電話）"
+        }
+      ],
+      "text": "[辦公室聯絡資訊，以下是內容中提及的全部 2 個辦公室（住宿輔導組、出納組），未經相關性篩選——這是完整清單，不代表每一個都跟這題直接相關。是否每個都要寫進最終答案由你根據問題判斷，不要假設清單已經先篩過。]\n\n【各辦公室聯絡資訊】\n  住宿輔導組\n    ☎ 住宿組總機：電話 分機 63252（若不知洽詢業務同仁分機號，請優先撥住宿組總機號63252）\n    ☎ 住宿輔導組：傳真 02-2938-7225\n    ☎ 學務處：總機電話 02-29393091\n    ☎ 學安、校安中心：緊急事件通聯窗口（24小時） 0919099119\n    ☎ 學安、校安中心：校內分機 分機 66119\n    ☎ 駐警隊：緊急事件通聯窗口（24小時） 02-29387129\n    ☎ 駐警隊：校內分機 分機 66110\n    • 趙紀綱（住宿組組長）分機 62500  cgchao@nccu.edu.tw\n    • 陳源宗（專員兼宿舍輔導員督導）分機 67161  f7816@nccu.edu.tw\n    • 曾偉哲（一級行政專員）分機 63251  grad_dorm@nccu.edu.tw\n    • 徐廷芝（一級行政專員）分機 62228  dorm@nccu.edu.tw\n    • 陳哲良（行政專員）分機 62222  nccudorm@nccu.edu.tw\n    • 劉月雲（行政專員）分機 63030  lynette@nccu.edu.tw\n    • 利子安（一級行政組員）分機 66020  leo@nccu.edu.tw\n    • 吳玲昀（一級行政組員）分機 67226  dh2001j@nccu.edu.tw\n    • 楊孟潔（一級行政組員）分機 67701  jessie04@nccu.edu.tw\n    • 陳偉強（專案人員）分機 63253  02752945@nccu.edu.tw\n    • 陳立威（新生書院導師）分機 75664  way1214@nccu.edu.tw\n    • 伍薇茜（新生書院導師）分機 75667  tania@nccu.edu.tw\n    • 黃芊萍（書院專案助理）分機 75665  chain@nccu.edu.tw\n    • 曾詩韻（莊敬內舍生活輔導員）分機 72146  yun714@nccu.edu.tw\n    • 邱俊榮（自強一二三舍生活輔導員）分機 73000  akira@nccu.edu.tw\n    • 高安生（自強一二三舍生活輔導員）分機 73243  ansemkao@nccu.edu.tw\n    • 王怡婷（自強五六七八舍生活輔導員）分機 71201  132953@nccu.edu.tw\n    • 洪鶯萍（自強九舍生活輔導員）分機 73512  evelina@nccu.edu.tw\n    • 鄭謙澤（自強十舍生活輔導員）分機 75000  132631@nccu.edu.tw\n\n  出納組　行政大樓 5 樓　分機 62123\n    ☎ 出納組：傳真 (02)2939-4784\n    ☎ 出納組：電話 (02)2939-3091\n    ☎ 總務長室：分機 分機 62093\n    ☎ 文書組：分機 分機 62875\n    ☎ 事務組：分機 分機 62108\n    ☎ 出納組：分機 分機 62120\n    ☎ 營繕組：分機 分機 62090\n    ☎ 財產組：分機 分機 62806\n    ☎ 環安組：分機 分機 62820\n    ☎ 規劃組：分機 分機 63354\n    • 劉桂芬（組長）分機 62120  vicky928@nccu.edu.tw\n    • 徐士雲（編審）分機 62172  hsu1215@nccu.edu.tw\n    • 張錦虹（組員）分機 62125  ghchang@nccu.edu.tw\n    • 江幸霓（組員）分機 62122  131042@nccu.edu.tw\n    • 張佩雯（行政專員）分機 62126  peiwen@nccu.edu.tw\n    • 蕭毓璇（行政專員）分機 62127  beru@nccu.edu.tw\n    • 吳慧玲（一級行政組員）分機 62121  hlwu@nccu.edu.tw\n    • 余淑娟（一級行政組員）分機 62123  ivyyu@nccu.edu.tw\n    • 王𥣞媗（行政組員）分機 63071\n    • 林瓊蓮（兼任助理）分機 62124  lin33456@nccu.edu.tw"
+    }
+  ],
+  "output_file": "trace.json",
+  "output_format": {
+    "claims": [
+      {
+        "id": "c1",
+        "answer_span": "答案正文裡的一段逐字原文（這個主張對應的那一小段）",
+        "status": "supported | unsupported",
+        "evidence": [
+          {
+            "item": "E1",
+            "quote": "該證據項目裡的一段逐字原文"
+          },
+          {
+            "item": "E2",
+            "quote": "（網址主張才用）該項目 sources 裡的一個完整網址",
+            "from": "sources"
+          }
+        ],
+        "why": "一句話說明"
+      }
+    ],
+    "judge": {
+      "model": "",
+      "prompt_version": "",
+      "note": ""
+    },
+    "rules": [
+      "把答案拆成原子主張：一個主張只講一件事（總機與分機是兩件事、傳真是另一件）。",
+      "引言、標題、「如下」這類沒有事實內容的字句不要列成主張。",
+      "answer_span 必須逐字取自 answer_text；quote 必須逐字取自該證據項目的 text（網址主張例外，見最後一條）；程式會驗證，找不到會被退回。",
+      "status=supported 要附至少一段 evidence；找不到依據就寫 unsupported，evidence 留空陣列。",
+      "判斷『有沒有依據』只看 evidence_items 裡的文字，不用你自己知道的事。",
+      "把人與職稱、分機配成一對的主張，要證據把「同一個人」配「同樣的職稱與分機」才算 supported；姓名、職稱、分機任一項與證據不同（包含分機是證據裡另一個人的），就是 unsupported。",
+      "一個人的姓名、職稱、分機寫成同一個主張，不要把分機拆出去（拆出去的分機會失去它屬於誰的資訊）。",
+      "只出現在網址或連結位址裡的字，不算該單位職掌等內容的證據。",
+      "各主張的 answer_span 不得互相重疊（一個字最多屬於一個主張）；不要同時列出整句與其中一部分。",
+      "答案裡的網址主張（網址本身就是要說的內容，例如「下載連結：https://…」）可以引用證據項目的 sources：evidence 寫 {\"item\": \"E2\", \"quote\": \"<sources 裡的一個完整網址，逐字>\", \"from\": \"sources\"}。quote 必須等於 sources 裡的一個完整網址（不是網址的一部分），程式會驗證；這個網址對不對得上答案說的東西（例如是不是休學申請書的連結），要看該網址在 sources 裡的 label；網址路徑裡的字仍然不算其他主張的證據（規則 8）；網址不在 sources 裡就是 unsupported。"
+    ]
+  }
+}

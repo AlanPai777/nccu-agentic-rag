@@ -1,5 +1,5 @@
 {
-  "note": "batch06（Q2～Q11）加上 Q1 的 run06（batch05）：2026-11-15 真實批次，live 開、Chromium 開，每題一次",
+  "note": "batch06（Q2～Q11）加上 Q1 的 run06（batch05）：2026-11-15 真實批次，live 開、Chromium 開，每題一次；Q7、Q8、Q9、Q11 用 2026-11-15 重跑的 run02（F35–F37 修好後），其餘為第一次的 run01，Q1 為 run06",
   "cases": [
     {
       "id": 1,
@@ -48,21 +48,21 @@
       "question": "master_transfer",
       "short": "轉系所",
       "group": "Cross-Office Procedural Questions",
-      "dir": "runs/run01"
+      "dir": "runs/run02"
     },
     {
       "id": 8,
       "question": "dorm_deposit",
       "short": "退宿保證金",
       "group": "Cross-Office Procedural Questions",
-      "dir": "runs/run01"
+      "dir": "runs/run02"
     },
     {
       "id": 9,
       "question": "master_double_major",
       "short": "雙主修輔系",
       "group": "Cross-Office Procedural Questions",
-      "dir": "runs/run01"
+      "dir": "runs/run02"
     },
     {
       "id": 10,
@@ -76,7 +76,7 @@
       "question": "cross_school_double_major",
       "short": "跨校雙主修",
       "group": "Cross-Office Procedural Questions",
-      "dir": "runs/run01"
+      "dir": "runs/run02"
     }
   ]
 }
