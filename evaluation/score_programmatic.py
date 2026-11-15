@@ -23,6 +23,14 @@ import sys
 import unicodedata
 from pathlib import Path
 
+# 指標定義的版本。2026-11-15：Context 的「有沒有讀到」不再用 gold 引用的逐字比對，改由 Claude 判斷（階段 3 的 judge.json），
+# Sentence Recall 因此改成 Claude 判斷的結果（分母含引用登記表的 keypoint）；Sentence Precision 與 Words 指標仍是字串比對的機械指標，
+# 只供跨 run 比較。這個版本以前（含 run01～run03 的舊算法）的 Context Sentence Recall／F1 不能與之後的直接比較。
+METRICS_VERSION = "2026-11-15.context-recall-judged"
+METRICS_NOTE = ("Context Sentence Recall 由 Claude 判斷（階段 3；答對且有依據的 keypoint 直接算讀到），不是字串比對；分母含引用登記表的 keypoint。"
+                "Sentence Precision 與 Words 指標是字串比對的機械指標，只供跨 run 比較；Sentence F1 混用兩者。"
+                "此版本之前的 Context Sentence Recall／F1 不能與之後的直接比較。")
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).resolve().parent / "registry"))
 import registry_lib  # noqa: E402
@@ -117,19 +125,18 @@ def context_scores(keypoints: list[dict], context: list[dict]) -> tuple[dict, li
                 return len(set(_words(r)) & ctx_words)
             gold_words |= set(_words(max(refs, key=overlap)))
 
-    n_kp = sum(1 for k in keypoints if not k.get("registry")) or 1
-    covered = sum(1 for k in per_kp if k["in_context"])
-    s_recall = covered / n_kp                                   # keypoint 層級
-    s_precision = matched_chars / len(ctx_norm) if ctx_norm else 0.0   # 字數，WSM EIR 做法
+    s_precision = matched_chars / len(ctx_norm) if ctx_norm else 0.0   # 字數，WSM EIR 做法（字串比對；只供比較）
     common = gold_words & ctx_words
     w_precision = len(common) / len(ctx_words) if ctx_words else 0.0
     w_recall = len(common) / len(gold_words) if gold_words else 0.0
     scores = {
         "counted_context_indices": used_idx,
         "context_chars": len(ctx_norm),
-        "sentence": {"p": round(s_precision, 4), "r": round(s_recall, 4), "f": round(prf(s_precision, s_recall), 4)},
+        "sentence": {"p": round(s_precision, 4), "r": None, "f": None,
+                     "note": "Recall 與 F1 要等階段 3 的 Claude 判斷（stage3.py score）才算；這裡只有字串比對的 Precision"},
         "words": {"p": round(w_precision, 4), "r": round(w_recall, 4), "f": round(prf(w_precision, w_recall), 4)},
-        "note": "Precision 與 F1 只供跨 run 比較（讀整頁，分母很大）；Recall 為 keypoint 層級（命中任一可接受原文即算讀到）",
+        "string_match": [{"id": k["id"], "found": k["in_context"], "matched_reference": k["matched_reference"]} for k in per_kp],
+        "note": "字串比對的機械指標（Sentence Precision、Words P／R／F1）只供跨 run 比較，不代表系統有沒有讀到；字串比對的逐項結果在 string_match，不用來判斷「有沒有讀到」。",
     }
     return scores, per_kp
 
@@ -247,38 +254,6 @@ def accuracy(gold: dict, answer: str, context: list[dict]) -> tuple[dict, list[d
     }, per_kp
 
 
-# --- 聯絡人題的漏斗：頁面 → 清單 → 答案 ---------------------------------------
-def contact_funnel(gold: dict, answer: str, context: list[dict]) -> list[dict]:
-    """聯絡人題每個 hard keypoint 的三步：人員頁原文 → contact_node 整理的清單 → 最終答案。
-    用 acceptable_expressions 判斷這個值有沒有出現在各步，所以「頁面有、清單沒有」代表卡在解析
-    （例如總機 (02)2939-3091 在頁尾，清單的格式沒有放它的位置），不是檢索或綜合的問題。"""
-    if gold.get("query_type") != "contact":
-        return []
-    page_txt = norm("\n".join(c["text"] for c in context if c.get("kind") == "contact_page"))
-    list_txt = norm("\n".join(c["text"] for c in context if c.get("kind") == "contact_list"))
-    ans_txt = norm(answer)
-    rows = []
-    for kp in gold["keypoints"]:
-        if kp.get("kind", "hard") != "hard" or not kp.get("acceptable_expressions"):
-            continue
-        expr = [(e, norm(e)) for e in kp.get("acceptable_expressions", []) if norm(e)]
-        in_page = [e for e, n in expr if n in page_txt]
-        in_list = [e for e, n in expr if n in list_txt]
-        in_ans = [e for e, n in expr if n in ans_txt]
-        stage = ("頁面沒有" if not in_page else "解析丟失" if not in_list else "綜合沒寫" if not in_ans else "答案有")
-        rows.append({
-            "keypoint": kp["id"],
-            "page_has_value": bool(in_page),
-            "list_has_value": bool(in_list),
-            "answer_has_value": bool(in_ans),
-            "values_in_page": in_page,
-            "values_in_list": in_list,
-            "values_in_answer": in_ans,
-            "stage": stage,
-        })
-    return rows
-
-
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("gold")
@@ -296,25 +271,20 @@ def main():
     rouge = rouge_l(answer, gold["content"])
     acc, acc_kp = accuracy(gold, answer, pred["context"])
     ctx, ctx_kp = context_scores(gold["keypoints"], pred["context"])
-    funnel_contact = contact_funnel(gold, answer, pred["context"])
 
-    # 每個 keypoint 的漏斗前半（階段 3 之後再補「被答案用到」與「說對了」）
-    funnel = []
-    acc_by_id = {k["id"]: k for k in acc_kp}
-    for k in ctx_kp:
-        funnel.append({"id": k["id"], "in_context": k["in_context"],
-                       "matched_reference": k["matched_reference"],
-                       "rule_verdict": acc_by_id[k["id"]]["verdict"]})
+    # 漏斗在階段 3 才完整（有沒有讀到、被答案用到、說對了）；這裡只留規則版的判定
+    funnel = [{"id": k["id"], "rule_verdict": k["verdict"]} for k in acc_kp]
 
     out = {
         "query_id": gold["query_id"],
         "run_id": pred["run_id"],
         "gold_data_as_of": gold.get("data_as_of"),
         "system_version": pred.get("system_version"),
+        "metrics_version": METRICS_VERSION,
         "rouge_l": rouge,
         "accuracy": acc,
         "context": ctx,
-        "keypoints": {"accuracy_rule": acc_kp, "funnel_stage2": funnel, "contact_funnel": funnel_contact},
+        "keypoints": {"accuracy_rule": acc_kp, "funnel_stage2": funnel},
     }
     out_path = pred_path.with_name("scores.stage2.json")
     out_path.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -328,11 +298,8 @@ def main():
             w = k["wrong"]
             extra = f"  wrong={ {a: b for a, b in w.items() if b} }"
         print(f"  {k['id']}: {k['verdict']}{extra}")
-    print(f"Context 句子    P={ctx['sentence']['p']:.3f}  R={ctx['sentence']['r']:.2f}  F={ctx['sentence']['f']:.3f}   （P、F 只供比較）")
-    print(f"Context 詞      P={ctx['words']['p']:.3f}  R={ctx['words']['r']:.2f}  F={ctx['words']['f']:.3f}")
-    for f in funnel_contact:
-        print(f"聯絡人漏斗 {f['keypoint']}：頁面 {'✔' if f['page_has_value'] else '✘'} → "
-              f"清單 {'✔' if f['list_has_value'] else '✘'} → 答案 {'✔' if f['answer_has_value'] else '✘'}   【{f['stage']}】")
+    print(f"Context 句子    P={ctx['sentence']['p']:.3f}（字串比對，只供比較）  R、F1：等階段 3 的 Claude 判斷")
+    print(f"Context 詞      P={ctx['words']['p']:.3f}  R={ctx['words']['r']:.2f}  F={ctx['words']['f']:.3f}   （字串比對，只供比較）")
     print(f"\n已寫入 {_shown(out_path)}")
 
 

@@ -40,7 +40,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from score_programmatic import _NODE_PROMPT_PREFIXES, norm  # noqa: E402
+from score_programmatic import _NODE_PROMPT_PREFIXES, METRICS_NOTE, METRICS_VERSION, norm  # noqa: E402
 from run_system import split_answer  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "registry"))
@@ -77,6 +77,9 @@ OUTPUT_FORMAT = {
             "verdict": "relevant | irrelevant | wrong | not_applicable",
             "claims": ["c1"],
             "reason": "一句話說明",
+            "in_context": "true | false（只在需要時填，見最後三條規則）",
+            "context_quote": "（in_context=true 時）從系統讀到的文字裡原樣抄出的一小段，證明那個事實在裡面",
+            "context_reason": "一句話說明為什麼判讀到／沒讀到",
         }],
         "judge": {"model": "", "prompt_version": "", "note": ""},
         "rules": [
@@ -86,6 +89,9 @@ OUTPUT_FORMAT = {
             "not_applicable：只用在有適用條件的 keypoint（text 寫「答案若…」）。答案沒有滿足條件（例如根本沒列承辦人）時判 not_applicable，不計入分母；滿足條件才判 relevant 或 wrong。",
             "claims 列出 trace.json 裡直接陳述這個 keypoint 的主張編號；沒提到就留空陣列。同一個主張可以同時連到多個 keypoint。",
             "每個 keypoint 都要有一筆。",
+            "in_context（系統有沒有讀到這個 keypoint 要的事實）：由你判斷「事實」有沒有在系統讀到的文字裡，不是比對字句；寫法不同、版面不同都不影響，要看意思，而且事實要歸在對的單位或人（例如分機要是出納組的，不是別的單位的）。系統讀到的文字在 prediction.json 的 context（judge_input 的 context_items 列出每一項）。",
+            "什麼時候要填 in_context：verdict 是 relevant、而且它連到的主張有依據（supported）時不用填（程式直接算讀到）；not_applicable 不用填；其餘（irrelevant、wrong，或 relevant 但沒有依據）一定要填。",
+            "in_context=true 一定要附 context_quote：從系統讀到的文字（context_items 裡的某一項）原樣抄一小段（20～60 字以內），程式會驗證它真的在系統讀到的文字裡；驗證失敗會被當成沒讀到。in_context=false 不用附引文，寫 context_reason 說明找過什麼、沒找到。",
         ],
     },
 }
@@ -177,6 +183,30 @@ def build_evidence(context: list[dict]) -> tuple[list[dict], list[str]]:
     return items, removed
 
 
+def readable_context(context: list[dict]) -> list[dict]:
+    """「系統讀到的文字」：prediction.json 的 context 裡，除了節點給 LLM 的指示文字以外的每一項（工具輸出、人員頁原文、聯絡人清單、表單全文）。
+    index 是它在 context 裡的位置（從 1 算起，與儀表板的 #n 相同）。Claude 判斷 in_context 時看這些項目；引文也只在這些項目裡驗證。"""
+    out = []
+    for i, c in enumerate(context or [], 1):
+        if c.get("role") == "HumanMessage" and c.get("text", "").startswith(_NODE_PROMPT_PREFIXES):
+            continue
+        out.append({"index": i, "role": c.get("role"), "tool": c.get("tool"), "kind": c.get("kind"), "text": c.get("text") or ""})
+    return out
+
+
+def _context_title(text: str) -> str:
+    for line in (text or "").splitlines():
+        if line.strip():
+            return line.strip()[:60]
+    return ""
+
+
+def verify_context_quote(quote: str, items: list[dict]) -> bool:
+    """quote 是不是（空白正規化後）某個系統讀到的文字項目的子字串。"""
+    n = norm(quote or "")
+    return bool(n) and any(n in norm(it["text"]) for it in items)
+
+
 def cmd_prepare(gold_path: Path, run_dir: Path) -> None:
     gold = _read(gold_path)
     pred = _read(run_dir / "prediction.json")
@@ -215,6 +245,9 @@ def cmd_prepare(gold_path: Path, run_dir: Path) -> None:
         "gold_content": gold["content"],
         "keypoints": [{"id": k["id"], "text": k["text"], **({"applies_if": k["applies_if"]} if k.get("applies_if") else {})}
                       for k in gold["keypoints"]],
+        "context_items": [{"index": it["index"], "role": it["role"], "tool": it["tool"], "kind": it["kind"], "chars": len(it["text"]),
+                           "title": _context_title(it["text"])} for it in readable_context(pred["context"])],
+        "context_note": "系統讀到的文字在 prediction.json 的 context[index-1].text（只列出文字長度與標題）。判斷 in_context 時用搜尋找關鍵字，不必整份讀。規則見 output_format.rules 的最後三條。",
         "notes": notes,
         "output_file": "judge.json",
         "output_format": OUTPUT_FORMAT["judge.json"],
@@ -252,7 +285,26 @@ def cmd_check(run_dir: Path) -> dict:
     print(f"主張 {len(claims)} 個；answer_span 通過 {ok} 個" + (f"；因被包含不計入 {len(dropped)} 個（{', '.join(dropped)}）" if dropped else "") + f"；證據 quote 通過 {sum(e['verified'] for c in claims for e in c['evidence'])}/{sum(len(c['evidence']) for c in claims)}")
     for w in warnings:
         print("  警告：", w)
+    jp, pp_ = run_dir / "judge.json", run_dir / "prediction.json"
+    if jp.exists() and pp_.exists():
+        bad = check_in_context_quotes(_read(jp), _read(pp_))
+        given = sum(1 for k in _read(jp)["keypoints"] if k.get("in_context") is not None)
+        print(f"in_context 判斷 {given} 個；引文驗證失敗 {len(bad)} 個" + (f"（{', '.join(bad)}）" if bad else ""))
+        out["in_context_quotes_failed"] = bad
     return out
+
+
+def check_in_context_quotes(jd: dict, pred: dict) -> list[str]:
+    """judge.json 裡 in_context=true 的 keypoint，引文不是系統讀到的文字的子字串（或沒有引文）的 id 列表。"""
+    items = readable_context(pred.get("context") or [])
+    bad = []
+    for k in jd.get("keypoints", []):
+        val = k.get("in_context")
+        if isinstance(val, str):
+            val = {"true": True, "false": False}.get(val.strip().lower())
+        if val is True and not verify_context_quote(k.get("context_quote", ""), items):
+            bad.append(k["id"])
+    return bad
 
 
 def check_trace(ti: dict, tr: dict) -> dict:
@@ -401,16 +453,56 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
             disagreements.append({"keypoint": kid, "rule": rv, "claude": v["verdict"], "claude_reason": v.get("reason", ""),
                                   "rule_detail": {k: rule[kid].get(k) for k in ("matched_expressions", "wrong") if rule[kid].get(k)}})
 
+    # 系統有沒有讀到每個 keypoint 要的事實（in_context）：不再比對 gold 的引用（2026-11-15）。
+    #   答對而且有依據 → 直接算讀到（答案那句話已有「系統看到的內容」當依據）；條件不適用 → 不判；
+    #   其餘（沒寫、寫錯、答對但沒依據）→ 看 judge.json 裡 Claude 的 in_context 判斷，true 要附原樣引文，程式驗證引文真的在系統讀到的文字裡。
+    pred = _read(run_dir / "prediction.json")
+    readable = readable_context(pred.get("context") or [])
+    in_ctx: dict[str, dict] = {}
+    for k in gold["keypoints"]:
+        kid, v = k["id"], verdicts[k["id"]]
+        if v["verdict"] == "not_applicable":
+            in_ctx[kid] = {"value": None, "source": "not_applicable", "quote": None}
+        elif v["verdict"] == "relevant" and kid not in ungrounded:
+            in_ctx[kid] = {"value": True, "source": "inferred", "quote": None}
+        else:
+            val = v.get("in_context")
+            if isinstance(val, str):
+                val = {"true": True, "false": False}.get(val.strip().lower())
+            if val is None:
+                warnings.append(f"{kid}：verdict {v['verdict']}，需要 in_context 判斷但 judge.json 沒有，算沒讀到")
+                in_ctx[kid] = {"value": False, "source": "missing", "quote": None}
+            elif val is True:
+                q = v.get("context_quote")
+                if q and verify_context_quote(q, readable):
+                    in_ctx[kid] = {"value": True, "source": "claude", "quote": q}
+                else:
+                    warnings.append(f"{kid}：in_context=true 但" + ("沒有附 context_quote" if not q else "context_quote 不在系統讀到的文字裡") + "，算沒讀到")
+                    in_ctx[kid] = {"value": False, "source": "claude-unverified", "quote": q}
+            else:
+                in_ctx[kid] = {"value": False, "source": "claude", "quote": None}
+    n_read = sum(1 for x in in_ctx.values() if x["value"] is True)
+    s_recall = (n_read / K) if K else None             # 分母：所有適用的 keypoint（含引用登記表的）
+    context = json.loads(json.dumps(st2["context"]))
+    p_str = context["sentence"].get("p")
+    context["sentence"] = {"p": p_str, "r": _r(s_recall), "f": _f1(p_str, s_recall), "read": n_read, "applicable": K,
+                           "r_source": "Claude 判斷（階段 3）；答對有依據的直接算讀到", "p_source": "字串比對（機械，只供比較）",
+                           "f_note": "混合：Recall 為 Claude 判斷、Precision 為字串比對"}
+    context["metrics_version"], context["metrics_note"] = METRICS_VERSION, METRICS_NOTE
+
     funnel = []
-    ctx = {f["id"]: f for f in st2["keypoints"]["funnel_stage2"]}
     for k in gold["keypoints"]:
         v = verdicts[k["id"]]
+        ic = in_ctx[k["id"]]
         if v["verdict"] == "not_applicable":
-            funnel.append({"id": k["id"], "verdict": "not_applicable", "in_context": None, "stated_correctly": None, "grounded": None})
+            funnel.append({"id": k["id"], "verdict": "not_applicable", "in_context": None, "in_context_source": "not_applicable",
+                           "stated_correctly": None, "grounded": None})
             continue
         funnel.append({
             "id": k["id"],
-            "in_context": ctx.get(k["id"], {}).get("in_context"),
+            "in_context": ic["value"],
+            "in_context_source": ic["source"],
+            "context_quote": ic["quote"],
             "stated_correctly": v["verdict"] == "relevant",
             "grounded": k["id"] not in ungrounded and v["verdict"] == "relevant",
             "verdict": v["verdict"],
@@ -421,8 +513,9 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
         "gold_data_as_of": st2.get("gold_data_as_of"),
         "judges": {"trace": (tr.get("judge") or {}), "keypoint": jd.get("judge")},
         "rouge_l": st2["rouge_l"],
+        "metrics_version": METRICS_VERSION,
         "accuracy_rule": st2["accuracy"],
-        "context": st2["context"],
+        "context": context,
         "keypoint": {"relevant": rel, "wrong": wrong, "irrelevant": irr, "total": K, "not_applicable": na,
                      "completeness": _r(rel / K) if K else None, "hallucination": _r(wrong / K) if K else None,
                      "irrelevance": _r(irr / K) if K else None},
@@ -434,7 +527,6 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
         "evidence_support": {"rate": _r(support_rate), "supported": len(supported), "claims": C, "unsupported_claims": unsupported},
         "ungrounded_correct_keypoints": ungrounded,
         "funnel": funnel,
-        "contact_funnel": st2["keypoints"].get("contact_funnel", []),
         "disagreements": disagreements,
         "warnings": warnings,
     }
@@ -448,7 +540,8 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
     print(f"答案為單位 P／R／F1   {fmt(p_claim)} / {fmt(r_fact)} / {fmt(scores['claim_unit']['f1'])}   (主張 {C}，正確 {len(linked_ok)})")
     print(f"有依據的主張比例      {fmt(support_rate)}   ({len(supported)}/{C})" + (f"  沒依據：{unsupported}" if unsupported else ""))
     print(f"Accuracy（規則）      {st2['accuracy']['hit']}/{st2['accuracy']['hard_keypoints']}   ROUGE-L P／R／F {st2['rouge_l']['p']:.2f}/{st2['rouge_l']['r']:.2f}/{st2['rouge_l']['f']:.2f}")
-    print(f"Context 句子 R {fmt(st2['context']['sentence']['r'])}  詞 R {fmt(st2['context']['words']['r'])}")
+    print(f"Context 句子 R {fmt(context['sentence']['r'])}（Claude 判斷，讀到 {n_read}/{K}）  P {fmt(context['sentence']['p'])}（字串比對）  F1 {fmt(context['sentence']['f'])}（混合）   詞 R {fmt(st2['context']['words']['r'])}（字串比對）")
+    print(f"指標版本 {METRICS_VERSION}")
     if ungrounded:
         print("答對但沒依據的 keypoint：", ungrounded)
     print("規則與 Claude 不一致：", disagreements or "無")

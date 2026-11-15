@@ -267,12 +267,12 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
     { id: 'acc',   page: 'acc',   group: 'Rule-based', label: 'Accuracy', frac: true, get: function (r) { return r.accuracy ? r.accuracy.value : null; },
       tip: function (r) { if (!r.accuracy) return ''; var n = r.ground_truth && r.ground_truth.keypoints ? r.ground_truth.keypoints.length : null; return r.accuracy.hit + ' of ' + r.accuracy.total + ' hard facts matched' + (n ? ' (' + r.accuracy.total + ' of ' + n + ' keypoints are hard facts)' : ''); } },
     { id: 'rouge', page: 'rouge', group: 'Surface', label: 'ROUGE-L', adv: true, get: function (r) { return r.ROUGELScore; }, tip: function (r) { return r.rouge ? 'P ' + f3(r.rouge.p) + ' / R ' + f3(r.rouge.r) + ' / F ' + f3(r.rouge.f) : ''; } },
-    { id: 's_p',   page: 'retr',  group: 'Retrieval: sentences', label: 'P',  adv: true, get: function (r) { return r.Sentences_Precision; } },
-    { id: 's_r',   page: 'retr',  group: 'Retrieval: sentences', label: 'R',  adv: true, get: function (r) { return r.Sentences_Recall; } },
-    { id: 's_f',   page: 'retr',  group: 'Retrieval: sentences', label: 'F1', adv: true, get: function (r) { return f1(r.Sentences_Precision, r.Sentences_Recall); } },
-    { id: 'w_p',   page: 'retr',  group: 'Retrieval: words', label: 'P',  adv: true, get: function (r) { return r.Words_Precision; } },
-    { id: 'w_r',   page: 'retr',  group: 'Retrieval: words', label: 'R',  adv: true, get: function (r) { return r.Words_Recall; } },
-    { id: 'w_f',   page: 'retr',  group: 'Retrieval: words', label: 'F1', adv: true, get: function (r) { return f1(r.Words_Precision, r.Words_Recall); } }
+    { id: 's_p',   page: 'retr',  group: 'Retrieval: sentences (R: Claude-judged · P: text match)', label: 'P',  adv: true, get: function (r) { return r.Sentences_Precision; } },
+    { id: 's_r',   page: 'retr',  group: 'Retrieval: sentences (R: Claude-judged · P: text match)', label: 'R',  adv: true, get: function (r) { return r.Sentences_Recall; } },
+    { id: 's_f',   page: 'retr',  group: 'Retrieval: sentences (R: Claude-judged · P: text match)', label: 'F1 (mixed)', adv: true, get: function (r) { return f1(r.Sentences_Precision, r.Sentences_Recall); } },
+    { id: 'w_p',   page: 'retr',  group: 'Retrieval: words (text match)', label: 'P',  adv: true, get: function (r) { return r.Words_Precision; } },
+    { id: 'w_r',   page: 'retr',  group: 'Retrieval: words (text match)', label: 'R',  adv: true, get: function (r) { return r.Words_Recall; } },
+    { id: 'w_f',   page: 'retr',  group: 'Retrieval: words (text match)', label: 'F1', adv: true, get: function (r) { return f1(r.Words_Precision, r.Words_Recall); } }
   ];
   var CARD_ROWS = [
     [['kp_p', 'Keypoint P'], ['kp_r', 'Keypoint R (Completeness)'], ['kp_f', 'Keypoint F1']],
@@ -280,8 +280,8 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
     [['cl_r', 'Claim R'], ['cl_f', 'Claim F1'], ['evid', 'Evidence Support'], ['acc', 'Accuracy']]
   ];
   var ADV_CARD_ROWS = [
-    [['rouge', 'ROUGE-L'], ['s_p', 'Sentences P'], ['s_r', 'Sentences R'], ['s_f', 'Sentences F1']],
-    [['w_p', 'Words P'], ['w_r', 'Words R'], ['w_f', 'Words F1']]
+    [['rouge', 'ROUGE-L'], ['s_p', 'Sentences P (text match)'], ['s_r', 'Sentences R (Claude-judged)'], ['s_f', 'Sentences F1 (mixed)']],
+    [['w_p', 'Words P (text match)'], ['w_r', 'Words R (text match)'], ['w_f', 'Words F1 (text match)']]
   ];
   var GROUP_ORDER = ['Factual Questions', 'Cross-Office Procedural Questions'];
 
@@ -331,7 +331,9 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
     var wrap = app.querySelector('.table-scroll'), keepLeft = wrap ? wrap.scrollLeft : 0, keepY = window.scrollY;
     if (!rows.length) { app.innerHTML = '<div class="empty">No scores loaded.<br>Choose a <code>.jsonl</code> file written by <code>python evaluation/dashboard/export_scores.py</code>.</div>'; return; }
     var adv = document.body.classList.contains('show-adv');
-    var h = '<div class="section-note">Average over all questions with a value</div>';
+    var vers = {}; rows.forEach(function (r) { vers[r.metrics_version || 'before 2026-11-15 (old Context definition)'] = true; });
+    var verNote = '<div class="section-note" id="metrics-version-note">Metrics version: <b>' + Object.keys(vers).map(esc).join(', ') + '</b> &mdash; Context <b>Sentence Recall is judged by Claude</b> (not matched by text) since 2026-11-15; Sentence Precision and the Words metrics are still text matching, Sentence F1 mixes the two. Scores from before that date are not comparable.' + (Object.keys(vers).length > 1 ? ' <b>This file mixes versions.</b>' : '') + '</div>';
+    var h = '<div class="section-note">Average over all questions with a value</div>' + verNote;
     CARD_ROWS.forEach(function (row) { h += '<div class="metrics-summary">' + row.map(cardHtml).join('') + '</div>'; });
     h += '<div class="adv-block"><div class="section-note">Advanced metrics</div>';
     ADV_CARD_ROWS.forEach(function (row) { h += '<div class="metrics-summary">' + row.map(cardHtml).join('') + '</div>'; });
@@ -389,7 +391,7 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
     h += '<div class="routing"><span>Expected type: <b>' + esc(rt.expected || '—') + '</b></span><span>Router classified as: <b class="' + (diff ? 'diff' : '') + '">' + esc(rt.router || '—') + '</b></span></div>';
     h += '<div class="detail-section"><div class="detail-title">Full Query</div><div class="detail-text">' + esc(r.query.content) + '</div></div>';
     if (r.run) {
-      var ru = r.run, bits = [ru.run_id, ru.label, ru.model, ru.system_version, ru.started_at, ru.live == null ? null : 'live ' + (ru.live ? 'on' : 'off') + (ru.live ? ' / browser ' + (ru.browser ? 'on' : 'off') : ''), ru.elapsed_seconds == null ? null : ru.elapsed_seconds + ' s'].filter(Boolean);
+      var ru = r.run, bits = [ru.run_id, ru.label, ru.model, ru.system_version, ru.started_at, r.metrics_version ? 'metrics ' + r.metrics_version : null, ru.live == null ? null : 'live ' + (ru.live ? 'on' : 'off') + (ru.live ? ' / browser ' + (ru.browser ? 'on' : 'off') : ''), ru.elapsed_seconds == null ? null : ru.elapsed_seconds + ' s'].filter(Boolean);
       h += '<div class="detail-section"><div class="detail-title">Run</div><div class="detail-text">' + esc(bits.join(' · ')) + (ru.status && ru.status !== 'ok' ? '\n' + esc('This run has no answer: ' + ru.status + (ru.failure ? ' — ' + ru.failure : '')) : '') + '</div></div>';
     }
     h += '<div class="detail-section"><div class="detail-title">Prediction Content</div><div class="detail-text">' + esc(r.prediction && r.prediction.content || 'N/A') + '</div></div>';
@@ -420,13 +422,14 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
       h += '<details class="ref-item"><summary>#' + p.index + ' &middot; ' + esc(p.tool || p.role || 'message') + ' &middot; ' + Number(p.chars).toLocaleString() + ' chars' + (p.counted ? '' : ' &middot; not counted in Retrieval') + ' &middot; ' + esc(p.title) + '</summary><div class="detail-text">' + esc(p.text) + '</div></details>';
     });
     h += '</div>';
-    var gr = ((gt.references) || []).slice().sort(function (a, b) { return (a.found === b.found) ? 0 : (a.found ? 1 : -1); });
-    var miss = gr.filter(function (x) { return !x.found; }).length;
-    h += '<div class="detail-section"><div class="detail-title">Ground Truth References (' + gr.length + ') &mdash; ' + (gr.length - miss) + ' found in what the system read, ' + miss + ' not found</div>';
+    var gr = ((gt.references) || []).slice().sort(function (a, b) { var r = function (x) { return x.found === true ? 2 : (x.found === false ? 0 : 1); }; return r(a) - r(b); });
+    var nRead = gr.filter(function (x) { return x.found === true; }).length, nNot = gr.filter(function (x) { return x.found === false; }).length;
+    h += '<div class="detail-section"><div class="detail-title">Ground Truth References (' + gr.length + ') &mdash; source quotes of the gold answer. &#x2713; = Claude judged the system read that keypoint&rsquo;s evidence (' + nRead + '), &#x2717; = not read (' + nNot + '), &mdash; = not judged. Nothing here is matched by text.</div>';
     if (!gr.length) h += '<div class="detail-text">No references found.</div>'; else {
       h += '<ul class="references-list" style="list-style:none;padding-left:0">';
       gr.forEach(function (g) {
-        h += '<li><span class="mark ' + (g.found ? 'ok' : 'missing') + '">' + (g.found ? '✓' : '✗') + '</span>' + esc(g.text) +
+        var cls = g.found === true ? 'ok' : (g.found === false ? 'missing' : ''), mk = g.found === true ? '✓' : (g.found === false ? '✗' : '—');
+        h += '<li><span class="mark ' + cls + '">' + mk + '</span>' + esc(g.text) +
           '<span class="meta">used by ' + esc(g.keypoints.join(', ')) + ' &middot; ' + g.sources.map(function (s) { return esc(srcLabel(s)); }).join(' + ') + ' &middot; ' + esc(shortUrl(g.sources[0] && g.sources[0].url)) + '</span></li>';
       });
       h += '</ul>';
@@ -453,8 +456,9 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
     var fn = r.responses && r.responses.funnel;
     if (fn && fn.length && fn[0].id !== undefined) {
       var yn = function (v) { return v == null ? '—' : (v ? 'yes' : 'no'); };
-      h += '<div class="detail-section"><div class="detail-title">Funnel (read &rarr; used &rarr; stated correctly)</div><div class="mini-scroll"><table class="mini"><thead><tr><th>Keypoint</th><th>In context</th><th>Stated correctly</th><th>Grounded</th><th>Verdict</th></tr></thead><tbody>';
-      fn.forEach(function (f) { h += '<tr><td>' + esc(f.id) + '</td><td>' + yn(f.in_context) + '</td><td>' + yn(f.stated_correctly) + '</td><td>' + yn(f.grounded) + '</td><td>' + esc(f.verdict) + '</td></tr>'; });
+      var srcLbl = { inferred: 'inferred (answer was right and grounded)', claude: 'Claude', 'claude-unverified': 'Claude, quote not found in what the system read (counted as not read)', missing: 'no judgement (counted as not read)', not_applicable: '—' };
+      h += '<div class="detail-section"><div class="detail-title">Funnel (read &rarr; used &rarr; stated correctly) &mdash; &ldquo;In context&rdquo; is judged by Claude, not matched by text</div><div class="mini-scroll"><table class="mini"><thead><tr><th>Keypoint</th><th>In context</th><th>Judged by</th><th>Quote from what the system read</th><th>Stated correctly</th><th>Grounded</th><th>Verdict</th></tr></thead><tbody>';
+      fn.forEach(function (f) { h += '<tr><td>' + esc(f.id) + '</td><td>' + yn(f.in_context) + '</td><td>' + esc(srcLbl[f.in_context_source] || f.in_context_source || '') + '</td><td>' + esc(f.context_quote || '') + '</td><td>' + yn(f.stated_correctly) + '</td><td>' + yn(f.grounded) + '</td><td>' + esc(f.verdict) + '</td></tr>'; });
       h += '</tbody></table></div></div>';
     }
     var ug = r.responses && r.responses.ungrounded;
@@ -552,12 +556,12 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
       trap: 'The answer with wrong numbers (0.614) scores higher than the short correct one (0.337). Do not read it as quality.',
       src: 'Program, no LLM. Available right after the run (stage 2).' },
     { key: 'retr', title: 'Retrieval (Context Sentence / Words P / R / F1)', short: 'Retrieval',
-      what: 'Did the text the system read contain the source passages the gold answer needs?',
-      formula: 'R = gold source sentences (words) found in the read text / all gold source sentences (words)\nP = the share of the read text that is gold source\nF1 = 2PR / (P + R)',
-      example: '<div class="exh">' + EX.question + '</div><p>Sentences: R <span class="calc">1.000</span>, P 0.014, F1 0.028</p><p>Words: R <span class="calc">0.985</span>, P 0.028, F1 0.055</p><p>Both answers read the same pages, so these numbers are the same for ' + A.name + ' and ' + B.name + '. Open a question and look at its Ground Truth References: every &#x2717; is a gold passage the system did not read.</p>',
-      read: 'R is the one to look at: low R means the system never read what it needed (a retrieval failure, not a writing failure).',
-      trap: '<b>P and F1 are always small</b>: the system reads whole pages and only a few sentences are gold. They get the same colors as the rest but only mean something when you compare runs (for example BM25 only vs grep only).',
-      src: 'Program, no LLM. Available right after the run (stage 2).' }
+      what: 'Did the system read what the gold answer needs, and how much of what it read was useful?',
+      formula: 'Sentence R = keypoints whose evidence the system read / applicable keypoints (Claude-judged; includes the registry-based keypoints)\nSentence P = gold source text found in the read text / all read text (text match, mechanical)\nSentence F1 = 2PR / (P + R) (mixed: R from Claude, P from text match)\nWords P / R / F1 = word overlap with the gold source text (text match, mechanical)',
+      example: '<div class="exh">' + EX.question + '</div><p>Sentences: R <span class="calc">1.000</span> (3 of 3 keypoints read), P 0.014, F1 0.028</p><p>Words: R <span class="calc">0.985</span>, P 0.028, F1 0.055</p><p>Both answers read the same pages, so these numbers are the same for ' + A.name + ' and ' + B.name + '. Open a question and look at its Funnel: every keypoint with &#x2717; under &ldquo;In context&rdquo; is evidence the system did not read.</p>',
+      read: 'Sentence R is the one to look at: low R means the system never read what it needed (a retrieval failure, not a writing failure). A keypoint the answer stated correctly and with evidence counts as read; for the others Claude checks the text the system read and quotes the sentence that proves it (a program checks the quote is really there).',
+      trap: '<b>Definition changed on 2026-11-15 (metrics version 2026-11-15.context-recall-judged).</b> Sentence R used to be a text match of the gold source quotes, which failed whenever a website changed its wording or layout; it is now judged by Claude. Runs scored before that date (run01&ndash;run03 included) are <b>not comparable</b> with later ones. <b>Sentence P, Words P/R/F1 are still text matching</b> and Sentence F1 mixes the two; P and F1 are always small (the system reads whole pages and only a few sentences are gold), so they only mean something when you compare runs.',
+      src: 'Sentence R: Claude, stage 3 (needs the judgement; not available right after the run). Sentence P and Words: program, no LLM, stage 2.' }
   ];
   function pageHtml(p) {
     return '<h3>' + esc(p.title) + '</h3><p class="what">' + p.what + '</p><h5>Formula</h5><div class="formula">' + esc(p.formula) + '</div><h5>Worked example</h5><div class="ex">' + p.example + '</div>' +

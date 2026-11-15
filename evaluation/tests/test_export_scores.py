@@ -97,7 +97,7 @@ class TestExportScores(unittest.TestCase):
 class TestReferencesAndAlternatives(unittest.TestCase):
     """展開區要用的三組資料：系統讀進來的內容、gold 的原文出處（標系統有沒有讀到）、登記表型 keypoint 的替代寫法。"""
 
-    def _question_with_refs(self, root: Path, context_text: str):
+    def _question_with_refs(self, root: Path, context_text: str, funnel=None):
         e = make_question(root)
         q = root / e["question"]
         gold = json.loads((q / "gold.json").read_text(encoding="utf-8"))
@@ -111,7 +111,37 @@ class TestReferencesAndAlternatives(unittest.TestCase):
         pred = json.loads((c / "prediction.json").read_text(encoding="utf-8"))
         pred["context"] = [{"message_index": 1, "role": "ToolMessage", "tool": "get_page_tool", "text": "get_page 取得\n" + context_text}]
         write(c / "prediction.json", pred)
+        if funnel is not None:
+            scores = json.loads((c / "scores.json").read_text(encoding="utf-8"))
+            scores["funnel"] = funnel
+            write(c / "scores.json", scores)
         return e
+
+    FUNNEL = [{"id": "K1", "in_context": True, "in_context_source": "claude", "context_quote": "可以找到"},
+              {"id": "K2", "in_context": False, "in_context_source": "claude"}]
+
+    def test_a_reference_is_read_when_claude_says_its_keypoint_was_read_nothing_is_text_matched(self):
+        with tempfile.TemporaryDirectory() as d:
+            # the text the system read does NOT contain the gold quotes at all; only the funnel decides
+            row = export_scores.build_row(self._question_with_refs(Path(d), "完全不同的文字", self.FUNNEL), Path(d))
+        gr = {g["text"]: g for g in row["ground_truth"]["references"]}
+        self.assertIs(gr["可以找到的原文"]["found"], True)
+        self.assertIs(gr["讀不到的原文"]["found"], False)
+
+    def test_without_a_funnel_the_references_are_not_judged(self):
+        with tempfile.TemporaryDirectory() as d:
+            row = export_scores.build_row(self._question_with_refs(Path(d), "前面 可以找到 的原文 後面"), Path(d))
+        self.assertTrue(all(g["found"] is None for g in row["ground_truth"]["references"]))
+
+    def test_the_row_carries_the_metrics_version(self):
+        with tempfile.TemporaryDirectory() as d:
+            e = make_question(Path(d))
+            c = Path(d) / e["question"] / e["dir"]
+            s = json.loads((c / "scores.json").read_text(encoding="utf-8"))
+            s["metrics_version"] = "2026-11-15.context-recall-judged"
+            write(c / "scores.json", s)
+            row = export_scores.build_row(e, Path(d))
+        self.assertEqual(row["metrics_version"], "2026-11-15.context-recall-judged")
 
     def test_prediction_and_ground_truth_references(self):
         with tempfile.TemporaryDirectory() as d:
@@ -121,8 +151,6 @@ class TestReferencesAndAlternatives(unittest.TestCase):
         self.assertIn("可以找到", pr[0]["text"])
         gr = {g["text"]: g for g in row["ground_truth"]["references"]}
         self.assertEqual(len(gr), 2)                                   # 同一句的快照與現場合併成一條
-        self.assertTrue(gr["可以找到的原文"]["found"])
-        self.assertFalse(gr["讀不到的原文"]["found"])
         self.assertEqual([s["kind"] for s in gr["可以找到的原文"]["sources"]], ["snapshot", "live"])
         self.assertEqual(gr["可以找到的原文"]["keypoints"], ["K1"])
 

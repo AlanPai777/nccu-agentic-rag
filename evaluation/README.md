@@ -52,14 +52,31 @@
 |---|---|---|---|
 | 0 建 gold | `python evaluation/cashier_contact/build_gold.py` | 從來源原文建 `gold.json`，每條引句逐字驗證，找不到就中止、不寫檔 | 上網查證官網前要使用者批准 |
 | 1 跑系統 | `python evaluation/run_system.py evaluation/cashier_contact/gold.json --label "…"` | 跑一次 `agentic_rag`，存 `runs/<run_id>/prediction.json`（答案與系統讀到的內容）；`--label` 選填；預設 `live=False`，`--live on` 才查現場（會連 nccu.edu.tw，`--browser off` 關瀏覽器），`--run-id` 指定資料夾名 | **會呼叫 ollama-cloud，要使用者指示才跑；`--live on` 另外要使用者批准連 nccu.edu.tw** |
-| 2 程式計算 | `python evaluation/score_programmatic.py <gold> <run_dir>/prediction.json` | ROUGE-L、規則版 Accuracy、Context 的 Sentence／Words P／R／F1、漏斗前半 | 無，離線 |
+| 2 程式計算 | `python evaluation/score_programmatic.py <gold> <run_dir>/prediction.json` | ROUGE-L、規則版 Accuracy、Context 的 Sentence Precision 與 Words P／R／F1（字串比對，只供比較；**Sentence Recall 不在這裡算**） | 無，離線 |
 | 3 準備 | `python evaluation/stage3.py prepare <gold> <run_dir>` | 產生 `trace_input.json`（答案正文＋答案模型實際看到的證據，**不含 gold**）與 `judge_input.json` | 無，離線 |
 | 3 回推（隔離） | 只把 `trace_input.json` 複製到全新的空資料夾，交給新的子代理，寫出 `trace.json` | 答案拆成原子主張，為每個主張找證據；做法見 `cashier_contact/tests/README.md` | 開子代理要使用者同意 |
-| 3 Keypoint 判斷 | 讀 `judge_input.json` 與 `trace.json`，寫 `judge.json` | 每個 keypoint 判 relevant／irrelevant／wrong／not_applicable，並連到直接陳述它的主張 | 由 Claude Code 做，不呼叫 ollama |
-| 3 驗證 | `python evaluation/stage3.py check <run_dir>` | `answer_span` 與每段證據 `quote` 必須是原文的子字串；被包含的短主張不重複計入 | 無，離線 |
+| 3 Keypoint 判斷 | 讀 `judge_input.json` 與 `trace.json`，寫 `judge.json` | 每個 keypoint 判 relevant／irrelevant／wrong／not_applicable，並連到直接陳述它的主張；**沒答對的 keypoint 另判 `in_context`（系統有沒有讀到那個事實），true 要附原樣引文** | 由 Claude Code 做，不呼叫 ollama |
+| 3 驗證 | `python evaluation/stage3.py check <run_dir>` | `answer_span` 與每段證據 `quote` 必須是原文的子字串；被包含的短主張不重複計入；`in_context=true` 的引文必須在系統讀到的文字裡 | 無，離線 |
 | 3 算分 | `python evaluation/stage3.py score <gold> <run_dir>` | 合併成 `scores.json` | 無，離線 |
 
 跑系統與任何 `nccu.edu.tw` 請求前，先看 `CLAUDE.md` 的 Live fetch 一節；跑測試與評測一律設 `LIVE_BROWSER=off`（腳本已經在 import 前設好）。
+
+
+## 指標版本：Context 的「有沒有讀到」改由 Claude 判斷（2026-11-15，`metrics_version` = `2026-11-15.context-recall-judged`）
+
+**改了什麼。** 以前 Context Sentence Recall（以及漏斗的 `in_context`）是拿 gold 抄下的原文句子，去系統讀到的文字裡逐字比對；網站改版（寫法、版面不同）就比不到，會誤報「沒讀到」。現在：
+
+- 答對**而且有依據**的 keypoint，直接算「讀到」（答案那句話已經有「系統看到的內容」當依據）。條件不適用的不判。
+- 其餘（沒寫、寫錯、答對但沒依據）由 Claude 判斷「事實有沒有在系統讀到的文字裡」，寫進 `judge.json` 的 `in_context`；判 true 要附一段**原樣抄自系統讀到的文字**的引文（`context_quote`），`stage3.py check`／`score` 驗證它真的在那裡，驗證失敗算沒讀到；沒判斷也算沒讀到並警告。
+- **Context Sentence Recall = 讀到的 keypoint ÷ 適用的 keypoint**（分母含引用登記表的 keypoint，以前它們被排除）。
+- **Sentence Precision 與 Words P／R／F1 仍是字串比對的機械指標，只供跨 run 比較**（Precision 的分母是整頁，永遠很小）。**Sentence F1 混合兩者**（R 來自 Claude 判斷，P 來自字串比對）。
+- 階段 2 不再算 Sentence Recall／F1，也不再有「聯絡人漏斗」；`scores.stage2.json` 裡 `context.string_match` 是字串比對的逐項結果，只用於 Precision，不代表有沒有讀到。
+
+**沒有改的。** Completeness、Hallucination、Irrelevance、事實／答案為單位的 P／R／F1、有依據的主張比例、規則版 Accuracy、ROUGE-L 都照舊；測試鎖住「`in_context` 怎麼判都不影響這些數字」（`tests/test_stage3_in_context.py`）。
+
+**不能直接比較。** 此版本之前算的 Context Sentence Recall／F1（含 `cashier_contact` 的 `run01`、`run02`）是舊定義；`scores.json` 與 `dashboard.jsonl` 都帶 `metrics_version`，儀表板頁面會顯示版本，混了版本的檔案會標出來。例：Q1 的 `run03` 舊定義 Sentence R = 0.33（3 個 keypoint 只有 1 個的 gold 句子逐字找得到），新定義 = 0.67（K2、K3 答對有依據直接算讀到，K1 由 Claude 看過系統讀到的文字，沒有總機，判沒讀到）。
+
+**Gold 的引用。** 引用只是「這個事實的出處」（`gold_check` 仍驗證它們逐字在來源裡），不再拿來和系統的文字比對；gold 的事實以新網站（現場頁面）為準，各題 `build_gold.py` 透過 `evaluation/live_refs.py` 為「只有快照引用」的 keypoint 補上同一句話的現場引用（只新增）。表單內容現場要登入看不到，只能用快照。
 
 ## 測試
 

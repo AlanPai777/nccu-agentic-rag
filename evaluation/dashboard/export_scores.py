@@ -171,7 +171,6 @@ def build_row(entry: dict, root: Path = EVAL) -> dict:
     # 系統實際讀進來的內容（每項一筆）；counted 表示它算進 Retrieval 指標
     context = pred.get("context") or []
     counted, counted_idx = score_programmatic.counted_context(context) if context else ([], [])
-    ctx_norm = score_programmatic.norm("\n".join(c["text"] for c in counted))
     pred_refs = [{"index": i + 1, "role": c.get("role"), "tool": c.get("tool"), "title": _title(c.get("text")), "chars": len(c.get("text") or ""),
                   "text": c.get("text"), "counted": i in counted_idx} for i, c in enumerate(context)]
 
@@ -180,13 +179,19 @@ def build_row(entry: dict, root: Path = EVAL) -> dict:
     for k in gt_kps:
         for r in k.get("references", []) or []:
             key = score_programmatic.norm(r["text"])
-            e = gt_refs.setdefault(key, {"text": r["text"], "sources": [], "keypoints": [], "found": bool(key) and key in ctx_norm})
+            e = gt_refs.setdefault(key, {"text": r["text"], "sources": [], "keypoints": [], "found": None})
             src = {"kind": r.get("source_kind"), "as_of": r.get("as_of"), "url": r.get("source_url")}
             if src not in e["sources"]:
                 e["sources"].append(src)
             if k["id"] not in e["keypoints"]:
                 e["keypoints"].append(k["id"])
     claims = (trace or {}).get("claims", [])
+    # A reference is "read" when Claude (or the answer's own grounded statement) says the system read the keypoint's evidence (stage 3 funnel);
+    # nothing is matched by text any more. No funnel yet (stage 2 only) -> None, shown as "not judged".
+    in_ctx = {f["id"]: f.get("in_context") for f in (scores.get("funnel") or []) if f.get("id") is not None}
+    for e in gt_refs.values():
+        vals = [in_ctx[k] for k in e["keypoints"] if k in in_ctx and in_ctx[k] is not None]
+        e["found"] = (any(vals) if vals else None)
 
     hard = acc.get("hard_keypoints")
     hit = acc.get("hit")
@@ -201,6 +206,8 @@ def build_row(entry: dict, root: Path = EVAL) -> dict:
         "system_version": scores.get("system_version") or pred.get("system_version"),
         "label": pred.get("label"),
         "model": pred.get("model"),
+        "metrics_version": scores.get("metrics_version"),
+        "context_note": (ctx.get("metrics_note") if ctx else None),
         "ROUGELScore": _num(rouge, "f"),
         "Words_Precision": _num(ctx, "words", "p"),
         "Words_Recall": _num(ctx, "words", "r"),

@@ -238,9 +238,14 @@ def score_offline(manifest: dict, root: Path = EVAL, say=print) -> list[dict]:
             acc = s2.get("accuracy") or {}
             row["accuracy"] = f"{acc.get('hit')}/{acc.get('hard_keypoints')}" if acc else None
             row["rouge_f"] = (s2.get("rouge_l") or {}).get("f")
-            row["context_sentence_r"] = ((s2.get("context") or {}).get("sentence") or {}).get("r")
+            row["context_sentence_p"] = ((s2.get("context") or {}).get("sentence") or {}).get("p")
         rows.append(row)
     return rows
+
+
+def _metrics_version() -> str:
+    import score_programmatic
+    return score_programmatic.METRICS_VERSION
 
 
 def write_summary(batch_dir: Path, manifest: dict, rows: list[dict]) -> Path:
@@ -249,13 +254,14 @@ def write_summary(batch_dir: Path, manifest: dict, rows: list[dict]) -> Path:
          f"- 模型：{manifest.get('model')}；git：{manifest['git'].get('commit')}"
          f"{'（系統有未提交修改）' if manifest['git'].get('system_uncommitted') else ''}"
          f"{'（evaluation/ 有未提交修改）' if manifest['git'].get('evaluation_uncommitted') else ''}", "",
-         "| 題 | 題目 | 狀態 | run | 耗時(秒) | 答案字數 | Accuracy(規則) | ROUGE-L F | Context 句子 R |", "|---|---|---|---|---|---|---|---|---|"]
+         "| 題 | 題目 | 狀態 | run | 耗時(秒) | 答案字數 | Accuracy(規則) | ROUGE-L F | Context 句子 P（字串比對，只供比較） |", "|---|---|---|---|---|---|---|---|---|"]
 
     def f(v):
         return "-" if v is None else (f"{v:.2f}" if isinstance(v, float) else str(v))
     for r in rows:
         L.append(f"| Q{r['id']} | {r['question']} | {r['status']} | {f(r.get('run_id'))} | {f(r.get('elapsed'))} | {f(r.get('answer_chars'))} | "
-                 f"{f(r.get('accuracy'))} | {f(r.get('rouge_f'))} | {f(r.get('context_sentence_r'))} |")
+                 f"{f(r.get('accuracy'))} | {f(r.get('rouge_f'))} | {f(r.get('context_sentence_p'))} |")
+    L += ["", f"指標版本 {_metrics_version()}：Context 句子 Recall 要等階段 3 由 Claude 判斷「有沒有讀到」才算（階段 A 之後只有字串比對的 Precision）；此版本之前的 Context 數字不能與之後的直接比較。"]
     bad = [r for r in rows if r["status"] != "ok" or r.get("error")]
     if bad:
         L += ["", "## 需要你看的", ""]
@@ -328,6 +334,7 @@ def write_report(batch_dir: Path, manifest: dict, root: Path = EVAL) -> Path:
     L = [f"# {manifest['batch_id']} 跨題報告", "",
          f"- live：{manifest['live']}；瀏覽器：{manifest['browser']}；模型：{manifest.get('model')}；git：{manifest['git'].get('commit')}"
          f"{'+uncommitted' if manifest['git'].get('system_uncommitted') else ''}；建立：{manifest['created_at']}",
+         f"- 指標版本：{_metrics_version()}（Context 句子 Recall 由 Claude 判斷，不是字串比對；Sentence Precision 與 Words 指標仍是字串比對，Sentence F1 混合；此版本之前的 Context 數字不能直接比較）",
          "- 限制：每題只跑一次，LLM 有隨機性；現場頁面會隨時間變，`prediction.json` 是系統當時看到的唯一記錄；"
          "隔離回推是否真的隔離看每題 `trace.json` 的 judge 註記與稽核結果。", "", "## 每題", ""]
     moved_all, state_all = [], {}
