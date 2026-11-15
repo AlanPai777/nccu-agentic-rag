@@ -36,6 +36,16 @@ OVERRIDES = {
     "gcit.nccu.edu.tw": "全球傳播與創新科技碩士學位學程",       # derived name kept a stray note, "(師資陣容)"
     "es.video.nccu.edu.tw": "附設實驗國民小學（家長會）",        # the elementary school's parents' association (from the user, the csv says 附屬高級中學)
     "ahs.nccu.edu.tw": "附屬高級中學",                          # the high school's own site; contact.csv has no row for it, its 附中 rows sit under www.es
+    # The general-affairs units' staff pages moved to nccuga.nccu.edu.tw and their contact.csv rows now point there (F19, 2026-11-15), but the old
+    # hosts still serve (or are cited for) pages in the corpus, so they keep the names the rows used to give them.
+    "dean.nccu.edu.tw": "總務長室",
+    "docu.nccu.edu.tw": "文書組",
+    "aff.nccu.edu.tw": "事務組",
+    "wealth.nccu.edu.tw": "財產組",
+    "mend.nccu.edu.tw": "營繕組",
+    "cashier.nccu.edu.tw": "出納組",
+    "cpds.nccu.edu.tw": "校園規劃與發展組",
+    "environ.nccu.edu.tw": "環境保護與職業安全衛生組",
 }
 
 _TRAILING_NOTE = re.compile(r"\s*[(（][^()（）]*[)）]\s*$")
