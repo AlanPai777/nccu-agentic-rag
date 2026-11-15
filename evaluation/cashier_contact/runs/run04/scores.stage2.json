@@ -1,0 +1,119 @@
+{
+  "query_id": "cashier_contact",
+  "run_id": "run04",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照；校務頁面 2026-08-19）",
+    "live": "2026-11-09（現場）；只確認分機 62120，其餘分機現場無法確認"
+  },
+  "system_version": "5cc6774",
+  "metrics_version": "2026-11-15.context-recall-judged",
+  "rouge_l": {
+    "p": 0.1167,
+    "r": 0.5385,
+    "f": 0.1918
+  },
+  "accuracy": {
+    "hard_keypoints": 3,
+    "hit": 3,
+    "accuracy": 1.0,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      1
+    ],
+    "context_chars": 2061,
+    "sentence": {
+      "p": 0.0175,
+      "r": null,
+      "f": null,
+      "note": "Recall 與 F1 要等階段 3 的 Claude 判斷（stage3.py score）才算；這裡只有字串比對的 Precision"
+    },
+    "words": {
+      "p": 0.0407,
+      "r": 0.875,
+      "f": 0.0778
+    },
+    "string_match": [
+      {
+        "id": "K1",
+        "found": true,
+        "matched_reference": "(02)2939-3091"
+      },
+      {
+        "id": "K2",
+        "found": true,
+        "matched_reference": "出納組分機 62120"
+      },
+      {
+        "id": "K3",
+        "found": true,
+        "matched_reference": "行政組員 校內分機 63071"
+      }
+    ],
+    "note": "字串比對的機械指標（Sentence Precision、Words P／R／F1）只供跨 run 比較，不代表系統有沒有讀到；字串比對的逐項結果在 string_match，不用來判斷「有沒有讀到」。"
+  },
+  "keypoints": {
+    "accuracy_rule": [
+      {
+        "id": "K1",
+        "kind": "hard",
+        "verdict": "hit",
+        "matched_expressions": [
+          "2939-3091"
+        ]
+      },
+      {
+        "id": "K2",
+        "kind": "hard",
+        "extensions_in_answer": [
+          "62120",
+          "62123"
+        ],
+        "verdict": "hit",
+        "matched_expressions": [
+          "62120",
+          "62123"
+        ],
+        "wrong": {
+          "disallowed": [],
+          "unknown_values": []
+        }
+      },
+      {
+        "id": "K3",
+        "kind": "hard",
+        "applies_if": "answer_names_contact_person",
+        "pairs_checked": [
+          {
+            "name": "劉桂芬",
+            "said": "62120",
+            "expected": "62120",
+            "ok": true
+          },
+          {
+            "name": "余淑娟",
+            "said": "62123",
+            "expected": "62123",
+            "ok": true
+          }
+        ],
+        "verdict": "hit"
+      }
+    ],
+    "funnel_stage2": [
+      {
+        "id": "K1",
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K2",
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K3",
+        "rule_verdict": "hit"
+      }
+    ]
+  }
+}
