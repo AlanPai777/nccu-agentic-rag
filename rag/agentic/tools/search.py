@@ -5,6 +5,7 @@ search_texts: FTS5 + LLM-judge semantic search tool.
 
 from __future__ import annotations
 
+from itertools import zip_longest
 from typing import Annotated
 
 from langchain_core.tools import tool
@@ -16,6 +17,27 @@ from rag.agentic.logic.rewrite import _judge_candidates
 from rag.live import events
 
 FTS_DB = "rag/fts_proto3.db"
+TOP_K = 5
+
+
+def _search_one(ks: KeywordStore, q: str, subdomain: str | None) -> list[dict]:
+    """One query, scoped to the subdomain hint with a global fallback when the scoped search is empty."""
+    found = ks.search(q, top_k=TOP_K, subdomain=subdomain)
+    return found or (ks.search(q, top_k=TOP_K, subdomain=None) if subdomain else [])
+
+
+def _merge_candidates(first: list[dict], second: list[dict]) -> list[dict]:
+    """Interleave two ranked lists (first's top hit first), dropping a url+chunk already taken. Each query keeps its own top hits."""
+    out, seen = [], set()
+    for pair in zip_longest(first, second):
+        for c in pair:
+            if c is None:
+                continue
+            key = (c["url"], c.get("chunk_index"))
+            if key not in seen:
+                seen.add(key)
+                out.append(c)
+    return out
 
 
 @tool
@@ -25,9 +47,13 @@ def search_texts(state: Annotated[dict, InjectedState]) -> str:
     rewritten = state["rewritten"]
     with events.group("search", rewritten) as g:       # progress event for the front end; the returned text is unchanged
         ks = KeywordStore(db_path=FTS_DB)
-        candidates = ks.search(rewritten, top_k=5, subdomain=state.get("subdomain_hint"))
-        if not candidates:
-            candidates = ks.search(rewritten, top_k=5, subdomain=None)
+        hint = state.get("subdomain_hint")
+        candidates = _search_one(ks, rewritten, hint)
+        # The rewrite may drop the one word that tells similar pages apart (an organisation or programme name), so the question as asked is
+        # searched too and the two result lists are merged: a general data-level safeguard, nothing specific to one question.
+        original = (state.get("query") or "").strip()
+        if original and original != rewritten:
+            candidates = _merge_candidates(candidates, _search_one(ks, original, hint))
         if not candidates:
             return f"search_texts('{rewritten}') 無候選結果"
         judge = _judge_candidates(state["query"], candidates)

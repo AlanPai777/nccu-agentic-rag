@@ -20,12 +20,20 @@ from rag.live.hook import apply_form
 from rag.live.prefetch import get_store
 
 
-def _tool_text(f: dict) -> str:
+def _download_line(form_id: str | None) -> str:
+    """The official download link as its own line, so an answer's 表單下載 link is this one and not the url of some other page that carries
+    a copy of the same form (a department's own PDF, say). Data-level: it is the same for every form. Only in the live-marker branch, after the
+    marker line (ledger.parse_markers reads the marker from the header): the text without live keeps its old exact shape (plan: live=None is byte-identical)."""
+    return f"\n下載連結：{link_url_for(form_id)}" if form_id else ""
+
+
+def _tool_text(f: dict, form_id: str | None = None) -> str:
     if "error" in f:
         return f"get_form 失敗: {f['error']}"
+    dl = _download_line(form_id)
     if f.get("live_marker"):       # live only; marker in the header, body after 全文：
         note = "（官網顯示此表單已停用，請勿引用或提供下載）" if f.get("discontinued") else ""
-        return f"get_form 取得表單 {f.get('form_title','')}{note}\n{f['live_marker']}\n\n全文：\n{f.get('text','')}"
+        return f"get_form 取得表單 {f.get('form_title','')}{note}\n{f['live_marker']}{dl}\n\n全文：\n{f.get('text','')}"
     return f"get_form 取得表單 {f.get('form_title','')}\n\n{f.get('text','')}"
 
 
@@ -46,7 +54,7 @@ def fetch_form_for_agent(form_id: str, live: bool | None = None) -> str:
     if g and "error" not in f:
         g.row("done", rid=rid, url=link, title=f.get("form_title") or form_id, state=f.get("live_state") or "snapshot", marker=f.get("live_marker"),
               seconds=time.monotonic() - t0, kind="form")
-    return _tool_text(f)
+    return _tool_text(f, form_id)
 
 
 @tool

@@ -139,7 +139,7 @@ class Fetcher:
             return LiveResult(url, error="blocked_host", detail="not an http(s) *.nccu.edu.tw URL")
         if use_cache and self.cache and not raw:
             row = self.cache.get(url)
-            if row:
+            if row and row.kind == kind:         # the cache is keyed by url alone; a row of another kind (a packed form, say) is not this page
                 return LiveResult(url, True, row.final_url, row.status, row.text, raw_hash=row.raw_hash,
                                   fetched_at=row.fetched_at, tls_unverified=row.tls_unverified, from_cache=True)
         host = host_of(url)

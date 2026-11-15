@@ -88,8 +88,14 @@ def fetch_form(form_id: str, fetcher: Fetcher, pdf_dir: Path | None = None) -> F
 
     if fetcher.cache:
         row = fetcher.cache.get(link)
-        if row:
-            d = json.loads(row.text)
+        d = None
+        if row and row.kind == "form":       # the cache is keyed by url alone: get_page may have stored this same moltke url as a plain-text page
+            try:
+                d = json.loads(row.text)
+                d["discontinued"], d["title"], d["unit"], d["text"]
+            except (ValueError, KeyError, TypeError):
+                d = None                     # not a packed form: a cache miss, fetch it again
+        if d is not None:
             return FormLive(form_id, link, True, d["discontinued"], d["title"], d["unit"], d["text"], row.pdf_path or "",
                             row.raw_hash, fetched_at=row.fetched_at, from_cache=True)
 
