@@ -1,0 +1,24 @@
+{
+  "batch_id": "batch02",
+  "created_at": "2026-11-15T17:26:21+08:00",
+  "git": {
+    "commit": "4910e8e",
+    "system_uncommitted": false,
+    "evaluation_uncommitted": true,
+    "run_system_version": "4910e8e"
+  },
+  "live": true,
+  "browser": true,
+  "timeout_seconds": 600,
+  "model": "gemma4:31b-cloud",
+  "questions": [
+    {
+      "id": 1,
+      "question": "cashier_contact",
+      "run_id": "run03",
+      "status": "ok",
+      "elapsed_seconds": 16.2,
+      "at": "2026-11-15T17:26:39+08:00"
+    }
+  ]
+}

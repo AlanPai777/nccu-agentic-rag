@@ -1,0 +1,12 @@
+{
+  "note": "batch02：真實 run（由 manifest 產生）",
+  "cases": [
+    {
+      "id": 1,
+      "question": "cashier_contact",
+      "short": "出納組電話",
+      "group": "Factual Questions",
+      "dir": "runs/run03"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "keypoints": [
+    {"id": "K1", "verdict": "irrelevant", "claims": [],
+     "reason": "答案只寫樓層與分機，沒有寫出納組總機 (02)2939-3091，也沒有寫任何市話"},
+    {"id": "K2", "verdict": "relevant", "claims": ["c2", "c3", "c4"],
+     "reason": "答案給出的分機 62123（辦公室分機）、62120、62123 都在允許集合內，沒有出現禁止值"},
+    {"id": "K3", "verdict": "relevant", "claims": ["c3", "c4"],
+     "reason": "答案列了兩位承辦人：劉桂芬 62120、余淑娟 62123，與人員頁的配對一致，沒有配錯"}
+  ],
+  "judge": {"model": "claude-sonnet-5-5", "prompt_version": "judge-v1",
+            "note": "Claude Code 本 session 判斷；Keypoint 判斷依設計會看 gold。主張編號取自子代理的盲回推 trace.json（稽核 PASS：只讀輸入檔、只寫輸出檔）"}
+}

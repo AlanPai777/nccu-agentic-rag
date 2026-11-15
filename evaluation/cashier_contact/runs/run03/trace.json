@@ -1,0 +1,33 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "出納組位於行政大樓 5 樓",
+      "status": "supported",
+      "evidence": [{"item": "E1", "quote": "行政大樓 5 樓"}],
+      "why": "證據列出出納組的地點為行政大樓 5 樓。"
+    },
+    {
+      "id": "c2",
+      "answer_span": "辦公室分機為 62123",
+      "status": "supported",
+      "evidence": [{"item": "E1", "quote": "行政大樓 5 樓"}, {"item": "E1", "quote": "分機 62123"}],
+      "why": "證據在出納組辦公室資訊列出分機 62123。"
+    },
+    {
+      "id": "c3",
+      "answer_span": "劉桂芬（組長）分機 62120",
+      "status": "supported",
+      "evidence": [{"item": "E1", "quote": "劉桂芬（組長）分機 62120"}],
+      "why": "證據中同一人、同職稱、同分機。"
+    },
+    {
+      "id": "c4",
+      "answer_span": "余淑娟（一級行政組員）分機 62123",
+      "status": "supported",
+      "evidence": [{"item": "E1", "quote": "余淑娟（一級行政組員）分機 62123"}],
+      "why": "證據中同一人、同職稱、同分機。"
+    }
+  ],
+  "judge": {"model": "claude-sonnet-5-5", "prompt_version": "isolated-v3", "note": "isolated trace by a subagent that read only trace_input.json"}
+}
