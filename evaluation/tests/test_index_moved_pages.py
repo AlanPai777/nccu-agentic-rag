@@ -63,6 +63,48 @@ class IndexTest(unittest.TestCase):
             self.assertEqual(table.get(urlparse(m["old"]).netloc), m["unit"])
 
 
+class SiteNamesFromMovedPagesTest(unittest.TestCase):
+    """site_names 的舊主機名稱由 moved_pages.json 推導，不再手寫（2026-11-15）。"""
+    ROWS = [("總務處", "https://nccuga.nccu.edu.tw/"), ("甲組", "https://jia.nccu.edu.tw/p?x=1")]
+    MOVED = [{"unit": "乙組", "old": "https://yi.nccu.edu.tw/PageStaffing?fid=1", "new": "https://nccuga.nccu.edu.tw/y"},
+             {"unit": "丙組", "old": "https://jia.nccu.edu.tw/PageStaffing?fid=2", "new": "https://nccuga.nccu.edu.tw/b"},
+             {"unit": "外部", "old": "https://example.com/x", "new": "https://nccuga.nccu.edu.tw/z"}]
+
+    def names(self, moved, **kw):
+        from rag.live import site_names as sn
+        return sn.derive_names(self.ROWS, overrides={}, moved_pages=moved, **kw)
+
+    def test_a_moved_pages_old_host_gets_the_units_name(self):
+        n = self.names(self.MOVED)
+        self.assertEqual(n["yi.nccu.edu.tw"], "乙組")
+        self.assertNotIn("yi.nccu.edu.tw", self.names([]))                        # 沒有搬家紀錄就沒有這個名字
+
+    def test_the_csv_wins_when_it_still_lists_the_host_and_foreign_hosts_are_ignored(self):
+        n = self.names(self.MOVED)
+        self.assertEqual(n["jia.nccu.edu.tw"], "甲組")                            # csv 還有這個主機：用 csv 的，不是「丙組」
+        self.assertNotIn("example.com", n)
+
+    def test_the_shipped_json_names_every_moved_pages_old_host(self):
+        """不需要 docs/contact.csv（它沒有追蹤）：新增搬家頁卻忘了重新產生 site_names.json 時，這個測試會失敗。
+        修法：python scripts/build_site_names.py（預演），再加 --write。"""
+        shipped = json.loads((ROOT / "rag" / "live" / "site_names.json").read_text(encoding="utf-8"))
+        for m in moved():
+            host = urlparse(m["old"]).netloc
+            self.assertEqual(shipped.get(host), m["unit"], f"{host}：site_names.json 沒有這個舊主機的名稱，請執行 scripts/build_site_names.py --write")
+
+    def test_an_override_still_beats_everything(self):
+        from rag.live import site_names as sn
+        n = sn.derive_names(self.ROWS, overrides={"yi.nccu.edu.tw": "手寫"}, moved_pages=self.MOVED)
+        self.assertEqual(n["yi.nccu.edu.tw"], "手寫")
+
+    @unittest.skipUnless(CSV.exists(), "docs/contact.csv is not tracked and may be absent")
+    def test_the_shipped_json_is_what_csv_moved_pages_and_overrides_give(self):
+        from rag.live import site_names as sn
+        shipped = json.loads((ROOT / "rag" / "live" / "site_names.json").read_text(encoding="utf-8"))
+        self.assertEqual(sn.derive_names(sn.read_rows(CSV)), shipped)
+        self.assertNotIn("dean.nccu.edu.tw", sn.OVERRIDES)                         # 不再手寫
+
+
 @unittest.skipUnless(CSV.exists(), "docs/contact.csv is not tracked and may be absent")
 class CsvTest(unittest.TestCase):
     def test_the_eight_rows_point_at_the_new_urls(self):

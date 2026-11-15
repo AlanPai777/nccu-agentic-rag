@@ -11,7 +11,9 @@ Derivation, per host:
   2. otherwise the first row of that host names it ("商學院(現任院長)" -> "商學院");
   3. the LAST trailing parenthetical is dropped, because those are notes about the page, not part of the unit's name
      ("圖書館(各組聯絡資訊)" -> "圖書館"); an earlier one is kept ("企業管理研究所(MBA學位學程)(策略國際)" -> "企業管理研究所(MBA學位學程)");
-  4. OVERRIDES (below) beat all of that.
+  4. moved_pages.json (F19): the OLD host of a page that moved keeps the unit's name, for hosts the csv no longer lists (the csv rows now point at
+     the new url, but the old host still serves, or is cited for, pages in the corpus). The csv wins if it does list the host;
+  5. OVERRIDES (below) beat all of that.
 Only *.nccu.edu.tw hosts are kept: nothing else is ever fetched.
 """
 
@@ -25,6 +27,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 DATA = Path(__file__).with_name("site_names.json")
+MOVED = Path(__file__).with_name("moved_pages.json")
 ALLOWED_SUFFIX = "nccu.edu.tw"
 
 # Hand-written exceptions, all agreed with the user. moltke and www.nccu.edu.tw were proposed, emba and gcit came from the review of the
@@ -36,16 +39,6 @@ OVERRIDES = {
     "gcit.nccu.edu.tw": "全球傳播與創新科技碩士學位學程",       # derived name kept a stray note, "(師資陣容)"
     "es.video.nccu.edu.tw": "附設實驗國民小學（家長會）",        # the elementary school's parents' association (from the user, the csv says 附屬高級中學)
     "ahs.nccu.edu.tw": "附屬高級中學",                          # the high school's own site; contact.csv has no row for it, its 附中 rows sit under www.es
-    # The general-affairs units' staff pages moved to nccuga.nccu.edu.tw and their contact.csv rows now point there (F19, 2026-11-15), but the old
-    # hosts still serve (or are cited for) pages in the corpus, so they keep the names the rows used to give them.
-    "dean.nccu.edu.tw": "總務長室",
-    "docu.nccu.edu.tw": "文書組",
-    "aff.nccu.edu.tw": "事務組",
-    "wealth.nccu.edu.tw": "財產組",
-    "mend.nccu.edu.tw": "營繕組",
-    "cashier.nccu.edu.tw": "出納組",
-    "cpds.nccu.edu.tw": "校園規劃與發展組",
-    "environ.nccu.edu.tw": "環境保護與職業安全衛生組",
 }
 
 _TRAILING_NOTE = re.compile(r"\s*[(（][^()（）]*[)）]\s*$")
@@ -67,7 +60,26 @@ def read_rows(csv_path: Path | str) -> list[tuple[str, str]]:
     return out
 
 
-def derive_names(rows: list[tuple[str, str]], overrides: dict[str, str] | None = None) -> dict[str, str]:
+def moved_host_names(moved_pages: list[dict] | None = None) -> dict[str, str]:
+    """{old host: unit name} from moved_pages.json (or the given list of {"unit", "old", ...}). Only *.nccu.edu.tw hosts."""
+    if moved_pages is None:
+        try:
+            moved_pages = json.loads(MOVED.read_text(encoding="utf-8")).get("pages", [])
+        except (OSError, ValueError):
+            moved_pages = []
+    out = {}
+    for m in moved_pages:
+        host = urlparse(m.get("old", "")).netloc.lower()
+        if m.get("unit") and (host == ALLOWED_SUFFIX or host.endswith("." + ALLOWED_SUFFIX)):
+            out.setdefault(host, m["unit"].strip())
+    return out
+
+
+def derive_names(rows: list[tuple[str, str]], overrides: dict[str, str] | None = None,
+                 moved_pages: list[dict] | None = None) -> dict[str, str]:
+    """Note: moved_pages=None means "read moved_pages.json", so the result depends on that file. A caller that wants the csv rules alone
+    passes moved_pages=[] (and overrides={}). The running system never calls this: it reads the shipped site_names.json, which has to be
+    regenerated (scripts/build_site_names.py --write) after moved_pages.json or contact.csv changes."""
     by_host: dict[str, list[tuple[str, str, str]]] = {}
     for name, url in rows:
         p = urlparse(url)
@@ -78,6 +90,8 @@ def derive_names(rows: list[tuple[str, str]], overrides: dict[str, str] | None =
     for host, items in by_host.items():
         root = next((n for n, path, query in items if path in ("", "/") and not query), None)
         names[host] = strip_note(root if root else items[0][0])
+    for host, unit in moved_host_names(moved_pages).items():
+        names.setdefault(host, unit)                       # the csv wins if it still lists the host
     names.update(OVERRIDES if overrides is None else overrides)
     return dict(sorted(names.items()))
 
