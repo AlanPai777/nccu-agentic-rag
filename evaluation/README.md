@@ -62,6 +62,17 @@
 跑系統與任何 `nccu.edu.tw` 請求前，先看 `CLAUDE.md` 的 Live fetch 一節；跑測試與評測一律設 `LIVE_BROWSER=off`（腳本已經在 import 前設好）。
 
 
+## 第一輪完整結果（2026-11-15）
+
+11 題都用真實 run（live 開、Chromium 開）評過一輪：Q1 是 `batch05`（`cashier_contact` 的 `run06`），Q2～Q11 是 `batch06`；Q7、Q8、Q9、Q11 在系統修好（F35 表單快取種類、F36 下載連結行、F37 改寫後再用原問題搜尋）之後重跑一次，用 `run02`。結果在 `evaluation/batches/batch06/`：
+
+- `report.md`：跨題報告，開頭有**總表**（每題的 run、第幾次、Completeness／Hallucination／Irrelevance／Sentence R／有依據比例／規則 Accuracy／不計分），每題一段（重跑原因、現場讀取狀態、warnings、disagreements）。
+- `dashboard_all.jsonl`：11 題給儀表板（Q1 用 `batch05` 的 run06，由 `cases_all.json` 補進來）；`dashboard.jsonl` 只有 Q2～Q11。
+- `manifest.json`：每題用哪個 run、`attempts`（之前的每一次）、`reruns`（每次重跑的理由）、git 版本與 live 設定。
+- 每題的完整分數：`evaluation/<題>/runs/<run>/scores.json`。
+
+單次樣本，不代表穩定度；規則版 Accuracy 有已知的比對缺陷（分機黏上下一個條列編號 F34、樓層要和單位名稱同一行 F38）。
+
 ## 指標版本：gold 可以標 `excluded`，先不計分（2026-11-15，`metrics_version` = `2026-11-15.excluded-keypoints`，議題 F39）
 
 **改了什麼。** gold 的 keypoint 可以加 `"excluded": {"reason": …, "since": …, "issue": …}`，表示這個 keypoint 的定義不夠明確、先不計分。標了的 keypoint：
@@ -93,7 +104,7 @@
 ## 測試
 
 ```bash
-python -m unittest discover -s evaluation/tests -v     # 40 個測試，約 35 秒，離線，不呼叫任何 LLM（2026-11-11 驗證）
+python -m unittest discover -s evaluation/tests -v     # 287 個測試，約 280 秒，離線，不呼叫任何 LLM（2026-11-15 驗證）
 python evaluation/compare_tests.py evaluation/cashier_contact/tests/tampered_v1    # 隔離回推記錄與鑰匙的比對
 ```
 
@@ -116,7 +127,7 @@ python evaluation/compare_tests.py evaluation/cashier_contact/tests/tampered_v1 
 | 檔案 | 用途 |
 |---|---|
 | `run_system.py` | 階段 1：跑系統並存 prediction；`split_answer` 也在這裡 |
-| `batch.py` | 真實批次（設計稿 13.18）：`plan`／`run`／`status`／`export`。`run` 沒有 `--run` 一律預演；每題一個子程序、單題逾時預設 600 秒（連 Chromium 一起殺）、402 整批停下、`--resume` 接續（逾時與出錯的題目不重跑，除非 `--retry-failed`）；跑完離線計分並出 `summary.md`，`export` 產生 `dashboard.jsonl` 與 `report.md`；輸出在 `evaluation/batches/batchNN/`。不呼叫 Claude、不開子代理。題目與順序在 `batch_questions.json` |
+| `batch.py` | 真實批次（設計稿 13.18）：`plan`／`run`／`rerun`／`status`／`export`。`run` 與 `rerun` 沒有 `--run` 一律預演；`rerun batchNN --only 7,8 --reason "…"` 把這批裡某幾題再跑一次（新的 run、舊的保留，沿用這批的 live 設定，manifest 記 `attempts`／`reruns`，更新 `cases_all.json`，離線計分與 prepare；回推與判斷另外做）；每題一個子程序、單題逾時預設 600 秒（連 Chromium 一起殺）、402 整批停下、`--resume` 接續（逾時與出錯的題目不重跑，除非 `--retry-failed`）；跑完離線計分並出 `summary.md`，`export` 產生 `dashboard.jsonl` 與 `report.md`（報告有每題一列的總表與「第幾次」；有 `cases_all.json` 時也重產 `dashboard_all.jsonl`）；輸出在 `evaluation/batches/batchNN/`。不呼叫 Claude、不開子代理。題目與順序在 `batch_questions.json` |
 | `score_programmatic.py` | 階段 2 |
 | `stage3.py` | 階段 3：`prepare`、`check`、`score`；`OUTPUT_FORMAT` 是給判斷者的格式與規則 |
 | `compare_tests.py` | 隔離回推結果與鑰匙的比對 |

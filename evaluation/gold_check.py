@@ -214,6 +214,20 @@ def validate_gold(gold_path: Path) -> list[str]:
         if k.get("applies_if") and k.get("kind", "hard") == "hard" and "value_check" not in k:
             problems.append(f"{kid} 是條件式 keypoint，要有 value_check 說明怎麼檢查")   # 語意的條件式由評審依 applies_if 判斷
 
+    # excluded（議題 F39）：標了就不進任何分母，所以一定要留下理由、日期與議題編號，才查得到為什麼不計分；也不能把全部 keypoint 都排除
+    for k in kps:
+        if "excluded" not in k:
+            continue
+        e = k["excluded"]
+        if not isinstance(e, dict):
+            problems.append(f"{k.get('id')} 的 excluded 要是物件（reason、since、issue），不能是 {e!r}")
+            continue
+        for f in ("reason", "since", "issue"):
+            if not (isinstance(e.get(f), str) and e[f].strip()):
+                problems.append(f"{k.get('id')} 的 excluded 缺少 {f}（不計分要留下理由、日期與議題編號）")
+    if kps and all("excluded" in k for k in kps):
+        problems.append("所有 keypoint 都標了 excluded：沒有任何 keypoint 可以計分")
+
     av = gold.get("allowed_values") or {}
     allowed = {e["value"] for e in av.get("extension", [])}
     for k in kps:

@@ -116,6 +116,27 @@ class GoldCheckCatchesProblemsTest(unittest.TestCase):
             g["allowed_values"]["disallowed"][0]["value"] = "62120"
         self.assertTrue(any("同時在允許集合" in p for p in self.broken(edit)))
 
+    def test_excluded_needs_a_reason_a_date_and_an_issue(self):
+        ok = {"reason": "定義不夠明確", "since": "2026-11-15", "issue": "F39"}
+
+        def mark(e):
+            def edit(g):
+                g["keypoints"][0]["excluded"] = e
+            return edit
+        self.assertEqual(self.broken(mark(ok)), [])
+        for f in ("reason", "since", "issue"):
+            bad = dict(ok)
+            del bad[f]
+            self.assertTrue(any(f"缺少 {f}" in p for p in self.broken(mark(bad))), f)
+        self.assertTrue(any("缺少 reason" in p for p in self.broken(mark(dict(ok, reason="  ")))))
+        self.assertTrue(any("要是物件" in p for p in self.broken(mark(True))))       # a bare true would crash the scorer when it reads the reason
+
+    def test_excluding_every_keypoint_is_refused(self):
+        def edit(g):
+            for k in g["keypoints"]:
+                k["excluded"] = {"reason": "r", "since": "d", "issue": "F0"}
+        self.assertTrue(any("沒有任何 keypoint 可以計分" in p for p in self.broken(edit)))
+
     def test_a_conditional_keypoint_without_value_check(self):
         def edit(g):
             del g["keypoints"][2]["value_check"]

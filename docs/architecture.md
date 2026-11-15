@@ -143,7 +143,7 @@ get_page_tool ─────────┐
 extract_links_tool ────┼─▶ hook.apply_page ──┐
 get_form_tool ─────────┤                      │          allowlist (*.nccu.edu.tw, redirects too)
 resource_node ─────────┴─▶ hook.apply_form ──┤          per-host rate limit, retry, circuit breaker
-contact_node ──▶ contacts.fetch_contact_pages ┤          side cache rag/live/_cache (TTL by kind; staff pages are written, never read)
+contact_node ──▶ contacts.fetch_contact_pages ┤          side cache rag/live/_cache (TTL by kind, keyed by url + kind; staff pages are written, never read)
                                               ▼
                               Fetcher (httpx) ── static result not enough (see "Rendering in a browser") ──▶ Chromium
                                               │                       (one browser-owner thread, same extractor)
@@ -158,6 +158,7 @@ contact_node ──▶ contacts.fetch_contact_pages ┤          side cache rag/
          (state["answer"] keeps it; not streamed)            (grouped by site, only pages the model really read)
 ```
 
+- **The side cache is keyed by url and kind.** The same moltke form url is stored as a `page` row (plain text, by `get_page`) and as a `form` row (packed JSON, by `fetch_form`); a read only uses a row whose kind matches, and an unparsable form row is a miss (F35; before, reading the page first made `fetch_form` crash). In live mode `get_form`'s text carries the official download link as its own line after the marker line (F36).
 - **Searching never touches the site.** `search_texts` and `grep_texts` read the database and only find candidates; reading a page (`get_page`), a form, or an office's staff page is what checks the site. A search row labelled "使用資料庫" is therefore correct. A question the agent answers from search snippets alone, without reading a page, has no checked content.
 - **Per-question choice.** `AgentState.live` (`True` / `False` / `None`) is set from `/ask?live=on|off` or the CLI's `--live`, and the tools read it with `InjectedState`. `rag/live/config.py::live_enabled` combines it with `LIVE_FETCH` (see [setup.md](setup.md#path-1c--live-mode-checking-pages-against-nccuedutw)). `None` leaves every output byte-identical to the pre-live system; an explicit `False` makes the tools write a `snapshot` marker so the sources list still shows the database pages that were read.
 - **Ledger.** The marker lines are the single source of truth: the footer and the `sources` event are both built from them with `ledger.parse_markers`, which only trusts the headers of tool messages (page text is sanitized, so a page cannot forge a marker). User-facing wording lives in `ledger.py` (`_LABEL`, `_SHORT_LABEL`): 已與官網核對，內容無變動 · 已與官網核對，內容已更新 · 從官網取得 · 未能連上官網，使用資料庫（8/19） · 此頁需瀏覽器顯示，未能核對，使用資料庫（8/19） · 官網顯示此表單已停用 · 使用內建的固定聯絡資料（非官網頁面） · 使用資料庫（8/19）. The "此頁需瀏覽器顯示" label is still defined for the front end, but nothing produces that state any more (see "Rendering in a browser").
@@ -197,7 +198,7 @@ contact_node ──▶ contacts.fetch_contact_pages ┤          side cache rag/
 | `rag/agentic/compaction.py` | `compact_previous_turn()` — cross-turn `messages` compaction via `RemoveMessage`, called by `server.py` |
 | `rag/agentic/nodes/` | Graph-node wrappers: `plan.py`, `loop.py` (rewrite/domain_router/agent), `resource.py`, `contact.py`, `synthesis.py`, `compound.py`, `self_eval.py` |
 | `rag/agentic/logic/` | Pure functions behind the nodes — office/form detection, rewrite, self-eval checks — testable without any graph state |
-| `rag/agentic/tools/` | The 5 tools the agent can call: `search_texts` (FTS5 + LLM-judge), `grep_texts`, `get_page`, `extract_links`, `get_form` |
+| `rag/agentic/tools/` | The 5 tools the agent can call: `search_texts` (FTS5 on the rewritten query and on the question as asked, merged, then an LLM judge; F37), `grep_texts`, `get_page`, `extract_links`, `get_form` |
 | `rag/router.py` | 2-layer query classifier (keyword → LLM fallback), reused by `plan_node` |
 | `rag/agent_tools.py` | Retrieval primitives reading from `output/<subdomain>/extracted_*.jsonl` |
 | `rag/llm_client.py` | Ollama cloud / OpenRouter client |

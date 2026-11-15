@@ -9,6 +9,7 @@ evaluation/batch.py
 子命令（在專案根目錄）：
   python evaluation/batch.py plan   [--only 1,2]                       預檢並印出這批會做什麼（離線，不送任何請求）
   python evaluation/batch.py run    [--run] [--resume batchNN] ...      跑階段 A；沒有 --run 只是預演（同 plan）
+  python evaluation/batch.py rerun  batchNN --only 7,8 --reason "…" [--run]   把這批裡某幾題再跑一次（新的 run，舊的保留）；沒有 --run 只是預演
   python evaluation/batch.py status batchNN                             每題做到哪一步（只看檔案，離線）
   python evaluation/batch.py export batchNN                             dashboard.jsonl 與 report.md（離線）
 
@@ -17,6 +18,8 @@ evaluation/batch.py
     所以只有使用者這一輪明說「跑」才能加 --run。
   * 每題一個子程序，各自有逾時上限（預設 600 秒，到了連同 Chromium 子程序一起殺掉）。逾時、出錯都記成那題的結果，
     不自動重跑；碰到 402（ollama 額度用完）立刻整批停下，已存的題目保留，--resume 接著跑。
+  * rerun 同樣沒有 --run 一律是預演；沿用這批 manifest 的 live 與 Chromium 設定（不能在重跑時改）；一定要寫 --reason（記進 manifest 與報告）。
+    它只做階段 A 與帳務（新 run、manifest 的 attempts／reruns、cases_all.json、離線計分與 prepare）；回推與判斷另外做。
   * 這支程式不呼叫 Claude、不開子代理。
 輸出：evaluation/batches/batchNN/{manifest.json, summary.md, logs/Qxx.log, dashboard.jsonl, report.md}；
   各題的 runs/runNN/ 在題目資料夾裡（和單題跑法相同）。
@@ -217,6 +220,90 @@ def run_batch(batch_dir: Path, questions: list[dict], live: bool, browser: bool,
     return manifest
 
 
+# ---------- 重跑（同一批次裡的某幾題再跑一次） ----------
+def normalise_reruns(manifest: dict) -> list[dict]:
+    """manifest['reruns'] 以前是一個物件，現在是清單（每次重跑一筆）；兩種都讀得懂。"""
+    rr = manifest.get("reruns")
+    if rr is None:
+        return []
+    if isinstance(rr, dict):
+        rr = dict(rr)
+        rr.setdefault("reason", rr.pop("after", ""))
+        return [rr]
+    return list(rr)
+
+
+def rerun_batch(batch_dir: Path, questions: list[dict], timeout: int, reason: str, runner=run_child, root: Path = EVAL,
+                label: str = "", say=print, scorer=None) -> dict:
+    """把這批裡的某幾題再跑一次，存成新的 run（不覆蓋舊的），更新 manifest 與 cases_all.json。只做階段 A 與帳務；
+    回推、判斷由人與 Claude 另外做。live 與 Chromium 開關沿用這批的 manifest，不能在重跑時改。
+    manifest 的規則：每題的 `run_id` 指向最新的成功 run；重跑失敗而舊的是成功的，就保留舊的，失敗的記在 `attempts`。
+    `attempts` 是這題在這之前的每一次（run_id、狀態、耗時、時間）。"""
+    import run_system
+    if not reason or not reason.strip():
+        raise SystemExit("重跑一定要寫理由（--reason），它會記進 manifest 與報告")
+    manifest_path = batch_dir / "manifest.json"
+    manifest = _read(manifest_path)
+    if not manifest:
+        raise SystemExit(f"找不到 {manifest_path}")
+    live, browser = bool(manifest["live"]), bool(manifest["browser"])
+    by = {e["question"]: e for e in manifest["questions"]}
+    missing = [q for q in questions if q["question"] not in by]
+    if missing:
+        raise SystemExit("這批的 manifest 裡沒有這些題：" + "、".join(f"Q{q['id']}" for q in missing) + "（別批補進來的題目，例如 Q1，請到它自己的批次重跑）")
+    done_ids, rerun_new = [], []
+    for q in questions:
+        entry, qdir = by[q["question"]], root / q["question"]
+        run_id = run_system.new_run_id(qdir / "runs")
+        tag = f"{batch_dir.name} rerun {reason}".strip()
+        cmd = [sys.executable, str(EVAL / "run_system.py"), str(qdir / "gold.json"), "--run-id", run_id,
+               "--live", "on" if live else "off", "--browser", "on" if browser else "off", "--label", f"{tag} {label}".strip()]
+        env = dict(os.environ, LIVE_LOG="info", LANGFUSE_TRACING_ENABLED="false")
+        say(f"Q{q['id']} {q['question']}：重跑開始（{run_id}，上限 {timeout} 秒；上一次是 {entry.get('run_id')} {entry['status']}）")
+        res = runner(cmd, timeout, batch_dir / "logs" / f"Q{q['id']:02d}_rerun_{run_id}.log", env)
+        run_dir = qdir / "runs" / run_id
+        status = classify(res, run_dir)
+        say(f"Q{q['id']} {q['question']}：{status}（{res['elapsed']} 秒）")
+        if status == "quota":
+            say("碰到 402，重跑停下；這題沒有跑，manifest 沒有改。")
+            break
+        if status in ("timeout", "error"):
+            write_failure_stub(run_dir, q, status, res, tag, git_state()["commit"], live, browser, timeout)
+        now = _now()
+        new_rec = {"run_id": run_id, "status": status, "elapsed_seconds": res["elapsed"], "at": now}
+        prev = {k: entry[k] for k in ("run_id", "status", "elapsed_seconds", "at") if k in entry}
+        attempts = list(entry.get("attempts") or ([entry["first_attempt"]] if entry.get("first_attempt") else []))
+        version = (_read(run_dir / "prediction.json") or {}).get("system_version") or git_state()["commit"]
+        if status == "ok" or entry["status"] != "ok":
+            attempts.append(prev)
+            new = {"id": q["id"], "question": q["question"], **new_rec, "attempts": attempts, "first_attempt": attempts[0],
+                   "note": f"重跑（{now[:10]}，git {version}）：{reason}；舊的 run 都保留"}
+            rerun_new.append(q)
+        else:
+            attempts.append({**new_rec, "note": f"重跑失敗（{status}），沿用較早成功的 {entry['run_id']}"})
+            new = dict(entry, attempts=attempts, first_attempt=attempts[0])
+        by[q["question"]] = new
+        done_ids.append(q["id"])
+        manifest["questions"] = [by[x["question"]] for x in load_questions(root=root) if x["question"] in by]
+        _write(manifest_path, manifest)         # 每題做完就存，中途停下也不會丟
+    if done_ids:
+        rr = normalise_reruns(manifest)
+        rr.append({"at": _now()[:10], "git": git_state()["commit"], "questions": [f"Q{i}" for i in done_ids], "reason": reason.strip(),
+                   "note": "這些題用重跑的新 run（失敗的重跑除外，見每題的 attempts）；舊的 run 都保留"})
+        manifest["reruns"] = rr
+        _write(manifest_path, manifest)
+        cases_path = batch_dir / "cases_all.json"
+        cases = _read(cases_path)
+        if cases:
+            for c in cases["cases"]:
+                if c["question"] in by and c["question"] in {x["question"] for x in questions if x["id"] in done_ids}:
+                    c["dir"] = f"runs/{by[c['question']]['run_id']}"
+            _write(cases_path, cases)
+        if rerun_new:
+            (scorer or score_offline)({"questions": [by[q["question"]] for q in rerun_new]}, root=root, say=say)
+    return manifest
+
+
 # ---------- 階段 A 之後：離線計分與總表 ----------
 def score_offline(manifest: dict, root: Path = EVAL, say=print) -> list[dict]:
     """對每個成功的 run 做階段 2 計分與階段 3 的 prepare（都離線）。回傳每題一行的摘要。"""
@@ -374,7 +461,7 @@ def summary_table(batch_dir: Path, manifest: dict, root: Path = EVAL) -> list[st
         L.append(f"| {r['query']['query_id']} | {r['query']['short']} | {r['run_id'] or '—'} | {attempt_text(att)} | {r['status']} | {f(r['completeness'])} | {f(r['hallucination'])} | "
                  f"{f(r['irrelevance'])} | {f(r['Sentences_Recall'])} | {f(ev.get('rate'))} | {(str(acc['hit']) + '/' + str(acc['total'])) if acc else '—'} | {excl} |")
     L += ["", "- **第幾次**：這題用的 run 是第幾次 live 真實 run（只算 live 開的 run；每個 run 保留在 `evaluation/<題>/runs/`）。同一題多次跑的原因見下面「每題」。"
-          "每題報告用的是該題**最新的一次** live run，之前的 run 都保留。第 1 次以外是重跑：Q1 共 5 次 live run（run02–run06，batch01–batch05）是修聯絡人索引與頁尾問題的過程中逐次跑的（run01 是 live 關的早期 run，不算）；"
+          "每題報告用的是該題最新的**成功**的 live run（最新的重跑失敗時沿用較早成功的那次），之前的 run 都保留。第 1 次以外是重跑：Q1 共 5 次 live run（run02–run06，batch01–batch05）是修聯絡人索引與頁尾問題的過程中逐次跑的（run01 是 live 關的早期 run，不算）；"
           "Q7、Q11 在 F36、F37 修好後重跑，Q8、Q9 第一次因 F35 出錯、修好後重跑（原因見 plan 的 F35–F39 與下面各題）。",
           f"- 每題用哪個 run、指標版本：{'、'.join(sorted(v for v in versions if v)) or '（沒有算分）'}；Q1 等不在這批 manifest 裡的題目來自 `cases_all.json`。"
           "各題的 run 不一定同一次跑（有重跑的題目用重跑的 run，見 manifest 的 reruns）。",
@@ -391,9 +478,8 @@ def write_report(batch_dir: Path, manifest: dict, root: Path = EVAL) -> Path:
          f"- 指標版本：{_metrics_version()}（Context 句子 Recall 由 Claude 判斷，不是字串比對；Sentence Precision 與 Words 指標仍是字串比對，Sentence F1 混合；此版本之前的 Context 數字不能直接比較）",
          "- 限制：每題只跑一次，LLM 有隨機性；現場頁面會隨時間變，`prediction.json` 是系統當時看到的唯一記錄；"
          "隔離回推是否真的隔離看每題 `trace.json` 的 judge 註記與稽核結果。", ""]
-    rr = manifest.get("reruns")
-    if rr:
-        L += [f"- 重跑（{rr['at']}，{rr['after']} 修好之後，git {rr['git']}）：{'、'.join(rr['questions'])} 改用 run02，{rr['note']}", ""]
+    for rr in normalise_reruns(manifest):
+        L += [f"- 重跑（{rr['at']}，git {rr['git']}）：{'、'.join(rr['questions'])}。理由：{rr['reason']}。{rr.get('note', '')}", ""]
     L += summary_table(batch_dir, manifest, root)
     L += ["## 每題", ""]
     moved_all, state_all = [], {}
@@ -473,6 +559,44 @@ def _print_plan(qs, live, browser, timeout, errors, warnings, say=print):
         say(f"[錯誤] {e}")
 
 
+def cmd_rerun(a, batches: Path = BATCHES, root: Path = EVAL, runner=run_child, scorer=None, say=print) -> int:
+    batch_dir = batches / a.batch
+    m = _read(batch_dir / "manifest.json")
+    if not m:
+        say(f"找不到 {batch_dir / 'manifest.json'}")
+        return 2
+    if not a.reason or not a.reason.strip():
+        say("重跑一定要寫理由（--reason）")
+        return 2
+    qs = load_questions({int(x) for x in a.only.split(",")}, root=root)
+    live, browser = bool(m["live"]), bool(m["browser"])
+    errors, warnings = preflight(qs, live, root=root)
+    by = {e["question"]: e for e in m["questions"]}
+    absent = [q for q in qs if q["question"] not in by]
+    if absent:
+        errors.append("這批的 manifest 裡沒有這些題：" + "、".join(f"Q{q['id']}" for q in absent))
+    say(f"批次 {a.batch} 重跑 {len(qs)} 題：" + "、".join(f"Q{q['id']}" for q in qs))
+    say(f"  理由：{a.reason.strip()}")
+    say(f"  live={'開（會對 nccu.edu.tw 送請求）' if live else '關（固定快照）'}；Chromium 渲染={'開' if browser else '關'}（沿用這批的設定）；單題上限 {a.timeout} 秒")
+    for q in qs:
+        e = by.get(q["question"])
+        if e:
+            say(f"  Q{q['id']} {q['question']}：目前用 {e.get('run_id')}（{e['status']}），重跑會存成新的 run，舊的保留")
+    say("  會呼叫 ollama（Gemma）；不呼叫 Claude、不開子代理；回推與判斷要另外做")
+    for w in warnings:
+        say(f"[警告] {w}")
+    for e in errors:
+        say(f"[錯誤] {e}")
+    if errors:
+        return 2
+    if not a.run:
+        say("\n預演結束，沒有送出任何請求。要真的跑，請使用者明說後加 --run。")
+        return 0
+    m = rerun_batch(batch_dir, qs, a.timeout, a.reason, runner=runner, root=root, label=a.label, say=say, scorer=scorer)
+    say("重跑結束。接著要做回推與判斷，再用 `batch.py export` 重新匯出（summary.md 是第一次批次的摘要，不會更新）。")
+    return 1 if any(e["status"] == "quota" for e in m["questions"]) else 0
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -487,6 +611,13 @@ def main(argv=None) -> int:
             s.add_argument("--resume", default=None, metavar="BATCHNN", help="接續這個批次，跳過已成功的題目")
             s.add_argument("--label", default="")
             s.add_argument("--retry-failed", action="store_true", help="接續時連逾時、出錯的題目也重跑（預設不重跑）")
+    rr = sub.add_parser("rerun", help="把這批裡的某幾題再跑一次（新的 run，舊的保留）；沒有 --run 只是預演")
+    rr.add_argument("batch")
+    rr.add_argument("--only", required=True, help="要重跑的題號，例如 7,8,9,11")
+    rr.add_argument("--reason", required=True, help="為什麼重跑（寫進 manifest 與報告）")
+    rr.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT)
+    rr.add_argument("--label", default="")
+    rr.add_argument("--run", action="store_true", help="真的跑（呼叫 ollama；這批 live 開時也會連 nccu.edu.tw）。沒有這個旗標只是預演")
     sub.add_parser("status").add_argument("batch")
     sub.add_parser("export").add_argument("batch")
     a = ap.parse_args(argv)
@@ -495,6 +626,8 @@ def main(argv=None) -> int:
         return cmd_status(a.batch)
     if a.cmd == "export":
         return cmd_export(a.batch)
+    if a.cmd == "rerun":
+        return cmd_rerun(a)
 
     only = {int(x) for x in a.only.split(",")} if a.only else None
     qs = load_questions(only)

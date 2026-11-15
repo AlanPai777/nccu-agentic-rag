@@ -4,7 +4,7 @@
 - 指標版本：2026-11-15.excluded-keypoints（Context 句子 Recall 由 Claude 判斷，不是字串比對；Sentence Precision 與 Words 指標仍是字串比對，Sentence F1 混合；此版本之前的 Context 數字不能直接比較）
 - 限制：每題只跑一次，LLM 有隨機性；現場頁面會隨時間變，`prediction.json` 是系統當時看到的唯一記錄；隔離回推是否真的隔離看每題 `trace.json` 的 judge 註記與稽核結果。
 
-- 重跑（2026-11-15，F35（表單快取種類）、F36（下載連結行）、F37（雙查詢搜尋） 修好之後，git 7dd5427）：Q7、Q8、Q9、Q11 改用 run02，Q10 與其他題仍是第一次的 run01；四題的 run01 都保留；批次用的 11 個 run 都以 2026-11-15.excluded-keypoints 重算（只有 Q7 的數字因排除 K10、K11 而改變）
+- 重跑（2026-11-15，git 7dd5427）：Q7、Q8、Q9、Q11。理由：F35（表單快取種類）、F36（下載連結行）、F37（雙查詢搜尋）。Q10 與其他題仍是第一次的 run01；四題的 run01 都保留；批次用的 11 個 run 都以 2026-11-15.excluded-keypoints 重算（只有 Q7 的數字因排除 K10、K11 而改變）
 
 ## 總表
 
@@ -22,7 +22,7 @@
 | 10 | 出國交換抵免 | run01 | 第 1 次（共 1 次） | ok | 0.65 | 0.04 | 0.31 | 0.73 | 0.96 | 5/9 |  |
 | 11 | 跨校雙主修 | run02 | 第 2 次（共 2 次） | ok | 0.67 | 0.00 | 0.33 | 0.81 | 0.86 | 3/4 |  |
 
-- **第幾次**：這題用的 run 是第幾次 live 真實 run（只算 live 開的 run；每個 run 保留在 `evaluation/<題>/runs/`）。同一題多次跑的原因見下面「每題」。每題報告用的是該題**最新的一次** live run，之前的 run 都保留。第 1 次以外是重跑：Q1 共 5 次 live run（run02–run06，batch01–batch05）是修聯絡人索引與頁尾問題的過程中逐次跑的（run01 是 live 關的早期 run，不算）；Q7、Q11 在 F36、F37 修好後重跑，Q8、Q9 第一次因 F35 出錯、修好後重跑（原因見 plan 的 F35–F39 與下面各題）。
+- **第幾次**：這題用的 run 是第幾次 live 真實 run（只算 live 開的 run；每個 run 保留在 `evaluation/<題>/runs/`）。同一題多次跑的原因見下面「每題」。每題報告用的是該題最新的**成功**的 live run（最新的重跑失敗時沿用較早成功的那次），之前的 run 都保留。第 1 次以外是重跑：Q1 共 5 次 live run（run02–run06，batch01–batch05）是修聯絡人索引與頁尾問題的過程中逐次跑的（run01 是 live 關的早期 run，不算）；Q7、Q11 在 F36、F37 修好後重跑，Q8、Q9 第一次因 F35 出錯、修好後重跑（原因見 plan 的 F35–F39 與下面各題）。
 - 每題用哪個 run、指標版本：2026-11-15.excluded-keypoints；Q1 等不在這批 manifest 裡的題目來自 `cases_all.json`。各題的 run 不一定同一次跑（有重跑的題目用重跑的 run，見 manifest 的 reruns）。
 - 規則 Accuracy 與 Claude 判斷的 Completeness 是兩個獨立判斷；已知規則版有樓層與分機的誤判（議題 F34、F38），數字偏低。
 - 「不計分」欄是 gold 標了 excluded 的 keypoint（議題 F39），不進任何分母。

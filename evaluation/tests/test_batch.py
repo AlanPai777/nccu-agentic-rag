@@ -308,6 +308,130 @@ class EndToEndOfflineTest(unittest.TestCase):
         self.assertIn("來自 `cases_all.json`", (bd / "report.md").read_text(encoding="utf-8"))
 
 
+class RerunTest(unittest.TestCase):
+    """batch.py rerun：同一批裡某幾題再跑一次。離線；runner 與 scorer 都是假的。"""
+
+    def setUp(self):
+        self.root = fake_root(self)
+        self.batches = self.root / "batches"
+        self.bd = self.batches / "batch01"
+        self.said = []
+        self.scored = []
+        from unittest import mock
+        p = mock.patch.object(batch, "preflight", lambda qs, live, root=None, env=None: ([], []))      # the fake golds have no sources to check
+        p.start()
+        self.addCleanup(p.stop)
+        for n in ("qa", "qb", "qc"):
+            write(self.root / n / "runs" / "run01" / "prediction.json", {"run_id": "run01", "status": "ok", "live": True})
+        m = {"batch_id": "batch01", "created_at": "t", "git": {"commit": "x"}, "live": False, "browser": False, "timeout_seconds": 600, "model": "m",
+             "questions": [{"id": 1, "question": "qa", "run_id": "run01", "status": "ok", "elapsed_seconds": 5.0, "at": "a1"},
+                           {"id": 2, "question": "qb", "run_id": "run01", "status": "error", "elapsed_seconds": 6.0, "at": "a2", "note": "出錯"},
+                           {"id": 3, "question": "qc", "run_id": "run01", "status": "ok", "elapsed_seconds": 7.0, "at": "a3"}]}
+        write(self.bd / "manifest.json", m)
+        write(self.bd / "cases_all.json", {"note": "t", "cases": [{"id": i, "question": n, "short": n, "group": "g", "dir": "runs/run01"}
+                                                                  for i, n in ((1, "qa"), (2, "qb"), (3, "qc"))]})
+
+    def args(self, only="2", reason="修好 F35", run=True, timeout=600):
+        import argparse
+        return argparse.Namespace(batch="batch01", only=only, reason=reason, timeout=timeout, label="", run=run)
+
+    def go(self, runner=None, **kw):
+        calls = []
+        rc = batch.cmd_rerun(self.args(**kw), batches=self.batches, root=self.root, runner=runner or ok_runner(calls),
+                             scorer=lambda m, root=None, say=None: self.scored.append([e["question"] for e in m["questions"]]), say=self.said.append)
+        return rc, calls
+
+    def manifest(self):
+        return json.loads((self.bd / "manifest.json").read_text(encoding="utf-8"))
+
+    def test_without_run_it_is_a_dry_run_that_changes_nothing(self):
+        before = (self.bd / "manifest.json").read_text(encoding="utf-8")
+        rc, calls = self.go(run=False)
+        self.assertEqual((rc, calls), (0, []))
+        self.assertEqual((self.bd / "manifest.json").read_text(encoding="utf-8"), before)
+        self.assertFalse((self.root / "qb" / "runs" / "run02").exists())
+        self.assertIn("預演結束", "\n".join(self.said))
+
+    def test_a_reason_is_required(self):
+        self.assertEqual(self.go(reason="  ")[0], 2)
+        self.assertEqual(self.scored, [])
+
+    def test_a_question_that_is_not_in_the_manifest_is_refused(self):
+        m = self.manifest()
+        m["questions"] = m["questions"][:2]
+        write(self.bd / "manifest.json", m)
+        rc, calls = self.go(only="3")
+        self.assertEqual((rc, calls), (2, []))
+        self.assertIn("沒有這些題", "\n".join(self.said))
+
+    def test_a_rerun_replaces_the_failed_run_and_keeps_the_history(self):
+        rc, calls = self.go(only="2")
+        self.assertEqual(rc, 0)
+        c = calls[0]["cmd"]
+        self.assertEqual((c[c.index("--run-id") + 1], c[c.index("--live") + 1], c[c.index("--browser") + 1]), ("run02", "off", "off"))   # the batch's own live and browser settings
+        self.assertIn("rerun 修好 F35", c[c.index("--label") + 1])
+        e = {x["question"]: x for x in self.manifest()["questions"]}
+        self.assertEqual((e["qb"]["run_id"], e["qb"]["status"]), ("run02", "ok"))
+        self.assertEqual([a["run_id"] for a in e["qb"]["attempts"]], ["run01"])
+        self.assertEqual((e["qb"]["first_attempt"]["run_id"], e["qb"]["first_attempt"]["status"]), ("run01", "error"))
+        self.assertIn("修好 F35", e["qb"]["note"])
+        self.assertEqual(e["qa"]["run_id"], "run01")                                           # other questions are not touched
+        self.assertTrue((self.root / "qb" / "runs" / "run01" / "prediction.json").exists())   # the old run stays
+        rr = self.manifest()["reruns"]
+        self.assertEqual((len(rr), rr[0]["questions"], rr[0]["reason"]), (1, ["Q2"], "修好 F35"))
+        cases = {c["question"]: c["dir"] for c in json.loads((self.bd / "cases_all.json").read_text(encoding="utf-8"))["cases"]}
+        self.assertEqual((cases["qb"], cases["qa"]), ("runs/run02", "runs/run01"))
+        self.assertEqual(self.scored, [["qb"]])                                                # only the rerun question is scored offline
+
+    def test_a_second_rerun_appends_to_the_attempts_and_the_reruns(self):
+        self.go(only="2", reason="第一次重跑")
+        self.go(only="2", reason="第二次重跑")
+        e = {x["question"]: x for x in self.manifest()["questions"]}["qb"]
+        self.assertEqual((e["run_id"], [a["run_id"] for a in e["attempts"]]), ("run03", ["run01", "run02"]))
+        self.assertEqual(e["first_attempt"]["run_id"], "run01")
+        self.assertEqual([r["reason"] for r in self.manifest()["reruns"]], ["第一次重跑", "第二次重跑"])
+
+    def test_a_failed_rerun_keeps_the_earlier_successful_run(self):
+        def failing(cmd, timeout, log_path, env=None):
+            log_path.parent.mkdir(parents=True, exist_ok=True)
+            log_path.write_text("boom")
+            return {"returncode": 1, "timed_out": False, "elapsed": 2.0, "tail": "Traceback boom"}
+        rc, _ = self.go(only="1", runner=failing)
+        e = {x["question"]: x for x in self.manifest()["questions"]}["qa"]
+        self.assertEqual((e["run_id"], e["status"]), ("run01", "ok"))                          # the good run stays the current one
+        self.assertEqual((e["attempts"][-1]["run_id"], e["attempts"][-1]["status"]), ("run02", "error"))
+        self.assertTrue((self.root / "qa" / "runs" / "run02" / "prediction.json").exists())   # the failure stub is kept as a record
+        self.assertEqual(self.scored, [])
+        cases = {c["question"]: c["dir"] for c in json.loads((self.bd / "cases_all.json").read_text(encoding="utf-8"))["cases"]}
+        self.assertEqual(cases["qa"], "runs/run01")
+
+    def test_quota_stops_and_leaves_the_manifest_alone(self):
+        def quota(cmd, timeout, log_path, env=None):
+            log_path.parent.mkdir(parents=True, exist_ok=True)
+            log_path.write_text("402")
+            return {"returncode": 1, "timed_out": False, "elapsed": 1.0, "tail": "status code: 402 Payment Required"}
+        before = (self.bd / "manifest.json").read_text(encoding="utf-8")
+        rc, _ = self.go(only="1,2", runner=quota)
+        self.assertEqual((self.bd / "manifest.json").read_text(encoding="utf-8"), before)
+        self.assertEqual(self.scored, [])
+
+    def test_the_old_object_form_of_reruns_and_first_attempt_are_still_read(self):
+        m = self.manifest()
+        m["reruns"] = {"at": "d", "after": "舊理由", "git": "g", "questions": ["Q1"], "note": "n"}
+        m["questions"][1]["first_attempt"] = {"run_id": "run00", "status": "error", "elapsed_seconds": 1.0, "at": "z"}
+        write(self.bd / "manifest.json", m)
+        self.go(only="2")
+        m2 = self.manifest()
+        self.assertEqual([r["reason"] for r in m2["reruns"]], ["舊理由", "修好 F35"])
+        e = {x["question"]: x for x in m2["questions"]}["qb"]
+        self.assertEqual([a["run_id"] for a in e["attempts"]], ["run00", "run01"])
+
+    def test_normalise_reruns_reads_none_object_and_list(self):
+        self.assertEqual(batch.normalise_reruns({}), [])
+        self.assertEqual(batch.normalise_reruns({"reruns": {"at": "d", "after": "x", "questions": ["Q1"]}})[0]["reason"], "x")
+        self.assertEqual(batch.normalise_reruns({"reruns": [{"reason": "a"}, {"reason": "b"}]}), [{"reason": "a"}, {"reason": "b"}])
+
+
 class AttemptsTest(unittest.TestCase):
     """「第幾次」：只算 live 開的真實 run；live 關的早期 run 另計，不算在內。"""
 
