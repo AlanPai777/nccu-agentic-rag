@@ -23,7 +23,7 @@
     "r": 0.425,
     "f": 0.1873
   },
-  "metrics_version": "2026-11-15.context-recall-judged",
+  "metrics_version": "2026-11-15.excluded-keypoints",
   "accuracy_rule": {
     "hard_keypoints": 7,
     "hit": 4,
@@ -172,15 +172,17 @@
       }
     ],
     "note": "字串比對的機械指標（Sentence Precision、Words P／R／F1）只供跨 run 比較，不代表系統有沒有讀到；字串比對的逐項結果在 string_match，不用來判斷「有沒有讀到」。",
-    "metrics_version": "2026-11-15.context-recall-judged",
-    "metrics_note": "Context Sentence Recall 由 Claude 判斷（階段 3；答對且有依據的 keypoint 直接算讀到），不是字串比對；分母含引用登記表的 keypoint。Sentence Precision 與 Words 指標是字串比對的機械指標，只供跨 run 比較；Sentence F1 混用兩者。此版本之前的 Context Sentence Recall／F1 不能與之後的直接比較。"
+    "metrics_version": "2026-11-15.excluded-keypoints",
+    "metrics_note": "Context Sentence Recall 由 Claude 判斷（階段 3；答對且有依據的 keypoint 直接算讀到），不是字串比對；分母含引用登記表的 keypoint。Sentence Precision 與 Words 指標是字串比對的機械指標，只供跨 run 比較；Sentence F1 混用兩者。此版本之前的 Context Sentence Recall／F1 不能與之後的直接比較。gold 標了 excluded 的 keypoint 不計入任何分母。"
   },
+  "excluded_keypoints": [],
   "keypoint": {
     "relevant": 18,
     "wrong": 0,
     "irrelevant": 5,
     "total": 23,
     "not_applicable": 0,
+    "excluded": 0,
     "completeness": 0.7826,
     "hallucination": 0.0,
     "irrelevance": 0.2174

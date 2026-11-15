@@ -251,7 +251,7 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
   function kpCounts(r) {
     var ks = r.responses && r.responses.keypoints; if (!ks) return null;
     var c = { rel: 0, wrong: 0, irr: 0, na: 0, total: 0 };
-    ks.forEach(function (k) { if (k.verdict === 'relevant') c.rel++; else if (k.verdict === 'wrong') c.wrong++; else if (k.verdict === 'irrelevant') c.irr++; else if (k.verdict === 'not_applicable') c.na++; });
+    ks.forEach(function (k) { if (k.excluded) return; if (k.verdict === 'relevant') c.rel++; else if (k.verdict === 'wrong') c.wrong++; else if (k.verdict === 'irrelevant') c.irr++; else if (k.verdict === 'not_applicable') c.na++; });
     c.total = c.rel + c.wrong + c.irr; return c;
   }
   var COLS = [
@@ -403,7 +403,7 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
     h += '<div class="detail-section"><div class="detail-title">Ground Truth Keypoints (' + kps.length + ') &mdash; complete reference answer, accepted alternatives in ( )</div><div class="detail-text detail-line">';
     kps.forEach(function (k) {
       var alts = (k.acceptable_expressions && k.acceptable_expressions.length) ? ' <span class="alts">(' + esc(k.acceptable_expressions.join(' / ')) + ')</span>' : '';
-      var tags = '<span class="tag">' + esc(k.kind || '') + (k.required === false ? ' · optional' : ' · required') + '</span>' + (k.applies_if ? '<span class="tag">if: ' + esc(k.applies_if) + '</span>' : '');
+      var tags = '<span class="tag">' + esc(k.kind || '') + (k.required === false ? ' · optional' : ' · required') + '</span>' + (k.applies_if ? '<span class="tag">if: ' + esc(k.applies_if) + '</span>' : '') + (k.excluded ? '<span class="tag">not scored (' + esc(k.excluded.issue || '') + '): ' + esc(k.excluded.reason || '') + '</span>' : '');
       var reg = '';
       if (k.alternatives) {
         var items = k.alternatives.items || [];
@@ -439,11 +439,12 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
     var ks = r.responses && r.responses.keypoints;
     h += '<div class="detail-section"><div class="detail-title">Keypoint Analysis (Responses)</div>';
     if (ks) {
-      var by = function (v) { return ks.filter(function (k) { return k.verdict === v; }).map(function (k) { return k.id; }); };
+      var by = function (v) { return ks.filter(function (k) { return k.verdict === v && !k.excluded; }).map(function (k) { return k.id; }); };
+      var exIds = ks.filter(function (k) { return k.excluded; }).map(function (k) { return k.id; });
       h += '<div class="detail-text detail-line"><div><strong>Relevant IDs:</strong> <span class="ids">' + ids(by('relevant')) + '</span></div><div><strong>Wrong IDs:</strong> <span class="ids">' + ids(by('wrong')) + '</span></div><div><strong>Not stated IDs:</strong> <span class="ids">' + ids(by('irrelevant')) + '</span></div>' +
-        (by('not_applicable').length ? '<div><strong>Not applicable IDs:</strong> <span class="ids">' + ids(by('not_applicable')) + '</span></div>' : '') + '</div>';
+        (by('not_applicable').length ? '<div><strong>Not applicable IDs:</strong> <span class="ids">' + ids(by('not_applicable')) + '</span></div>' : '') + (exIds.length ? '<div><strong>Not scored (excluded) IDs:</strong> <span class="ids">' + ids(exIds) + '</span> &mdash; judged, but left out of every denominator</div>' : '') + '</div>';
       h += '<div class="mini-scroll" style="margin-top:0.75rem"><table class="mini"><thead><tr><th>ID</th><th>Gold fact</th><th>Verdict</th><th>Reason</th><th>Claims</th></tr></thead><tbody>';
-      ks.forEach(function (k) { h += '<tr><td>' + esc(k.id) + '</td><td>' + esc(k.text) + '</td><td><span class="chip ' + esc(k.verdict) + '">' + esc(k.verdict || '—') + '</span></td><td>' + esc(k.reason) + '</td><td>' + esc((k.claims || []).join(', ')) + '</td></tr>'; });
+      ks.forEach(function (k) { h += '<tr><td>' + esc(k.id) + '</td><td>' + esc(k.text) + '</td><td><span class="chip ' + esc(k.verdict) + '">' + esc(k.verdict || '—') + '</span></td><td>' + esc(k.reason) + (k.excluded ? ' <em>[not scored: ' + esc(k.excluded) + ']</em>' : '') + '</td><td>' + esc((k.claims || []).join(', ')) + '</td></tr>'; });
       h += '</tbody></table></div>';
     } else h += '<div class="detail-text">No response analysis available (stage 3 has not run for this answer).</div>';
     h += '</div>';
@@ -456,7 +457,7 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
     var fn = r.responses && r.responses.funnel;
     if (fn && fn.length && fn[0].id !== undefined) {
       var yn = function (v) { return v == null ? '—' : (v ? 'yes' : 'no'); };
-      var srcLbl = { inferred: 'inferred (answer was right and grounded)', claude: 'Claude', 'claude-unverified': 'Claude, quote not found in what the system read (counted as not read)', missing: 'no judgement (counted as not read)', not_applicable: '—' };
+      var srcLbl = { inferred: 'inferred (answer was right and grounded)', claude: 'Claude', 'claude-unverified': 'Claude, quote not found in what the system read (counted as not read)', missing: 'no judgement (counted as not read)', not_applicable: '—', excluded: '— (not scored)' };
       h += '<div class="detail-section"><div class="detail-title">Funnel (read &rarr; used &rarr; stated correctly) &mdash; &ldquo;In context&rdquo; is judged by Claude, not matched by text</div><div class="mini-scroll"><table class="mini"><thead><tr><th>Keypoint</th><th>In context</th><th>Judged by</th><th>Quote from what the system read</th><th>Stated correctly</th><th>Grounded</th><th>Verdict</th></tr></thead><tbody>';
       fn.forEach(function (f) { h += '<tr><td>' + esc(f.id) + '</td><td>' + yn(f.in_context) + '</td><td>' + esc(srcLbl[f.in_context_source] || f.in_context_source || '') + '</td><td>' + esc(f.context_quote || '') + '</td><td>' + yn(f.stated_correctly) + '</td><td>' + yn(f.grounded) + '</td><td>' + esc(f.verdict) + '</td></tr>'; });
       h += '</tbody></table></div></div>';
@@ -524,7 +525,7 @@ details.ref-item .detail-text { margin-top: 0.75rem; background: var(--details-b
       what: 'Of the gold keypoints, what share did the answer state wrongly, and what share did it not state at all?',
       formula: 'Hallucination = wrong / keypoints\nIrrelevance = not stated / keypoints\nCompleteness = relevant / keypoints\n    (the same number as Keypoint R)',
       example: '<div class="exh">' + EX.question + '</div><p><b>' + A.name + '</b>: ' + ca.relevant + ' relevant, ' + ca.wrong + ' wrong, ' + ca.irrelevant + ' not stated &rarr; Completeness / Hallucination / Irrelevance = <span class="calc">0.714 / 0.286 / 0.000</span></p><p><b>' + B.name + '</b>: ' + cb.relevant + ' relevant, ' + cb.wrong + ' wrong, ' + cb.irrelevant + ' not stated &rarr; <span class="calc">0.286 / 0.000 / 0.714</span></p>',
-      read: 'The three add up to 1 (conditional keypoints that do not apply are left out). For Hallucination and Irrelevance lower is better.',
+      read: 'The three add up to 1 (conditional keypoints that do not apply, and keypoints the gold marks as not scored because their wording is ambiguous, are left out; the detail view lists them). For Hallucination and Irrelevance lower is better.',
       trap: 'One mistake can turn several keypoints wrong at once, so Hallucination can be larger than the number of errors you would count by eye.',
       src: 'Claude Code judges each keypoint (stage 3).' },
     { key: 'claim', title: 'Claim P / R / F1', short: 'Claim P/R/F1',

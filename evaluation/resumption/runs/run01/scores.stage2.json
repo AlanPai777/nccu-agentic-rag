@@ -6,7 +6,7 @@
     "live": "2026-11-13（現場）（教務處頁面、註冊通知單 115-1、各處室人員頁；人員、樓層、表單連結的現場依據在 evaluation/registry/）"
   },
   "system_version": "dde1c24",
-  "metrics_version": "2026-11-15.context-recall-judged",
+  "metrics_version": "2026-11-15.excluded-keypoints",
   "rouge_l": {
     "p": 0.1931,
     "r": 0.4975,
@@ -278,12 +278,12 @@
           },
           {
             "office": "registrar",
-            "said": "編審",
+            "said": "鄧編審",
             "ext": "63277"
           },
           {
             "office": "registrar",
-            "said": "鄧編審",
+            "said": "編審",
             "ext": "63277"
           }
         ],
@@ -379,12 +379,12 @@
           },
           {
             "office": "oic",
-            "said": "組長",
+            "said": "薛健吾",
             "ext": "67800"
           },
           {
             "office": "oic",
-            "said": "薛健吾",
+            "said": "組長",
             "ext": "67800"
           }
         ],

@@ -6,7 +6,7 @@
     "live": "2026-11-11（現場）；學則、教務處 QA、選課須知（114.07）、選課 Q&A（114.07）四份與快照逐字一致；超減修申請流程（register18.pdf）只有快照，沒有現場請求"
   },
   "system_version": "dde1c24",
-  "metrics_version": "2026-11-15.context-recall-judged",
+  "metrics_version": "2026-11-15.excluded-keypoints",
   "rouge_l": {
     "p": 0.146,
     "r": 0.8,

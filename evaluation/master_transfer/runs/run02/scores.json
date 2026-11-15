@@ -23,7 +23,7 @@
     "r": 0.5121,
     "f": 0.3217
   },
-  "metrics_version": "2026-11-15.context-recall-judged",
+  "metrics_version": "2026-11-15.excluded-keypoints",
   "accuracy_rule": {
     "hard_keypoints": 5,
     "hit": 5,
@@ -39,19 +39,19 @@
     ],
     "context_chars": 7452,
     "sentence": {
-      "p": 0.0832,
-      "r": 0.9655,
-      "f": 0.1532,
-      "read": 28,
-      "applicable": 29,
+      "p": 0.0762,
+      "r": 0.963,
+      "f": 0.1412,
+      "read": 26,
+      "applicable": 27,
       "r_source": "Claude 判斷（階段 3）；答對有依據的直接算讀到",
       "p_source": "字串比對（機械，只供比較）",
       "f_note": "混合：Recall 為 Claude 判斷、Precision 為字串比對"
     },
     "words": {
-      "p": 0.1975,
-      "r": 0.9548,
-      "f": 0.3273
+      "p": 0.1871,
+      "r": 0.9524,
+      "f": 0.3128
     },
     "string_match": [
       {
@@ -101,13 +101,13 @@
       },
       {
         "id": "K10",
-        "found": true,
-        "matched_reference": "每學年12月1日至12月31日及6月1日至6月30日"
+        "found": null,
+        "matched_reference": null
       },
       {
         "id": "K11",
-        "found": true,
-        "matched_reference": "每學年12月1日至12月31日及6月1日至6月30日"
+        "found": null,
+        "matched_reference": null
       },
       {
         "id": "K12",
@@ -201,31 +201,50 @@
       }
     ],
     "note": "字串比對的機械指標（Sentence Precision、Words P／R／F1）只供跨 run 比較，不代表系統有沒有讀到；字串比對的逐項結果在 string_match，不用來判斷「有沒有讀到」。",
-    "metrics_version": "2026-11-15.context-recall-judged",
-    "metrics_note": "Context Sentence Recall 由 Claude 判斷（階段 3；答對且有依據的 keypoint 直接算讀到），不是字串比對；分母含引用登記表的 keypoint。Sentence Precision 與 Words 指標是字串比對的機械指標，只供跨 run 比較；Sentence F1 混用兩者。此版本之前的 Context Sentence Recall／F1 不能與之後的直接比較。"
+    "metrics_version": "2026-11-15.excluded-keypoints",
+    "metrics_note": "Context Sentence Recall 由 Claude 判斷（階段 3；答對且有依據的 keypoint 直接算讀到），不是字串比對；分母含引用登記表的 keypoint。Sentence Precision 與 Words 指標是字串比對的機械指標，只供跨 run 比較；Sentence F1 混用兩者。此版本之前的 Context Sentence Recall／F1 不能與之後的直接比較。gold 標了 excluded 的 keypoint 不計入任何分母。"
   },
+  "excluded_keypoints": [
+    {
+      "id": "K10",
+      "reason": "gold 沒說明「上學期／下學期」是申請所在的學期還是生效學期，答案兩種說法都可能；先不計分",
+      "issue": "F39",
+      "since": "2026-11-15",
+      "judged": "wrong",
+      "judge_reason": "答案把上學期寫成 6 月 1 日至 30 日、下學期寫成 12 月 1 日至 31 日，與 keypoint（上學期 12/1–12/31）相反"
+    },
+    {
+      "id": "K11",
+      "reason": "gold 沒說明「上學期／下學期」是申請所在的學期還是生效學期，答案兩種說法都可能；先不計分",
+      "issue": "F39",
+      "since": "2026-11-15",
+      "judged": "wrong",
+      "judge_reason": "答案把下學期寫成 12 月 1 日至 31 日，與 keypoint（下學期 6/1–6/30）相反"
+    }
+  ],
   "keypoint": {
     "relevant": 17,
-    "wrong": 2,
+    "wrong": 0,
     "irrelevant": 10,
-    "total": 29,
+    "total": 27,
     "not_applicable": 0,
-    "completeness": 0.5862,
-    "hallucination": 0.069,
-    "irrelevance": 0.3448
+    "excluded": 2,
+    "completeness": 0.6296,
+    "hallucination": 0.0,
+    "irrelevance": 0.3704
   },
   "fact_unit": {
-    "precision": 0.8947,
-    "recall": 0.5862,
-    "f1": 0.7083,
+    "precision": 1.0,
+    "recall": 0.6296,
+    "f1": 0.7727,
     "note": "P = Relevant ÷ (Relevant + Wrong)；R = Relevant ÷ keypoint 總數"
   },
   "claim_unit": {
     "claims": 19,
     "correct_claims": 15,
     "precision": 0.7895,
-    "recall": 0.5862,
-    "f1": 0.6728,
+    "recall": 0.6296,
+    "f1": 0.7005,
     "note": "P = 正確陳述某個 keypoint 的主張 ÷ 全部主張；額外但正確的資訊會讓 P 下降，量的是聚焦程度"
   },
   "evidence_support": {
@@ -322,21 +341,21 @@
     },
     {
       "id": "K10",
-      "in_context": true,
-      "in_context_source": "claude",
-      "context_quote": "上學期為12月1日至12月31日止",
-      "stated_correctly": false,
-      "grounded": false,
-      "verdict": "wrong"
+      "verdict": "excluded",
+      "in_context": null,
+      "in_context_source": "excluded",
+      "stated_correctly": null,
+      "grounded": null,
+      "excluded_reason": "gold 沒說明「上學期／下學期」是申請所在的學期還是生效學期，答案兩種說法都可能；先不計分"
     },
     {
       "id": "K11",
-      "in_context": true,
-      "in_context_source": "claude",
-      "context_quote": "下學期為6月1日至6月30日止",
-      "stated_correctly": false,
-      "grounded": false,
-      "verdict": "wrong"
+      "verdict": "excluded",
+      "in_context": null,
+      "in_context_source": "excluded",
+      "stated_correctly": null,
+      "grounded": null,
+      "excluded_reason": "gold 沒說明「上學期／下學期」是申請所在的學期還是生效學期，答案兩種說法都可能；先不計分"
     },
     {
       "id": "K12",

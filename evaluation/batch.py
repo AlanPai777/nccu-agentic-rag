@@ -356,6 +356,8 @@ def write_report(batch_dir: Path, manifest: dict, root: Path = EVAL) -> Path:
                 kp = sc.get("keypoint") or {}
                 L.append(f"- 階段 3 已算分：Completeness {kp.get('completeness')}、Hallucination {kp.get('hallucination')}；"
                          f"漏斗 {json.dumps(sc.get('funnel'), ensure_ascii=False)[:300]}")
+                for x in sc.get("excluded_keypoints", []):
+                    L.append(f"- 不計分：{x['id']}（{x.get('issue')}，{x.get('reason')}；判 {x.get('judged')}）")
                 for w in sc.get("warnings", []):
                     L.append(f"- warning：{w}")
                 for dg in sc.get("disagreements", []):

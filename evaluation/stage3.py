@@ -412,10 +412,13 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
         if v["verdict"] not in ("relevant", "irrelevant", "wrong", "not_applicable"):
             warnings.append(f"{kid}：verdict {v['verdict']!r} 不合法，視為 irrelevant")
             v["verdict"] = "irrelevant"
-    rel = sum(v["verdict"] == "relevant" for v in verdicts.values())
-    wrong = sum(v["verdict"] == "wrong" for v in verdicts.values())
-    na = sum(v["verdict"] == "not_applicable" for v in verdicts.values())
-    K = K_all - na                       # 不適用的條件式 keypoint 不計入分母
+    # gold 標了 excluded 的 keypoint（議題 F39）：不進任何分母與計數，判定照舊保留，另列在 scores.json 的 excluded_keypoints
+    excl = {k["id"]: k["excluded"] for k in gold["keypoints"] if k.get("excluded")}
+    live_v = {kid: v for kid, v in verdicts.items() if kid not in excl}
+    rel = sum(v["verdict"] == "relevant" for v in live_v.values())
+    wrong = sum(v["verdict"] == "wrong" for v in live_v.values())
+    na = sum(v["verdict"] == "not_applicable" for v in live_v.values())
+    K = K_all - len(excl) - na           # 不適用的條件式 keypoint、被排除的 keypoint 都不計入分母
     irr = K - rel - wrong
 
     # 事實為單位
@@ -424,7 +427,7 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
 
     # 答案為單位：正確陳述某個 keypoint 的主張
     linked_ok = set()
-    for v in verdicts.values():
+    for v in live_v.values():
         if v["verdict"] == "relevant":
             linked_ok |= {alias.get(cid, cid) for cid in v.get("claims", []) if alias.get(cid, cid) in by_claim}
     C = len(claims)
@@ -436,13 +439,13 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
     support_rate = len(supported) / C if C else None
 
     # 答對但沒有依據的 keypoint
-    ungrounded = [kid for kid, v in verdicts.items() if v["verdict"] == "relevant"
+    ungrounded = [kid for kid, v in live_v.items() if v["verdict"] == "relevant"
                   and not any(by_claim.get(alias.get(cid, cid), {}).get("status_checked") == "supported" for cid in v.get("claims", []))]
 
     # 規則版 Accuracy 與 Claude 判斷不一致的 keypoint
     rule = {r["id"]: r for r in st2["keypoints"]["accuracy_rule"]}
     disagreements = []
-    for kid, v in verdicts.items():
+    for kid, v in live_v.items():
         rv = rule.get(kid, {}).get("verdict")
         if rv in (None, "needs_llm"):
             continue
@@ -461,7 +464,9 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
     in_ctx: dict[str, dict] = {}
     for k in gold["keypoints"]:
         kid, v = k["id"], verdicts[k["id"]]
-        if v["verdict"] == "not_applicable":
+        if kid in excl:
+            in_ctx[kid] = {"value": None, "source": "excluded", "quote": None}
+        elif v["verdict"] == "not_applicable":
             in_ctx[kid] = {"value": None, "source": "not_applicable", "quote": None}
         elif v["verdict"] == "relevant" and kid not in ungrounded:
             in_ctx[kid] = {"value": True, "source": "inferred", "quote": None}
@@ -494,6 +499,10 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
     for k in gold["keypoints"]:
         v = verdicts[k["id"]]
         ic = in_ctx[k["id"]]
+        if k["id"] in excl:
+            funnel.append({"id": k["id"], "verdict": "excluded", "in_context": None, "in_context_source": "excluded",
+                           "stated_correctly": None, "grounded": None, "excluded_reason": excl[k["id"]].get("reason")})
+            continue
         if v["verdict"] == "not_applicable":
             funnel.append({"id": k["id"], "verdict": "not_applicable", "in_context": None, "in_context_source": "not_applicable",
                            "stated_correctly": None, "grounded": None})
@@ -516,7 +525,9 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
         "metrics_version": METRICS_VERSION,
         "accuracy_rule": st2["accuracy"],
         "context": context,
-        "keypoint": {"relevant": rel, "wrong": wrong, "irrelevant": irr, "total": K, "not_applicable": na,
+        "excluded_keypoints": [{"id": kid, "reason": e.get("reason"), "issue": e.get("issue"), "since": e.get("since"),
+                                "judged": verdicts[kid]["verdict"], "judge_reason": verdicts[kid].get("reason", "")} for kid, e in excl.items()],
+        "keypoint": {"relevant": rel, "wrong": wrong, "irrelevant": irr, "total": K, "not_applicable": na, "excluded": len(excl),
                      "completeness": _r(rel / K) if K else None, "hallucination": _r(wrong / K) if K else None,
                      "irrelevance": _r(irr / K) if K else None},
         "fact_unit": {"precision": _r(p_fact), "recall": _r(r_fact), "f1": _f1(p_fact, r_fact),
@@ -542,6 +553,8 @@ def cmd_score(gold_path: Path, run_dir: Path) -> dict:
     print(f"Accuracy（規則）      {st2['accuracy']['hit']}/{st2['accuracy']['hard_keypoints']}   ROUGE-L P／R／F {st2['rouge_l']['p']:.2f}/{st2['rouge_l']['r']:.2f}/{st2['rouge_l']['f']:.2f}")
     print(f"Context 句子 R {fmt(context['sentence']['r'])}（Claude 判斷，讀到 {n_read}/{K}）  P {fmt(context['sentence']['p'])}（字串比對）  F1 {fmt(context['sentence']['f'])}（混合）   詞 R {fmt(st2['context']['words']['r'])}（字串比對）")
     print(f"指標版本 {METRICS_VERSION}")
+    if excl:
+        print("不計分（gold 標了 excluded）：" + "、".join(f"{kid}（判 {verdicts[kid]['verdict']}）" for kid in excl))
     if ungrounded:
         print("答對但沒依據的 keypoint：", ungrounded)
     print("規則與 Claude 不一致：", disagreements or "無")

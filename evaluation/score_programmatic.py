@@ -26,10 +26,14 @@ from pathlib import Path
 # 指標定義的版本。2026-11-15：Context 的「有沒有讀到」不再用 gold 引用的逐字比對，改由 Claude 判斷（階段 3 的 judge.json），
 # Sentence Recall 因此改成 Claude 判斷的結果（分母含引用登記表的 keypoint）；Sentence Precision 與 Words 指標仍是字串比對的機械指標，
 # 只供跨 run 比較。這個版本以前（含 run01～run03 的舊算法）的 Context Sentence Recall／F1 不能與之後的直接比較。
-METRICS_VERSION = "2026-11-15.context-recall-judged"
+# 2026-11-15（第二次）：gold 的 keypoint 可以標 `excluded`（議題 F39：定義不夠明確，先不計分）。標了的不進任何分母（Completeness、Hallucination、
+# Irrelevance、Context Recall、規則版 Accuracy、Words／Sentence 字串比對），判定照舊保留，scores.json 另列被排除的項目與理由。沒有標 excluded 的題目，
+# 數字與前一版逐位元相同；有標的題目與前一版不能直接比較。
+METRICS_VERSION = "2026-11-15.excluded-keypoints"
 METRICS_NOTE = ("Context Sentence Recall 由 Claude 判斷（階段 3；答對且有依據的 keypoint 直接算讀到），不是字串比對；分母含引用登記表的 keypoint。"
                 "Sentence Precision 與 Words 指標是字串比對的機械指標，只供跨 run 比較；Sentence F1 混用兩者。"
-                "此版本之前的 Context Sentence Recall／F1 不能與之後的直接比較。")
+                "此版本之前的 Context Sentence Recall／F1 不能與之後的直接比較。"
+                "gold 標了 excluded 的 keypoint 不計入任何分母。")
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).resolve().parent / "registry"))
@@ -102,6 +106,10 @@ def context_scores(keypoints: list[dict], context: list[dict]) -> tuple[dict, li
 
     per_kp, matched_chars, gold_words = [], 0, set()
     for kp in keypoints:
+        if kp.get("excluded"):
+            per_kp.append({"id": kp["id"], "in_context": None, "matched_reference": None, "n_references": 0,
+                           "note": "gold 標了 excluded，不計入"})
+            continue
         if kp.get("registry"):
             # 引用登記表的 keypoint 沒有自己的 references，不算進 Context 的 recall 分母（登記表的來源另外驗證）
             per_kp.append({"id": kp["id"], "in_context": None, "matched_reference": None, "n_references": 0,
@@ -187,6 +195,10 @@ def accuracy(gold: dict, answer: str, context: list[dict]) -> tuple[dict, list[d
     per_kp, hard_total, hard_hit = [], 0, 0
     for kp in gold["keypoints"]:
         row = {"id": kp["id"], "kind": kp.get("kind", "hard")}
+        if kp.get("excluded"):
+            row.update(verdict="excluded", note="gold 標了 excluded，不計入")
+            per_kp.append(row)
+            continue
         if kp.get("kind", "hard") != "hard":
             row.update(verdict="needs_llm", note="語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷")
             per_kp.append(row)

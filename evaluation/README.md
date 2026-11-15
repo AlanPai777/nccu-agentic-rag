@@ -62,6 +62,18 @@
 跑系統與任何 `nccu.edu.tw` 請求前，先看 `CLAUDE.md` 的 Live fetch 一節；跑測試與評測一律設 `LIVE_BROWSER=off`（腳本已經在 import 前設好）。
 
 
+## 指標版本：gold 可以標 `excluded`，先不計分（2026-11-15，`metrics_version` = `2026-11-15.excluded-keypoints`，議題 F39）
+
+**改了什麼。** gold 的 keypoint 可以加 `"excluded": {"reason": …, "since": …, "issue": …}`，表示這個 keypoint 的定義不夠明確、先不計分。標了的 keypoint：
+
+- **不進任何分母**：Completeness、Hallucination、Irrelevance、事實／答案為單位的 R、Context Sentence Recall、規則版 Accuracy、Words／Sentence 字串比對。
+- **判定照舊保留**（`judge.json` 不改、仍要判斷與 `in_context`）；`scores.json` 的 `excluded_keypoints` 列出每一項的理由、議題編號與當時的判定，`keypoint.excluded` 是個數，漏斗裡那一列的 `verdict` 是 `excluded`；儀表板與批次報告都顯示「不計分」與理由。
+- 它不是 `not_applicable`（那只給有 `applies_if` 的條件式 keypoint）。排除是**暫時的**：之後 gold 改寫清楚、或確認了意思，再拿掉旗標。
+
+**目前只有一處**：`master_transfer`（Q7）的 K10、K11（上學期 12 月、下學期 6 月）。官方把 12 月的窗口標成「第 1 學期」、6 月標成「第 2 學期」（以申請所在的學期命名），轉所於次學期生效；答案常寫「12 月申請下學期」（生效學期的說法），現實中很可能相符，但 gold 沒說明，所以先排除。
+
+**沒有標 excluded 的題目，數字與前一版逐位元相同**（只有版本號與兩個新的空欄位不同；`tests/test_excluded_keypoints.py` 與離線重算都驗證過）。有標的題目（目前只有 Q7）與前一版不能直接比較：Q7 `run02` 用新版算（Completeness 0.63、Hallucination 0），`run01` 保留舊版（K10、K11 照常計分）。
+
 ## 指標版本：Context 的「有沒有讀到」改由 Claude 判斷（2026-11-15，`metrics_version` = `2026-11-15.context-recall-judged`）
 
 **改了什麼。** 以前 Context Sentence Recall（以及漏斗的 `in_context`）是拿 gold 抄下的原文句子，去系統讀到的文字裡逐字比對；網站改版（寫法、版面不同）就比不到，會誤報「沒讀到」。現在：

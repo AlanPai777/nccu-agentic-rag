@@ -6,7 +6,7 @@
     "live": "2026-11-13（現場）（住宿組「退離宿程序」頁、學務處 FAQ，curl；moltke 表單連結回 302 轉登入頁，沒有跟隨）；住宿組、出納組的聯絡人與樓層的現場依據在 evaluation/registry/"
   },
   "system_version": "7dd5427",
-  "metrics_version": "2026-11-15.context-recall-judged",
+  "metrics_version": "2026-11-15.excluded-keypoints",
   "rouge_l": {
     "p": 0.1201,
     "r": 0.425,
@@ -297,22 +297,22 @@
         "matched": [
           {
             "office": "dorm",
-            "said": "住宿組組長",
-            "ext": "62500"
-          },
-          {
-            "office": "dorm",
             "said": "趙紀綱",
             "ext": "62500"
           },
           {
             "office": "dorm",
-            "said": "徐廷芝",
-            "ext": "62228"
+            "said": "住宿組組長",
+            "ext": "62500"
           },
           {
             "office": "dorm",
             "said": "一級行政專員",
+            "ext": "62228"
+          },
+          {
+            "office": "dorm",
+            "said": "徐廷芝",
             "ext": "62228"
           }
         ],
@@ -348,12 +348,12 @@
           },
           {
             "office": "cashier",
-            "said": "余淑娟",
+            "said": "一級行政組員",
             "ext": "62123"
           },
           {
             "office": "cashier",
-            "said": "一級行政組員",
+            "said": "余淑娟",
             "ext": "62123"
           }
         ],

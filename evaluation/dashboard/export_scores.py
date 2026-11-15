@@ -230,16 +230,18 @@ def build_row(entry: dict, root: Path = EVAL) -> dict:
                                         "references": [{"text": r["text"], "source_kind": r.get("source_kind"), "as_of": r.get("as_of"),
                                                         "source_url": r.get("source_url")} for r in (k.get("references") or [])],
                                         "alternatives": registry_alternatives(k["registry"], reg) if k.get("registry") else None,
-                                        "applies_if": k.get("applies_if")} for k in gt_kps],
+                                        "applies_if": k.get("applies_if"), "excluded": k.get("excluded")} for k in gt_kps],
                          "answer": ground_truth_answer(gold, reg),
                          "references": list(gt_refs.values())},
         "prediction": {"content": pred.get("answer_body"), "references": pred_refs},
         "responses": {
             "keypoints": [{"id": k["id"], "text": k["text"], "verdict": verdicts.get(k["id"], {}).get("verdict"),
-                           "reason": verdicts.get(k["id"], {}).get("reason"), "claims": verdicts.get(k["id"], {}).get("claims", [])} for k in gt_kps]
+                           "reason": verdicts.get(k["id"], {}).get("reason"), "claims": verdicts.get(k["id"], {}).get("claims", []),
+                           "excluded": (k.get("excluded") or {}).get("reason") if k.get("excluded") else None} for k in gt_kps]
             if judge else None,
             "claims": [{"id": c["id"], "answer_span": c.get("answer_span"), "status": c.get("status"), "why": c.get("why")} for c in claims] if trace else None,
             "funnel": scores.get("funnel"),
+            "excluded": scores.get("excluded_keypoints", []),
             "warnings": scores.get("warnings", []),
             "disagreements": scores.get("disagreements", []),
             "ungrounded": scores.get("ungrounded_correct_keypoints", []),

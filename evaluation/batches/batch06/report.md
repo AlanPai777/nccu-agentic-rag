@@ -1,10 +1,10 @@
 # batch06 跨題報告
 
 - live：True；瀏覽器：True；模型：gemma4:31b-cloud；git：dde1c24；建立：2026-11-15T19:18:48+08:00
-- 指標版本：2026-11-15.context-recall-judged（Context 句子 Recall 由 Claude 判斷，不是字串比對；Sentence Precision 與 Words 指標仍是字串比對，Sentence F1 混合；此版本之前的 Context 數字不能直接比較）
+- 指標版本：2026-11-15.excluded-keypoints（Context 句子 Recall 由 Claude 判斷，不是字串比對；Sentence Precision 與 Words 指標仍是字串比對，Sentence F1 混合；此版本之前的 Context 數字不能直接比較）
 - 限制：每題只跑一次，LLM 有隨機性；現場頁面會隨時間變，`prediction.json` 是系統當時看到的唯一記錄；隔離回推是否真的隔離看每題 `trace.json` 的 judge 註記與稽核結果。
 
-- 重跑（2026-11-15，F35（表單快取種類）、F36（下載連結行）、F37（雙查詢搜尋） 修好之後，git 7dd5427）：Q7、Q8、Q9、Q11 改用 run02，Q10 與其他題仍是第一次的 run01；四題的 run01 都保留
+- 重跑（2026-11-15，F35（表單快取種類）、F36（下載連結行）、F37（雙查詢搜尋） 修好之後，git 7dd5427）：Q7、Q8、Q9、Q11 改用 run02，Q10 與其他題仍是第一次的 run01；四題的 run01 都保留；批次用的 11 個 run 都以 2026-11-15.excluded-keypoints 重算（只有 Q7 的數字因排除 K10、K11 而改變）
 
 ## 每題
 
@@ -37,8 +37,10 @@
 - disagreement：{"keypoint": "K53", "rule": "wrong", "claude": "relevant", "claude_reason": "答案寫住宿組趙紀綱（組長）62500", "rule_detail": {}}
 
 ### Q7 master_transfer — ok（run02，34.0 秒）
-- 重跑（2026-11-15，F35–F37 修好後，git 7dd5427）：重跑以驗證 F36（下載連結行）；第一次 run01 的 K25 連結用了資管系的 PDF；run01 保留
-- 階段 3 已算分：Completeness 0.5862、Hallucination 0.069；漏斗 [{"id": "K1", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict": "relevant"}, {"id": "K2", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict"
+- 重跑（2026-11-15，F35–F37 修好後，git 7dd5427）：重跑以驗證 F36（下載連結行）；第一次 run01 的 K25 連結用了資管系的 PDF；run01 保留；K10、K11 不計分（議題 F39，gold 標 excluded）：答案把申請期間寫成生效學期的說法，與官方字面不同、現實中很可能相符；run02 的分數用 2026-11-15.excluded-keypoints 版（Completeness 0.63、Hallucination 0），run01 仍是舊版、K10、K11 照常計分
+- 階段 3 已算分：Completeness 0.6296、Hallucination 0.0；漏斗 [{"id": "K1", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict": "relevant"}, {"id": "K2", "in_context": true, "in_context_source": "inferred", "context_quote": null, "stated_correctly": true, "grounded": true, "verdict"
+- 不計分：K10（F39，gold 沒說明「上學期／下學期」是申請所在的學期還是生效學期，答案兩種說法都可能；先不計分；判 wrong）
+- 不計分：K11（F39，gold 沒說明「上學期／下學期」是申請所在的學期還是生效學期，答案兩種說法都可能；先不計分；判 wrong）
 - 現場讀取：live_changed×2、live_same×2
 
 ### Q8 dorm_deposit — ok（run02，53.3 秒）

@@ -7,7 +7,7 @@
     "library_phone": "圖書館各組聯絡資訊頁：快照 2026-08-25、現場 2026-11-13（動態）"
   },
   "system_version": "dde1c24",
-  "metrics_version": "2026-11-15.context-recall-judged",
+  "metrics_version": "2026-11-15.excluded-keypoints",
   "rouge_l": {
     "p": 0.1906,
     "r": 0.3466,
@@ -693,17 +693,17 @@
           },
           {
             "office": "registrar",
-            "said": "行政專員",
-            "ext": "63278"
-          },
-          {
-            "office": "registrar",
             "said": "蔡侑町",
             "ext": "63278"
           },
           {
             "office": "registrar",
             "said": "一級行政專員",
+            "ext": "63278"
+          },
+          {
+            "office": "registrar",
+            "said": "行政專員",
             "ext": "63278"
           }
         ],
@@ -734,12 +734,12 @@
         "matched": [
           {
             "office": "cashier",
-            "said": "劉桂芬",
+            "said": "組長",
             "ext": "62120"
           },
           {
             "office": "cashier",
-            "said": "組長",
+            "said": "劉桂芬",
             "ext": "62120"
           },
           {
@@ -791,12 +791,12 @@
         "matched": [
           {
             "office": "dorm",
-            "said": "趙紀綱",
+            "said": "住宿組組長",
             "ext": "62500"
           },
           {
             "office": "dorm",
-            "said": "住宿組組長",
+            "said": "趙紀綱",
             "ext": "62500"
           }
         ],
@@ -835,12 +835,12 @@
         "matched": [
           {
             "office": "soa",
-            "said": "盧翠婷",
+            "said": "組長",
             "ext": "63010"
           },
           {
             "office": "soa",
-            "said": "組長",
+            "said": "盧翠婷",
             "ext": "63010"
           }
         ],

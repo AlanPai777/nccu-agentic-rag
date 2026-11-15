@@ -6,7 +6,7 @@
     "live": "2026-11-13（現場）（教務處頁面，curl；兩個 moltke 表單連結回 302 轉登入頁，沒有跟隨）；註冊組聯絡人與樓層的現場依據在 evaluation/registry/"
   },
   "system_version": "7dd5427",
-  "metrics_version": "2026-11-15.context-recall-judged",
+  "metrics_version": "2026-11-15.excluded-keypoints",
   "rouge_l": {
     "p": 0.2345,
     "r": 0.5121,
@@ -27,15 +27,15 @@
     ],
     "context_chars": 7452,
     "sentence": {
-      "p": 0.0832,
+      "p": 0.0762,
       "r": null,
       "f": null,
       "note": "Recall 與 F1 要等階段 3 的 Claude 判斷（stage3.py score）才算；這裡只有字串比對的 Precision"
     },
     "words": {
-      "p": 0.1975,
-      "r": 0.9548,
-      "f": 0.3273
+      "p": 0.1871,
+      "r": 0.9524,
+      "f": 0.3128
     },
     "string_match": [
       {
@@ -85,13 +85,13 @@
       },
       {
         "id": "K10",
-        "found": true,
-        "matched_reference": "每學年12月1日至12月31日及6月1日至6月30日"
+        "found": null,
+        "matched_reference": null
       },
       {
         "id": "K11",
-        "found": true,
-        "matched_reference": "每學年12月1日至12月31日及6月1日至6月30日"
+        "found": null,
+        "matched_reference": null
       },
       {
         "id": "K12",
@@ -245,14 +245,14 @@
       {
         "id": "K10",
         "kind": "semantic",
-        "verdict": "needs_llm",
-        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+        "verdict": "excluded",
+        "note": "gold 標了 excluded，不計入"
       },
       {
         "id": "K11",
         "kind": "semantic",
-        "verdict": "needs_llm",
-        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+        "verdict": "excluded",
+        "note": "gold 標了 excluded，不計入"
       },
       {
         "id": "K12",
@@ -357,12 +357,12 @@
         "matched": [
           {
             "office": "registrar",
-            "said": "王組長",
+            "said": "組長",
             "ext": "63273"
           },
           {
             "office": "registrar",
-            "said": "組長",
+            "said": "王組長",
             "ext": "63273"
           },
           {
@@ -437,11 +437,11 @@
       },
       {
         "id": "K10",
-        "rule_verdict": "needs_llm"
+        "rule_verdict": "excluded"
       },
       {
         "id": "K11",
-        "rule_verdict": "needs_llm"
+        "rule_verdict": "excluded"
       },
       {
         "id": "K12",

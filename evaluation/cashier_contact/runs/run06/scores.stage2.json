@@ -6,7 +6,7 @@
     "live": "2026-11-09（現場）；只確認分機 62120，其餘分機現場無法確認"
   },
   "system_version": "5cc6774+uncommitted",
-  "metrics_version": "2026-11-15.context-recall-judged",
+  "metrics_version": "2026-11-15.excluded-keypoints",
   "rouge_l": {
     "p": 0.1538,
     "r": 0.6154,

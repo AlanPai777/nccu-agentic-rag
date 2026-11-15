@@ -6,7 +6,7 @@
     "live": "2026-11-14（現場）（教務處頁面、辦法 PDF 與通識中心頁面，curl；moltke 表單連結沒有送請求）；各單位聯絡人與樓層的現場依據在 evaluation/registry/"
   },
   "system_version": "dde1c24",
-  "metrics_version": "2026-11-15.context-recall-judged",
+  "metrics_version": "2026-11-15.excluded-keypoints",
   "rouge_l": {
     "p": 0.1554,
     "r": 0.4108,
@@ -311,12 +311,12 @@
           },
           {
             "office": "registrar",
-            "said": "編審",
+            "said": "鄧編審",
             "ext": "63277"
           },
           {
             "office": "registrar",
-            "said": "鄧編審",
+            "said": "編審",
             "ext": "63277"
           }
         ],

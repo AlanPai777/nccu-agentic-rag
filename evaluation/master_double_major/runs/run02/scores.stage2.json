@@ -6,7 +6,7 @@
     "live": "2026-11-13（現場）（教務處頁面與辦法 PDF，curl；moltke 表單連結回 302 轉登入頁，沒有跟隨）；註冊組聯絡人與樓層的現場依據在 evaluation/registry/"
   },
   "system_version": "7dd5427",
-  "metrics_version": "2026-11-15.context-recall-judged",
+  "metrics_version": "2026-11-15.excluded-keypoints",
   "rouge_l": {
     "p": 0.1856,
     "r": 0.3788,
@@ -295,12 +295,12 @@
         "matched": [
           {
             "office": "registrar",
-            "said": "組長",
+            "said": "王組長",
             "ext": "63273"
           },
           {
             "office": "registrar",
-            "said": "王組長",
+            "said": "組長",
             "ext": "63273"
           },
           {

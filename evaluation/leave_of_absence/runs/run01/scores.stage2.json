@@ -6,7 +6,7 @@
     "live": "2026-11-13（現場）（教務處頁面、退費標準頁、各處室人員頁；人員、樓層、表單連結的現場依據在 evaluation/registry/）"
   },
   "system_version": "dde1c24",
-  "metrics_version": "2026-11-15.context-recall-judged",
+  "metrics_version": "2026-11-15.excluded-keypoints",
   "rouge_l": {
     "p": 0.1296,
     "r": 0.402,
@@ -697,12 +697,12 @@
         "matched": [
           {
             "office": "cashier",
-            "said": "劉桂芬",
+            "said": "組長",
             "ext": "62120"
           },
           {
             "office": "cashier",
-            "said": "組長",
+            "said": "劉桂芬",
             "ext": "62120"
           }
         ],
@@ -831,12 +831,12 @@
         "matched": [
           {
             "office": "indigenous",
-            "said": "中心主任",
+            "said": "蔡炎龍",
             "ext": "62200"
           },
           {
             "office": "indigenous",
-            "said": "蔡炎龍",
+            "said": "中心主任",
             "ext": "62200"
           },
           {
@@ -848,17 +848,17 @@
         "representative_line": [],
         "pair_mismatches": [
           {
-            "name": "蔡炎龍",
-            "said": "622007",
-            "expected": [
-              "62200"
-            ]
-          },
-          {
             "name": "盧翠婷",
             "said": "630106",
             "expected": [
               "63010"
+            ]
+          },
+          {
+            "name": "蔡炎龍",
+            "said": "622007",
+            "expected": [
+              "62200"
             ]
           }
         ],

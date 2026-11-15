@@ -57,7 +57,7 @@ class InferredTest(unittest.TestCase):
         for row in s2["keypoints"]["funnel_stage2"]:
             self.assertNotIn("in_context", row)
             self.assertNotIn("matched_reference", row)
-        self.assertEqual(s2["metrics_version"], "2026-11-15.context-recall-judged")
+        self.assertEqual(s2["metrics_version"], "2026-11-15.excluded-keypoints")
 
 
 class JudgedTest(unittest.TestCase):
@@ -122,7 +122,7 @@ class LabelsTest(unittest.TestCase):
         self.assertIn("Claude", sen["r_source"])
         self.assertIn("字串比對", sen["p_source"])
         self.assertIn("混合", sen["f_note"])
-        self.assertEqual(s["metrics_version"], "2026-11-15.context-recall-judged")
+        self.assertEqual(s["metrics_version"], "2026-11-15.excluded-keypoints")
         self.assertIn("不能與之後的直接比較", s["context"]["metrics_note"])
         self.assertIsNotNone(sen["f"])
 
