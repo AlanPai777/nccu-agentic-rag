@@ -1,0 +1,523 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "第一至第三學年：每學期最多 25 學分（不得少於 12 學分）。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E9",
+          "quote": "學士班學生第一至第三學年每學期修習學分，不得少於十二學分，不得多於二十五學分",
+          "verified": true
+        }
+      ],
+      "why": "學則第十五條明列第一至第三學年下限12、上限25學分。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        65,
+        97
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "第四學年：每學期最多 25 學分（不得少於 10 學分）。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E9",
+          "quote": "第四學年每學期不得少於十學分，不得多 於二十五學分",
+          "verified": true
+        }
+      ],
+      "why": "學則第十五條明列第四學年下限10、上限25學分。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        106,
+        135
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "具雙主修身分者：31 學分。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E8",
+          "quote": "具雙主修身分者為 31 學",
+          "verified": true,
+          "start": 1013,
+          "end": 1026
+        }
+      ],
+      "why": "Q&A 載明雙主修身分上限31學分。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        160,
+        174
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "具輔系身分者：28 學分。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E8",
+          "quote": "具輔系身分者為 28 學分",
+          "verified": true,
+          "start": 1029,
+          "end": 1042
+        }
+      ],
+      "why": "Q&A 載明輔系身分上限28學分。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        183,
+        196
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "無加修學系或未申請超修者：25 學分。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E8",
+          "quote": "無加修學系或未申請超修者為 25 學分",
+          "verified": true,
+          "start": 1043,
+          "end": 1062
+        }
+      ],
+      "why": "Q&A 載明此類為25學分。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        205,
+        224
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c6",
+      "answer_span": "情況特殊經系主任核可者，得申請超修或減修學分，至多以 6 學分為限。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E9",
+          "quote": "經系主任核可者，得於當學期超修或減修學分",
+          "verified": true,
+          "start": 413,
+          "end": 433
+        },
+        {
+          "item": "E9",
+          "quote": "至多以六學分為限",
+          "verified": true
+        }
+      ],
+      "why": "學則載明系主任核可得超修或減修，至多六學分。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        246,
+        280
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c7",
+      "answer_span": "經認定符合運動成績績優學生標準者，每學期得減修學分，但至少應修習 3 學分。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E9",
+          "quote": "學士班學生經申請認定符合本校運動成績績優學生認定標準者，每學期得減修學分，但至少應修習三學分。",
+          "verified": true,
+          "start": 883,
+          "end": 930
+        }
+      ],
+      "why": "學則有相同規定。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        289,
+        327
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c8",
+      "answer_span": "每學期修習學分由各系（所）自定。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E9",
+          "quote": "碩、博士班學生每學期修習學分由各系",
+          "verified": true,
+          "start": 447,
+          "end": 464
+        }
+      ],
+      "why": "學則載明碩博士班學分由各系所自定。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        348,
+        364
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c9",
+      "answer_span": "最多可登記 30 個科目",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E8",
+          "quote": "初選階段作業中，最多可登記 30 個科目",
+          "verified": true,
+          "start": 1252,
+          "end": 1272
+        }
+      ],
+      "why": "Q&A 表格載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        400,
+        412
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c10",
+      "answer_span": "「遞補科目 + 登記科目」合計上限為 50 個科目",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E8",
+          "quote": "加退選階段「遞補科目+登記科目」合計上限為 50 個科目",
+          "verified": true,
+          "start": 1285,
+          "end": 1313
+        }
+      ],
+      "why": "Q&A 表格載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        425,
+        450
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c11",
+      "answer_span": "學士班合計 5 科為限",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E8",
+          "quote": "（學士班5科、碩博士班3科）",
+          "verified": true,
+          "start": 4284,
+          "end": 4298
+        }
+      ],
+      "why": "加簽科目數上限學士班5科。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        463,
+        474
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c12",
+      "answer_span": "碩博士班合計 3 科為限",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E8",
+          "quote": "（學士班5科、碩博士班3科）",
+          "verified": true,
+          "start": 4284,
+          "end": 4298
+        }
+      ],
+      "why": "加簽科目數上限碩博士班3科。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        475,
+        487
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c13",
+      "answer_span": "外文通識：以一科為限。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E8",
+          "quote": "初選分發外文通識以一科為限",
+          "verified": true,
+          "start": 1080,
+          "end": 1093
+        }
+      ],
+      "why": "Q&A 載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        512,
+        523
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c14",
+      "answer_span": "一般通識（含核心通識）及書院通識：科目數以三科為限（書院通識至多分發一科）。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E8",
+          "quote": "一般通識(含核心通",
+          "verified": true,
+          "start": 1094,
+          "end": 1103
+        },
+        {
+          "item": "E8",
+          "quote": "及書院通識科目數以三科為限（書院通識至多分發一科）",
+          "verified": true
+        }
+      ],
+      "why": "Q&A 載明三科為限、書院通識至多一科。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        532,
+        570
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c15",
+      "answer_span": "中文通識：每學期以一科為限。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E8",
+          "quote": "中文通識每學期以一科為限",
+          "verified": true,
+          "start": 1147,
+          "end": 1159
+        }
+      ],
+      "why": "Q&A 載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        579,
+        593
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c16",
+      "answer_span": "體育必修課程：分發以一科為限",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E8",
+          "quote": "體育必修課程分發以一科為限",
+          "verified": true,
+          "start": 1160,
+          "end": 1173
+        }
+      ],
+      "why": "Q&A 載明。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        602,
+        616
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c17",
+      "answer_span": "四年級學生如需超修，請洽體育室申請",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據說超修須於期限內利用網路系統提出申請，體育室只用於相關問題洽詢，非申請窗口。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        617,
+        634
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c18",
+      "answer_span": "教務處註冊組（行政大樓 4 樓）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E10",
+          "quote": "行政大樓 4 樓",
+          "verified": true,
+          "start": 121,
+          "end": 129
+        }
+      ],
+      "why": "聯絡資訊列註冊組位於行政大樓4樓。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        659,
+        675
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c19",
+      "answer_span": "鄧編審（分機 63277 或 63275）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E10",
+          "quote": "鄧編審（）分機 63277",
+          "verified": true,
+          "start": 349,
+          "end": 362
+        },
+        {
+          "item": "E10",
+          "quote": "鄧編審（）分機 63275",
+          "verified": true,
+          "start": 369,
+          "end": 382
+        }
+      ],
+      "why": "註冊組名單中鄧編審有這兩個分機。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        681,
+        702
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c20",
+      "answer_span": "王組長（分機 63273）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E10",
+          "quote": "王組長（）分機 63273",
+          "verified": true,
+          "start": 329,
+          "end": 342
+        }
+      ],
+      "why": "註冊組名單中王組長分機63273。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        707,
+        720
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c21",
+      "answer_span": "https://aca.nccu.edu.tw/download/course/選課Q&A_11407.pdf",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E8",
+          "quote": "https://aca.nccu.edu.tw/download/course/選課Q&A_11407.pdf",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "選課Q&A_11407.pdf"
+        }
+      ],
+      "why": "網址在E8 sources，label為選課Q&A_11407.pdf。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        747,
+        802
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c22",
+      "answer_span": "https://aca.nccu.edu.tw/zh/未分類文章樣板/5546-本校學則有關選課摘錄",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E9",
+          "quote": "https://aca.nccu.edu.tw/zh/未分類文章樣板/5546-本校學則有關選課摘錄",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "5546-本校學則有關選課摘錄"
+        }
+      ],
+      "why": "網址在E9 sources，label為本校學則有關選課摘錄。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        819,
+        869
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

@@ -1,0 +1,853 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "休學/保留學籍申請書 / NCCU Application Form for Leave of Absence of Student Status"
+        }
+      ],
+      "why": "The URL is in E1 sources and its label is the leave of absence application form.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        84,
+        159
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "休學/保留學籍申請書 (表單編號：QP-T01-03-02)",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "get_form 取得表單 休學/保留學籍申請書",
+          "verified": true,
+          "start": 43,
+          "end": 67
+        },
+        {
+          "item": "E1",
+          "quote": "表單編號：QP-T01-03-02",
+          "verified": true,
+          "start": 136,
+          "end": 153
+        }
+      ],
+      "why": "Form name and number appear in E1.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        36,
+        66
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "請於申請書中圈選原因（如：傷病、經濟因素、系所不符預期、工作、家務原因、論文撰寫、懷孕/育嬰/兵役或其他）。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "□傷病□經濟因素□系所不符預期□工作□家務原因□論文撰寫□懷孕/育嬰/兵役(請圈選)",
+          "verified": true,
+          "start": 553,
+          "end": 595
+        }
+      ],
+      "why": "Reason options and the instruction to circle appear in the form.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        240,
+        294
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "未成年學生須經法定代理人簽章同意。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "未成年學生須經法定代理人簽章同意。",
+          "verified": true,
+          "start": 451,
+          "end": 468
+        }
+      ],
+      "why": "Stated in the form.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        303,
+        320
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "申請服役保留學籍者請附服役證明；",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "申請服役保留學籍者請加附服役證明",
+          "verified": true,
+          "start": 1363,
+          "end": 1379
+        }
+      ],
+      "why": "Service proof is required per the form notes.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        329,
+        345
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c6",
+      "answer_span": "懷孕/分娩/撫育三歲以下子女者請附相關醫療證明。",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "Evidence requires a hospital diagnosis for pregnancy/childbirth, but for raising a child under three only 'related proof documents', not medical proof.",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        345,
+        369
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c7",
+      "answer_span": "申請當學期休學者，請於期末考試（休學截止日）前提出。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "申請當學期休學者，請於期末考試（休學截止日）前提出",
+          "verified": true,
+          "start": 1510,
+          "end": 1535
+        }
+      ],
+      "why": "Stated in the form notes.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        378,
+        404
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c8",
+      "answer_span": "第一步：填寫申請書並由系所核章",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "（1）系所簽章",
+          "verified": true,
+          "start": 690,
+          "end": 697
+        }
+      ],
+      "why": "Department signature is the first step in the form.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        205,
+        220
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c9",
+      "answer_span": "各系所辦公室",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "（各系所辦公室）",
+          "verified": true,
+          "start": 784,
+          "end": 792
+        }
+      ],
+      "why": "Form names the departmental offices for step 1.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        415,
+        421
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c10",
+      "answer_span": "第二步：圖書館借還確認\n*   前往地點： 總圖或分館借還書櫃檯。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "（2）圖書館",
+          "verified": true,
+          "start": 706,
+          "end": 712
+        },
+        {
+          "item": "E1",
+          "quote": "（總圖或分館借還書櫃檯）",
+          "verified": true,
+          "start": 801,
+          "end": 813
+        }
+      ],
+      "why": "Library step and location are in the form.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        424,
+        457
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c11",
+      "answer_span": "第三步：出納組確認帳戶\n*   前往地點： 行政大樓 5 樓。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "（3）出納組",
+          "verified": true,
+          "start": 727,
+          "end": 733
+        },
+        {
+          "item": "E1",
+          "quote": "(行政大樓5樓) (確認學生帳戶)",
+          "verified": true,
+          "start": 828,
+          "end": 845
+        }
+      ],
+      "why": "Cashier step, 5th floor and account confirmation are in the form.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        459,
+        490
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c12",
+      "answer_span": "劉桂芬（組長）分機 62120",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "劉桂芬（組長）分機 62120",
+          "verified": true,
+          "start": 6580,
+          "end": 6595
+        }
+      ],
+      "why": "Same person, title and extension in the cashier list.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        500,
+        515
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c13",
+      "answer_span": "第四步：住宿組辦理（僅限住宿生）\n*   前往地點： 行政大樓 3 樓。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "（4）住宿組",
+          "verified": true,
+          "start": 859,
+          "end": 865
+        },
+        {
+          "item": "E1",
+          "quote": "限住宿生(行政大樓 3 樓)",
+          "verified": true,
+          "start": 924,
+          "end": 938
+        }
+      ],
+      "why": "Dormitory step, residents only, 3rd floor are in the form.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        517,
+        553
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c14",
+      "answer_span": "住宿生應於發生日起 7 日內辦理退離宿手續，始得申請退還宿費及保證金。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "住宿生應於發生 日起7日內",
+          "verified": true,
+          "start": 951,
+          "end": 964
+        },
+        {
+          "item": "E1",
+          "quote": "始得申請退還宿費及住宿保證金",
+          "verified": true,
+          "start": 1001,
+          "end": 1015
+        }
+      ],
+      "why": "Form states the 7-day rule and refund condition.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        562,
+        597
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c15",
+      "answer_span": "趙紀綱（住宿組組長）分機 62500",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "趙紀綱（住宿組組長）分機 62500",
+          "verified": true,
+          "start": 4032,
+          "end": 4050
+        }
+      ],
+      "why": "Exact match in dormitory list.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        607,
+        625
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c16",
+      "answer_span": "第五步：生僑組/原資中心辦理（特定身分學生）\n*   前往地點： 行政大樓 3 樓。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "(5)生僑組/原資中心",
+          "verified": true,
+          "start": 874,
+          "end": 885
+        },
+        {
+          "item": "E1",
+          "quote": "(行政大樓 3 樓) (僑生、港澳生、陸生至生僑組)",
+          "verified": true,
+          "start": 1034,
+          "end": 1060
+        }
+      ],
+      "why": "Step name and floor are in the form.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        627,
+        669
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c17",
+      "answer_span": "僑生、港澳生、陸生至生僑組",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "(僑生、港澳生、陸生至生僑組)",
+          "verified": true,
+          "start": 1045,
+          "end": 1060
+        }
+      ],
+      "why": "Stated in the form.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        678,
+        691
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c18",
+      "answer_span": "原住民族籍學生至原資中心",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "(原住民族籍學生至原資中心)",
+          "verified": true,
+          "start": 1061,
+          "end": 1075
+        }
+      ],
+      "why": "Stated in the form.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        701,
+        713
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c19",
+      "answer_span": "盧翠婷（組長）分機 63010",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "盧翠婷（組長 Section Chief）分機 63010",
+          "verified": true,
+          "start": 5869,
+          "end": 5898
+        }
+      ],
+      "why": "Same person, title and extension in the 生僑組 list (English gloss only differs).",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        729,
+        744
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c20",
+      "answer_span": "蔡炎龍（中心主任）分機 62200",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "蔡炎龍（中心主任 Director of the Indigenous Student Resource Center）分機 62200",
+          "verified": true,
+          "start": 5104,
+          "end": 5172
+        }
+      ],
+      "why": "Same person, title and extension in the indigenous center list.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        760,
+        777
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c21",
+      "answer_span": "第六步：國際合作事務處辦理（僅限國際學生）\n*   前往地點： 行政大樓 8 樓。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "（6）國際合作事務處",
+          "verified": true,
+          "start": 900,
+          "end": 910
+        },
+        {
+          "item": "E1",
+          "quote": "限國際學生(行政大樓8樓)",
+          "verified": true,
+          "start": 1090,
+          "end": 1103
+        }
+      ],
+      "why": "Step, international students only and 8th floor are in the form.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        779,
+        820
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c22",
+      "answer_span": "居留事由為「就讀」者，其外僑居留證將由移民署註銷，需在辦理完手續後 10 日內離境。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "居留事由為「就讀」者",
+          "verified": true,
+          "start": 1128,
+          "end": 1138
+        },
+        {
+          "item": "E1",
+          "quote": "將由移民署註銷",
+          "verified": true,
+          "start": 1146,
+          "end": 1153
+        },
+        {
+          "item": "E1",
+          "quote": "後10日內離境",
+          "verified": true,
+          "start": 1171,
+          "end": 1178
+        }
+      ],
+      "why": "Form notes state the residence permit cancellation and 10-day departure.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        829,
+        871
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c23",
+      "answer_span": "陳美芬（國合長）分機 67102",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "陳美芬（國合長）分機 67102",
+          "verified": true,
+          "start": 2273,
+          "end": 2289
+        }
+      ],
+      "why": "Exact match in the international office list.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        881,
+        897
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c24",
+      "answer_span": "第七步：教務處註冊組提交與審核\n*   前往地點： 行政大樓 4 樓。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "(7）教務處註冊組",
+          "verified": true,
+          "start": 1228,
+          "end": 1237
+        },
+        {
+          "item": "E1",
+          "quote": "(行政大樓 4 樓)",
+          "verified": true,
+          "start": 1309,
+          "end": 1319
+        }
+      ],
+      "why": "Registrar step and 4th floor are in the form.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        899,
+        934
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c25",
+      "answer_span": "註冊組受理： 王組長 分機 63273",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "註冊組 組 長",
+          "verified": true,
+          "start": 1246,
+          "end": 1253
+        },
+        {
+          "item": "E2",
+          "quote": "王組長（）分機 63273",
+          "verified": true,
+          "start": 751,
+          "end": 764
+        }
+      ],
+      "why": "Registrar section chief 王組長 with extension 63273 is listed.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        957,
+        976
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c26",
+      "answer_span": "教務長批示： 劉吉軒（教務長）分機 62160",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "教務長 批 示",
+          "verified": true,
+          "start": 1268,
+          "end": 1275
+        },
+        {
+          "item": "E2",
+          "quote": "劉吉軒（教務長）分機 62160",
+          "verified": true,
+          "start": 367,
+          "end": 383
+        }
+      ],
+      "why": "Dean approval step and the dean's name, title and extension match.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        985,
+        1008
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c27",
+      "answer_span": "申請時請於表單勾選領取方式",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "休學/保留學籍證明書 領取方式",
+          "verified": true,
+          "start": 1995,
+          "end": 2010
+        }
+      ],
+      "why": "The form has a pickup method section to tick.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        1020,
+        1033
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c28",
+      "answer_span": "三個工作天後親自至註冊組承辦人處領取",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "三個工作天後親自至註冊組承辦人處領取",
+          "verified": true,
+          "start": 2023,
+          "end": 2041
+        }
+      ],
+      "why": "Option in the form.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        1038,
+        1056
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c29",
+      "answer_span": "郵寄回申請人（請附足資回郵信封）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "郵寄回申請人（請附足資回郵信封）",
+          "verified": true,
+          "start": 2043,
+          "end": 2059
+        }
+      ],
+      "why": "Option in the form.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        1061,
+        1077
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c30",
+      "answer_span": "不需證明書",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "□不需證明書",
+          "verified": true,
+          "start": 2060,
+          "end": 2066
+        }
+      ],
+      "why": "Option in the form.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        1082,
+        1087
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c31",
+      "answer_span": "iNCCU $\\rightarrow$ 校務系統Web入口 $\\rightarrow$ 學生資訊系統 $\\rightarrow$ 資訊服務 $\\rightarrow$ 學年(期)學籍狀態查詢",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "iNCCU/校務系統Web入口/學生資訊系統/資訊服務/學年(期)學籍狀態查詢",
+          "verified": true,
+          "start": 2071,
+          "end": 2110
+        }
+      ],
+      "why": "Same navigation path (arrows replace slashes).",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        1093,
+        1188
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c32",
+      "answer_span": "經濟因素： 申請前可洽學務處生僑組申請濟助措施",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "如因經濟因素申請休學之學生，申請前可洽學務處生僑組申請各種濟助措施",
+          "verified": true,
+          "start": 1661,
+          "end": 1694
+        }
+      ],
+      "why": "Form note 4.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        1205,
+        1228
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c33",
+      "answer_span": "可洽學務處身心健康中心（電話：8237-7419）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "如因懷孕或終止懷孕等因素申請休學之學生",
+          "verified": true,
+          "start": 1699,
+          "end": 1718
+        },
+        {
+          "item": "E1",
+          "quote": "學務處身心健康中心討論相關醫療資源，電話：8237-7419",
+          "verified": true,
+          "start": 1721,
+          "end": 1751
+        }
+      ],
+      "why": "Form note 5 gives the center and phone.",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        1245,
+        1270
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

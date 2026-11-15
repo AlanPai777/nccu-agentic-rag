@@ -1,0 +1,170 @@
+{
+  "query_id": "course_limit",
+  "run_id": "run01",
+  "query": "選課上限幾學分",
+  "task": "對每個 keypoint 判斷答案：relevant / irrelevant / wrong，並指出直接陳述它的主張編號（見 trace.json）。",
+  "answer_text": "關於選課上限學分，根據本校學則及選課Q&A之規定如下：\n\n### 1. 學士班學生\n*   一般每學期修習上限：\n    *   第一至第三學年：每學期最多 25 學分（不得少於 12 學分）。\n    *   第四學年：每學期最多 25 學分（不得少於 10 學分）。\n*   特殊身分初選分發上限：\n    *   具雙主修身分者：31 學分。\n    *   具輔系身分者：28 學分。\n    *   無加修學系或未申請超修者：25 學分。\n*   超修/減修規定：\n    *   情況特殊經系主任核可者，得申請超修或減修學分，至多以 6 學分為限。\n    *   經認定符合運動成績績優學生標準者，每學期得減修學分，但至少應修習 3 學分。\n\n### 2. 碩、博士班學生\n*   每學期修習學分由各系（所）自定。\n\n### 3. 其他選課限制（科目數上限）\n*   初選登記科目數： 最多可登記 30 個科目。\n*   加退選階段： 「遞補科目 + 登記科目」合計上限為 50 個科目。\n*   加簽科目數： 學士班合計 5 科為限；碩博士班合計 3 科為限。\n*   特定科目分發限制： \n    *   外文通識：以一科為限。\n    *   一般通識（含核心通識）及書院通識：科目數以三科為限（書院通識至多分發一科）。\n    *   中文通識：每學期以一科為限。\n    *   體育必修課程：分發以一科為限（四年級學生如需超修，請洽體育室申請）。\n\n聯絡資訊：\n若對學分上限有進一步疑問，請洽教務處註冊組（行政大樓 4 樓）：\n*   鄧編審（分機 63277 或 63275）\n*   王組長（分機 63273）\n\n來源：\n*   選課Q&A_11407.pdf: https://aca.nccu.edu.tw/download/course/選課Q&A_11407.pdf\n*   本校學則有關選課摘錄: https://aca.nccu.edu.tw/zh/未分類文章樣板/5546-本校學則有關選課摘錄",
+  "gold_content": "學士班學生每學期選課學分上限為 25 學分（第一至第三學年每學期不得少於 12 學分，第四學年不得少於 10 學分）。具雙主修身分者上限提高為 31 學分，具輔系身分者為 28 學分。經系主任核可，學士班學生可超修或減修學分，至多 6 學分。碩、博士班每學期修習學分由各系（所）自定。",
+  "keypoints": [
+    {
+      "id": "K1",
+      "text": "學士班學生每學期修習學分上限為 25 學分"
+    },
+    {
+      "id": "K2",
+      "text": "具雙主修身分者每學期學分上限提高為 31 學分"
+    },
+    {
+      "id": "K3",
+      "text": "具輔系身分者每學期學分上限提高為 28 學分"
+    },
+    {
+      "id": "K4",
+      "text": "經系主任核可，學士班學生可於當學期超修或減修學分，超減修至多 6 學分"
+    },
+    {
+      "id": "K5",
+      "text": "碩、博士班學生每學期修習學分由各系（所）自定"
+    },
+    {
+      "id": "K6",
+      "text": "學士班學生第一至第三學年每學期修習學分的下限為 12 學分"
+    },
+    {
+      "id": "K7",
+      "text": "學士班學生第四學年每學期修習學分的下限為 10 學分"
+    }
+  ],
+  "context_items": [
+    {
+      "index": 3,
+      "role": "ToolMessage",
+      "tool": "search_texts",
+      "kind": null,
+      "chars": 94,
+      "title": "search_texts('選課上限學分') 候選皆不相關，judge理由: 所有候選頁面均為個別學年的『必修科目一覽表"
+    },
+    {
+      "index": 5,
+      "role": "ToolMessage",
+      "tool": "grep_texts_tool",
+      "kind": null,
+      "chars": 319,
+      "title": "grep_texts('選課上限') 找到3筆，前3筆:"
+    },
+    {
+      "index": 7,
+      "role": "ToolMessage",
+      "tool": "grep_texts_tool",
+      "kind": null,
+      "chars": 289,
+      "title": "grep_texts('選課 學分') 找到2筆，前3筆:"
+    },
+    {
+      "index": 9,
+      "role": "ToolMessage",
+      "tool": "grep_texts_tool",
+      "kind": null,
+      "chars": 134,
+      "title": "grep_texts('最高學分') 找到1筆，前3筆:"
+    },
+    {
+      "index": 11,
+      "role": "ToolMessage",
+      "tool": "grep_texts_tool",
+      "kind": null,
+      "chars": 150,
+      "title": "grep_texts('選課手冊') 找到2筆，前3筆:"
+    },
+    {
+      "index": 13,
+      "role": "ToolMessage",
+      "tool": "grep_texts_tool",
+      "kind": null,
+      "chars": 276,
+      "title": "grep_texts('修課上限') 找到4筆，前3筆:"
+    },
+    {
+      "index": 15,
+      "role": "ToolMessage",
+      "tool": "grep_texts_tool",
+      "kind": null,
+      "chars": 281,
+      "title": "grep_texts('學分上限') 找到20筆，前3筆:"
+    },
+    {
+      "index": 17,
+      "role": "ToolMessage",
+      "tool": "get_page_tool",
+      "kind": null,
+      "chars": 6606,
+      "title": "get_page 取得 6342 字，標題: 選課Q&A_11407.pdf，subdomain: aca"
+    },
+    {
+      "index": 18,
+      "role": "ToolMessage",
+      "tool": "get_page_tool",
+      "kind": null,
+      "chars": 2478,
+      "title": "get_page 取得 2162 字，標題: 5546-本校學則有關選課摘錄，subdomain: aca"
+    },
+    {
+      "index": 19,
+      "role": "HumanMessage",
+      "tool": null,
+      "kind": "contact_list",
+      "chars": 1416,
+      "title": "[辦公室聯絡資訊，以下是內容中提及的全部 2 個辦公室（註冊組、課務組），未經相關性篩選——這是完整清單，不代表每一個都"
+    },
+    {
+      "index": 20,
+      "role": "ContactPage",
+      "tool": "contact_node(page)",
+      "kind": "contact_page",
+      "chars": 2911,
+      "title": "職稱"
+    },
+    {
+      "index": 21,
+      "role": "ContactPage",
+      "tool": "contact_node(page)",
+      "kind": "contact_page",
+      "chars": 2131,
+      "title": "職稱"
+    }
+  ],
+  "context_note": "系統讀到的文字在 prediction.json 的 context[index-1].text（只列出文字長度與標題）。判斷 in_context 時用搜尋找關鍵字，不必整份讀。規則見 output_format.rules 的最後三條。",
+  "notes": {},
+  "output_file": "judge.json",
+  "output_format": {
+    "keypoints": [
+      {
+        "id": "K1",
+        "verdict": "relevant | irrelevant | wrong | not_applicable",
+        "claims": [
+          "c1"
+        ],
+        "reason": "一句話說明",
+        "in_context": "true | false（只在需要時填，見最後三條規則）",
+        "context_quote": "（in_context=true 時）從系統讀到的文字裡原樣抄出的一小段，證明那個事實在裡面",
+        "context_reason": "一句話說明為什麼判讀到／沒讀到"
+      }
+    ],
+    "judge": {
+      "model": "",
+      "prompt_version": "",
+      "note": ""
+    },
+    "rules": [
+      "relevant：答案裡有與這個 keypoint 相關且一致的陳述（不必每個細節都一樣，最重要的資訊一致即可）。",
+      "irrelevant：答案沒有提到，或只說資訊不足。",
+      "wrong：答案對這個 keypoint 給了具體但不同的內容。",
+      "not_applicable：只用在有適用條件的 keypoint（text 寫「答案若…」）。答案沒有滿足條件（例如根本沒列承辦人）時判 not_applicable，不計入分母；滿足條件才判 relevant 或 wrong。",
+      "claims 列出 trace.json 裡直接陳述這個 keypoint 的主張編號；沒提到就留空陣列。同一個主張可以同時連到多個 keypoint。",
+      "每個 keypoint 都要有一筆。",
+      "in_context（系統有沒有讀到這個 keypoint 要的事實）：由你判斷「事實」有沒有在系統讀到的文字裡，不是比對字句；寫法不同、版面不同都不影響，要看意思，而且事實要歸在對的單位或人（例如分機要是出納組的，不是別的單位的）。系統讀到的文字在 prediction.json 的 context（judge_input 的 context_items 列出每一項）。",
+      "什麼時候要填 in_context：verdict 是 relevant、而且它連到的主張有依據（supported）時不用填（程式直接算讀到）；not_applicable 不用填；其餘（irrelevant、wrong，或 relevant 但沒有依據）一定要填。",
+      "in_context=true 一定要附 context_quote：從系統讀到的文字（context_items 裡的某一項）原樣抄一小段（20～60 字以內），程式會驗證它真的在系統讀到的文字裡；驗證失敗會被當成沒讀到。in_context=false 不用附引文，寫 context_reason 說明找過什麼、沒找到。"
+    ]
+  }
+}

@@ -1,0 +1,624 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "擬申請抵免之科目若為體育、通識、外文通識，必須在送交系所辦理前先行送至相關開課單位審查",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "擬申請抵免科目如須校內相關開課單位審查（如中文通識、外文通識、體育、一般通識及雙主修輔系課程），應先行送審。",
+          "verified": true,
+          "start": 1411,
+          "end": 1465
+        }
+      ],
+      "why": "證據說須開課單位審查的科目應先行送審。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        24,
+        67
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "體育課程 $\\rightarrow$ 送至 體育室 審定",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "體育課程由體育室審核",
+          "verified": true,
+          "start": 4675,
+          "end": 4685
+        }
+      ],
+      "why": "表單說體育課程由體育室審核。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        86,
+        114
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "外文通識 $\\rightarrow$ 送至 外文中心 審定",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "外文通識由外文中心審核",
+          "verified": true,
+          "start": 4697,
+          "end": 4708
+        }
+      ],
+      "why": "表單說外文通識由外文中心審核。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        120,
+        149
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "一般通識課程 $\\rightarrow$ 送至 通識教育中心 審定",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "體育室、通識教育中心及外文中心審定",
+          "verified": true,
+          "start": 11359,
+          "end": 11376
+        }
+      ],
+      "why": "表單說一般通識課程送請通識教育中心審定。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        155,
+        188
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "中文通識科目 $\\rightarrow$ 由 中文系 審核",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "中文通識由中文系審核",
+          "verified": true,
+          "start": 4686,
+          "end": 4696
+        }
+      ],
+      "why": "表單說中文通識由中文系審核。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        194,
+        223
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c6",
+      "answer_span": "針對至大陸地區交換學生採逐案審查",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "准同意至大陸地區交換學生以逐案審查方式辦理",
+          "verified": true,
+          "start": 11467,
+          "end": 11488
+        }
+      ],
+      "why": "表單附註有此逐案審查規定。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        224,
+        240
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c7",
+      "answer_span": "國外大學修習之正式成績單正本或成績證明書",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "應提出國外大學所修習之正式成績單或成績證明書",
+          "verified": true,
+          "start": 1295,
+          "end": 1317
+        }
+      ],
+      "why": "頁面要求提出國外大學正式成績單或成績證明書。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        297,
+        317
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c8",
+      "answer_span": "修課之課程大綱等相關證明文件",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "併同出國學年期成績單正本乙份及課程大綱等相關文件",
+          "verified": true,
+          "start": 1343,
+          "end": 1367
+        }
+      ],
+      "why": "頁面要求附課程大綱等相關文件。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        323,
+        337
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c9",
+      "answer_span": "[國內/出國交換選課學分抵免申請表](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05)",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-05",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "國內/出國交換選課學分抵免申請書 / Application Form for Overseas or Domestic Exchange Class Credit"
+        }
+      ],
+      "why": "sources 的 label 即國內/出國交換選課學分抵免申請書。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        349,
+        444
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c10",
+      "answer_span": "若申請抵免的科目包含以下類別，請先持申請表至對應單位取得審查意見",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "擬申請抵免科目如須校內相關開課單位審查（如中文通識、外文通識、體育、一般通識及雙主修輔系課程），應先行送審。",
+          "verified": true,
+          "start": 1411,
+          "end": 1465
+        }
+      ],
+      "why": "證據說須審查的科目應先行送審。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        464,
+        496
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c11",
+      "answer_span": "體育課程 $\\rightarrow$ 體育室",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "體育課程由體育室審核",
+          "verified": true,
+          "start": 4675,
+          "end": 4685
+        }
+      ],
+      "why": "表單說體育課程由體育室審核。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        502,
+        524
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c12",
+      "answer_span": "外文通識 $\\rightarrow$ 外文中心",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "外文通識由外文中心審核",
+          "verified": true,
+          "start": 4697,
+          "end": 4708
+        }
+      ],
+      "why": "表單說外文通識由外文中心審核。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        530,
+        553
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c13",
+      "answer_span": "一般通識 $\\rightarrow$ 通識教育中心",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "體育室、通識教育中心及外文中心審定",
+          "verified": true,
+          "start": 11359,
+          "end": 11376
+        }
+      ],
+      "why": "表單說一般通識課程送請通識教育中心審定。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        559,
+        584
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c14",
+      "answer_span": "地點： 教務處（行政大樓 4 樓）",
+      "status": "unsupported",
+      "evidence": [],
+      "why": "證據只在註冊組項下有行政大樓 4 樓，未說教務處地點，頁尾也只有地址未指明教務處。",
+      "span_verified": true,
+      "status_checked": "unsupported",
+      "counted": true,
+      "span_pos": [
+        594,
+        611
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c15",
+      "answer_span": "楊編審（分機 62858）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E1",
+          "quote": "楊編審（）分機 62858",
+          "verified": true,
+          "start": 341,
+          "end": 354
+        }
+      ],
+      "why": "通識教育中心清單中楊編審對應分機 62858。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        626,
+        639
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c16",
+      "answer_span": "中文通識 $\\rightarrow$ 中文系",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "中文通識由中文系審核",
+          "verified": true,
+          "start": 4686,
+          "end": 4696
+        }
+      ],
+      "why": "表單說中文通識由中文系審核。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        644,
+        666
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c17",
+      "answer_span": "將經相關單位審查後（或不需審查）的申請表及證明文件，逕至原就讀系所辦公室送件申請",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "逕至各系所辦公室送件申請",
+          "verified": true,
+          "start": 242,
+          "end": 254
+        }
+      ],
+      "why": "頁面說逕至各系所辦公室送件申請。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        680,
+        720
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c18",
+      "answer_span": "由就讀系所認定科目是否列入畢業最低學分總數內計算",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "所修科目、學分數應否抵免列入畢業最低學分總數內計算，由就讀系所自行認定",
+          "verified": true,
+          "start": 11284,
+          "end": 11319
+        }
+      ],
+      "why": "表單附註相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        721,
+        745
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c19",
+      "answer_span": "經系所審查同意後，將送至教務處註冊組核辦",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "並送交各系所審查後由註冊組核辦",
+          "verified": true,
+          "start": 13660,
+          "end": 13675
+        }
+      ],
+      "why": "表單說送交系所審查後由註冊組核辦。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        758,
+        778
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c20",
+      "answer_span": "核定後將登錄於成績總表",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "經審查「同意抵免」之科目於教務處核定後登錄於本校成績總表",
+          "verified": true,
+          "start": 11404,
+          "end": 11432
+        }
+      ],
+      "why": "表單附註相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        779,
+        790
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c21",
+      "answer_span": "註冊組（行政大樓 4 樓）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E5",
+          "quote": "行政大樓 4 樓",
+          "verified": true,
+          "start": 833,
+          "end": 841
+        }
+      ],
+      "why": "聯絡清單中註冊組標示行政大樓 4 樓。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        800,
+        813
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c22",
+      "answer_span": "王組長（分機 63273）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E5",
+          "quote": "王組長（）分機 63273",
+          "verified": true,
+          "start": 1041,
+          "end": 1054
+        }
+      ],
+      "why": "註冊組清單中王組長對應分機 63273。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        832,
+        845
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c23",
+      "answer_span": "鄧編審（分機 63277）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E5",
+          "quote": "鄧編審（）分機 63277",
+          "verified": true,
+          "start": 1061,
+          "end": 1074
+        }
+      ],
+      "why": "註冊組清單中鄧編審對應分機 63277。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        854,
+        867
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c24",
+      "answer_span": "申請出國選課學年期之次學期三分之一基準日前辦理",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "申請出國選課學年期之次學期三分之一基準日前辦理",
+          "verified": true,
+          "start": 1250,
+          "end": 1273
+        }
+      ],
+      "why": "頁面辦理時間相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        889,
+        912
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c25",
+      "answer_span": "暑期專案者於當年 10 月 31 日前申請",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "專案簽准暑期交換出國學生於出國當年10月31日前辦理學分抵免",
+          "verified": true,
+          "start": 11250,
+          "end": 11280
+        }
+      ],
+      "why": "表單附註相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        913,
+        934
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c26",
+      "answer_span": "學士班以不超過畢業最低學分總數 $\\frac{1}{3}$ 為限",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "學士班以不超過畢業最低學分總數三分之一為限",
+          "verified": true,
+          "start": 11522,
+          "end": 11543
+        }
+      ],
+      "why": "表單附註相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        947,
+        979
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c27",
+      "answer_span": "博碩士生以不超過 $\\frac{1}{2}$ 為限",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "博碩士生以不超過畢業最低學分總數二分之一為限",
+          "verified": true,
+          "start": 11499,
+          "end": 11521
+        }
+      ],
+      "why": "表單附註相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        980,
+        1005
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

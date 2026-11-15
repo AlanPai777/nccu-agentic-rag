@@ -1,0 +1,545 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "辦理復學分為「期滿復學」與「提早復學」兩種情境",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "休學/保留學籍期滿復學與提早復學之規定",
+          "verified": true,
+          "start": 876,
+          "end": 895
+        }
+      ],
+      "why": "頁面標題列出期滿復學與提早復學兩種規定。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        9,
+        32
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "學生休學或保留學籍期滿後即應復學，請直接辦理繳費註冊相關事宜即可。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "學生休學或保留學籍期滿即應復學，並依規定期限辦妥繳費註冊相關事宜。",
+          "verified": true,
+          "start": 900,
+          "end": 933
+        }
+      ],
+      "why": "規定相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        73,
+        106
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "下載並填妥 [提早復學申請書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-04)",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "填妥「提早復學申請書」",
+          "verified": true,
+          "start": 1005,
+          "end": 1016
+        },
+        {
+          "item": "E4",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-04",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "提早復學申請書 / Application Form for Early Recommence of Study"
+        }
+      ],
+      "why": "需填提早復學申請書，且該網址在 sources 中標為提早復學申請書。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        172,
+        264
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "請明確勾選原申請項目（如：休學、保留學籍、保留入學資格或學士班專案服役保留學籍）。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "□休學 □保留學籍 □保留入學資格 □學士班專案服役保留學籍",
+          "verified": true
+        }
+      ],
+      "why": "表單的原申請項目欄列出這四個勾選項。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        285,
+        326
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "若為非本人親辦，需另填寫 [各項證明文件申辦委託書](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-02-05)",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "非本人親辦，需附委託書及被委託人身分證件正本",
+          "verified": true,
+          "start": 795,
+          "end": 817
+        },
+        {
+          "item": "E4",
+          "quote": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-02-05",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "各項證明文件申辦委託書 / Power of Attorney for Certificates"
+        }
+      ],
+      "why": "非本人親辦需附委託書，網址標為委託書。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        335,
+        438
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c6",
+      "answer_span": "並攜帶被委託人身分證件正本",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "非本人親辦，需附委託書及被委託人身分證件正本",
+          "verified": true,
+          "start": 795,
+          "end": 817
+        }
+      ],
+      "why": "規定相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        439,
+        452
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c7",
+      "answer_span": "應於復學之當學期「加退選結束前」書面提出申請",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "請於欲復學之當學期加退選結束前（學則第43條）書面提出申請",
+          "verified": true
+        }
+      ],
+      "why": "期限與書面申請相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        464,
+        486
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c8",
+      "answer_span": "原系所辦公室： 辦理系所會辦。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "系 所 會 辦",
+          "verified": true,
+          "start": 3258,
+          "end": 3265
+        }
+      ],
+      "why": "表單有系所會辦蓋章欄。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        538,
+        553
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c9",
+      "answer_span": "生活事務暨僑生輔導組（行政大樓 3 樓）： 僅男生及僑生需辦理。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "(僅男生及僑生需辦理) (請繳交歸屬證書正本或體位證書正本或退伍令影本) 【行政大樓三樓】",
+          "verified": true
+        }
+      ],
+      "why": "表單的生僑組欄註明僅男生及僑生、行政大樓三樓。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        558,
+        590
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c10",
+      "answer_span": "男生需繳交歸屬證書正本、體位證書正本或退伍令影本。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "請繳交歸屬證書正本或體位證書正本或退伍令影本",
+          "verified": true
+        }
+      ],
+      "why": "文件相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        590,
+        615
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c11",
+      "answer_span": "盧翠婷（組長）分機 63010",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E5",
+          "quote": "盧翠婷（組長）分機 63010",
+          "verified": true,
+          "start": 6546,
+          "end": 6561
+        }
+      ],
+      "why": "姓名、職稱、分機一致。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        624,
+        639
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c12",
+      "answer_span": "黃信翰（一級行政專員）分機 63011",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E5",
+          "quote": "黃信翰（一級行政專員）分機 63011",
+          "verified": true,
+          "start": 6810,
+          "end": 6829
+        }
+      ],
+      "why": "姓名、職稱、分機一致。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        648,
+        667
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c13",
+      "answer_span": "國際合作事務處（行政大樓 8 樓）： 僅國際學生需辦理。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "（僅國際學生需辦理）",
+          "verified": true
+        },
+        {
+          "item": "E4",
+          "quote": "限國際學生(行政大樓8樓)",
+          "verified": true,
+          "start": 1737,
+          "end": 1750
+        }
+      ],
+      "why": "表單註明僅國際學生及 8 樓。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        672,
+        700
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c14",
+      "answer_span": "薛健吾（組長）分機 67800",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E5",
+          "quote": "薛健吾（組長）分機 67800",
+          "verified": true,
+          "start": 6155,
+          "end": 6170
+        }
+      ],
+      "why": "姓名、職稱、分機一致。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        709,
+        724
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c15",
+      "answer_span": "凌小姐（國際學生事務督導）分機 62510",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E5",
+          "quote": "凌小姐（國際學生事務督導、計畫專員）分機 62510",
+          "verified": true,
+          "start": 5507,
+          "end": 5533
+        }
+      ],
+      "why": "同一人與分機，答案只寫了職稱的前一部分。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        733,
+        754
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c16",
+      "answer_span": "將蓋章完畢的申請書送至 教務處註冊組（行政大樓 4 樓） 辦理最終核准。",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "送至教務處註冊組",
+          "verified": true,
+          "start": 848,
+          "end": 856
+        },
+        {
+          "item": "E4",
+          "quote": "(行政大樓 4 樓)",
+          "verified": true,
+          "start": 1956,
+          "end": 1966
+        },
+        {
+          "item": "E4",
+          "quote": "本申請經核准後，即完成復學手續",
+          "verified": true
+        }
+      ],
+      "why": "蓋章後送註冊組，4 樓，核准後完成復學。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        771,
+        807
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c17",
+      "answer_span": "鄧編審 分機 63277 或 63275",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E5",
+          "quote": "鄧編審（）分機 63277",
+          "verified": true,
+          "start": 397,
+          "end": 410
+        },
+        {
+          "item": "E5",
+          "quote": "鄧編審（）分機 63275",
+          "verified": true,
+          "start": 417,
+          "end": 430
+        }
+      ],
+      "why": "兩個分機都屬於鄧編審。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        850,
+        870
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c18",
+      "answer_span": "王組長 分機 63273",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E5",
+          "quote": "王組長（）分機 63273",
+          "verified": true,
+          "start": 377,
+          "end": 390
+        }
+      ],
+      "why": "稱呼與分機一致。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        898,
+        910
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c19",
+      "answer_span": "劉吉軒（教務長）分機 62160",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E5",
+          "quote": "劉吉軒（教務長）分機 62160",
+          "verified": true,
+          "start": 2563,
+          "end": 2579
+        }
+      ],
+      "why": "姓名、職稱、分機一致。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        939,
+        955
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c20",
+      "answer_span": "申請經核准後即完成復學手續",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "本申請經核准後，即完成復學手續",
+          "verified": true
+        }
+      ],
+      "why": "文字相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        968,
+        981
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c21",
+      "answer_span": "請務必依規定期限辦理繳費註冊（若延誤將依延誤註冊規定處理）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "應依規定期限辦理註冊。 (如有延誤，依延誤註冊規定處理)",
+          "verified": true
+        }
+      ],
+      "why": "規定相同。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        982,
+        1011
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c22",
+      "answer_span": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E3",
+          "quote": "https://aca.nccu.edu.tw/zh/服務項目/學籍/休學-保留學籍-退學-提早復學",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "休學-保留學籍-退學-提早復學"
+        }
+      ],
+      "why": "網址在 E3 sources 中。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        1022,
+        1072
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

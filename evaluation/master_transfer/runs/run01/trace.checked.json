@@ -1,0 +1,459 @@
+{
+  "claims": [
+    {
+      "id": "c1",
+      "answer_span": "碩士班轉系所申請需經過原就讀系所、擬轉入系所以及教務處三個單位的同意與複核",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "申請案經學生原就讀系所及轉入所同意並送教務處複核後",
+          "verified": true
+        }
+      ],
+      "why": "表單說明載明原系所、轉入所同意並送教務處複核。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        0,
+        37
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c2",
+      "answer_span": "學生需填寫「國立政治大學碩士班轉系所申請書」（表單編號：QP-T01-05-05）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "國立政治大學碩士班轉系所申請書",
+          "verified": true
+        },
+        {
+          "item": "E2",
+          "quote": "表單編號：QP-T01-05-05",
+          "verified": true,
+          "start": 80,
+          "end": 97
+        }
+      ],
+      "why": "表單名稱與編號相符。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        65,
+        106
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c3",
+      "answer_span": "[碩士班轉系所申請書.pdf](https://tiipm.nccu.edu.tw/xhr/announcements/file/6a0676e66c08dba89dd02af6/轉所申請書.pdf)",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "https://tiipm.nccu.edu.tw/xhr/announcements/file/6a0676e66c08dba89dd02af6/轉所申請書.pdf",
+          "from": "sources",
+          "verified": true,
+          "quote_in": "sources",
+          "label": "轉所申請書.pdf"
+        }
+      ],
+      "why": "網址在 E2 sources，label 為轉所申請書.pdf，即該申請書。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        118,
+        218
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c4",
+      "answer_span": "碩士班學生於修業第二學年開始前可申請，且以一次為限",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "碩士班學生於修業第二學年開始前",
+          "verified": true
+        },
+        {
+          "item": "E2",
+          "quote": "申請轉所，並以一次為限",
+          "verified": true,
+          "start": 543,
+          "end": 554
+        }
+      ],
+      "why": "表單說明第2點。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        244,
+        269
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c5",
+      "answer_span": "一般研究所學生與在職專班學生不得互轉",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "一般研究所學生與在職專班學生不得互轉",
+          "verified": true
+        }
+      ],
+      "why": "表單說明第1點。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        284,
+        302
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c6",
+      "answer_span": "申請轉所當學期不得休學",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "學生申請轉所當學期不得休學",
+          "verified": true
+        }
+      ],
+      "why": "表單說明第6點。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        303,
+        314
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c7",
+      "answer_span": "若核准後辦理休學，則轉所自始無效且不得再申請",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "若於申請核准後，辦理休學者，其轉所自始無效，且不得再申請轉系所",
+          "verified": true
+        }
+      ],
+      "why": "表單說明第6點。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        315,
+        337
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c8",
+      "answer_span": "上學期為 12/1 至 12/31；下學期為 6/1 至 6/30",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "上學期為12月1日至12月31日止；下學期為6月1日至6月30日止",
+          "verified": true,
+          "start": 641,
+          "end": 674
+        }
+      ],
+      "why": "申請期間相符。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        353,
+        386
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c9",
+      "answer_span": "審核並簽章「同意轉出」",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "原就讀系所主管審核意見",
+          "verified": true
+        },
+        {
+          "item": "E2",
+          "quote": "□同意轉出本系所(組)",
+          "verified": true,
+          "start": 941,
+          "end": 952
+        }
+      ],
+      "why": "表單有原系所主管同意轉出並簽章欄。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        439,
+        450
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c10",
+      "answer_span": "審核並簽章「同意轉入」",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "擬轉入就讀系所主管審核意見",
+          "verified": true
+        },
+        {
+          "item": "E2",
+          "quote": "□同意轉入本系所(組)",
+          "verified": true,
+          "start": 985,
+          "end": 996
+        }
+      ],
+      "why": "表單有轉入系所主管同意轉入並簽章欄。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        467,
+        478
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c11",
+      "answer_span": "若轉入所不同意，申請書將逕送回原系所並通知學生",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "請逕送回原系所並通知學生",
+          "verified": true,
+          "start": 729,
+          "end": 741
+        }
+      ],
+      "why": "表單說明第5點。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        491,
+        514
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c12",
+      "answer_span": "將經兩所主管同意的申請書送至教務處註冊組複核",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "送教務處複核後，註冊組據以處理學籍等後續事宜",
+          "verified": true
+        },
+        {
+          "item": "E2",
+          "quote": "教 務 處 審 核",
+          "verified": true,
+          "start": 1031,
+          "end": 1040
+        }
+      ],
+      "why": "送教務處複核，教務處審核欄為註冊組人員簽核；略有推論但大致相符。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        535,
+        557
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c13",
+      "answer_span": "由註冊組承辦人、組長及教務長簽核",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "註冊組承辦人",
+          "verified": true,
+          "start": 1046,
+          "end": 1052
+        },
+        {
+          "item": "E2",
+          "quote": "註冊組組長",
+          "verified": true,
+          "start": 1055,
+          "end": 1060
+        },
+        {
+          "item": "E2",
+          "quote": "教務長",
+          "verified": true,
+          "start": 1072,
+          "end": 1075
+        }
+      ],
+      "why": "教務處審核欄列出這三個簽核者。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        558,
+        574
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c14",
+      "answer_span": "正式處理學籍變更事宜",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "註冊組據以處理學籍等後續事宜",
+          "verified": true
+        }
+      ],
+      "why": "註冊組處理學籍等後續事宜。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        576,
+        586
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c15",
+      "answer_span": "行政大樓 4 樓",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "行政大樓 4 樓",
+          "verified": true,
+          "start": 117,
+          "end": 125
+        }
+      ],
+      "why": "註冊組地點。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        598,
+        606
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c16",
+      "answer_span": "王組長（分機 63273）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "王組長（）分機 63273",
+          "verified": true,
+          "start": 325,
+          "end": 338
+        }
+      ],
+      "why": "姓名、職稱、分機皆相符。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        624,
+        637
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c17",
+      "answer_span": "鄧編審（分機 63277）",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E4",
+          "quote": "鄧編審（）分機 63277",
+          "verified": true,
+          "start": 345,
+          "end": 358
+        }
+      ],
+      "why": "姓名、職稱、分機皆相符。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        646,
+        659
+      ],
+      "overlaps_with": []
+    },
+    {
+      "id": "c18",
+      "answer_span": "學生應於開學日起二週內，填寫「學分認定申請書」並附成績單，送至轉入系所辦理學分認定審核",
+      "status": "supported",
+      "evidence": [
+        {
+          "item": "E2",
+          "quote": "學生應於轉所生效當學期開學日起二週內填寫學分認定申請書並附成績單",
+          "verified": true,
+          "start": 804,
+          "end": 836
+        },
+        {
+          "item": "E2",
+          "quote": "送轉入系所辦理",
+          "verified": true
+        }
+      ],
+      "why": "表單說明第7點。",
+      "span_verified": true,
+      "status_checked": "supported",
+      "counted": true,
+      "span_pos": [
+        689,
+        732
+      ],
+      "overlaps_with": []
+    }
+  ],
+  "judge": {
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "isolated-v3",
+    "note": "isolated trace by a subagent that read only trace_input.json"
+  },
+  "warnings": []
+}

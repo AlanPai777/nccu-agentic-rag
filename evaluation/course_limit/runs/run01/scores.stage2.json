@@ -1,0 +1,172 @@
+{
+  "query_id": "course_limit",
+  "run_id": "run01",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照）",
+    "live": "2026-11-11（現場）；學則、教務處 QA、選課須知（114.07）、選課 Q&A（114.07）四份與快照逐字一致；超減修申請流程（register18.pdf）只有快照，沒有現場請求"
+  },
+  "system_version": "dde1c24",
+  "metrics_version": "2026-11-15.context-recall-judged",
+  "rouge_l": {
+    "p": 0.146,
+    "r": 0.8,
+    "f": 0.2469
+  },
+  "accuracy": {
+    "hard_keypoints": 5,
+    "hit": 5,
+    "accuracy": 1.0,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      2,
+      4,
+      6,
+      8,
+      10,
+      12,
+      14,
+      16,
+      17,
+      19,
+      20
+    ],
+    "context_chars": 14031,
+    "sentence": {
+      "p": 0.0158,
+      "r": null,
+      "f": null,
+      "note": "Recall 與 F1 要等階段 3 的 Claude 判斷（stage3.py score）才算；這裡只有字串比對的 Precision"
+    },
+    "words": {
+      "p": 0.0312,
+      "r": 0.8657,
+      "f": 0.0603
+    },
+    "string_match": [
+      {
+        "id": "K1",
+        "found": true,
+        "matched_reference": "學士班學生第一至第三學年每學期修習學分，不得少於十二學分，不得多於二十五學分"
+      },
+      {
+        "id": "K2",
+        "found": true,
+        "matched_reference": "具雙主修身分者為31學分，具輔系身分者為28學分，無加修學系或未申請超修者為25學分"
+      },
+      {
+        "id": "K3",
+        "found": true,
+        "matched_reference": "具雙主修身分者為31學分，具輔系身分者為28學分，無加修學系或未申請超修者為25學分"
+      },
+      {
+        "id": "K4",
+        "found": true,
+        "matched_reference": "學生若因情況特殊，經系主任核可者，得於當學期超修或減修學分。超減修至多以六學分為限"
+      },
+      {
+        "id": "K5",
+        "found": true,
+        "matched_reference": "碩、博士班學生每學期修習學分由各系(所)自定"
+      },
+      {
+        "id": "K6",
+        "found": true,
+        "matched_reference": "第一至第三學年每學期修習學分，不得少於十二學分"
+      },
+      {
+        "id": "K7",
+        "found": true,
+        "matched_reference": "第四學年每學期不得少於十學分"
+      }
+    ],
+    "note": "字串比對的機械指標（Sentence Precision、Words P／R／F1）只供跨 run 比較，不代表系統有沒有讀到；字串比對的逐項結果在 string_match，不用來判斷「有沒有讀到」。"
+  },
+  "keypoints": {
+    "accuracy_rule": [
+      {
+        "id": "K1",
+        "kind": "hard",
+        "verdict": "hit",
+        "matched_expressions": [
+          "25學分"
+        ]
+      },
+      {
+        "id": "K2",
+        "kind": "hard",
+        "verdict": "hit",
+        "matched_expressions": [
+          "31學分"
+        ]
+      },
+      {
+        "id": "K3",
+        "kind": "hard",
+        "verdict": "hit",
+        "matched_expressions": [
+          "28學分"
+        ]
+      },
+      {
+        "id": "K4",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K5",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K6",
+        "kind": "hard",
+        "verdict": "hit",
+        "matched_expressions": [
+          "12學分"
+        ]
+      },
+      {
+        "id": "K7",
+        "kind": "hard",
+        "verdict": "hit",
+        "matched_expressions": [
+          "10學分"
+        ]
+      }
+    ],
+    "funnel_stage2": [
+      {
+        "id": "K1",
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K2",
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K3",
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K4",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K5",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K6",
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K7",
+        "rule_verdict": "hit"
+      }
+    ]
+  }
+}

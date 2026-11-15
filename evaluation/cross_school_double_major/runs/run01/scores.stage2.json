@@ -1,0 +1,395 @@
+{
+  "query_id": "cross_school_double_major",
+  "run_id": "run01",
+  "gold_data_as_of": {
+    "snapshot": "2026-08（output/ 快照）；表單 2026-08（output/ 快照；QP-T01-04-21 製表日期 20230331）",
+    "live": "2026-11-14（現場）（教務處專區頁與辦法 PDF，curl；moltke 表單連結沒有送請求）；註冊組聯絡人與樓層的現場依據在 evaluation/registry/"
+  },
+  "system_version": "dde1c24",
+  "metrics_version": "2026-11-15.context-recall-judged",
+  "rouge_l": {
+    "p": 0.1237,
+    "r": 0.24,
+    "f": 0.1633
+  },
+  "accuracy": {
+    "hard_keypoints": 4,
+    "hit": 2,
+    "accuracy": 0.5,
+    "rule": "答案命中任一 acceptable_expressions，且沒有錯誤的分機值，才算 hit；條件式 keypoint 不適用時不計入"
+  },
+  "context": {
+    "counted_context_indices": [
+      2,
+      4,
+      6
+    ],
+    "context_chars": 3852,
+    "sentence": {
+      "p": 0.0,
+      "r": null,
+      "f": null,
+      "note": "Recall 與 F1 要等階段 3 的 Claude 判斷（stage3.py score）才算；這裡只有字串比對的 Precision"
+    },
+    "words": {
+      "p": 0.1024,
+      "r": 0.4132,
+      "f": 0.1641
+    },
+    "string_match": [
+      {
+        "id": "K1",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K2",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K3",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K4",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K5",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K6",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K7",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K8",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K9",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K10",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K11",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K12",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K13",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K14",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K15",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K16",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K17",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K18",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K19",
+        "found": false,
+        "matched_reference": null
+      },
+      {
+        "id": "K20",
+        "found": null,
+        "matched_reference": null
+      },
+      {
+        "id": "K21",
+        "found": null,
+        "matched_reference": null
+      }
+    ],
+    "note": "字串比對的機械指標（Sentence Precision、Words P／R／F1）只供跨 run 比較，不代表系統有沒有讀到；字串比對的逐項結果在 string_match，不用來判斷「有沒有讀到」。"
+  },
+  "keypoints": {
+    "accuracy_rule": [
+      {
+        "id": "K1",
+        "kind": "hard",
+        "verdict": "miss",
+        "matched_expressions": []
+      },
+      {
+        "id": "K2",
+        "kind": "hard",
+        "form": "QP-T01-04-21",
+        "url": "https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-04-21",
+        "verdict": "miss",
+        "applies_if": null
+      },
+      {
+        "id": "K3",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K4",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K5",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K6",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K7",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K8",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K9",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K10",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K11",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K12",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K13",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K14",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K15",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K16",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K17",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K18",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K19",
+        "kind": "semantic",
+        "verdict": "needs_llm",
+        "note": "語意事實，規則版不判斷，交給階段 3 的 Keypoint 判斷"
+      },
+      {
+        "id": "K20",
+        "kind": "hard",
+        "office": "registrar",
+        "matched": [
+          {
+            "office": "registrar",
+            "said": "組長",
+            "ext": "63273"
+          },
+          {
+            "office": "registrar",
+            "said": "王組長",
+            "ext": "63273"
+          },
+          {
+            "office": "registrar",
+            "said": "編審",
+            "ext": "63277"
+          },
+          {
+            "office": "registrar",
+            "said": "鄧編審",
+            "ext": "63277"
+          }
+        ],
+        "representative_line": [],
+        "pair_mismatches": [],
+        "verdict": "hit",
+        "applies_if": null
+      },
+      {
+        "id": "K21",
+        "kind": "hard",
+        "office": "registrar",
+        "unit": null,
+        "matched": "4樓",
+        "floor": "行政大樓四樓",
+        "verdict": "hit",
+        "applies_if": null
+      }
+    ],
+    "funnel_stage2": [
+      {
+        "id": "K1",
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K2",
+        "rule_verdict": "miss"
+      },
+      {
+        "id": "K3",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K4",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K5",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K6",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K7",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K8",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K9",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K10",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K11",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K12",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K13",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K14",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K15",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K16",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K17",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K18",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K19",
+        "rule_verdict": "needs_llm"
+      },
+      {
+        "id": "K20",
+        "rule_verdict": "hit"
+      },
+      {
+        "id": "K21",
+        "rule_verdict": "hit"
+      }
+    ]
+  }
+}

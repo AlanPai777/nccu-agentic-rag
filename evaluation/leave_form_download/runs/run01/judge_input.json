@@ -1,0 +1,134 @@
+{
+  "query_id": "leave_form_download",
+  "run_id": "run01",
+  "query": "休學申請表在哪裡下載",
+  "task": "對每個 keypoint 判斷答案：relevant / irrelevant / wrong，並指出直接陳述它的主張編號（見 trace.json）。",
+  "answer_text": "您可以透過以下連結下載休學申請表：\n\n【表單下載】\n*   表單名稱： 休學/保留學籍申請書 (表單編號：QP-T01-03-02)\n*   下載連結： [點此下載](https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02)\n\n---\n\n【辦理流程手冊】\n若您欲辦理休學，請依照下列步驟依序前往各站點核章辦理：\n\n第一步：填寫申請書並由系所核章\n*   填寫注意： \n    *   請於申請書中圈選原因（如：傷病、經濟因素、系所不符預期、工作、家務原因、論文撰寫、懷孕/育嬰/兵役或其他）。\n    *   未成年學生須經法定代理人簽章同意。\n    *   申請服役保留學籍者請附服役證明；懷孕/分娩/撫育三歲以下子女者請附相關醫療證明。\n    *   申請當學期休學者，請於期末考試（休學截止日）前提出。\n*   前往地點： 各系所辦公室。\n\n第二步：圖書館借還確認\n*   前往地點： 總圖或分館借還書櫃檯。\n\n第三步：出納組確認帳戶\n*   前往地點： 行政大樓 5 樓。\n*   聯絡人： 劉桂芬（組長）分機 62120\n\n第四步：住宿組辦理（僅限住宿生）\n*   前往地點： 行政大樓 3 樓。\n*   注意： 住宿生應於發生日起 7 日內辦理退離宿手續，始得申請退還宿費及保證金。\n*   聯絡人： 趙紀綱（住宿組組長）分機 62500\n\n第五步：生僑組/原資中心辦理（特定身分學生）\n*   前往地點： 行政大樓 3 樓。\n    *   僑生、港澳生、陸生至生僑組。\n    *   原住民族籍學生至原資中心。\n*   聯絡人（生僑組）： 盧翠婷（組長）分機 63010\n*   聯絡人（原資中心）： 蔡炎龍（中心主任）分機 62200\n\n第六步：國際合作事務處辦理（僅限國際學生）\n*   前往地點： 行政大樓 8 樓。\n*   注意： 居留事由為「就讀」者，其外僑居留證將由移民署註銷，需在辦理完手續後 10 日內離境。\n*   聯絡人： 陳美芬（國合長）分機 67102\n\n第七步：教務處註冊組提交與審核\n*   前往地點： 行政大樓 4 樓。\n*   審核層級與聯絡人：\n    1.  註冊組受理： 王組長 分機 63273\n    2.  教務長批示： 劉吉軒（教務長）分機 62160\n\n【證明書領取方式】\n申請時請於表單勾選領取方式：\n1. 三個工作天後親自至註冊組承辦人處領取。\n2. 郵寄回申請人（請附足資回郵信封）。\n3. 不需證明書（可自行至 iNCCU $\\rightarrow$ 校務系統Web入口 $\\rightarrow$ 學生資訊系統 $\\rightarrow$ 資訊服務 $\\rightarrow$ 學年(期)學籍狀態查詢）。\n\n【其他協助資訊】\n*   經濟因素： 申請前可洽學務處生僑組申請濟助措施。\n*   懷孕/終止懷孕因素： 可洽學務處身心健康中心（電話：8237-7419）。",
+  "gold_content": "休學申請書的名稱是「休學/保留學籍申請書」，表單編號 QP-T01-03-02，下載連結：https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02",
+  "keypoints": [
+    {
+      "id": "K1",
+      "text": "休學申請書的表單編號是 QP-T01-03-02"
+    },
+    {
+      "id": "K2",
+      "text": "休學申請書的下載連結是 https://moltke.nccu.edu.tw/formservice_SSO/link.jsp?viewdetail=QP-T01-03-02"
+    }
+  ],
+  "context_items": [
+    {
+      "index": 1,
+      "role": "HumanMessage",
+      "tool": null,
+      "kind": null,
+      "chars": 2799,
+      "title": "[表單全文，系統偵測到表單編號後自動抓取，請直接引用其中的流程/站點/費用等細節]"
+    },
+    {
+      "index": 2,
+      "role": "HumanMessage",
+      "tool": null,
+      "kind": "contact_list",
+      "chars": 10852,
+      "title": "[辦公室聯絡資訊，以下是內容中提及的全部 8 個辦公室（教務長室、註冊組、身心健康中心、國際合作事務處、住宿輔導組、原住"
+    },
+    {
+      "index": 3,
+      "role": "ContactPage",
+      "tool": "contact_node(page)",
+      "kind": "contact_page",
+      "chars": 1919,
+      "title": "職稱"
+    },
+    {
+      "index": 4,
+      "role": "ContactPage",
+      "tool": "contact_node(page)",
+      "kind": "contact_page",
+      "chars": 2911,
+      "title": "職稱"
+    },
+    {
+      "index": 5,
+      "role": "ContactPage",
+      "tool": "contact_node(page)",
+      "kind": "contact_page",
+      "chars": 11871,
+      "title": "[成員介紹](https://osa.nccu.edu.tw/tw/身心健康中心/業務職掌/成員介紹)"
+    },
+    {
+      "index": 6,
+      "role": "ContactPage",
+      "tool": "contact_node(page)",
+      "kind": "contact_page",
+      "chars": 4956,
+      "title": "[首頁](https://oic.nccu.edu.tw/) > 工作職掌"
+    },
+    {
+      "index": 7,
+      "role": "ContactPage",
+      "tool": "contact_node(page)",
+      "kind": "contact_page",
+      "chars": 8524,
+      "title": "[成員介紹](https://osa.nccu.edu.tw/tw/住宿輔導組/關於我們/成員介紹)"
+    },
+    {
+      "index": 8,
+      "role": "ContactPage",
+      "tool": "contact_node(page)",
+      "kind": "contact_page",
+      "chars": 2129,
+      "title": "[成員介紹](https://osa.nccu.edu.tw/tw/原資中心/關於我們-原資中心/成員介紹-原資中心)"
+    },
+    {
+      "index": 9,
+      "role": "ContactPage",
+      "tool": "contact_node(page)",
+      "kind": "contact_page",
+      "chars": 2851,
+      "title": "[成員介紹](https://osa.nccu.edu.tw/tw/生活事務暨僑生輔導組/關於我們/成員介紹)"
+    },
+    {
+      "index": 10,
+      "role": "ContactPage",
+      "tool": "contact_node(page)",
+      "kind": "contact_page",
+      "chars": 2465,
+      "title": "單位主管"
+    }
+  ],
+  "context_note": "系統讀到的文字在 prediction.json 的 context[index-1].text（只列出文字長度與標題）。判斷 in_context 時用搜尋找關鍵字，不必整份讀。規則見 output_format.rules 的最後三條。",
+  "notes": {},
+  "output_file": "judge.json",
+  "output_format": {
+    "keypoints": [
+      {
+        "id": "K1",
+        "verdict": "relevant | irrelevant | wrong | not_applicable",
+        "claims": [
+          "c1"
+        ],
+        "reason": "一句話說明",
+        "in_context": "true | false（只在需要時填，見最後三條規則）",
+        "context_quote": "（in_context=true 時）從系統讀到的文字裡原樣抄出的一小段，證明那個事實在裡面",
+        "context_reason": "一句話說明為什麼判讀到／沒讀到"
+      }
+    ],
+    "judge": {
+      "model": "",
+      "prompt_version": "",
+      "note": ""
+    },
+    "rules": [
+      "relevant：答案裡有與這個 keypoint 相關且一致的陳述（不必每個細節都一樣，最重要的資訊一致即可）。",
+      "irrelevant：答案沒有提到，或只說資訊不足。",
+      "wrong：答案對這個 keypoint 給了具體但不同的內容。",
+      "not_applicable：只用在有適用條件的 keypoint（text 寫「答案若…」）。答案沒有滿足條件（例如根本沒列承辦人）時判 not_applicable，不計入分母；滿足條件才判 relevant 或 wrong。",
+      "claims 列出 trace.json 裡直接陳述這個 keypoint 的主張編號；沒提到就留空陣列。同一個主張可以同時連到多個 keypoint。",
+      "每個 keypoint 都要有一筆。",
+      "in_context（系統有沒有讀到這個 keypoint 要的事實）：由你判斷「事實」有沒有在系統讀到的文字裡，不是比對字句；寫法不同、版面不同都不影響，要看意思，而且事實要歸在對的單位或人（例如分機要是出納組的，不是別的單位的）。系統讀到的文字在 prediction.json 的 context（judge_input 的 context_items 列出每一項）。",
+      "什麼時候要填 in_context：verdict 是 relevant、而且它連到的主張有依據（supported）時不用填（程式直接算讀到）；not_applicable 不用填；其餘（irrelevant、wrong，或 relevant 但沒有依據）一定要填。",
+      "in_context=true 一定要附 context_quote：從系統讀到的文字（context_items 裡的某一項）原樣抄一小段（20～60 字以內），程式會驗證它真的在系統讀到的文字裡；驗證失敗會被當成沒讀到。in_context=false 不用附引文，寫 context_reason 說明找過什麼、沒找到。"
+    ]
+  }
+}
