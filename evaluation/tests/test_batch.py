@@ -295,7 +295,17 @@ class EndToEndOfflineTest(unittest.TestCase):
         self.assertEqual(batch.cmd_export("batch01", root=root, batches=root / "batches", say=lambda s: None), 0)
         jl = [json.loads(x) for x in (bd / "dashboard.jsonl").read_text(encoding="utf-8").splitlines()]
         self.assertEqual((len(jl), jl[0]["source"], jl[0]["run"]["run_id"]), (1, "real", "run01"))
-        self.assertIn("live 與轉址觀察", (bd / "report.md").read_text(encoding="utf-8"))
+        report = (bd / "report.md").read_text(encoding="utf-8")
+        self.assertIn("live 與轉址觀察", report)
+        self.assertIn("## 總表", report)
+        self.assertIn("| 1 | 出納組電話 | run01 | ok |", report)
+        self.assertFalse((bd / "dashboard_all.jsonl").exists())              # no cases_all.json: nothing extra is written
+        # a cases_all.json (the eleven-question list that borrows runs from another batch) drives the table and dashboard_all.jsonl too
+        batch._write(bd / "cases_all.json", {"note": "t", "cases": [{"id": 1, "question": "cashier_contact", "short": "出納組電話",
+                                                                       "group": "Factual Questions", "dir": "runs/run01"}]})
+        self.assertEqual(batch.cmd_export("batch01", root=root, batches=root / "batches", say=lambda s: None), 0)
+        self.assertEqual(len((bd / "dashboard_all.jsonl").read_text(encoding="utf-8").splitlines()), 1)
+        self.assertIn("來自 `cases_all.json`", (bd / "report.md").read_text(encoding="utf-8"))
 
 
 class CliSafetyTest(unittest.TestCase):

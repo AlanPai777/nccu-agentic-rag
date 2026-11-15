@@ -329,6 +329,29 @@ def live_observations(pred: dict) -> dict:
     return {"states": states, "moved": moved}
 
 
+def summary_table(batch_dir: Path, manifest: dict, root: Path = EVAL) -> list[str]:
+    """每題一列的總表。有 cases_all.json（把別批的 run 補進來的 11 題清單，例如 Q1）就用它，否則用這批 manifest 的題目。"""
+    import dashboard.export_scores as ex
+    spec = _read(batch_dir / "cases_all.json") or cases_from_manifest(manifest, root)
+    f = lambda x: "—" if x is None else f"{x:.2f}"
+    L = ["## 總表", "",
+         "| Q | 題目 | run | 狀態 | Completeness | Hallucination | Irrelevance | Sentence R | 有依據比例 | 規則 Accuracy | 不計分 |",
+         "|---|---|---|---|---|---|---|---|---|---|---|"]
+    versions = set()
+    for c in spec["cases"]:
+        r = ex.build_row(c, root)
+        acc, ev = r.get("accuracy"), r.get("evidence") or {}
+        excl = "、".join(x["id"] for x in (r.get("responses") or {}).get("excluded") or []) or ""
+        versions.add(r.get("metrics_version"))
+        L.append(f"| {r['query']['query_id']} | {r['query']['short']} | {r['run_id'] or '—'} | {r['status']} | {f(r['completeness'])} | {f(r['hallucination'])} | "
+                 f"{f(r['irrelevance'])} | {f(r['Sentences_Recall'])} | {f(ev.get('rate'))} | {(str(acc['hit']) + '/' + str(acc['total'])) if acc else '—'} | {excl} |")
+    L += ["", f"- 每題用哪個 run、指標版本：{'、'.join(sorted(v for v in versions if v)) or '（沒有算分）'}；Q1 等不在這批 manifest 裡的題目來自 `cases_all.json`。"
+          "各題的 run 不一定同一次跑（有重跑的題目用重跑的 run，見 manifest 的 reruns）。",
+          "- 規則 Accuracy 與 Claude 判斷的 Completeness 是兩個獨立判斷；已知規則版有樓層與分機的誤判（議題 F34、F38），數字偏低。",
+          "- 「不計分」欄是 gold 標了 excluded 的 keypoint（議題 F39），不進任何分母。", ""]
+    return L
+
+
 def write_report(batch_dir: Path, manifest: dict, root: Path = EVAL) -> Path:
     import dashboard.export_scores as ex  # noqa: F401  (確認匯出程式可 import)
     L = [f"# {manifest['batch_id']} 跨題報告", "",
@@ -340,6 +363,7 @@ def write_report(batch_dir: Path, manifest: dict, root: Path = EVAL) -> Path:
     rr = manifest.get("reruns")
     if rr:
         L += [f"- 重跑（{rr['at']}，{rr['after']} 修好之後，git {rr['git']}）：{'、'.join(rr['questions'])} 改用 run02，{rr['note']}", ""]
+    L += summary_table(batch_dir, manifest, root)
     L += ["## 每題", ""]
     moved_all, state_all = [], {}
     for e in manifest["questions"]:
@@ -396,6 +420,9 @@ def cmd_export(batch_id: str, root: Path = EVAL, batches: Path = BATCHES, say=pr
     rows = export_scores.export(cpath, bdir / "dashboard.jsonl", root)
     rep = write_report(bdir, m, root)
     say(f"→ {bdir / 'dashboard.jsonl'}（{len(rows)} 題）\n→ {rep}")
+    if (bdir / "cases_all.json").exists():
+        all_rows = export_scores.export(bdir / "cases_all.json", bdir / "dashboard_all.jsonl", root)
+        say(f"→ {bdir / 'dashboard_all.jsonl'}（{len(all_rows)} 題，含別批補進來的 run）")
     missing = [q for q in load_questions(root=root) if q["question"] not in {c['question'] for c in cases['cases']}]
     if missing:
         say("沒有 run 的題目（不在 jsonl 裡）：" + "、".join(f"Q{q['id']}" for q in missing))
