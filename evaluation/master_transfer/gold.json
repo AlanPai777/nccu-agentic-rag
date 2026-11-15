@@ -578,6 +578,12 @@
           "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
           "source_kind": "snapshot",
           "as_of": "2026-08（output/ 快照）"
+        },
+        {
+          "text": "各所錄取轉所之名額，以其當學年度經核定之招生名額一成為原則",
+          "source_url": "https://aca.nccu.edu.tw/download/rulesdata/law01A.pdf",
+          "source_kind": "live",
+          "as_of": "2026-11-15（現場）"
         }
       ],
       "acceptable_expressions": []

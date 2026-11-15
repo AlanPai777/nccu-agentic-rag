@@ -49,7 +49,9 @@ SNAP = {   # 代號: (jsonl 檔, 網址, 複本檔名, as_of)
     "S3": ("extracted_supplementary.jsonl", FORM_URL, "moltke_form_QP-T01-05-05.txt", FORM_AS_OF),
     "S4": ("extracted_supplementary.jsonl", CREDIT_URL, "moltke_form_QP-T01-05-06.txt", CREDIT_AS_OF),
 }
-LIVE = {"L1": (PAGE_URL, "aca_transfer_page.html", LIVE_AS_OF)}
+LIVE = {"L1": (PAGE_URL, "aca_transfer_page.html", LIVE_AS_OF),
+        # 2026-11-15（使用者批准 1 次請求，curl，200，沒有轉址；pdfplumber 轉成文字，離線）：學則的現場副本，K21（名額一成）的現場出處
+        "L2": (LAW_URL, "aca_law01A.pdf.txt", "2026-11-15（現場）")}
 
 
 def norm(s: str) -> str:
@@ -118,7 +120,8 @@ def main() -> int:
         (SNAP_DIR / out).write_text(
             f"# 來源：{url}\n# 檔案：output/aca/{fname}\n# 資料日期：{ao}\n# 以下為該筆記錄的 text 欄位全文（逐字複本）\n\n{rec['text']}\n", encoding="utf-8")
     for key, (url, fname, ao) in LIVE.items():
-        texts[key], urls[key], as_of[key] = html_to_text((LIVE_DIR / fname).read_text(encoding="utf-8", errors="ignore")), url, ao
+        raw_live = (LIVE_DIR / fname).read_text(encoding="utf-8", errors="ignore")
+        texts[key], urls[key], as_of[key] = (raw_live if fname.endswith(".txt") else html_to_text(raw_live)), url, ao
 
     for kid, refs in REFS.items():
         for text, src in refs:
