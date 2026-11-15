@@ -211,6 +211,20 @@ def _parse_soup(soup: BeautifulSoup, url: str = "") -> str:
     _contact_els = soup.find_all(class_=re.compile(r"jlcontactinfo", re.I))
     _contact_els = [e for e in _contact_els if not any(parent in _contact_els for parent in e.parents)]
     if _contact_els:
+        # The items of this widget start with a Font Awesome icon instead of a word (telephone, fax, e-mail). As text the icon is gone, so
+        # "(02)2939-3091" read as just another number after the fax ("傳真 (02)2939-4784 (02)2939-3091") and the unit-line extractor labelled the
+        # 總機 a fax (Q1 run04). The icon is turned into its word, unless the item already says it ("傳真 (02)…") or is an extension list.
+        for _e in _contact_els:
+            for _icon in _e.find_all("span"):
+                _cls = " ".join(_icon.get("class") or [])
+                if "fa-" not in _cls:
+                    continue
+                _label = ("傳真" if "fa-fax" in _cls else "信箱" if "fa-envelope" in _cls else "地址" if "fa-map-marker" in _cls
+                          else None if "fa-phone-square" in _cls else "電話" if "fa-phone" in _cls else None)
+                if _label and _icon.parent is not None and _label not in _icon.parent.get_text():
+                    _icon.replace_with(_label + " ")
+                else:
+                    _icon.decompose()
         contact_info = " ".join(e.get_text(separator=" ", strip=True) for e in _contact_els).strip()
         if re.search(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", contact_info):     # the same Black Hat SEO guard as for the footer above
             contact_info = ""

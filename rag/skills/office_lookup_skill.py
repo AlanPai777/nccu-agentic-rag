@@ -767,7 +767,10 @@ def llm_unit_contacts(text: str) -> list[dict]:
     Every number and extension it returns must appear in the page text (digits only); one that does not is dropped, so
     an invented number cannot reach the answer. A failed call or an unparsable reply returns [] (the roster list is
     unaffected). Cached per page text for the life of the process."""
-    text = text or ""
+    # The footer contact block is kept in the text (its 總機, fax and unit extensions are exactly what this reads), but the line that marks it
+    # (rag.preprocess.FOOTER_CONTACT_MARK) is a note for the parser and compare(), not page content: left in, the LLM took it for the owner of the
+    # lines ("☎ 【頁尾聯絡資訊】：電話 (02)2939-3091", Q1 run05).
+    text = (text or "").replace(FOOTER_CONTACT_MARK, "")
     # 2026-11-09: the page goes to the LLM whole (up to _WHOLE_PAGE_MAX), and only when it says something about a telephone.
     # An earlier version narrowed every page to regex-picked "stretches that could hold a phone"; checked against all 434
     # staff pages that dropped phone data on 50 of them (a 4,500-character cap on 4,000-6,000 character rosters, and a hint rule

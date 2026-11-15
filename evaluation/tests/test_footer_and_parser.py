@@ -47,6 +47,23 @@ class FooterExtractionTest(unittest.TestCase):
             self.assertEqual(block.count(needle), 1, needle)
             self.assertNotIn(needle, body)
 
+    def test_the_icons_of_the_contact_block_become_words(self):
+        """圖示抽成文字會不見：「傳真 (02)2939-4784 (02)2939-3091」讀起來兩個都是傳真（Q1 run04 把總機寫成傳真）。"""
+        block = extract(LIVE / "ga_cashier.rendered.html").split(pp.FOOTER_CONTACT_MARK)[1]
+        self.assertIn("信箱 nccuga@nccu.edu.tw", block)
+        self.assertIn("傳真 (02)2939-4784", block)
+        self.assertIn("電話 (02)2939-3091", block)
+        self.assertNotIn("傳真 傳真", block)                                  # 項目本來就寫了「傳真」就不重複
+        self.assertNotIn("電話 出納組分機", block)                              # 各組分機清單的圖示不加標籤，文字本來就寫了「XX分機」
+        self.assertIn("出納組分機 62120", block)
+
+    def test_an_icon_with_no_known_meaning_is_dropped_not_labelled(self):
+        html = ("<html><body><div class='item-page'><p>" + "正文" * 60 + "</p></div><div class='jlcontactinfo-1'>"
+                "<div class='tm-item'><span class='fas fa-star'></span> 專線 02-1</div></div></body></html>")
+        text = pp.extract_html_bytes(html.encode("utf-8"), "https://x/y")
+        self.assertIn("專線 02-1", text)
+        self.assertNotIn("電話", text.split(pp.FOOTER_CONTACT_MARK)[1])
+
     def test_a_page_whose_only_footer_is_the_old_kind_does_not_change(self):
         html = ("<html><body><div class='item-page'><p>" + "正文" * 60 + "</p></div>"
                 "<div class='jlfooterinfo-1'>116臺北市 行政大樓三樓</div></body></html>")
@@ -112,6 +129,25 @@ class ParserOnTheEightPagesTest(unittest.TestCase):
         self.assertIn(("劉桂芬", "62120"), people)
         self.assertIn(("余淑娟", "62123"), people)
         self.assertNotIn("62173", {e for _, e in people})                 # 現場是「待補」，不是人
+
+
+class UnitLinesPromptTest(unittest.TestCase):
+    def test_the_mark_is_not_sent_to_the_llm_but_the_block_is(self):
+        sent = []
+
+        def fake_chat(messages, **kw):
+            sent.append(messages[0]["content"])
+            return "[]"
+        full = extract(LIVE / "ga_cashier.rendered.html")
+        self.assertIn(pp.FOOTER_CONTACT_MARK, full)
+        sk._unit_contacts_cache.clear()
+        with mock.patch.object(sk, "simple_chat", fake_chat):
+            sk.llm_unit_contacts(full)
+        self.assertEqual(len(sent), 1)
+        self.assertNotIn(pp.FOOTER_CONTACT_MARK, sent[0])
+        for needle in ("電話 (02)2939-3091", "傳真 (02)2939-4784", "出納組分機 62120"):
+            self.assertIn(needle, sent[0])
+        sk._unit_contacts_cache.clear()
 
 
 class ParserRulesTest(unittest.TestCase):
