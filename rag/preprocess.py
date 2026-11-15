@@ -9,6 +9,9 @@ PDF:  uses pdfplumber; falls back to OCR if extracted text < 10 chars (likely sc
 import base64
 import logging
 import re
+
+# Everything after this line in an extracted page is the footer contact block (see extract_html_bytes). Readers that must ignore it cut here.
+FOOTER_CONTACT_MARK = "【頁尾聯絡資訊】"
 from pathlib import Path
 from urllib.parse import urljoin, urlparse
 
@@ -199,6 +202,19 @@ def _parse_soup(soup: BeautifulSoup, url: str = "") -> str:
         if re.search(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", footer_info):
             footer_info = ""
 
+    # 2026-11-15: the telephone, fax, e-mail and each unit's extension sit in a second footer widget, `jlcontactinfo-NNNN` (nccuga.nccu.edu.tw's people
+    # pages, and aca's Joomla template). It was never on the list above, so a page's text had no 總機 and no 各組分機. Kept now, but apart: it goes after
+    # FOOTER_CONTACT_MARK, and the readers that must not be disturbed by it stop at the mark -- the contact parser (a block of "XX分機 NNNNN" lines
+    # is not a roster, and the flattened-table tier counts "分機" to recognise its table) and compare() (a footer block present on only one side is
+    # not a page that "changed"). Only the outermost matching blocks are taken, in document order.
+    contact_info = ""
+    _contact_els = soup.find_all(class_=re.compile(r"jlcontactinfo", re.I))
+    _contact_els = [e for e in _contact_els if not any(parent in _contact_els for parent in e.parents)]
+    if _contact_els:
+        contact_info = " ".join(e.get_text(separator=" ", strip=True) for e in _contact_els).strip()
+        if re.search(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", contact_info):     # the same Black Hat SEO guard as for the footer above
+            contact_info = ""
+
     # Staff cards of the general-affairs pages (nccuga.nccu.edu.tw, moved there in 2026-11): the person's NAME and TITLE sit in
     # <header class="staff-card__header">, which the noise removal below would drop together with the page header, losing every name
     # (F19). Rewrite that header into the labeled fields the contact parser already reads ("姓名" / "職稱"), and keep it. A card with
@@ -265,6 +281,8 @@ def _parse_soup(soup: BeautifulSoup, url: str = "") -> str:
 
     if footer_info:
         text = text + "\n\n" + footer_info
+    if contact_info:
+        text = text + "\n\n" + FOOTER_CONTACT_MARK + "\n" + contact_info
 
     return text
 

@@ -13,6 +13,7 @@ import re
 from dataclasses import dataclass, field
 
 from rag.agent_tools import extract_form_ids
+from rag.preprocess import FOOTER_CONTACT_MARK
 
 # Page-view counters. Whole-line counters are dropped. Inline "label: number" pairs are cut out.
 VOLATILE_PATTERNS = [
@@ -28,7 +29,10 @@ EXT_RE = re.compile(r"(?<!\d)\d{5}(?!\d)")
 
 def normalize(text: str) -> str:
     out = []
-    for line in (text or "").replace("\r\n", "\n").replace("\r", "\n").split("\n"):
+    # A footer contact block (rag.preprocess.FOOTER_CONTACT_MARK, 2026-11-15) present on only one side is not a change of the page, so the
+    # comparison stops at the mark. A snapshot extracted before the block was kept has no mark; a live page that has one is still "same".
+    text = (text or "").split(FOOTER_CONTACT_MARK)[0]
+    for line in text.replace("\r\n", "\n").replace("\r", "\n").split("\n"):
         line = re.sub(r"[ \t　\xa0]+", " ", line).strip()
         if not line or any(p.match(line) for p in VOLATILE_PATTERNS):
             continue

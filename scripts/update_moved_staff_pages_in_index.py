@@ -23,7 +23,7 @@ scripts/update_moved_staff_pages_in_index.py
   python scripts/update_moved_staff_pages_in_index.py            # 預演：只印每一筆會怎麼改，不寫任何檔案
   python scripts/update_moved_staff_pages_in_index.py --apply    # 寫入索引與 contact.csv
 
-可重複執行：已經是新網址的行會跳過。舊網址找不到或有多筆、頁面檔缺、抽取結果是空的，一律停下，什麼都不寫。
+可重複執行：已經是新網址、而且文字就是這份頁面現在抽出來的樣子的行會跳過；網址已經是新的、但文字和現在抽出來的不同（例如抽取程式改過），會重新整理文字（action = refresh）。舊網址找不到或有多筆、頁面檔缺、抽取結果是空的，一律停下，什麼都不寫。
 """
 import argparse
 import json
@@ -65,12 +65,17 @@ def load_pages(pages_dir: Path = PAGES_DIR) -> dict[str, dict]:
 
 
 def _contacts(text: str) -> set[tuple[str, str]]:
-    from rag.skills.office_lookup_skill import parse_office_contacts
-    return {(c["name"], c["ext"]) for c in parse_office_contacts(text)}
+    """The people the parser reads from a page's text, for the report. parse_office_contacts() may ask an LLM to read the page when its regex
+    tier is unsure; this report must never call one (no network, no ollama), so the LLM is replaced by a stub that finds nothing and the regex
+    result stands."""
+    from unittest import mock
+    from rag.skills import office_lookup_skill as sk
+    with mock.patch.object(sk, "_llm_extract_contacts", lambda _t: []), mock.patch.object(sk, "simple_chat", lambda *a, **k: "[]"):
+        return {(c["name"], c["ext"]) for c in sk.parse_office_contacts(text)}
 
 
 def make_plan(index_lines: list[str], moved: list[dict], pages: dict[str, dict]) -> list[dict]:
-    """每個搬家的頁面一筆計畫：action 是 replace｜already｜error。不寫任何檔案。"""
+    """每個搬家的頁面一筆計畫：action 是 replace（舊網址換新網址）｜refresh（已是新網址，只重新整理文字）｜already｜error。不寫任何檔案。"""
     from rag.preprocess import extract_html_bytes
     recs = [json.loads(line) for line in index_lines]
     plans = []
@@ -79,28 +84,32 @@ def make_plan(index_lines: list[str], moved: list[dict], pages: dict[str, dict])
         p = {"unit": m["unit"], "old": old, "new": new, "action": "error", "error": None, "line": None}
         at_old = [i for i, r in enumerate(recs) if r.get("url") == old]
         at_new = [i for i, r in enumerate(recs) if r.get("url") == new]
+        page = pages.get(unquote(new))
+        text = None
+        if page is not None:
+            text = extract_html_bytes(page["html"].read_bytes(), new)
         if at_old and at_new:
             p["error"] = "索引裡舊網址與新網址同時存在（會重複）"
-        elif at_new and len(at_new) == 1:
-            p.update(action="already", line=at_new[0] + 1)
-        elif len(at_old) != 1:
+        elif not at_old and len(at_new) != 1:
+            p["error"] = f"索引裡舊網址與新網址都找不到，或新網址不只一筆（舊 {len(at_old)} 筆、新 {len(at_new)} 筆）"
+        elif len(at_old) > 1:
             p["error"] = f"索引裡舊網址應該剛好一筆，實際 {len(at_old)} 筆"
+        elif page is None and not at_new:
+            p["error"] = "找不到這個新網址的渲染頁面（.render.json 的 url 對不上，或沒有 ok）"
+        elif page is not None and len(text.strip()) < MIN_PAGE_CHARS:   # 空頁面抽出來不是空字串，而是網址的最後一段（例如 'y'），所以用長度擋
+            p["error"] = f"新頁面抽出來幾乎是空的（{len(text.strip())} 字，少於 {MIN_PAGE_CHARS}）"
+        elif at_new and (page is None or recs[at_new[0]]["text"] == text):
+            p.update(action="already", line=at_new[0] + 1)           # 已經是新網址，而且文字就是這份頁面現在抽出來的樣子（或沒有頁面可重抽）
         else:
-            page = pages.get(unquote(new))
-            if page is None:
-                p["error"] = "找不到這個新網址的渲染頁面（.render.json 的 url 對不上，或沒有 ok）"
-            else:
-                text = extract_html_bytes(page["html"].read_bytes(), new)
-                if len(text.strip()) < MIN_PAGE_CHARS:       # 空頁面抽出來不是空字串，而是網址的最後一段（例如 'y'），所以用長度擋
-                    p["error"] = f"新頁面抽出來幾乎是空的（{len(text.strip())} 字，少於 {MIN_PAGE_CHARS}）"
-                else:
-                    old_rec = recs[at_old[0]]
-                    new_rec = dict(old_rec)                       # 欄位與順序不變，只換下面三個
-                    new_rec["url"], new_rec["text"], new_rec["fetched_at"] = new, text, page["fetched_at"]
-                    old_c, new_c = _contacts(old_rec["text"]), _contacts(text)
-                    p.update(action="replace", line=at_old[0] + 1, new_rec=new_rec, old_chars=len(old_rec["text"]), new_chars=len(text),
-                             old_fetched=old_rec.get("fetched_at"), new_fetched=page["fetched_at"],
-                             only_old=sorted(old_c - new_c), only_new=sorted(new_c - old_c), n_old=len(old_c), n_new=len(new_c))
+            idx = at_old[0] if at_old else at_new[0]
+            old_rec = recs[idx]
+            new_rec = dict(old_rec)                                  # 欄位與順序不變，只換下面三個
+            new_rec["url"], new_rec["text"], new_rec["fetched_at"] = new, text, page["fetched_at"]
+            old_c, new_c = _contacts(old_rec["text"]), _contacts(text)
+            p.update(action="replace" if at_old else "refresh", line=idx + 1, new_rec=new_rec,
+                     old_chars=len(old_rec["text"]), new_chars=len(text),
+                     old_fetched=old_rec.get("fetched_at"), new_fetched=page["fetched_at"],
+                     only_old=sorted(old_c - new_c), only_new=sorted(new_c - old_c), n_old=len(old_c), n_new=len(new_c))
         plans.append(p)
     return plans
 
@@ -109,7 +118,7 @@ def apply_to_index(index_lines: list[str], plans: list[dict]) -> list[str]:
     """只換 replace 那幾行；其餘逐字不動。"""
     out = list(index_lines)
     for p in plans:
-        if p["action"] == "replace":
+        if p["action"] in ("replace", "refresh"):
             out[p["line"] - 1] = json.dumps(p["new_rec"], ensure_ascii=False)
     return out
 
@@ -143,7 +152,7 @@ def report(plans: list[dict], say=print) -> None:
         if p["action"] == "error":
             say(f"{head}：{p['error']}")
         elif p["action"] == "already":
-            say(f"{head}（索引第 {p['line']} 行已經是新網址）")
+            say(f"{head}（索引第 {p['line']} 行已經是新網址，文字也是這份頁面現在抽出來的樣子）")
         else:
             say(f"{head}（索引第 {p['line']} 行）{p['old_chars']} 字 → {p['new_chars']} 字；取得時間 {p['old_fetched']} → {p['new_fetched']}；"
                 f"解析出的聯絡人 {p['n_old']} → {p['n_new']} 人")
@@ -173,7 +182,7 @@ def main(argv=None) -> int:
     if any(p["action"] == "error" for p in plans):
         print("\n有錯誤，什麼都沒寫。")
         return 2
-    n = sum(p["action"] == "replace" for p in plans)
+    n = sum(p["action"] in ("replace", "refresh") for p in plans)
     if not a.apply:
         print(f"\n預演結束：會改索引 {n} 行；沒有寫任何檔案。確認後加 --apply。")
         return 0

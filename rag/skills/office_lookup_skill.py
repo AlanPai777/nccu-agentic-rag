@@ -28,6 +28,7 @@ from urllib.parse import urlparse
 
 from rag.agent_tools import grep_texts, get_page
 from rag.llm_client import simple_chat
+from rag.preprocess import FOOTER_CONTACT_MARK
 
 # Floor info from moltke QP-T01-03-02 + osa refund page.
 # Floors for 生僑組 and 原資中心 are not present in crawled HTML;
@@ -152,6 +153,13 @@ _PURE_NAME_LINE_RE = re.compile(r'^\s*\[?([一-鿿]{2,4})\]?(?:\(https?://[^)]*\
 _EXT_BARE_RE        = re.compile(r'(?<!\()(?<!\d)(\d{5})(?!\d)(?!\))')
 
 
+def _is_unit_extension(text: str, m: "re.Match") -> bool:
+    """True for an extension written as a unit's line, "出納組分機 62120" / "總務長室分機 62093": the character just before 分機 is a hanzi that is not
+    the 內 of 校內分機. A person's card writes 校內分機 or a bare 分機 after a label or a line break, so those are not affected."""
+    prev = text[m.start() - 1] if m.start() > 0 else ""
+    return bool(prev) and "一" <= prev <= "鿿" and not text[m.start():].startswith("校內")
+
+
 def _parse_labeled(text: str) -> tuple[list[dict], bool]:
     """Returns (contacts, used_fallback) — used_fallback is True if ANY entry
     had to fall back to _NAME_TITLE_RE's "name immediately before a known
@@ -169,11 +177,18 @@ def _parse_labeled(text: str) -> tuple[list[dict], bool]:
         ext = m.group(1)
         if ext in seen:
             continue
+        if _is_unit_extension(text, m):
+            continue      # a footer line such as "出納組分機 62120": a unit's extension, never a person's. Checked first: a card with no numeric extension just before
+                          # the footer would otherwise lend its name to the footer's number (文書組 → 郭新祥 62093)
         block_start = ext_matches[i - 1].end() if i > 0 else max(0, m.start() - 300)
         block = text[block_start:m.start()].rstrip()
-        name_match = _NAME_LABELED_RE.search(block)
+        # 2026-11-15: the label NEAREST the extension is this card's own. A block starts at the previous extension, so when earlier cards have no
+        # numeric extension (a vacant "姓名 待補" card shows "—"), their labels sit in this block too; taking the first one picked the vacant card's
+        # placeholder and dropped the real person after it (環安組's 潘宥芯, 62897).
+        labeled = _NAME_LABELED_RE.findall(block)
+        name_match = labeled[-1] if labeled else None
         if name_match:
-            name = name_match.group(1)
+            name = name_match
         else:
             # Search the WHOLE block, not just its tail — the name+title pair
             # sits right before the extension in cashier's format ("...代理人
@@ -189,8 +204,8 @@ def _parse_labeled(text: str) -> tuple[list[dict], bool]:
         if not name or name.startswith(_PLACEHOLDER_NAMES):
             continue
         seen.add(ext)
-        title_match = _TITLE_LABELED_RE.search(block)
-        duty = title_match.group(1).strip() if title_match else ""
+        titles = _TITLE_LABELED_RE.findall(block)
+        duty = titles[-1].strip() if titles else ""      # nearest to the extension, like the name
         block_end = ext_matches[i + 1].start() if i + 1 < len(ext_matches) else m.end() + 200
         email_match = _EMAIL_RE.search(text[m.end():block_end])
         contacts.append({
@@ -407,6 +422,7 @@ def parse_office_contacts(text: str) -> list[dict]:
     contact.csv discussion); an office this can't parse falls all the way
     back to KNOWN_CONTACTS via dynamic_contacts_for_office(), not to a guess.
     """
+    text = text.split(FOOTER_CONTACT_MARK)[0]      # the footer contact block (unit lines such as "出納組分機 62120") is not a roster; see preprocess.py
     contacts, used_fallback = _parse_labeled(text)
     if contacts and used_fallback:
         # At least one name came from the unreliable title-adjacent guess —
